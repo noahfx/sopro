@@ -29,4 +29,5 @@ private:
 };
 extern MainWindow * pMainWindow;
 extern bool societasQuit;
+extern QProcess sails;
 #endif // MAINWINDOW_H

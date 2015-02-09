@@ -4,6 +4,13 @@
 #include "DataAccessLayer.h"
 #include "util/socket/NetworkUtils.h"
 #include "util/process/Process.h"
+#include  <QStringList>
+#include <QProcess>
+#include <QRegularExpression>
+#include <QDebug>
+
+QProcess sails;  // SailsJs using Qprocess
+
 
 int testRunPrerequisites() //return 0 if all is ok, otherwise return the requisite that fails
 {
@@ -53,6 +60,41 @@ int main(int argc, char *argv[])
     /// Instanciate Main Process
     QApplication mainProcess(argc, argv);
     qDebug()<<"*Main Societas Thread: "<<QThread::currentThreadId();
+
+    /* =====================Start Node Js processes=======================================*/
+
+    // Setting up the path to locate the nodejs executable
+
+     QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+     QStringList envlist = env.toStringList();
+     QString sailsWorkingDir;
+     QString executablesPath;
+     QString sailsCommand;
+     #ifdef Q_OS_UNIX
+     sailsWorkingDir = "/Users/Rafa/pocs/nodejsRunner/huevonTest/";
+     executablesPath = "PATH=/usr/local/bin:$HOME/bin:\\1";
+     sailsCommand = "/usr/local/bin/sails lift";
+
+     #else
+      // Executable path for windows
+     sailsWorkingDir="C:\path\to\app";
+     executablesPath = "c:\path\to\executables";
+     sailsCommand = "c:\path\to\sails\executable sails lift";
+     #endif
+
+     envlist.replaceInStrings(QRegularExpression("^(?i)PATH=(.*)"), executablesPath);
+     // set the environment to the process
+     sails.setEnvironment(envlist);
+     // set the working directory, for sails, the sails app folder
+     sails.setWorkingDirectory(sailsWorkingDir);
+     // run the nodejs app.  for this example lift sails app
+     sails.start(sailsCommand);
+
+     sails.waitForStarted();
+       if (sails.errorString().compare("Unknown error")!=0)
+          qDebug() << "Error String content:" << sails.errorString();
+
+
 
     /* Multi-Threading
      * PURPOSE:

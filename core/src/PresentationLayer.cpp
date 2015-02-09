@@ -13,9 +13,10 @@ MainWindow::MainWindow(QWidget *parent) :
     QWebView * startup = ui->webView;
     QWebPage * poPage = startup->page();
     poPage->settings()->setAttribute(QWebSettings::DeveloperExtrasEnabled, true); //enable Inspect context menu
-    // Load the startup screen
-    startup->load(QUrl("https://banking.centralservices.io/demo/?marketid=BBTC_BUSD%7CCBTC_CCNY"));
-    //startup->load(QUrl("http://localhost:38000"));
+
+    // wait 3 seconds for the Sails APP
+    QObject().thread()->usleep(1000*1000*3);
+    startup->load(QUrl("http://localhost:1337"));
     splashScreen(true); //show the progress bar and splash screen while the app loads
 }
 
@@ -23,6 +24,22 @@ void MainWindow::SL_Quitting()
 {   // flag for all concurrent sub-processes
     qDebug() << "Sopro gui is quitting..";
     societasQuit=true;
+    std::cout << "closing Sails Process.. " << sails.processId();
+
+    // the child process is always the process plus 1 (fork)
+    #ifdef Q_OS_UNIX
+    QString pid = QString::number(sails.processId()+1,10);
+    #else //windows todo:test
+      QString pid = QString::number(sails.processId(),10);
+    #endif
+
+    QProcess finish;
+    QString kill ="Kill "+   pid;
+    qDebug() << kill;
+    finish.start(kill);
+    finish.waitForFinished(3000);
+    finish.close();
+    sails.close();
 
 
 }
