@@ -24,7 +24,7 @@ int testRunPrerequisites() //return 0 if all is ok, otherwise return the requisi
     // TODO: get this parameter from a Config file
     std::string processName = "societas";
    // std::string xmppServer="xmpp.cambrian.org";
-    std::string xmppServer="jabb3r.net";
+    std::string xmppServer="conversejs.org";
 
         if (IsProcessRunning((wchar_t *)processName.c_str()))
             {
@@ -67,17 +67,20 @@ int main(int argc, char *argv[])
 
      QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
      QStringList envlist = env.toStringList();
+     QString AppPath= QCoreApplication::applicationDirPath();
      QString sailsWorkingDir;
      QString executablesPath;
      QString sailsCommand;
+
      #ifdef Q_OS_UNIX
-     sailsWorkingDir = "/Users/Rafa/pocs/nodejsRunner/huevonTest/";
+
+     sailsWorkingDir = AppPath+"/apps/Huevon/";
      executablesPath = "PATH=/usr/local/bin:$HOME/bin:\\1";
      sailsCommand = "/usr/local/bin/sails lift";
 
      #else
       // Executable path for windows
-     sailsWorkingDir="C:\path\to\app";
+       sailsWorkingDir = AppPath+"\apps\Huevon\";
      executablesPath = "c:\path\to\executables";
      sailsCommand = "c:\path\to\sails\executable sails lift";
      #endif
@@ -103,6 +106,12 @@ int main(int argc, char *argv[])
      * websockets and Restful webservices.
      *
      */
+       ///////////////////////DATA ACCESS THREAD
+       DataAccessService dataAccessServiceThread;
+       // destroy the Application Thread before kill the main process
+       QObject::connect(&mainProcess, SIGNAL(aboutToQuit()), &dataAccessServiceThread, SLOT(sl_quit()));
+       //start application service Thread
+       dataAccessServiceThread.start();
 
     ///////////////////////BUSSINES LAYER THREAD
      BusinessLayerService businessServiceThread;
@@ -119,12 +128,7 @@ int main(int argc, char *argv[])
       //start application service Thread
       appServiceThread.start();
 
-   ///////////////////////DATA ACCESS THREAD
-       DataAccessService dataAccessServiceThread;
-       // destroy the Application Thread before kill the main process
-       QObject::connect(&mainProcess, SIGNAL(aboutToQuit()), &dataAccessServiceThread, SLOT(sl_quit()));
-       //start application service Thread
-       dataAccessServiceThread.start();
+
 
    ///////////////////////PRESENTATION LAYER
     MainWindow societasMainWindow;
