@@ -1,11 +1,19 @@
-#-------------------------------------------------
+#-------------------------------------------------------------------
 #
-# Main Project
+# SOCIETY PRO
 # by Central Services
 #
 # Current version: 0.1.0
 # Not Public Release
-#-------------------------------------------------
+#
+# Prerequisites (Development):
+#
+# * Compile and install all static libraries on deps folder
+# * install node js
+#   * install sails js
+#   * copy all sails app code to the executable dir (.../apps/Huevon)
+#
+#---------------------------------------------------------------------
 
 VERSION = 0.1.0
 QT       += core gui websockets

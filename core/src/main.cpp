@@ -11,7 +11,6 @@
 
 QProcess sails;  // SailsJs using Qprocess
 
-
 int testRunPrerequisites() //return 0 if all is ok, otherwise return the requisite that fails
 {
     /* Run prerrequisites (TODO: Check system requirements)
