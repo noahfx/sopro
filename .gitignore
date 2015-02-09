@@ -1,0 +1,6 @@
+.DS_Store
+*.a
+Makefile
+Makefile.in
+Makefile.am
+*.o
