@@ -116,3 +116,6 @@ npm-debug.log
 nbproject
 .idea
 .node_history
+tests/unit/karma-unit.xml
+tests/unit/mocha-unit.xml
+tests/gui/test-out.xml

@@ -35,7 +35,7 @@
     "preupdate-webdriver": "npm install",
     "update-webdriver": "webdriver-manager update",
     "preprotractor": "npm run update-webdriver",
-    "protractor": "protractor tests/e2e/protractor.conf.js",
+    "protractor": "protractor tests/gui/protractor.conf.js",
     "mocha": "./node_modules/.bin/mocha --recursive -R xunit ./tests/unit/mocha/ > ./tests/unit/mocha-unit.xml"
   },
   "main": "app.js",
@@ -47,6 +47,8 @@
   "license": "",
   "devDependencies": {
     "jasmine-core": "^2.2.0",
+    "jasmine-reporters": "^1.0.1",
+    "jasmine-spec-reporter": "^1.1.2",
     "karma": "^0.12.31",
     "karma-jasmine": "^0.3.5",
     "karma-junit-reporter": "^0.2.2",
