@@ -1,3 +1,3 @@
-npm run newman
+npm install
 
-pkill node
+npm run newman
