@@ -1,3 +1,5 @@
+npm install bower --save-dev 
+
 npm start &
 
 sleep 10
