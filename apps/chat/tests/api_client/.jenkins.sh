@@ -1,6 +1,7 @@
 sudo npm install bower -g
 sudo npm install sails -g
 npm install rc --save
+npm install ejs --save
 
 npm install
 
