@@ -1,5 +1,5 @@
 npm install bower --save
-npm install sails --save  
+npm install sails -g --save  
 
 npm start &
 
