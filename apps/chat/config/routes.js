@@ -34,6 +34,11 @@ module.exports.routes = {
 
   '/': {
     view: 'homepage'
+  },
+
+  'POST /test': {
+    controller: 'MockController',
+    action: 'index'  
   }
 
   /***************************************************************************
