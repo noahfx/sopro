@@ -1,4 +1,4 @@
-npm install bower --save
+sudo npm install bower -g
 sudo npm install sails -g 
 
 npm install
