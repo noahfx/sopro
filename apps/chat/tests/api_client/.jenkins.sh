@@ -1,7 +1,9 @@
 npm install bower --save
-sudo npm install sails -g --save  
+sudo npm install sails -g 
 
-npm start &
+npm install
+
+sails lift &
 
 sleep 10
 
