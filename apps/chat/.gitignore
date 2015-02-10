@@ -119,3 +119,4 @@ nbproject
 tests/unit/karma-unit.xml
 tests/unit/mocha-unit.xml
 tests/gui/test-out.xml
+tests/api_client/test-out.xml

@@ -36,7 +36,8 @@
     "update-webdriver": "webdriver-manager update",
     "preprotractor": "npm run update-webdriver",
     "protractor": "protractor tests/gui/protractor.conf.js",
-    "mocha": "./node_modules/.bin/mocha --recursive -R xunit ./tests/unit/mocha/ > ./tests/unit/mocha-unit.xml"
+    "mocha": "./node_modules/.bin/mocha --recursive -R xunit ./tests/unit/mocha/ > ./tests/unit/mocha-unit.xml",
+    "newman": "./node_modules/.bin/newman -c tests/api_client/collections/collection.json --testReportFile tests/api_client/test-out.xml"
   },
   "main": "app.js",
   "repository": {
@@ -54,6 +55,7 @@
     "karma-junit-reporter": "^0.2.2",
     "karma-phantomjs-launcher": "^0.1.4",
     "mocha": "^2.1.0",
+    "newman": "^1.2.9",
     "phantomjs": "^1.9.15"
   }
 }
