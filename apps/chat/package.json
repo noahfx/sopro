@@ -1,7 +1,7 @@
 {
   "name": "chat",
   "private": true,
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "a Sails application",
   "keywords": [],
   "dependencies": {
@@ -38,7 +38,7 @@
     "protractor": "protractor tests/gui/protractor.conf.js",
     "mocha": "./node_modules/.bin/mocha --recursive -R xunit ./tests/unit/mocha/ > ./tests/unit/mocha-unit.xml",
     "newman": "./node_modules/.bin/newman -c tests/api_client/collections/testCollection.json.postman_collection --testReportFile tests/api_client/test-out.xml",
-    "cucumber" : "./node_modules/.bin/cucumber.js tests/acceptance/features/ -f json | cucumber-junit > tests/acceptance/test-out.xml"  
+    "cucumber": "./node_modules/.bin/cucumber.js tests/acceptance/features/ -f json | cucumber-junit > tests/acceptance/test-out.xml"
   },
   "main": "app.js",
   "repository": {
