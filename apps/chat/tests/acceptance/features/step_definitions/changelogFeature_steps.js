@@ -20,7 +20,7 @@ var sharedSteps = module.exports = function(){
 			next.fail(new Error(er));
 		} else {
 			if (files.length == 0) {
-				next.fail(new Error("CHANGELOG not found"));
+				next.fail(new Error(file + " not found"));
 			} else {
 				next();	
 			}
