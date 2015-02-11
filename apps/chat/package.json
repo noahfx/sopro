@@ -37,7 +37,8 @@
     "preprotractor": "npm run update-webdriver",
     "protractor": "protractor tests/gui/protractor.conf.js",
     "mocha": "./node_modules/.bin/mocha --recursive -R xunit ./tests/unit/mocha/ > ./tests/unit/mocha-unit.xml",
-    "newman": "./node_modules/.bin/newman -c tests/api_client/collections/testCollection.json.postman_collection --testReportFile tests/api_client/test-out.xml"
+    "newman": "./node_modules/.bin/newman -c tests/api_client/collections/testCollection.json.postman_collection --testReportFile tests/api_client/test-out.xml",
+    "cucumber" : "./node_modules/.bin/cucumber.js tests/acceptance/features/ -f json | cucumber-junit > tests/acceptance/test-out.xml"  
   },
   "main": "app.js",
   "repository": {
@@ -48,6 +49,8 @@
   "license": "",
   "devDependencies": {
     "cucumber": "^0.4.7",
+    "cucumber-junit": "^1.1.10",
+    "html5": "^1.0.5",
     "jasmine-core": "^2.2.0",
     "jasmine-reporters": "^1.0.1",
     "jasmine-spec-reporter": "^1.1.2",
@@ -57,6 +60,8 @@
     "karma-phantomjs-launcher": "^0.1.4",
     "mocha": "^2.1.0",
     "newman": "^1.2.9",
-    "phantomjs": "^1.9.15"
+    "phantomjs": "^1.9.15",
+    "should": "^5.0.0",
+    "zombie": "^2.5.1"
   }
 }
