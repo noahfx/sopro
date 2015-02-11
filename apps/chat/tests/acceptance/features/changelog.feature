@@ -6,4 +6,4 @@ Feature: CHANGELOG.md
   Scenario: viewing the latest added features
     Given I have downloaded the Society Pro source code
     When I list the source files
-    Then I should see a file named CHANGELOG.md
+    Then I should see a file named "CHANGELOG.md"

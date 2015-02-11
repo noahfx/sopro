@@ -8,10 +8,10 @@ var sharedSteps = module.exports = function(){
     next();
   })
 
-  this.Then(/^I should see a file named CHANGELOG.md$/, function (next) {
+  this.Then(/^I should see a file named "(.*)"$/, function (file ,next) {
   	var glob = require("glob");
 
-  	glob("CHANGELOG.md", {}, function (er, files) {
+  	glob(file, {}, function (er, files) {
 		// files is an array of filenames.
 		// If the `nonull` option is set, and nothing
 		// was found, then files is ["**/*.js"]
