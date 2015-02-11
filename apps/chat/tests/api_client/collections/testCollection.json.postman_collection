@@ -1,0 +1,31 @@
+{
+	"id": "59982276-2b5a-4627-daaf-e47ede4dd1f2",
+	"name": "testCollections",
+	"timestamp": 1423585182565,
+	"order": [
+		"168ff629-01d2-77f5-89c6-7814367f459b"
+	],
+	"synced": false,
+	"requests": [
+		{
+			"id": "168ff629-01d2-77f5-89c6-7814367f459b",
+			"headers": "",
+			"url": "http://localhost:1337/test",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "POST",
+			"data": [],
+			"dataMode": "params",
+			"version": 2,
+			"tests": "var data = JSON.parse(responseBody);\ntests[\"Your test name\"] = data.todo === \"index() is not implemented yet!\";",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1423624589763,
+			"name": "test",
+			"description": "for testing purpose",
+			"collectionId": "59982276-2b5a-4627-daaf-e47ede4dd1f2",
+			"responses": [],
+			"synced": false
+		}
+	]
+}
