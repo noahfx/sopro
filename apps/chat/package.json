@@ -50,6 +50,7 @@
   "devDependencies": {
     "cucumber": "^0.4.7",
     "cucumber-junit": "^1.1.10",
+    "glob": "^4.3.5",
     "html5": "^1.0.5",
     "jasmine-core": "^2.2.0",
     "jasmine-reporters": "^1.0.1",
