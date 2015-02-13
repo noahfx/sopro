@@ -1,20 +1,14 @@
-sudo apt-get install -y nodejs
+sudo /etc/init.d/xvfb start
 
-# npm install will also do bower installations
-npm install
-npm run webdriver-update
+sudo /etc/init.d/selenium start
 
 # lift the sails app
 npm start &
 
-# an x server emulator
-Xvfb :1 -screen 0 1280x768x24 &
+sleep 30
 
 # run protractor GUI tests
-npm run protractor
+sudo npm run protractor
 
 # stop sails
 pkill node
-
-# kill Xvfb
-pkill Xvfb
