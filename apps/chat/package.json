@@ -22,7 +22,8 @@
     "include-all": "~0.1.3",
     "rc": "~0.5.0",
     "sails": "^0.10.5",
-    "sails-disk": "~0.10.0"
+    "sails-disk": "~0.10.0",
+    "vertx-eventbus-client": "0.0.4"
   },
   "scripts": {
     "debug": "node debug app.js",
@@ -50,6 +51,7 @@
   "devDependencies": {
     "cucumber": "^0.4.7",
     "cucumber-junit": "^1.1.10",
+    "expect.js": "^0.3.1",
     "glob": "^4.3.5",
     "html5": "^1.0.5",
     "jasmine-core": "^2.2.0",
@@ -63,6 +65,7 @@
     "newman": "^1.2.9",
     "phantomjs": "^1.9.15",
     "should": "^5.0.0",
+    "sinon": "^1.12.2",
     "zombie": "^2.5.1"
   }
 }
