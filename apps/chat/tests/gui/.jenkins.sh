@@ -11,4 +11,4 @@ sleep 15
 sudo npm run protractor
 
 # stop vertx
-sudo pkill java
+ps aux | grep -i vertx | awk {'print $2'} | xargs kill -9
