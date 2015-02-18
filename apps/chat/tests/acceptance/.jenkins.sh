@@ -5,3 +5,6 @@ npm install
 sleep 15
 
 npm run cucumber
+
+# stop vertx
+pkill -n java

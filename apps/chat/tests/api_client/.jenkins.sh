@@ -5,3 +5,6 @@ npm install
 sleep 15
 
 npm run newman
+
+# stop vertx
+pkill -n java

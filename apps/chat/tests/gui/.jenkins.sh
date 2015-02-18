@@ -9,3 +9,6 @@ sleep 15
 
 # run protractor GUI tests
 sudo npm run protractor
+
+# stop vertx
+pkill -n java
