@@ -12,8 +12,10 @@ To get you started you can simply clone the sopro repository and install the dep
 You need git to clone the sopro repository. You can get git from
 [http://git-scm.com/](http://git-scm.com/).
 
-We also use a number of node.js tools to initialize and test sopro chat. You must have node.js and
+We also use a number of node.js tools to test sopro chat. You must have node.js and
 its package manager (npm) installed.  You can get them from [http://nodejs.org/](http://nodejs.org/).
+
+SocietyPro Chat runs in vertx, so you need to have [vertx](http://vertx.io/) installed. You can download it [here](http://vertx.io/downloads.html). 
 
 ### Clone sopro
 
@@ -54,28 +56,18 @@ We have preconfigured the project with a simple development web server.  The sim
 this server is:
 
 ```
-npm start
+vertx run server.js
 ```
 
-Now browse to the app at `http://localhost:1337/`.
+Now browse to the app at `http://localhost:8080/`.
 
 
 
 ## Directory Layout
 
 ```
-api/                   --> This folder contains the vast majority of your app's back-end logic. It is home to the 'M' and 'C' in MVC Framework.
-  controllers/           --> This is the directory that holds your controllers. In Sails, controllers are javascript files that contain logic for interacting with models and rendering appropriate views to the client.
-  models/                --> This is the directory that holds your models. In Sails, models are the structures that contain data for your Sails App.
-  policies/              --> This is the folder you will store your policy files in. A policy file is a .js file that contains what is essentially express middleware for authenticating access to controller actions in your app.
-  response/              --> This folder holds the logic for issuing server responses to your clients.
-  services/              --> 'Services' are similar to controller actions but are typically used for things that don't nessecarily have to happen between the time when the user sends a request and when the server sends back a response.
-assets/                 --> It houses all of the static files that your app will need to host.
-  images/                --> all your images goes here
-  js/                    --> This is where you put client-side javascript files that you want to be statically hosted by your app.
-  css/                   --> This is where you will put all of the .css files that you would like to be statically hosted by your app.
-config/                 --> This folder contains various files that will allow you to customize and configure your Sails app.
-views/                  --> This is the directory that holds all of your custom views.
+web/                   --> This folder contains all the frontend logic and views
+tests/                 --> Unit, E2E, API and acceptance tests
 ```
 
 ## Testing
@@ -136,7 +128,7 @@ correctly. Therefore, our web server needs to be serving up the application, so 
 can interact with it.
 
 ```
-npm start
+vertx run server.js
 ```
 
 Once you have ensured that the development web server hosting our application is up and running, you can run the api tests using the supplied npm script:
@@ -160,7 +152,7 @@ correctly. Therefore, our web server needs to be serving up the application, so 
 can interact with it.
 
 ```
-npm start
+vertx run server.js
 ```
 
 In addition, since Protractor is built upon WebDriver we need to install this.  The angular-seed
@@ -197,7 +189,7 @@ npm run cucumber
 ### Running the App during Development
 
 The SocietyPro chat project comes preconfigured with a local development webserver.  It is a node.js
-framewrok called [SailsJS][sailsjs].  You can start this webserver with `npm start` but you may choose to
+framewrok called [SailsJS][sailsjs].  You can start this webserver with `vertx run server.js` but you may choose to
 install the tool globally:
 
 ```
@@ -208,7 +200,7 @@ Then you can start your own development web server by
 running:
 
 ```
-npm start
+vertx run server.js
 ```
 
 ## Continuous Integration

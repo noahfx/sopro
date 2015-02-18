@@ -1,3 +1,10 @@
+# 0.1.0 Vertx (2015-02-18)
+
+Now SocietyPro run in vertx and not in node anymore.
+
+## Features
+- **GET Channels API** ([d89dde0](https://github.com/jimmymorales/sopro/commit/d89dde071304ebbe97be1240a5662bcedf939fed))
+
 # 0.0.1 Continues-integration-projects (2015-02-11)
 
 ## Features

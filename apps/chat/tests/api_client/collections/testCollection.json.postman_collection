@@ -1,30 +1,85 @@
 {
 	"id": "59982276-2b5a-4627-daaf-e47ede4dd1f2",
-	"name": "testCollections",
-	"timestamp": 1423585182565,
-	"order": [
-		"168ff629-01d2-77f5-89c6-7814367f459b"
+	"name": "ChannelAPI",
+	"description": "",
+	"order": [],
+	"folders": [
+		{
+			"id": "f7ba6c4e-21ab-5746-ad57-5d64a8a881e1",
+			"name": "GET Channels",
+			"description": "",
+			"order": [
+				"168ff629-01d2-77f5-89c6-7814367f459b",
+				"a0c67bd9-b979-ea10-25e6-6d398eebc906",
+				"2e3c67ef-0f6a-b824-fbb5-d86e588315d5"
+			],
+			"collection_name": "ChannelAPI",
+			"collection_id": "59982276-2b5a-4627-daaf-e47ede4dd1f2"
+		}
 	],
+	"timestamp": 1423585182565,
 	"synced": false,
+	"remoteLink": "",
 	"requests": [
 		{
 			"id": "168ff629-01d2-77f5-89c6-7814367f459b",
-			"headers": "",
-			"url": "http://localhost:1337/test",
+			"headers": "token-auth: 12345\n",
+			"url": "http://localhost:8080/channels?userID=abc",
 			"preRequestScript": "",
 			"pathVariables": {},
-			"method": "POST",
+			"method": "GET",
 			"data": [],
 			"dataMode": "params",
 			"version": 2,
-			"tests": "var data = JSON.parse(responseBody);\ntests[\"Your test name\"] = data.todo === \"index() is not implemented yet!\";",
+			"tests": "var data = JSON.parse(responseBody);\ntests[\"Check ok field\"] = data.ok === true;\n\ntests[\"Channels list\"] = data.channels.length !== null;\n\ntests[\"Status code is 200\"] = responseCode.code === 200;",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1423624589763,
-			"name": "test",
-			"description": "for testing purpose",
+			"time": 1424268180323,
+			"name": "Get Channels",
+			"description": "",
 			"collectionId": "59982276-2b5a-4627-daaf-e47ede4dd1f2",
 			"responses": [],
+			"synced": false
+		},
+		{
+			"id": "2e3c67ef-0f6a-b824-fbb5-d86e588315d5",
+			"headers": "token-auth: 123456789\n",
+			"url": "http://localhost:8080/channels?userID=abc",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "GET",
+			"data": [],
+			"dataMode": "params",
+			"version": 2,
+			"tests": "var data = JSON.parse(responseBody);\ntests[\"Check ok field\"] = data.ok === false;\n\ntests[\"Error Message\"] = data.error === \"Invalid Token!\";\n",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1424269410238,
+			"name": "Get Channels with invalid token",
+			"description": "",
+			"collectionId": "59982276-2b5a-4627-daaf-e47ede4dd1f2",
+			"responses": [],
+			"synced": false
+		},
+		{
+			"id": "a0c67bd9-b979-ea10-25e6-6d398eebc906",
+			"headers": "",
+			"url": "http://localhost:8080/channels?userID=abc",
+			"pathVariables": {},
+			"preRequestScript": "",
+			"method": "GET",
+			"data": [],
+			"dataMode": "params",
+			"name": "Get Channels without token",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1424269110613,
+			"version": 2,
+			"responses": [],
+			"tests": "var data = JSON.parse(responseBody);\ntests[\"Check ok field\"] = data.ok === false;\n\ntests[\"Error Message\"] = data.error === \"No token auth!\";\n",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"collectionId": "59982276-2b5a-4627-daaf-e47ede4dd1f2",
 			"synced": false
 		}
 	]
