@@ -6,4 +6,4 @@ sleep 15
 
 npm run cucumber
 
-pkill java
+sudo pkill java

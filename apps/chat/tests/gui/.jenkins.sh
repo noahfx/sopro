@@ -11,4 +11,4 @@ sleep 15
 sudo npm run protractor
 
 # stop vertx
-pkill java
+sudo pkill java
