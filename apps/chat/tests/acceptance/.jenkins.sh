@@ -5,5 +5,3 @@ npm install
 sleep 15
 
 npm run cucumber
-
-ps aux | grep -i vertx | awk {'print $2'} | xargs kill -9

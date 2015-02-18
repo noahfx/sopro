@@ -9,6 +9,3 @@ sleep 15
 
 # run protractor GUI tests
 sudo npm run protractor
-
-# stop vertx
-ps aux | grep -i vertx | awk {'print $2'} | xargs kill -9
