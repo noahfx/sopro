@@ -6,4 +6,4 @@ sleep 15
 
 npm run cucumber
 
-sudo pkill java
+ps aux | grep -i vertx | awk {'print $2'} | xargs kill -9
