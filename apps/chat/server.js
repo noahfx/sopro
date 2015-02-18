@@ -20,11 +20,11 @@ var authenticate = function (req, cb) {
       if (reply) {
         cb(null, true);  
       } else {
-        cb("Invalid Token!", null);
+        cb('{"ok":false, "error":"Invalid Token!"}', null);
       }
     });
   } else {
-    cb("No token auth!", null);
+    cb('{"ok":false, "error":"No token auth!"}', null);
   }
 }
 //*******************************************************
@@ -37,17 +37,43 @@ routeMatcher.get('/channels', function(req) {
     if (err) {
       req.response.end(err);  
     } else {
-      eb.send("get.channels",null, function (reply) {
+      var userID = "";
+      //___________________________________________________
+      req.params().forEach(function(key, value) {
+        if (key == "userID") {
+          userID = value;
+        }  
+      });
+      if (!userID) {
+        cb('{"ok":false, "error":"No role id specified!"}', null);
+        return;
+      }
+      eb.send("get.channels",userID, function (reply) {
         if (reply) {
           req.response.end(reply);
         } else {
-          cb("Error when getting channels!", null);
+          cb('{"ok":false, "error":"Error when getting channels!"}', null);
         }
       });
     }
   });
 });
 //*******************************************************
+
+//******************Start up the server*********************
+server.listen(8080, "localhost", function(err) {
+  if (!err) {
+    console.log("Listen succeeded!");
+  } else { 
+    console.log(err);
+  }
+});
+//********************************************************
+
+
+
+
+
 
 //*******************MOCKS****************************
 eb.registerHandler('token.authentication', function(token, replier) {
@@ -59,57 +85,116 @@ eb.registerHandler('token.authentication', function(token, replier) {
 });
 
 eb.registerHandler('get.channels', function(msg, replier) {
-    replier(JSON.stringify({
-    "ok": true,
-    "channels": [
-        {
-            "id": "C024BE91L",
-            "name": "fun",
-            "created": 1360782804,
-            "creator": "U024BE7LH",
-            "is_archived": false,
-            "is_member": false,
-            "num_members": 6,
-            "topic": {
-                "value": "Fun times",
-                "creator": "U024BE7LV",
-                "last_set": 1369677212
-            },
-            "purpose": {
-                "value": "This channel is for fun",
+    var channels = {};
+    if (msg == "abc") {
+      channels = {
+        "ok": true,
+        "channels": [
+            {
+                "id": "C024BE91L",
+                "name": "random",
+                "created": 1360782804,
                 "creator": "U024BE7LH",
-                "last_set": 1360782804
-            }
-        },
-        {
-            "id": "C024BE91L",
-            "name": "genereal",
-            "created": 1360782804,
-            "creator": "U024BE7LH",
-            "is_archived": false,
-            "is_member": false,
-            "num_members": 6,
-            "topic": {
-                "value": "Fun times",
-                "creator": "U024BE7LV",
-                "last_set": 1369677212
+                "is_archived": false,
+                "is_member": false,
+                "num_members": 6,
+                "topic": {
+                    "value": "Fun times",
+                    "creator": "U024BE7LV",
+                    "last_set": 1369677212
+                },
+                "purpose": {
+                    "value": "This channel is for fun",
+                    "creator": "U024BE7LH",
+                    "last_set": 1360782804
+                }
             },
-            "purpose": {
-                "value": "This channel is for fun",
+            {
+                "id": "C024BE91L",
+                "name": "general",
+                "created": 1360782804,
                 "creator": "U024BE7LH",
-                "last_set": 1360782804
+                "is_archived": false,
+                "is_member": false,
+                "num_members": 6,
+                "topic": {
+                    "value": "Fun times",
+                    "creator": "U024BE7LV",
+                    "last_set": 1369677212
+                },
+                "purpose": {
+                    "value": "This channel is for fun",
+                    "creator": "U024BE7LH",
+                    "last_set": 1360782804
+                }
             }
-        }
-      ]
-  }));
+          ]
+      };
+    } else if (msg == "xyz") {
+      channels = {
+        "ok": true,
+        "channels": [
+            {
+                "id": "C024BE91L",
+                "name": "developers",
+                "created": 1360782804,
+                "creator": "U024BE7LH",
+                "is_archived": false,
+                "is_member": false,
+                "num_members": 6,
+                "topic": {
+                    "value": "Fun times",
+                    "creator": "U024BE7LV",
+                    "last_set": 1369677212
+                },
+                "purpose": {
+                    "value": "This channel is for fun",
+                    "creator": "U024BE7LH",
+                    "last_set": 1360782804
+                }
+            },
+            {
+                "id": "C024BE91L",
+                "name": "huevon",
+                "created": 1360782804,
+                "creator": "U024BE7LH",
+                "is_archived": false,
+                "is_member": false,
+                "num_members": 6,
+                "topic": {
+                    "value": "Fun times",
+                    "creator": "U024BE7LV",
+                    "last_set": 1369677212
+                },
+                "purpose": {
+                    "value": "This channel is for fun",
+                    "creator": "U024BE7LH",
+                    "last_set": 1360782804
+                }
+            },
+            {
+                "id": "C024BE91L",
+                "name": "general",
+                "created": 1360782804,
+                "creator": "U024BE7LH",
+                "is_archived": false,
+                "is_member": false,
+                "num_members": 6,
+                "topic": {
+                    "value": "Fun times",
+                    "creator": "U024BE7LV",
+                    "last_set": 1369677212
+                },
+                "purpose": {
+                    "value": "This channel is for fun",
+                    "creator": "U024BE7LH",
+                    "last_set": 1360782804
+                }
+            }
+          ]
+      };
+    }
+    replier(JSON.stringify(channels));
 });
 //******************************************************
-
-server.listen(8080, "localhost", function(err) {
-  if (!err) {
-    console.log("Listen succeeded!");
-  } else { 
-    console.log(err);
-  }
-});
 
