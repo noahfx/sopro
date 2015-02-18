@@ -1,7 +1,9 @@
-npm start &
+npm install
 
-sleep 30
+~/vert.x-2.1.5/bin/vertx  vertx run server.js &
+
+sleep 15
 
 npm run newman
 
-pkill node
+pkill java

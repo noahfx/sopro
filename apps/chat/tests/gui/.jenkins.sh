@@ -3,12 +3,12 @@ sudo /etc/init.d/xvfb start
 sudo /etc/init.d/selenium start
 
 # lift the sails app
-npm start &
+~/vert.x-2.1.5/bin/vertx run server.js &
 
-sleep 30
+sleep 15
 
 # run protractor GUI tests
 sudo npm run protractor
 
-# stop sails
-pkill node
+# stop vertx
+pkill java

@@ -45,14 +45,14 @@ routeMatcher.get('/channels', function(req) {
         }  
       });
       if (!userID) {
-        cb('{"ok":false, "error":"No role id specified!"}', null);
+        req.response.end('{"ok":false, "error":"No role id specified!"}');
         return;
       }
       eb.send("get.channels",userID, function (reply) {
         if (reply) {
           req.response.end(reply);
         } else {
-          cb('{"ok":false, "error":"Error when getting channels!"}', null);
+          req.response.end('{"ok":false, "error":"Error when getting channels!"}');
         }
       });
     }
