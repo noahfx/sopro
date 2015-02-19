@@ -32,6 +32,18 @@ var authenticate = function (req, cb) {
 //****************Route Matcher**************************
 server.requestHandler(routeMatcher);
 
+routeMatcher.getWithRegEx('\/(web)\/([^¡]+)', function(req) {  
+    req.response.sendFile(req.path().substring(1,req.path().length), "web/handler_404.html"); 
+});
+
+routeMatcher.get('/', function(req) {
+  req.response.sendFile("web/index.html", "web/handler_404.html"); 
+});
+
+/*routeMatcher.get('/', function(req) {
+  req.response.sendFile("web/index.html", "web/handler_404.html"); 
+});
+
 routeMatcher.get('/channels', function(req) {
   authenticate(req, function (err, data) {
     if (err) {
@@ -57,6 +69,10 @@ routeMatcher.get('/channels', function(req) {
       });
     }
   });
+});
+*/
+routeMatcher.noMatch(function(req) {
+  req.response.sendFile("web/handler_404.html"); 
 });
 //*******************************************************
 
