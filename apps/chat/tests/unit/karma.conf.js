@@ -1,8 +1,17 @@
 module.exports = function(config){
   config.set({
 
+    basePath : './../../web/',
+
     files : [
-      './karma/*.js'
+     'bower_components/angular/angular.js',
+      'bower_components/angular-animate/angular-animate.js',
+      'bower_components/angular-aria/angular-aria.js',
+      'bower_components/angular-material/angular-material.js',
+      'bower_components/angular-mocks/angular-mocks.js',
+      'js/*.js',
+      'js/components/**/*.js',
+      './../tests/unit/karma/*.js',
     ],
 
     autoWatch : true,
@@ -20,7 +29,7 @@ module.exports = function(config){
     reporters: ['progress','junit'],
     
     junitReporter : {
-      outputFile: './karma-unit.xml',
+      outputFile: './../tests/unit/karma-unit.xml',
       suite: ''
     },
     
