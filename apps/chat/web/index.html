@@ -18,23 +18,23 @@
   <md-toolbar layout="row">
       <span flex></span>
       <div class="role-selection" ng-click="showRoles=!showRoles" layout="row" layout-align="center center">
-        <img ng-src="{{currentRole.img}}" width="36" height="36" alt="rol-icon">
+        <img ng-src="{{currentRole.img}}" width="36" height="36" alt="role-icon">
         <span>{{currentRole.name}}</span>
-        <img src="web/images/roll-arrow.png" width="10" height="5" alt="arrow-rol"/>
+        <img src="web/images/role-arrow.png" width="10" height="5" alt="arrow-role"/>
       </div>
-      <div class="sopro-rol-pannel" layout="column" ng-show="showRoles">
-        <img class="sopro-arrow-rol-pannel" src="web/images/arrow-rol-panel.png" alt="rol-pannel-arrow">
-        <span class="sopro-rol-pannel-title">ROLES</span>  
-        <div class="sopro-rol-item" ng-class="{'sp-w-b':$last}" layout="row" layout-align="start center" ng-repeat="role in roles" ng-click="changeRole(role)"> 
-          <img class="sopro-img-rol-pannel" ng-src="{{role.img}}" width="35" height="35" alt="rol-icon">
-          <span class="sopro-rol-name">{{role.name}}</span>
+      <div class="sopro-role-panel" layout="column" ng-show="showRoles">
+        <img class="sopro-arrow-role-panel" src="web/images/arrow-role-panel.png" alt="role-pannel-arrow">
+        <span class="sopro-role-panel-title">ROLES</span>
+        <div class="sopro-role-item" ng-class="{'sp-w-b':$last}" layout="row" layout-align="start center" ng-repeat="role in roles" ng-click="changeRole(role)">
+          <img class="sopro-img-role-panel" ng-src="{{role.img}}" width="35" height="35" alt="role-icon">
+          <span class="sopro-role-name">{{role.name}}</span>
         </div>
     </div>
   </md-toolbar>
   <div class="sopro-main-content" flex layout="row">
-  <aside id="sopro-chanel-wrap" layout="column">
+  <aside id="sopro-channel-wrap" layout="column">
     <div class="channels-collection" layout="column">
-      <div class="sopro-channel-title" layout="row" layout-align="start center">
+      <div class="sopro-channel-title" id="collection-title-channels" layout="row" layout-align="start center">
         <img src="web/images/icon-channels-channel.png" alt="channel-icon">
         <span>CHANNELS</span>
       </div>
@@ -47,9 +47,9 @@
           </li>
       </ul>
     </div>
-    <div class="sopro-channels-overflow" ng-show="showOverflow">  
-      <img class="sopro-arrow-overflow-dropdown" src="web/images/arrow-overflow-dropdown.png" width="10" height="18" alt="rol-pannel-arrow">  
-      <div id="sopro-dropdown-collection-wrap" layout="column">         
+    <div class="sopro-channels-overflow" ng-show="showOverflow">
+      <img class="sopro-arrow-overflow-dropdown" src="web/images/arrow-overflow-dropdown.png" width="10" height="18" alt="role-panel-arrow">
+      <div id="sopro-dropdown-collection-wrap" layout="column">
         <div class="sopro-dropdown-title"><p>CHANNELS</p></div>
         <div class="sopro-ul-scroll" flex>
           <ul>
@@ -58,7 +58,7 @@
         </div>
         </div>
       </div>
-  </aside>   
-</div>      
+  </aside>
+</div>
 </body>
 </html>
