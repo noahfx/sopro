@@ -1,6 +1,7 @@
 var societyProChat = function () {
-  this.channelsCollection = element.all(by.repeater('channel in channels'));
-  this.overflowChannelsCollection = element.all(by.repeater('channelOverflow in channels'));
+  this.channelCollections = element.all(by.css('.channel-collection'))
+  this.channelsChannels = element.all(by.repeater('channel in channels'));
+  this.overflowChannels = element.all(by.repeater('channelOverflow in channels'));
   this.moreChannels = element(by.css('.sopro-more-channels'));
   this.currentRole = element(by.css(".role-selection"));
   this.roles = element.all(by.repeater('role in roles'));
@@ -12,21 +13,6 @@ var societyProChat = function () {
 describe('Channels list', function() {
   browser.get('http://localhost:8080/');
   var chat = new societyProChat();
-  it('has a list of channels', function() {
-    chat.currentRole.click();
-    chat.roles.get(0).click();
-    expect(chat.channelsCollection.count()).toEqual(2);
-  });
-
-  it('has a "Channels" channel collection title with a squared-off cartoon speech bubble conversation icon',
-  function(){
-    var title = chat.collectionTitleChannels;
-    expect(title.isDisplayed()).toBeTruthy();
-    expect(title.element(by.css('span')).getText()).toEqual('CHANNELS');
-    var icon = title.element(by.css('img'));
-    expect(icon.isDisplayed()).toBeTruthy();
-    expect(icon.getAttribute('src')).toMatch(/icon-channels-channel.png$/);
-  })
 
   it('has margin: 20px 16px', function(){
     var top = chat.channelsContainer.getCssValue('padding-top');
@@ -39,21 +25,75 @@ describe('Channels list', function() {
     expect(right).toBe('16px');
   })
 
-  describe("Overflow channels collection", function () {
-    it("appears a more... button to open the overflow when the channels list exceed the max value to show", function () {
+  describe('Inline Channel Collections', function(){
+    it('has a list of channel collections', function() {
+      expect(chat.channelCollections.count()).toEqual(1);
+    });
+
+    describe('"Channels" channel collection', function(){
+      it('goes to the first role', function(){
+        chat.currentRole.click();
+        chat.roles.get(0).click();
+      });
+      it('has text "CHANNELS"', function(){
+        var title = chat.collectionTitleChannels;
+        expect(title.isDisplayed()).toBeTruthy();
+        expect(title.element(by.css('span')).getText()).toEqual('CHANNELS');
+      });
+      it('has a squared-off cartoon speech bubble conversation icon', function(){
+        var title = chat.collectionTitleChannels;
+        var icon = title.element(by.css('img'));
+        expect(icon.isDisplayed()).toBeTruthy();
+        expect(icon.getAttribute('src')).toMatch(/icon-channels-channel.png$/);
+      });
+
+      it('contains a list of channels', function(){
+        expect(chat.channelsChannels.count()).toBeGreaterThan(0);
+      })
+      describe('the first channel', function(){
+        var first = chat.channelsChannels.first();
+        it('has text "random"', function(){
+          expect(first.getText()).toEqual('random');
+        });
+        it('has gray text', function(){
+          expect(first.getCssValue('color')).toEqual('rgba(85, 84, 89, 1)');
+          //expect(first.getCssValue('background-color')).toEqual('rgba(255, 255, 255, 1)');
+        });
+        it('is the expected height', function(){
+          expect(first.getCssValue('height')).toEqual('32px');
+        });
+        describe('on hover', function(){
+          beforeEach(function(){
+            browser.actions()
+            .mouseMove(browser.findElement(by.repeater('channel in channels')))
+            .perform();
+
+          })
+
+          it('has light gray text and gray background', function(){
+            expect(first.getCssValue('color')).toEqual('rgba(204, 204, 204, 1)');
+            expect(first.getCssValue('background-color')).toEqual('rgba(131, 131, 131, 1)');
+          });
+        })
+      })
+    });
+  })
+
+  describe('Overflow channels collection', function () {
+    it('has a "+X more..." button to open the overflow when the channels list exceed the max value to show', function () {
       chat.currentRole.click();
       chat.roles.get(1).click();
-      expect(chat.channelsCollection.count()).toEqual(2);
+      expect(chat.channelsChannels.count()).toEqual(2);
       expect(chat.moreChannels.isDisplayed()).toBeTruthy();
       expect(chat.moreChannels.getText()).toEqual("+1 more...");
     });
     it("open an overflow with all the channels listed", function () {
       chat.currentRole.click();
       chat.roles.get(1).click();
-      expect(chat.channelsCollection.count()).toEqual(2);
+      expect(chat.channelsChannels.count()).toEqual(2);
       expect(chat.moreChannels.isDisplayed()).toBeTruthy();
       chat.moreChannels.click();
-      expect(chat.overflowChannelsCollection.count()).toEqual(3);
+      expect(chat.overflowChannels.count()).toEqual(3);
     });
   });
 });
