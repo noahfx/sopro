@@ -1,41 +1,64 @@
 <html ng-app="societyProChatApp">
 <head>
-    <title>SockJS Test</title>
+    <title>SocietyPro Chat</title>
+
+    <link rel="stylesheet" type="text/css" href="web/bower_components/angular-material/angular-material.css">
+    <link rel="stylesheet" type="text/css" href="web/styles/dropdown-collections.css">
     <link rel="stylesheet" type="text/css" href="web/styles/sopro-channels.css">
-    <link href='http://fonts.googleapis.com/css?family=Roboto:400,400italic,300italic,500,500italic,700,700italic' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="web/styles/society-pro-chat.css">
 
     <script src="web/bower_components/angular/angular.js"></script>
+    <script type="text/javascript" src="web/bower_components/angular-aria/angular-aria.js"></script>
+    <script type="text/javascript" src="web/bower_components/angular-animate/angular-animate.js"></script>
+    <script type="text/javascript" src="web/bower_components/angular-material/angular-material.js"></script>
     <script src="web/js/components/controllers/mainController.js"></script>
     <script src="web/js/app.js"></script>
 </head>
-<body ng-controller="mainController">
-<div class="sopro-main-content">  
-<div class="sopro-top-bar">
-    <img class="sorpo-ar" src="web/images/roll-arrow.png" width="10" height="5" alt="arrow-rol"/>
+<body ng-controller="mainController" layout="column">
+  <md-toolbar layout="row">
+      <span flex></span>
+      <div class="role-selection" ng-click="showRoles=!showRoles" layout="row" layout-align="center center">
+        <img ng-src="{{currentRole.img}}" width="36" height="36" alt="rol-icon">
+        <span>{{currentRole.name}}</span>
+        <img src="web/images/roll-arrow.png" width="10" height="5" alt="arrow-rol"/>
+      </div>
+      <div class="sopro-rol-pannel" layout="column" ng-show="showRoles">
+        <img class="sopro-arrow-rol-pannel" src="web/images/arrow-rol-panel.png" alt="rol-pannel-arrow">
+        <span class="sopro-rol-pannel-title">ROLES</span>  
+        <div class="sopro-rol-item" ng-class="{'sp-w-b':$last}" layout="row" layout-align="start center" ng-repeat="role in roles" ng-click="changeRole(role)"> 
+          <img class="sopro-img-rol-pannel" ng-src="{{role.img}}" width="35" height="35" alt="rol-icon">
+          <span class="sopro-rol-name">{{role.name}}</span>
+        </div>
     </div>
-<div class="sopro-rol-pannel">
-    <img class="sopro-arrow-rol-pannel" src="web/images/arrow-rol-panel.png" alt="rol-pannel-arrow">
-    <div class="sopro-rol-item">
-        <p class="sopro-rol-pannel-title">ROLES</p>   
-        <img class="sopro-img-rol-pannel" src="web/images/role-image.png" width="36" height="36" alt="rol-icon"><div class="sopro-edit-use-rol-pannel"><p>tcolussi</p></div>    
+  </md-toolbar>
+  <div class="sopro-main-content" flex layout="row">
+  <aside id="sopro-chanel-wrap" layout="column">
+    <div class="channels-collection" layout="column">
+      <div class="sopro-channel-title" layout="row" layout-align="start center">
+        <img src="web/images/icon-channels-channel.png" alt="channel-icon">
+        <span>CHANNELS</span>
+      </div>
+      <ul>
+          <li ng-repeat="channel in channels" ng-if="$index+1 <= maxChannels" layout="column" layout-align="center start">
+            <span>{{channel.name}}</span>
+          </li>
+          <li ng-show="channels.length > maxChannels" ng-click="showOverflow = !showOverflow" class="sopro-config-collection-link" layout="column" layout-align="center start">
+            <span class="sopro-more-channels">+{{channels.length - maxChannels}} more...</span>
+          </li>
+      </ul>
     </div>
-    <div class="sopro-rol-item-2">  
-        <img class="sopro-img-rol-pannel" src="web/images/role-image.png" width="36" height="36" alt="rol-icon"><div class="sopro-edit-use-rol-pannel"><p>tcolussi</p></div>    
-    </div>
-    <div class="sopro-rol-item-2 sp-w-b">  
-        <img class="sopro-img-rol-pannel" src="web/images/role-image.png" width="36" height="36" alt="rol-icon"><div class="sopro-edit-use-rol-pannel"><p>tcolussi</p></div>    
-    </div>
-    </div>    
-<aside id="sopro-chanel-wrap">
-    <div class="sopro-channel-title"><img src="web/images/icon-channels-channel.png" alt="channel-icon"><span>CHANNELS</span></div>
-    <ul>
-        <li class="sopro-config-collection-link"><a><img src="web/images/icon-plus.png" widht="10" height="10" alt="plus-icon"><span class="sopro-addchanel">add channel</span></a></li>
-        <li><a><span>general</span></a></li>
-        <li><a><span>design</span></a></li>
-        <li><a><span>huevon</span></a></li>
-        <li class="sopro-config-collection-link"><a><span class="sopro-25-more">+25 more...</span></a></li>
-    </ul>
-    </aside>
+    <div class="sopro-channels-overflow" ng-show="showOverflow">  
+      <img class="sopro-arrow-overflow-dropdown" src="web/images/arrow-overflow-dropdown.png" width="10" height="18" alt="rol-pannel-arrow">  
+      <div id="sopro-dropdown-collection-wrap" layout="column">         
+        <div class="sopro-dropdown-title"><p>CHANNELS</p></div>
+        <div class="sopro-ul-scroll" flex>
+          <ul>
+            <li ng-repeat="channel in channels"><span>{{channel.name}}</span></li>
+          </ul>
+        </div>
+        </div>
+      </div>
+  </aside>   
 </div>      
 </body>
 </html>

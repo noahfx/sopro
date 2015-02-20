@@ -1,0 +1,115 @@
+/*  TOOLBAR  */
+
+body > md-toolbar {
+  background-color: #969696 !important;
+}
+
+/* --- Role Selection */
+.role-selection {
+  margin: 0px 15px;
+  cursor: pointer;
+}
+.role-selection > * {
+  margin: 5px;
+  font-size: 13px;
+}
+.sopro-rol-pannel{
+    top: 50px;
+    position: absolute;
+    right: -10px;
+    background: #ffffff;
+    width: 228px;
+    height: auto;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+    border: 1px solid #cdcdcd;
+    margin: 15px 10px 0 0;
+    float: right;
+    padding: 20px 0px 10px 0px;
+   -webkit-box-shadow: 0px 0px 10px 2px rgba(50, 50, 50, 0.47);
+   -moz-box-shadow: 0px 0px 10px 2px rgba(50, 50, 50, 0.47);
+   box-shadow: 0px 0px 10px 2px rgba(50, 50, 50, 0.47);
+}
+.sopro-arrow-rol-pannel{
+    position: absolute;
+    top: -10px;
+    right: 13px;
+}
+.sopro-rol-pannel-title {
+  color: #555459; 
+  font-size: 10px; 
+  text-transform: uppercase;
+  padding: 0px 10px 0px 20px;
+}
+.sopro-rol-item{
+    height: 55px;
+    border-bottom: 1px solid #cdcdcd;
+    padding: 0px 10px 0px 20px;
+    cursor: pointer;
+}
+.sopro-rol-item:last-child{
+    border-bottom: none;
+}
+.sopro-rol-name {
+  margin: 10px;
+  color: #555459;
+  font-size: 10px
+}
+
+/* MAIN CONTENT*/
+.sopro-main-content{
+    background: #E9ECF2;
+    padding: 20px;
+}
+
+/* Channel Collections */
+#sopro-chanel-wrap{
+    position: relative;
+    background-color: white;
+    width: 200px;
+    height: auto;   
+    padding:20px 0px 20px 0px;
+}
+.channels-collection {
+  border-bottom: 1px solid #cdcdcd;
+}
+.sopro-channel-title{
+    height: 32px;
+    font-size: 13px;
+    margin-top: 5px;
+    padding: 0px 16px;    
+}
+.sopro-channel-title > span{
+    margin: 5px; 
+}
+#sopro-chanel-wrap ul li {
+  height: 32px;
+  font-size: 15px;
+  padding-left: 35px;
+  margin-right: 20px;
+  color:#555459;
+   cursor: pointer;
+}
+#sopro-chanel-wrap ul li:hover {
+   background: #838383;
+   color: #cccccc;    
+}
+#sopro-chanel-wrap ul {
+   list-style: none;
+   margin: 0px;
+   margin-bottom:  5px;
+   padding: 0px;    
+}
+.sopro-more-channels {
+  font-size: 13px;
+   cursor: pointer;
+}
+
+/* Channels Overflow */
+.sopro-channels-overflow {
+  position: absolute;
+  left: 210px;
+  top: 100px;
+  background: white;
+}

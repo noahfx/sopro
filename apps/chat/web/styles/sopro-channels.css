@@ -4,14 +4,6 @@ body{
     
 }
 
-.sopro-main-content{
-    width: 1290px;
-    height: auto;
-    position: relative;
-    margin:0 auto;
-    font-family: 'Roboto', sans-serif;
-    color: #555459;
-}
 
 .sopro-top-bar{
     width: 100%;
@@ -26,6 +18,9 @@ body{
 }
 
 .sopro-rol-pannel{
+    top: 50px;
+    position: absolute;
+    right: -10px;
     background: #ffffff;
     width: 228px;
     height: auto;
@@ -42,17 +37,11 @@ body{
 }
 
 .sopro-arrow-rol-pannel{
-    margin-top: -30px;
     position: absolute;
-    margin-left: 193px;
+    top: -10px;
+    right: 13px;
 }
 
-.sopro-rol-item{
-    height: 55px;
-    border-bottom: 1px solid #cdcdcd;
-    padding-left: 20px;
-    padding-bottom: 11px;
-}
 
 .sopro-rol-item-2{
     height: 34px;
@@ -76,9 +65,15 @@ body{
     font-size: 10px;    
 }
 
-.sopro-rol-pannel-title{
+/*.sopro-rol-pannel-title{
+    height: 55px;
+    border-bottom: 1px solid #cdcdcd;
+    padding-left: 20px;
+    padding-bottom: 11px;
+    color: #555459;
+    font-size: 10px;  
     margin: 0px 0px 10px 0px;
-}
+}*/
 
 .sopro-img-rol-pannel{
     float: left;
@@ -96,15 +91,7 @@ body{
     color: #555459 !important;
 }
 
-#sopro-chanel-wrap{
-    position: relative;
-    width: 185px;
-    height: auto;
-    border:1px solid #cdcdcd;    
-    padding:20px 0px 20px 0px;
-    float: left;
-    margin: 10px 0 0 0;
-}
+
 
 #sopro-chanel-wrap ul {
    list-style: none;
@@ -113,21 +100,16 @@ body{
 }
 
 #sopro-chanel-wrap li:hover {
-   background: #cccccc;
-   cursor: pointer;    
+   background: #838383;
+   cursor: pointer;
+   color: #cccccc;    
 }
 
 #sopro-chanel-wrap a {
-   cursor: pointer;    
+   cursor: pointer;
+   text-align: center;
 }
 
-#sopro-chanel-wrap ul li {
-    width: 125px;
-    height: 26px;
-    margin-left: 0px;
-    font-size: 15px;
-    padding: 6px 0px 0px 42px;
-}
 
 
 
@@ -143,14 +125,9 @@ body{
 .sopro-channel-title{
     height: 22px;
     font-size: 13px;
-    padding: 10px 0px 0px 16px;
+    margin-top: 5px;
 }
 
-.sopro-channel-title span{
-    position: absolute;
-    margin-top: -2px;
-    margin-left: 10px;
-}
 
 .sopro-addchanel{
     font-style: italic;
@@ -166,6 +143,7 @@ body{
 .sopro-config-collection-link:hover{
     background: none !important;
     cursor: default !important;
+    color: #555459 !important;
 }
 
 

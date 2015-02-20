@@ -40,10 +40,6 @@ routeMatcher.get('/', function(req) {
   req.response.sendFile("web/index.html", "web/handler_404.html"); 
 });
 
-/*routeMatcher.get('/', function(req) {
-  req.response.sendFile("web/index.html", "web/handler_404.html"); 
-});
-
 routeMatcher.get('/channels', function(req) {
   authenticate(req, function (err, data) {
     if (err) {
@@ -70,10 +66,9 @@ routeMatcher.get('/channels', function(req) {
     }
   });
 });
-*/
-routeMatcher.noMatch(function(req) {
+/*routeMatcher.noMatch(function(req) {
   req.response.sendFile("web/handler_404.html"); 
-});
+});*/
 //*******************************************************
 
 //******************Start up the server*********************
@@ -108,41 +103,11 @@ eb.registerHandler('get.channels', function(msg, replier) {
         "channels": [
             {
                 "id": "C024BE91L",
-                "name": "random",
-                "created": 1360782804,
-                "creator": "U024BE7LH",
-                "is_archived": false,
-                "is_member": false,
-                "num_members": 6,
-                "topic": {
-                    "value": "Fun times",
-                    "creator": "U024BE7LV",
-                    "last_set": 1369677212
-                },
-                "purpose": {
-                    "value": "This channel is for fun",
-                    "creator": "U024BE7LH",
-                    "last_set": 1360782804
-                }
+                "name": "random"
             },
             {
                 "id": "C024BE91L",
-                "name": "general",
-                "created": 1360782804,
-                "creator": "U024BE7LH",
-                "is_archived": false,
-                "is_member": false,
-                "num_members": 6,
-                "topic": {
-                    "value": "Fun times",
-                    "creator": "U024BE7LV",
-                    "last_set": 1369677212
-                },
-                "purpose": {
-                    "value": "This channel is for fun",
-                    "creator": "U024BE7LH",
-                    "last_set": 1360782804
-                }
+                "name": "general"
             }
           ]
       };
@@ -152,60 +117,15 @@ eb.registerHandler('get.channels', function(msg, replier) {
         "channels": [
             {
                 "id": "C024BE91L",
-                "name": "developers",
-                "created": 1360782804,
-                "creator": "U024BE7LH",
-                "is_archived": false,
-                "is_member": false,
-                "num_members": 6,
-                "topic": {
-                    "value": "Fun times",
-                    "creator": "U024BE7LV",
-                    "last_set": 1369677212
-                },
-                "purpose": {
-                    "value": "This channel is for fun",
-                    "creator": "U024BE7LH",
-                    "last_set": 1360782804
-                }
+                "name": "developers"
             },
             {
                 "id": "C024BE91L",
-                "name": "huevon",
-                "created": 1360782804,
-                "creator": "U024BE7LH",
-                "is_archived": false,
-                "is_member": false,
-                "num_members": 6,
-                "topic": {
-                    "value": "Fun times",
-                    "creator": "U024BE7LV",
-                    "last_set": 1369677212
-                },
-                "purpose": {
-                    "value": "This channel is for fun",
-                    "creator": "U024BE7LH",
-                    "last_set": 1360782804
-                }
+                "name": "huevon"
             },
             {
                 "id": "C024BE91L",
-                "name": "general",
-                "created": 1360782804,
-                "creator": "U024BE7LH",
-                "is_archived": false,
-                "is_member": false,
-                "num_members": 6,
-                "topic": {
-                    "value": "Fun times",
-                    "creator": "U024BE7LV",
-                    "last_set": 1369677212
-                },
-                "purpose": {
-                    "value": "This channel is for fun",
-                    "creator": "U024BE7LH",
-                    "last_set": 1360782804
-                }
+                "name": "general"
             }
           ]
       };
