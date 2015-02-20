@@ -20,7 +20,7 @@
       <div class="role-selection" ng-click="showRoles=!showRoles" layout="row" layout-align="center center">
         <img ng-src="{{currentRole.img}}" width="36" height="36" alt="role-icon">
         <span>{{currentRole.name}}</span>
-        <img src="web/images/roll-arrow.png" width="10" height="5" alt="arrow-rol"/>
+        <img src="web/images/role-arrow.png" width="10" height="5" alt="arrow-role"/>
       </div>
       <div class="sopro-role-panel" layout="column" ng-show="showRoles">
         <img class="sopro-arrow-role-panel" src="web/images/arrow-role-panel.png" alt="role-pannel-arrow">
@@ -34,7 +34,7 @@
   <div class="sopro-main-content" flex layout="row">
   <aside id="sopro-channel-wrap" layout="column">
     <div class="channels-collection" layout="column">
-      <div class="sopro-channel-title" layout="row" layout-align="start center">
+      <div class="sopro-channel-title" id="collection-title-channels" layout="row" layout-align="start center">
         <img src="web/images/icon-channels-channel.png" alt="channel-icon">
         <span>CHANNELS</span>
       </div>
