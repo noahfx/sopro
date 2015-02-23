@@ -12,7 +12,7 @@
         "passed": true
       }
     ],
-    "duration": 44684942
+    "duration": 38771242
   },
   {
     "description": "viewing a list of channels",
@@ -27,7 +27,7 @@
         "passed": true
       }
     ],
-    "duration": 1648833298
+    "duration": 1625736326
   },
   {
     "description": "changing the list of channels on role change",
@@ -45,7 +45,7 @@
         "passed": true
       }
     ],
-    "duration": 1540105918
+    "duration": 1364537924
   },
   {
     "description": "truncating the list of channels",
@@ -63,7 +63,22 @@
         "passed": true
       }
     ],
-    "duration": 1060833218
+    "duration": 968994040
+  },
+  {
+    "description": "viewing an overflow list of channels",
+    "assertions": [
+      {
+        "passed": true
+      },
+      {
+        "passed": true
+      },
+      {
+        "passed": true
+      }
+    ],
+    "duration": 554998404
   },
   {
     "description": "listing channels via API",
@@ -78,7 +93,7 @@
         "passed": true
       }
     ],
-    "duration": 6478017
+    "duration": 6802306
   },
   {
     "description": "reading the README",
@@ -93,6 +108,6 @@
         "passed": true
       }
     ],
-    "duration": 1710098
+    "duration": 1487144
   }
 ]

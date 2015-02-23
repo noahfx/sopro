@@ -86,8 +86,6 @@ var channelsList_steps = module.exports = function(){
   });
 
   this.Then(/^the list of channels is truncated at the pre\-defined number$/, function (next) {
-    
-
     browser.element.all(by.repeater("channel in channels")).count()
     .then(function (count) {
       if (count == 2) {
@@ -108,4 +106,42 @@ var channelsList_steps = module.exports = function(){
       }
     });
   });
+
+  this.Given(/^I am viewing a list of channels$/, function (next) {
+    browser.element(by.css('.role-selection')).click()
+    .then(function () {
+      browser.element.all(by.repeater('role in roles')).get(1).click()
+      .then(function () {
+        browser.element.all(by.repeater("channel in channels")).count()
+        .then(function (count) {
+          if (count != 0) {
+            next()
+          } else {
+            next.fail(new Error("Channels are not being displayed"));
+          }
+        });
+      });
+    });
+  });
+
+  this.When(/^I click "([^"]*)"$/, function (arg1, next) {
+   browser.element(by.css(".sopro-more-channels")).click()
+    .then(function () {
+      next();  
+    });
+    
+  });
+
+  this.Then(/^I should see the entire list of channels to which that role is subscribed$/, function (next) {
+    // Write code here that turns the phrase above into concrete actions
+    browser.element(by.css(".sopro-channels-overflow")).isDisplayed()
+    .then(function (isDisplayed) {
+      if (isDisplayed) {
+        next();
+      } else {
+        next.fail(new Error("Channels overflow dropdown is not displayed"));
+      }
+    })
+  });
+
 }
