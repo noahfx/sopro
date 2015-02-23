@@ -109,6 +109,16 @@ eb.registerHandler('get.channels', function(msg, replier) {
                 "id": "C024BE91L",
                 "name": "general"
             }
+          ],
+        "peers": [
+            {
+                "id": "C024BE91L",
+                "name": "plato"
+            },
+            {
+                "id": "C024BE91L",
+                "name": "jimmy"
+            }
           ]
       };
     } else if (msg == "xyz") {
@@ -126,6 +136,20 @@ eb.registerHandler('get.channels', function(msg, replier) {
             {
                 "id": "C024BE91L",
                 "name": "general"
+            }
+          ],
+          "peers": [
+            {
+                "id": "C024BE91L",
+                "name": "davis"
+            },
+            {
+                "id": "C024BE91L",
+                "name": "jhon"
+            },
+            {
+                "id": "C024BE91L",
+                "name": "jhon"
             }
           ]
       };
