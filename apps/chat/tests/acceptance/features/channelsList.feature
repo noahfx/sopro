@@ -5,7 +5,7 @@ Feature: Channels list
   
   Scenario: viewing a list of channels
     Given I have started the chatlog application
-    When I choose a role
+    When I have chosen a role
     Then I should see a list of channels to which that role is subscribed
 
   Scenario: changing the list of channels on role change

@@ -36,7 +36,7 @@ var societyProChatControllers = angular.module('societyProChatApp.controllers',[
         .success(function(data, status, headers, config) {
           // this callback will be called asynchronously
           // when the response is available
-          console.log(data);
+          //console.log(data);
           $scope.channels = data.channels;
         })
         .error(function(data, status, headers, config) {
