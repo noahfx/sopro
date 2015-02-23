@@ -1,77 +1,22 @@
+// One global variable to share state across files:
+CAM = {};
+
 var vertx = require('vertx');
-var console = require('vertx/console');
+console = require('vertx/console');
 
 var server = vertx.createHttpServer();
-var routeMatcher = new vertx.RouteMatcher();
 var eb = vertx.eventBus;
 
+CAM.vertx = vertx;
+CAM.server = server;
+CAM.eb = eb;
 
-//**************Authentication*************************
-var authenticate = function (req, cb) {
-  var token = '';
+load('routes.js');
+load('eb-messengers.js');
 
-  req.headers().forEach(function(key, value) {
-    if (key == "token-auth") {
-      token = value;
-    }
-  });
-  if (token) {
-    eb.send("token.authentication",token, function (reply) {
-      if (reply) {
-        cb(null, true);  
-      } else {
-        cb('{"ok":false, "error":"Invalid Token!"}', null);
-      }
-    });
-  } else {
-    cb('{"ok":false, "error":"No token auth!"}', null);
-  }
-}
-//*******************************************************
+// ATM our server does not have any message handlers at all; all communication with the EB is req/rep from eb-messengers.js.
+//load('eb-handlers.js');
 
-//****************Route Matcher**************************
-server.requestHandler(routeMatcher);
-
-routeMatcher.getWithRegEx('\/(web)\/([^¡]+)', function(req) {  
-    req.response.sendFile(req.path().substring(1,req.path().length), "web/handler_404.html"); 
-});
-
-routeMatcher.get('/', function(req) {
-  req.response.sendFile("web/index.html", "web/handler_404.html"); 
-});
-
-routeMatcher.get('/channels', function(req) {
-  authenticate(req, function (err, data) {
-    if (err) {
-      req.response.end(err);  
-    } else {
-      var userID = "";
-      //___________________________________________________
-      req.params().forEach(function(key, value) {
-        if (key == "userID") {
-          userID = value;
-        }  
-      });
-      if (!userID) {
-        req.response.end('{"ok":false, "error":"No role id specified!"}');
-        return;
-      }
-      eb.send("get.channels",userID, function (reply) {
-        if (reply) {
-          req.response.end(reply);
-        } else {
-          req.response.end('{"ok":false, "error":"Error when getting channels!"}');
-        }
-      });
-    }
-  });
-});
-/*routeMatcher.noMatch(function(req) {
-  req.response.sendFile("web/handler_404.html"); 
-});*/
-//*******************************************************
-
-//******************Start up the server*********************
 server.listen(8080, "localhost", function(err) {
   if (!err) {
     console.log("Listen succeeded!");
@@ -79,82 +24,3 @@ server.listen(8080, "localhost", function(err) {
     console.log(err);
   }
 });
-//********************************************************
-
-
-
-
-
-//##################################
-//*******************MOCKS****************************
-eb.registerHandler('token.authentication', function(token, replier) {
-  if (token == "12345") {
-    replier(true);
-  } else {
-    replier(false);
-  }
-});
-
-eb.registerHandler('get.channels', function(msg, replier) {
-    var channels = {};
-    if (msg == "abc") {
-      channels = {
-        "ok": true,
-        "channels": [
-            {
-                "id": "C024BE91L",
-                "name": "random"
-            },
-            {
-                "id": "C024BE91L",
-                "name": "general"
-            }
-          ],
-        "peers": [
-            {
-                "id": "C024BE91L",
-                "name": "plato"
-            },
-            {
-                "id": "C024BE91L",
-                "name": "jimmy"
-            }
-          ]
-      };
-    } else if (msg == "xyz") {
-      channels = {
-        "ok": true,
-        "channels": [
-            {
-                "id": "C024BE91L",
-                "name": "developers"
-            },
-            {
-                "id": "C024BE91L",
-                "name": "huevon"
-            },
-            {
-                "id": "C024BE91L",
-                "name": "general"
-            }
-          ],
-          "peers": [
-            {
-                "id": "C024BE91L",
-                "name": "davis"
-            },
-            {
-                "id": "C024BE91L",
-                "name": "jhon"
-            },
-            {
-                "id": "C024BE91L",
-                "name": "jhon"
-            }
-          ]
-      };
-    }
-    replier(JSON.stringify(channels));
-});
-//******************************************************
-
