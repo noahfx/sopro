@@ -22,7 +22,7 @@ var channelsAPI_steps = module.exports = function(){
     }, function (res) {
       res.on('data', function (chunk) {
         var response = JSON.parse(chunk);
-        if (response.ok) {
+        if (response.channels != undefined && response.peers != undefined) {
           next();  
         } else {
           next.fail(new Error(response.error));    
