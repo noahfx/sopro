@@ -1,7 +1,7 @@
 {
   "name": "chat",
   "private": true,
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "a SocietyPro application",
   "keywords": [],
   "dependencies": {
@@ -20,7 +20,7 @@
     "protractor": "protractor tests/gui/protractor.conf.js",
     "mocha": "./node_modules/.bin/mocha --recursive -R xunit ./tests/unit/mocha/ > ./tests/unit/mocha-unit.xml",
     "newman": "./node_modules/.bin/newman -c tests/api_client/collections/testCollection.json.postman_collection --testReportFile tests/api_client/test-out.xml",
-    "cucumber": "./node_modules/.bin/cucumber.js tests/acceptance/features/ -f json | cucumber-junit > tests/acceptance/test-out.xml"
+    "cucumber": "protractor tests/gui/protractor.conf.js"
   },
   "main": "app.js",
   "repository": {
@@ -45,6 +45,7 @@
     "mocha": "^2.1.0",
     "newman": "^1.2.9",
     "phantomjs": "^1.9.15",
+    "protractor-cucumber-junit": "^1.1.3",
     "should": "^5.0.0",
     "sinon": "^1.12.2",
     "zombie": "^2.5.1"
