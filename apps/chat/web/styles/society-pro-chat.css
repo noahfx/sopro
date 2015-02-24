@@ -63,6 +63,10 @@ body > md-toolbar {
   padding: 20px;
 }
 
+collection {
+  position: relative;
+}
+
 /* Channel Collections */
 #sopro-channel-wrap{
   position: relative;
@@ -110,6 +114,6 @@ body > md-toolbar {
 .sopro-channels-overflow {
   position: absolute;
   left: 210px;
-  top: 100px;
+  bottom: -200px;
   background: white;
 }
