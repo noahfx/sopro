@@ -1,5 +1,5 @@
 <div class="channel-collection" layout="column">
-  <div class="sopro-channel-title" id="collection-title-channels" layout="row" layout-align="start center">
+  <div class="sopro-channel-title" layout="row" layout-align="start center">
     <img ng-src="{{icon}}" alt="channel-icon">
     <span>{{title}}</span>
   </div>
@@ -14,11 +14,11 @@
 </div>
 <div class="sopro-channels-overflow" ng-show="showOverflow">
       <img class="sopro-arrow-overflow-dropdown" src="web/images/arrow-overflow-dropdown.png" width="10" height="18" alt="role-panel-arrow">
-      <div id="sopro-dropdown-collection-wrap" layout="column">
+      <div class="sopro-dropdown-collection-wrap" layout="column">
         <div class="sopro-dropdown-title"><p>{{title}}</p></div>
         <div class="sopro-ul-scroll" flex>
           <ul>
-            <li ng-repeat="channelOverflow in repeater"><span>{{channelOverflow.name}}</span></li>
+            <li class="overflow-item" ng-repeat="channelOverflow in repeater"><span>{{channelOverflow.name}}</span></li>
           </ul>
         </div>
         </div>
