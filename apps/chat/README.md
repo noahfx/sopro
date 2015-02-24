@@ -15,6 +15,8 @@ You need git to clone the sopro repository. You can get git from
 We also use a number of node.js tools to test sopro chat. You must have node.js and
 its package manager (npm) installed.  You can get them from [http://nodejs.org/](http://nodejs.org/).
 
+To run the acceptance tests, you need `cucumber` on your path: `npm install -g cucumber`
+
 SocietyPro Chat runs in vertx, so you need to have [vertx](http://vertx.io/) installed. You can download it [here](http://vertx.io/downloads.html). 
 
 ### Clone sopro
@@ -61,6 +63,12 @@ vertx run server.js
 
 Now browse to the app at `http://localhost:8080/`.
 
+If you don't have a SoPro backend available, you can test the frontend against a mock backend. You will need to launch two verticles in cluster mode:
+
+```
+vertx run -cluster server.js
+vertx run -cluster mock-backend.vertx.js
+```
 
 
 ## Directory Layout
