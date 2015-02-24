@@ -4,7 +4,7 @@
     <span>{{title}}</span>
   </div>
   <ul>
-      <li ng-repeat="item in repeater" ng-if="$index+1 <= 2" layout="column" layout-align="center start">
+      <li class="channel-item" ng-repeat="item in repeater" ng-if="$index+1 <= 2" layout="column" layout-align="center start">
         <span>{{item.name}}</span>
       </li>
       <li ng-show="repeater.length > 2" ng-click="showOverflow = !showOverflow" class="sopro-config-collection-link" layout="column" layout-align="center start">
