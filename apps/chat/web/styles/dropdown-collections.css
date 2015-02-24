@@ -1,7 +1,6 @@
 body{
     margin:0px;
     padding:0px;
-    
 }
 
 .sopro-main-content{
@@ -19,14 +18,13 @@ body{
     margin-top: 28px;
     /* border: 1px solid #cccccc; */
     z-index: 1;
-    
 }
 
-#sopro-dropdown-collection-wrap{
+.sopro-dropdown-collection-wrap{
     position: relative;
     width: 186px;
     height: 258px;
-    border:1px solid #cdcdcd;    
+    border:1px solid #cdcdcd;
     padding:20px 0px 20px 0px;
     float: left;
     -webkit-border-radius: 2px;
@@ -34,7 +32,7 @@ body{
     border-radius: 2px;
     -webkit-box-shadow: 0px 0px 12px 0px rgba(50, 50, 50, 0.47);
     -moz-box-shadow: 0px 0px 12px 0px rgba(50, 50, 50, 0.47);
-    box-shadow: 0px 0px 12px 0px rgba(50, 50, 50, 0.47);    
+    box-shadow: 0px 0px 12px 0px rgba(50, 50, 50, 0.47);
 }
 
 .sopro-ul-scroll{
@@ -62,24 +60,24 @@ body{
 }
 
 
-#sopro-dropdown-collection-wrap ul {
+.sopro-dropdown-collection-wrap ul {
    list-style: none;
    margin:  0px;
    padding: 0px;    
 }
 
-#sopro-dropdown-collection-wrap li:hover {
+.sopro-dropdown-collection-wrap li:hover {
    background: #838383;
    cursor: pointer;
    color: #cccccc;
        
 }
 
-#sopro-dropdown-collection-wrap a {
+.sopro-dropdown-collection-wrap a {
    cursor: pointer;    
 }
 
-#sopro-dropdown-collection-wrap ul li {
+.sopro-dropdown-collection-wrap ul li {
     width: 148px;
     height: 24px;
     margin-left: 0px;
@@ -89,11 +87,11 @@ body{
 
 
 
-#sopro-dropdown-collection-wrapul li a img {
+.sopro-dropdown-collection-wrap ul li a img {
    /* margin-right: 10px;*/
 }
 
-#sopro-dropdown-collection-wrap ul li a span {
+.sopro-dropdown-collection-wrap ul li a span {
     position: absolute;
     margin: -2px 0 0 0;    
 }
