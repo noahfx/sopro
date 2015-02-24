@@ -11,6 +11,8 @@
     <script type="text/javascript" src="web/bower_components/angular-aria/angular-aria.js"></script>
     <script type="text/javascript" src="web/bower_components/angular-animate/angular-animate.js"></script>
     <script type="text/javascript" src="web/bower_components/angular-material/angular-material.js"></script>
+    <script src="web/js/components/global/global.js"></script>
+    <script src="web/js/components/directives/directives.js"></script>
     <script src="web/js/components/controllers/mainController.js"></script>
     <script src="web/js/app.js"></script>
 </head>
@@ -33,31 +35,8 @@
   </md-toolbar>
   <div class="sopro-main-content" flex layout="row">
   <aside id="sopro-channel-wrap" layout="column">
-    <div class="channel-collection" layout="column">
-      <div class="sopro-channel-title" id="collection-title-channels" layout="row" layout-align="start center">
-        <img src="web/images/icon-channels-channel.png" alt="channel-icon">
-        <span>CHANNELS</span>
-      </div>
-      <ul>
-          <li ng-repeat="channel in channels" ng-if="$index+1 <= maxChannels" layout="column" layout-align="center start">
-            <span>{{channel.name}}</span>
-          </li>
-          <li ng-show="channels.length > maxChannels" ng-click="showOverflow = !showOverflow" class="sopro-config-collection-link" layout="column" layout-align="center start">
-            <span class="sopro-more-channels">+{{channels.length - maxChannels}} more...</span>
-          </li>
-      </ul>
-    </div>
-    <div class="sopro-channels-overflow" ng-show="showOverflow">
-      <img class="sopro-arrow-overflow-dropdown" src="web/images/arrow-overflow-dropdown.png" width="10" height="18" alt="role-panel-arrow">
-      <div id="sopro-dropdown-collection-wrap" layout="column">
-        <div class="sopro-dropdown-title"><p>CHANNELS</p></div>
-        <div class="sopro-ul-scroll" flex>
-          <ul>
-            <li ng-repeat="channelOverflow in channels"><span>{{channelOverflow.name}}</span></li>
-          </ul>
-        </div>
-        </div>
-      </div>
+    <collection title="CHANNELS" icon="web/images/icon-channels-channel.png" repeater="channels"></collection>
+    <collection title="PEERS" icon="web/images/icon-channels-channel.png" repeater="peers"></collection>
   </aside>
 </div>
 </body>

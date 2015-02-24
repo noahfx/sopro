@@ -17,6 +17,7 @@ var societyProChatControllers = angular.module('societyProChatApp.controllers',[
   ]
 
   $scope.channels = [];
+  $scope.peers = [];
   $scope.maxChannels = 2;
   $scope.currentRole = {};
 
@@ -38,6 +39,7 @@ var societyProChatControllers = angular.module('societyProChatApp.controllers',[
           // when the response is available
           //console.log(data);
           $scope.channels = data.channels;
+          $scope.peers = data.peers;
         })
         .error(function(data, status, headers, config) {
           // called asynchronously if an error occurs
