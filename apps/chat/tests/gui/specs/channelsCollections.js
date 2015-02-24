@@ -45,7 +45,7 @@ describe('Channels list', function() {
         var title = chat.collectionTitleChannels;
         var icon = title.element(by.css('img'));
         expect(icon.isDisplayed()).toBeTruthy();
-        expect(icon.getAttribute('src')).toMatch(/icon-channels-channel.png$/);
+        expect(icon.getAttribute('src')).toMatch(/icon-channels.png$/);
       });
 
       it('contains a list of channels', function(){
