@@ -1,3 +1,5 @@
 var societyProChatApp = angular.module('societyProChatApp', [
-  'societyProChatApp.controllers'
+  'societyProChatApp.controllers',
+  'societyProChatApp.directives',
+  'societyProChatApp.global'
 ]);
