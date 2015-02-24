@@ -1,4 +1,6 @@
-var societyProChatDirectives = angular.module('societyProChatApp.directives',[])
+var societyProChatDirectives = angular.module('societyProChatApp.directives',[
+  'societyProChatApp.global'
+  ])
 
 .directive('collection', function() {
   return {
@@ -7,6 +9,9 @@ var societyProChatDirectives = angular.module('societyProChatApp.directives',[])
       title: '@',
       icon: '@',
       repeater: '=',
+    },
+    controller: function ($scope, maxChannels) {
+      $scope.maxChannels = maxChannels;
     },
     templateUrl: 'web/partials/collection.html'
   };
