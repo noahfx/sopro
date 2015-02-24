@@ -20,7 +20,7 @@
     "protractor": "protractor tests/gui/protractor.conf.js",
     "mocha": "./node_modules/.bin/mocha --recursive -R xunit ./tests/unit/mocha/ > ./tests/unit/mocha-unit.xml",
     "newman": "./node_modules/.bin/newman -c tests/api_client/collections/testCollection.json.postman_collection --testReportFile tests/api_client/test-out.xml",
-    "cucumber": "protractor tests/gui/protractor.conf.js"
+    "cucumber": "protractor tests/acceptance/protractor.conf.js"
   },
   "main": "app.js",
   "repository": {

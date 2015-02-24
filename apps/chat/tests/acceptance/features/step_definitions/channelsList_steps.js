@@ -1,3 +1,5 @@
+var CAM_MOCKS = require('../../../mock-data.js');
+
 var channelsList_steps = module.exports = function(){
 
   this.Given(/^I have started the chatlog application$/, function (next) {
@@ -21,14 +23,14 @@ var channelsList_steps = module.exports = function(){
       if (isDisplayed) {
         browser.element.all(by.repeater("channel in channels")).count()
         .then(function (size) {
-          if (size == 2) {
+          if (size == CAM_MOCKS.channels1.channels.length) {
             next();
           } else {
-            next.fail(new Error("Wrong channels for role"));  
+            next.fail(new Error("Wrong channels for role"));
           }
         });
       } else {
-        next.fail(new Error("List of channels is no displayed"));    
+        next.fail(new Error("List of channels is no displayed"));
       }
     });
   });
@@ -49,14 +51,14 @@ var channelsList_steps = module.exports = function(){
       if (isDisplayed) {
         browser.element.all(by.repeater("channel in channels")).get(0).getText()
         .then(function (text) {
-          if (text == "developers") {
+          if (text == CAM_MOCKS.channels2.channels[0].name) {
             next();
           } else {
-            next.fail(new Error("Wrong channels for role"));  
+            next.fail(new Error("Wrong channels for role"));
           }
         });
       } else {
-        next.fail(new Error("List of channels is no displayed"));    
+        next.fail(new Error("List of channels is no displayed"));
       }
     });
   });
@@ -69,7 +71,7 @@ var channelsList_steps = module.exports = function(){
         if (isDisplayed) {
           next();
         } else {
-          next.fail(new Error("List of channels is no displayed"));    
+          next.fail(new Error("List of channels is no displayed"));
         }
       });
     });
@@ -91,9 +93,9 @@ var channelsList_steps = module.exports = function(){
       if (count == 2) {
           next();
         } else {
-          next.fail(new Error("List of channels is bad displayed"));    
+          next.fail(new Error("List of channels is bad displayed"));
         }
-    });    
+    });
   });
 
   this.Then(/^the remainder is displayed as "([^"]*)"$/, function (arg1,next) {

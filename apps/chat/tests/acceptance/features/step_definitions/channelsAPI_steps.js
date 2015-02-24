@@ -1,12 +1,13 @@
+var CAM_MOCKS = require('../../../mock-data.js');
 var channelsAPI_steps = module.exports = function(){
 
   this.Given(/^I have a valid authentication token$/, function (next) {
-    this.token = "12345";
+    this.token = CAM_MOCKS.validToken;
     next();
   });
 
   this.When(/^I make the correct GET request to the API server with a role id$/, function (next) {
-    this.roleID = "abc";
+    this.roleID = CAM_MOCKS.roleId1;
     next();
   })
 
@@ -23,11 +24,10 @@ var channelsAPI_steps = module.exports = function(){
       res.on('data', function (chunk) {
         var response = JSON.parse(chunk);
         if (response.channels != undefined && response.peers != undefined) {
-          next();  
+          next();
         } else {
-          next.fail(new Error(response.error));    
+          next.fail(new Error(response.error));
         }
-        
       });
     });
 
