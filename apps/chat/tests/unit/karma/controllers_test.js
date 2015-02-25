@@ -18,6 +18,14 @@ describe("societyProChat Controllers", function() {
               {"name": "random"},
               {"name": "stuff"},
               {"name": "channel2"}
+            ],
+            "peers": [
+              {"name": "Jimmy"},
+              {"name": "Mario"},
+              {"name": "jorge"},
+              {"name": "maria"},
+              {"name": "jhon"},
+              {"name": "peersito"}
             ]
         });
 
@@ -46,6 +54,12 @@ describe("societyProChat Controllers", function() {
   it("has an array of channels", function () {
     var controller = createController();
     expect(scope.channels).not.toBeUndefined();
+    expect(Object.prototype.toString.call(scope.channels)).toEqual('[object Array]');
+  });
+
+  it("has an array of peers", function () {
+    var controller = createController();
+    expect(scope.peers).not.toBeUndefined();
     expect(Object.prototype.toString.call(scope.channels)).toEqual('[object Array]');
   });
 });

@@ -2,6 +2,7 @@ module.exports = CAM_MOCKS = {
   validToken: "12345",
   roleId1: "abc",
   roleId2: "xyz",
+  displayedChannelCount: 2,
   channels1: {
     "ok": true,
     "channels": [

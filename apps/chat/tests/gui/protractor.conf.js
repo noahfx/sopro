@@ -1,7 +1,7 @@
 exports.config = {
   allScriptsTimeout: 60000,
 
-  //seleniumAddress: 'http://localhost:4444/wd/hub',
+  seleniumAddress: 'http://localhost:4444/wd/hub',
 
   specs: [
     'specs/*.js'
@@ -21,6 +21,9 @@ exports.config = {
 
   onPrepare: function() {
     require('jasmine-reporters');
+    var SpecReporter = require('jasmine-spec-reporter');
+
     jasmine.getEnv().addReporter(new jasmine.JUnitXmlReporter("tests/gui/",true,true,"test-out",true));
+    jasmine.getEnv().addReporter(new SpecReporter({displayStacktrace: false}));
   }
 };

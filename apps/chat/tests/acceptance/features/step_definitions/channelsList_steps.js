@@ -1,4 +1,6 @@
 var CAM_MOCKS = require('../../../mock-data.js');
+var SSTEPS = require('../../shared_steps.js');
+
 
 var channelsList_steps = module.exports = function(){
 
@@ -7,21 +9,16 @@ var channelsList_steps = module.exports = function(){
     next();
   });
 
-  this.When(/^I have chosen a role$/, function (next) {
-    browser.element(by.css('.role-selection')).click()
-    .then(function () {
-      browser.element.all(by.repeater('role in roles')).get(0).click()
-      .then(function () {
-        next();
-      });
-    });
-  });
+  this.When(SSTEPS.roleChosen.regex, SSTEPS.roleChosen.fn);
 
   this.Then(/^I should see a list of channels to which that role is subscribed$/, function (next) {
-    browser.element.all(by.repeater("channel in channels")).isDisplayed()
-    .then(function  (isDisplayed) {
+    var channelsRepeater =
+    element.all(by.css('#collection-channels .channel-item'));
+
+    channelsRepeater.isDisplayed()
+    .then(function(isDisplayed) {
       if (isDisplayed) {
-        browser.element.all(by.repeater("channel in channels")).count()
+        channelsRepeater.count()
         .then(function (size) {
           if (size == CAM_MOCKS.channels1.channels.length) {
             next();
@@ -30,26 +27,24 @@ var channelsList_steps = module.exports = function(){
           }
         });
       } else {
-        next.fail(new Error("List of channels is no displayed"));
+        next.fail(new Error("List of channels is not displayed"));
       }
     });
   });
 
-  this.When(/^I change to a different role$/, function (next) {
-    browser.element(by.css('.role-selection')).click()
-    .then(function () {
-      browser.element.all(by.repeater('role in roles')).get(1).click()
-      .then(function () {
-        next();
-      });
-    });
-  });
+  // This time it will match "a different role" and click it:
+  this.When(SSTEPS.roleChosen.regex, SSTEPS.roleChosen.fn);
 
   this.Then(/^the list of channels for that role should update automatically$/, function (next) {
-    browser.element.all(by.repeater("channel in channels")).isDisplayed()
+    var channelsRepeater =
+    element.all(by.css('#collection-channels .channel-item'));
+
+    channelsRepeater
+    .isDisplayed()
     .then(function  (isDisplayed) {
       if (isDisplayed) {
-        browser.element.all(by.repeater("channel in channels")).get(0).getText()
+        channelsRepeater
+        .get(0).getText()
         .then(function (text) {
           if (text == CAM_MOCKS.channels2.channels[0].name) {
             next();
@@ -58,7 +53,7 @@ var channelsList_steps = module.exports = function(){
           }
         });
       } else {
-        next.fail(new Error("List of channels is no displayed"));
+        next.fail(new Error("List of channels is not displayed"));
       }
     });
   });
@@ -71,7 +66,7 @@ var channelsList_steps = module.exports = function(){
         if (isDisplayed) {
           next();
         } else {
-          next.fail(new Error("List of channels is no displayed"));
+          next.fail(new Error("List of channels is not displayed"));
         }
       });
     });
@@ -88,9 +83,10 @@ var channelsList_steps = module.exports = function(){
   });
 
   this.Then(/^the list of channels is truncated at the pre\-defined number$/, function (next) {
-    browser.element.all(by.repeater("channel in channels")).count()
+    element.all(by.css('#collection-channels .channel-item'))
+    .count()
     .then(function (count) {
-      if (count == 2) {
+      if (count == CAM_MOCKS.displayedChannelCount) {
           next();
         } else {
           next.fail(new Error("List of channels is bad displayed"));
@@ -104,7 +100,7 @@ var channelsList_steps = module.exports = function(){
       if (isDisplayed) {
         next()
       } else {
-        next.fail(new Error("more channels is no displayed"));
+        next.fail(new Error("more channels is not displayed"));
       }
     });
   });
@@ -114,7 +110,8 @@ var channelsList_steps = module.exports = function(){
     .then(function () {
       browser.element.all(by.repeater('role in roles')).get(1).click()
       .then(function () {
-        browser.element.all(by.repeater("channel in channels")).count()
+        element.all(by.css('#collection-channels .channel-item'))
+        .count()
         .then(function (count) {
           if (count != 0) {
             next()
@@ -129,9 +126,8 @@ var channelsList_steps = module.exports = function(){
   this.When(/^I click "([^"]*)"$/, function (arg1, next) {
    browser.element(by.css(".sopro-more-channels")).click()
     .then(function () {
-      next();  
+      next();
     });
-    
   });
 
   this.Then(/^I should see the entire list of channels to which that role is subscribed$/, function (next) {

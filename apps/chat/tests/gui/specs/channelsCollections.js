@@ -1,13 +1,16 @@
+var CAM_MOCKS = require('../../mock-data.js');
+
 var societyProChat = function () {
   this.channelCollections = element.all(by.css('.channel-collection'))
-  this.channelsChannels = element.all(by.repeater('channel in channels'));
-  this.overflowChannels = element.all(by.repeater('channelOverflow in channels'));
-  this.moreChannels = element(by.css('.sopro-more-channels'));
+  this.channelsChannels = element.all(by.css('#collection-channels .channel-item'));
+  this.collectionChannelsOverflow = element.all(by.css('#collection-channels .overflow-item'));
+  this.collectionChannelsMore = element(by.css('#collection-channels .sopro-more-channels'));
+  this.collectionChannelsContainer = element.all(by.css("collection"));
   this.currentRole = element(by.css(".role-selection"));
   this.roles = element.all(by.repeater('role in roles'));
   this.channelsContainer = element(by.css("#sopro-channel-wrap"));
   this.channelsTitles = element.all(by.css('.sopro-channel-title'));
-  this.collectionTitleChannels = element(by.css('#collection-title-channels'));
+  this.collectionTitleChannels = element(by.css('#collection-channels .sopro-channel-title'));
 }
 
 describe('Channels list', function() {
@@ -15,7 +18,7 @@ describe('Channels list', function() {
   var chat = new societyProChat();
 
   it('has margin: 20px 16px', function(){
-    var top = chat.channelsContainer.getCssValue('padding-top');
+    var top = chat.collectionChannelsContainer.get(0).getCssValue('margin-top');
     var bottom = chat.channelsContainer.getCssValue('padding-bottom');
     var left = chat.channelsTitles.first().getCssValue('padding-left');
     var right = chat.channelsTitles.first().getCssValue('padding-right');
@@ -25,12 +28,12 @@ describe('Channels list', function() {
     expect(right).toBe('16px');
   })
 
-  describe('Inline Channel Collections', function(){
+  describe('Inline Channel Collections - ', function(){
     it('has a list of channel collections', function() {
-      expect(chat.channelCollections.count()).toEqual(1);
+      expect(chat.channelCollections.count()).toEqual(2);
     });
 
-    describe('"Channels" channel collection', function(){
+    describe('"Channels" channel collection - ', function(){
       it('goes to the first role', function(){
         chat.currentRole.click();
         chat.roles.get(0).click();
@@ -44,13 +47,13 @@ describe('Channels list', function() {
         var title = chat.collectionTitleChannels;
         var icon = title.element(by.css('img'));
         expect(icon.isDisplayed()).toBeTruthy();
-        expect(icon.getAttribute('src')).toMatch(/icon-channels-channel.png$/);
+        expect(icon.getAttribute('src')).toMatch(/icon-channels.png$/);
       });
 
       it('contains a list of channels', function(){
         expect(chat.channelsChannels.count()).toBeGreaterThan(0);
       })
-      describe('the first channel', function(){
+      describe('the first channel - ', function(){
         var first = chat.channelsChannels.first();
         it('has text "random"', function(){
           expect(first.getText()).toEqual('random');
@@ -62,10 +65,10 @@ describe('Channels list', function() {
         it('is the expected height', function(){
           expect(first.getCssValue('height')).toEqual('32px');
         });
-        describe('on hover', function(){
+        describe('on hover - ', function(){
           beforeEach(function(){
             browser.actions()
-            .mouseMove(browser.findElement(by.repeater('channel in channels')))
+            .mouseMove(browser.findElement(by.css('#collection-channels .channel-item')))
             .perform();
 
           })
@@ -76,24 +79,35 @@ describe('Channels list', function() {
           });
         })
       })
+
+      describe('channels collection Overflow - ', function () {
+        it('has a "+X more..." button if there are more channels than the limit', function () {
+          chat.currentRole.click();
+          chat.roles.get(1).click();
+          expect(chat.channelsChannels.count()).toEqual(CAM_MOCKS.displayedChannelCount);
+          expect(chat.collectionChannelsMore.isDisplayed()).toBeTruthy();
+          expect(chat.collectionChannelsMore.getText()).toEqual("+1 more...");
+        });
+
+        xit('does not have a "+X more..." button if there are fewer channels than the limit', function(){
+
+        });
+
+        it("open an overflow with all the channels listed", function () {
+          chat.currentRole.click();
+          chat.roles.get(1).click();
+          expect(chat.channelsChannels.count()).toEqual(CAM_MOCKS.displayedChannelCount);
+          expect(chat.collectionChannelsMore.isDisplayed()).toBeTruthy();
+          chat.collectionChannelsMore.click();
+          expect(chat.collectionChannelsOverflow.count()).toEqual(CAM_MOCKS.channels2.channels.length);
+        });
+      });
+
+    });
+
+    xdescribe('"Peers" channel collection - ', function(){
+
     });
   })
 
-  describe('Overflow channels collection', function () {
-    it('has a "+X more..." button to open the overflow when the channels list exceed the max value to show', function () {
-      chat.currentRole.click();
-      chat.roles.get(1).click();
-      expect(chat.channelsChannels.count()).toEqual(2);
-      expect(chat.moreChannels.isDisplayed()).toBeTruthy();
-      expect(chat.moreChannels.getText()).toEqual("+1 more...");
-    });
-    it("open an overflow with all the channels listed", function () {
-      chat.currentRole.click();
-      chat.roles.get(1).click();
-      expect(chat.channelsChannels.count()).toEqual(2);
-      expect(chat.moreChannels.isDisplayed()).toBeTruthy();
-      chat.moreChannels.click();
-      expect(chat.overflowChannels.count()).toEqual(3);
-    });
-  });
 });
