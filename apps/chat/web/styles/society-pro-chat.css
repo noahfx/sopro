@@ -113,6 +113,7 @@ collection {
 
 /* Channels Overflow */
 .sopro-channels-overflow {
+  z-index: 200;
   position: absolute;
   left: 125px;
   bottom: -200px;
