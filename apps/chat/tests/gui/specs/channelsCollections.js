@@ -3,7 +3,7 @@ var societyProChat = function () {
   this.channelsChannels = element.all(by.css('#collection-channels .channel-item'));
   this.collectionChannelsOverflow = element.all(by.css('#collection-channels .overflow-item'));
   this.collectionChannelsMore = element(by.css('#collection-channels .sopro-more-channels'));
-
+  this.collectionChannelsContainer = element.all(by.css("collection"));
   this.currentRole = element(by.css(".role-selection"));
   this.roles = element.all(by.repeater('role in roles'));
   this.channelsContainer = element(by.css("#sopro-channel-wrap"));
@@ -16,7 +16,7 @@ describe('Channels list', function() {
   var chat = new societyProChat();
 
   it('has margin: 20px 16px', function(){
-    var top = chat.channelsContainer.getCssValue('padding-top');
+    var top = chat.collectionChannelsContainer.get(0).getCssValue('margin-top');
     var bottom = chat.channelsContainer.getCssValue('padding-bottom');
     var left = chat.channelsTitles.first().getCssValue('padding-left');
     var right = chat.channelsTitles.first().getCssValue('padding-right');
