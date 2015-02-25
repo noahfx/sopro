@@ -1,3 +1,4 @@
+var CAM_MOCKS = require('../../../mock-data.js');
 var sharedSteps = module.exports = function(){
 
   this.Given(/^I have downloaded the Society Pro source code$/, function (next) {
