@@ -60,49 +60,50 @@ body > md-toolbar {
 /* MAIN CONTENT*/
 .sopro-main-content{
   background: #E9ECF2;
-  padding: 20px;
 }
 
 collection {
   position: relative;
+  margin-top: 20px;
 }
 
 /* Channel Collections */
 #sopro-channel-wrap{
-  position: relative;
   background-color: white;
-  width: 200px;
-  height: auto;
-  padding:20px 0px 20px 0px;
-}
-.channel-collection {
-  border-bottom: 1px solid #cdcdcd;
+  width: 185px;
+  margin: 20px 16px;
+  border-radius: 2px;
+  padding-bottom: 20px;
 }
 .sopro-channel-title{
   height: 32px;
   font-size: 13px;
-  margin-top: 5px;
   padding: 0px 16px;
+  color: rgba(85, 84, 89, 1); 
+  font-weight: bold;
 }
 .sopro-channel-title > span{
   margin: 5px;
+  text-transform: uppercase;
 }
 #sopro-channel-wrap ul li {
   height: 32px;
   font-size: 15px;
-  padding-left: 35px;
-  margin-right: 20px;
-  color: #555459;
+  padding-left: 38px;
+  margin-right: 16px;
+  color: rgba(85, 84, 89, 1);
   cursor: pointer;
 }
 #sopro-channel-wrap ul li:hover {
-  background: #838383;
-  color: #cccccc;
+  background-color: rgba(131, 131, 131, 1); 
+  color: rgba(204, 204, 204, 1);
+}
+#sopro-channel-wrap ul li.channel-separator {
+  border-bottom: 1px solid rgba(131,131,131,0.5);
 }
 #sopro-channel-wrap ul {
   list-style: none;
   margin: 0px;
-  margin-bottom:  5px;
   padding: 0px;
 }
 .sopro-more-channels {
