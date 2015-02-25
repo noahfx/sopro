@@ -18,7 +18,6 @@ var societyProChatControllers = angular.module('societyProChatApp.controllers',[
 
   $scope.channels = [];
   $scope.peers = [];
-  $scope.maxChannels = 2;
   $scope.currentRole = {};
 
   $scope.changeRole = function (role) {

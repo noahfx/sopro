@@ -23,8 +23,6 @@ var channelsList_steps = module.exports = function(){
           if (size == CAM_MOCKS.channels1.channels.length) {
             next();
           } else {
-            console.log('Found ', size)
-            console.log('Expected ', CAM_MOCKS.channels1.channels.length)
             next.fail(new Error("Wrong channels for role"));
           }
         });
@@ -88,7 +86,7 @@ var channelsList_steps = module.exports = function(){
     element.all(by.css('#collection-channels .channel-item'))
     .count()
     .then(function (count) {
-      if (count == 2) {
+      if (count == CAM_MOCKS.displayedChannelCount) {
           next();
         } else {
           next.fail(new Error("List of channels is bad displayed"));
