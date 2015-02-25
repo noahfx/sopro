@@ -37,4 +37,63 @@ var channelsAPI_steps = module.exports = function(){
 
     req.end();
   });
+
+  //*********************POST CHANNEL*************************************
+  this.When(/^I make the correct POST request to the API server$/, function (next) {
+  // Write code here that turns the phrase above into concrete actions
+    this.roleID = CAM_MOCKS.roleId1;
+    var self = this;
+    var http = require('http');
+    var req = http.request({
+      port: 8080,
+      method: "POST",
+      path: "/channel?userID="+this.roleID+"&name=fun",
+      headers: {
+        'token-auth': this.token
+      }
+    }, function (res) {
+      res.on('data', function (chunk) {
+        var response = JSON.parse(chunk);
+        self.response = response;
+        next();
+      });
+    });
+
+    req.on('error', function(e) {
+      next.fail(new Error(e.message));
+    });
+
+    req.end();
+  });
+
+  this.Then(/^a channel should be created for the role specified$/, function (next) {
+  // Write code here that turns the phrase above into concrete actions
+    var response = this.response;
+    if (response.ok && response.channel != undefined) {
+      if (response.channel.creator == this.roleID) {
+        next();
+      } else {
+        next.fail(new Error("Channel no created for role"));  
+      }
+    } else {
+      next.fail(new Error("Error in channel creation"));
+    }
+  });
+
+  this.Then(/^a channel creation message should be placed on the event bus$/, function (next) {
+  // Write code here that turns the phrase above into concrete actions
+    next();
+  });
+
+  this.Then(/^the specified role should be subscribed to the channel$/, function (next) {
+  // Write code here that turns the phrase above into concrete actions
+    var response = this.response;
+    if (response.channel.members[0] === this.roleID) {
+      next();
+    } else {
+      next.fail(new Error("Role not subscribed"));
+    }
+  });
+
+
 }

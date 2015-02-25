@@ -15,6 +15,19 @@
 			],
 			"collection_name": "ChannelAPI",
 			"collection_id": "59982276-2b5a-4627-daaf-e47ede4dd1f2"
+		},
+		{
+			"id": "0bf1296d-9e1f-76b7-3822-8b45c5172032",
+			"name": "POST Channel",
+			"description": "",
+			"order": [
+				"b7b576a1-31b8-cdb3-6297-df79371dd9f1",
+				"9ab7c097-3572-57f8-ab44-476b2118dbf6",
+				"d0ce4907-8474-b5ef-ab22-06a941b32ebf",
+				"d1d9b3bf-afcd-c989-3f3b-84cce90dd61e"
+			],
+			"collection_name": "ChannelAPI",
+			"collection_id": "59982276-2b5a-4627-daaf-e47ede4dd1f2"
 		}
 	],
 	"timestamp": 1423585182565,
@@ -62,6 +75,26 @@
 			"synced": false
 		},
 		{
+			"id": "9ab7c097-3572-57f8-ab44-476b2118dbf6",
+			"headers": "",
+			"url": "http://localhost:8080/channel?userID=abc&name=fun",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "POST",
+			"data": [],
+			"dataMode": "params",
+			"version": 2,
+			"tests": "var data = JSON.parse(responseBody);\ntests[\"Check ok field\"] = data.ok === false;\n\ntests[\"Error Message\"] = data.error === \"No token auth!\";\n",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1424887298456,
+			"name": "POST Channel without token",
+			"description": "",
+			"collectionId": "59982276-2b5a-4627-daaf-e47ede4dd1f2",
+			"responses": [],
+			"synced": false
+		},
+		{
 			"id": "a0c67bd9-b979-ea10-25e6-6d398eebc906",
 			"headers": "",
 			"url": "http://localhost:8080/channels?userID=abc",
@@ -80,6 +113,66 @@
 			"currentHelper": "normal",
 			"helperAttributes": {},
 			"collectionId": "59982276-2b5a-4627-daaf-e47ede4dd1f2",
+			"synced": false
+		},
+		{
+			"id": "b7b576a1-31b8-cdb3-6297-df79371dd9f1",
+			"headers": "token-auth: 12345\n",
+			"url": "http://localhost:8080/channel?userID=abc&name=fun",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "POST",
+			"data": [],
+			"dataMode": "params",
+			"version": 2,
+			"tests": "var data = JSON.parse(responseBody);\ntests[\"Check ok field\"] = data.ok === true;\n\ntests[\"Channel object defined\"] = data.channel !== undefined;\n\ntests[\"Status code is 200\"] = responseCode.code === 200;",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1424887276940,
+			"name": "POST Channel",
+			"description": "",
+			"collectionId": "59982276-2b5a-4627-daaf-e47ede4dd1f2",
+			"responses": [],
+			"synced": false
+		},
+		{
+			"id": "d0ce4907-8474-b5ef-ab22-06a941b32ebf",
+			"headers": "token-auth: 123456789\n",
+			"url": "http://localhost:8080/channel?userID=abc&name=fun",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "POST",
+			"data": [],
+			"dataMode": "params",
+			"version": 2,
+			"tests": "var data = JSON.parse(responseBody);\ntests[\"Check ok field\"] = data.ok === false;\n\ntests[\"Error Message\"] = data.error === \"Invalid Token!\";\n",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1424887311306,
+			"name": "POST Channel with invalid token",
+			"description": "",
+			"collectionId": "59982276-2b5a-4627-daaf-e47ede4dd1f2",
+			"responses": [],
+			"synced": false
+		},
+		{
+			"id": "d1d9b3bf-afcd-c989-3f3b-84cce90dd61e",
+			"headers": "token-auth: 12345\n",
+			"url": "http://localhost:8080/channel?userID=abc",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "POST",
+			"data": [],
+			"dataMode": "params",
+			"version": 2,
+			"tests": "var data = JSON.parse(responseBody);\ntests[\"Check ok field\"] = data.ok === false;\n\ntests[\"Error Message\"] = data.error === \"no_channel\";\n",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1424887506670,
+			"name": "POST Channel without name",
+			"description": "",
+			"collectionId": "59982276-2b5a-4627-daaf-e47ede4dd1f2",
+			"responses": [],
 			"synced": false
 		}
 	]
