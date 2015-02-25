@@ -79,7 +79,7 @@ collection {
   height: 32px;
   font-size: 13px;
   padding: 0px 16px;
-  color: rgba(85, 84, 89, 1); 
+  color: rgba(85, 84, 89, 1);
   font-weight: bold;
 }
 .sopro-channel-title > span{
@@ -89,13 +89,13 @@ collection {
 #sopro-channel-wrap ul li {
   height: 32px;
   font-size: 15px;
-  padding-left: 38px;
-  margin-right: 16px;
+  padding-left: 40px;
+  margin-right: 20px;
   color: rgba(85, 84, 89, 1);
   cursor: pointer;
 }
 #sopro-channel-wrap ul li.channel-item:hover {
-  background-color: rgba(131, 131, 131, 1); 
+  background-color: rgba(131, 131, 131, 1);
   color: rgba(204, 204, 204, 1);
 }
 #sopro-channel-wrap ul li.channel-separator {
