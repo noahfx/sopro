@@ -4,22 +4,22 @@
     <span>{{title}}</span>
   </div>
   <ul>
-      <li class="channel-item" ng-repeat="item in repeater" ng-if="$index+1 <= 2" layout="column" layout-align="center start">
+      <li class="channel-item" ng-class="{'channel-separator':$last && repeater.length <= maxChannels}" ng-repeat="item in repeater" ng-if="$index+1 <= maxChannels" layout="column" layout-align="center start">
         <span>{{item.name}}</span>
       </li>
-      <li ng-show="repeater.length > 2" ng-click="showOverflow = !showOverflow" class="sopro-config-collection-link" layout="column" layout-align="center start">
-        <span class="sopro-more-channels">+{{repeater.length - 2}} more...</span>
+      <li ng-show="repeater.length > maxChannels" ng-click="openOverflow()" class="sopro-config-collection-link" ng-class="{'channel-separator':repeater.length > maxChannels}"layout="column" layout-align="center start">
+        <span class="sopro-more-channels">+{{repeater.length - maxChannels}} more...</span>
       </li>
   </ul>
 </div>
 <div class="sopro-channels-overflow" ng-show="showOverflow">
-      <img class="sopro-arrow-overflow-dropdown" src="web/images/arrow-overflow-dropdown.png" width="10" height="18" alt="role-panel-arrow">
-      <div class="sopro-dropdown-collection-wrap" layout="column">
-        <div class="sopro-dropdown-title"><p>{{title}}</p></div>
-        <div class="sopro-ul-scroll" flex>
-          <ul>
-            <li class="overflow-item" ng-repeat="channelOverflow in repeater"><span>{{channelOverflow.name}}</span></li>
-          </ul>
-        </div>
-        </div>
-      </div>
+  <img class="sopro-arrow-overflow-dropdown" src="web/images/arrow-overflow-dropdown.png" width="10" height="18" alt="role-panel-arrow">
+  <div class="sopro-dropdown-collection-wrap" layout="column">
+    <div class="sopro-dropdown-title"><p>{{title}}</p></div>
+    <div class="sopro-ul-scroll" flex>
+      <ul>
+        <li class="overflow-item" ng-repeat="channelOverflow in repeater"><span>{{channelOverflow.name}}</span></li>
+      </ul>
+    </div>
+  </div>
+</div>

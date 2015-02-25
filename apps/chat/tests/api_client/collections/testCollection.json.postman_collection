@@ -31,7 +31,7 @@
 			"data": [],
 			"dataMode": "params",
 			"version": 2,
-			"tests": "var data = JSON.parse(responseBody);\ntests[\"Check ok field\"] = data.ok === true;\n\ntests[\"Channels list\"] = data.channels.length !== null;\n\ntests[\"Status code is 200\"] = responseCode.code === 200;",
+			"tests": "var data = JSON.parse(responseBody);\ntests[\"Check ok field\"] = data.ok === true;\n\ntests[\"Channels list\"] = data.channels.length !== null;\ntests[\"Peers list\"] = data.peers.length !== null;\n\ntests[\"Status code is 200\"] = responseCode.code === 200;",
 			"currentHelper": "normal",
 			"helperAttributes": {},
 			"time": 1424268180323,
