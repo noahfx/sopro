@@ -53,7 +53,7 @@ var channelsList_steps = module.exports = function(){
           }
         });
       } else {
-        next.fail(new Error("List of channels is no displayed"));
+        next.fail(new Error("List of channels is not displayed"));
       }
     });
   });
@@ -66,7 +66,7 @@ var channelsList_steps = module.exports = function(){
         if (isDisplayed) {
           next();
         } else {
-          next.fail(new Error("List of channels is no displayed"));
+          next.fail(new Error("List of channels is not displayed"));
         }
       });
     });
@@ -100,7 +100,7 @@ var channelsList_steps = module.exports = function(){
       if (isDisplayed) {
         next()
       } else {
-        next.fail(new Error("more channels is no displayed"));
+        next.fail(new Error("more channels is not displayed"));
       }
     });
   });
