@@ -120,3 +120,5 @@ tests/unit/mocha-unit.xml
 tests/gui/test-out.xml
 tests/api_client/test-out.xml
 tests/acceptance/test-out.xml
+tests/acceptance/report.json
+
