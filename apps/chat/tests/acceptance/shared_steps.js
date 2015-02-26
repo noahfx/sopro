@@ -9,11 +9,12 @@ module.exports = {
     },
   },
   viewingListOfChannels: {
-    regex: /^I am viewing a list of channels$/,
-    fn: function(next){
+    regex: /^I am viewing a (long )?list of channels$/,
+    fn: function(arg1, next){
+      var roleIndex = (arg1 == undefined)? 0: 1;
       browser.element(by.css('.role-selection')).click()
       .then(function () {
-        browser.element.all(by.repeater('role in roles')).get(0).click()
+        browser.element.all(by.repeater('role in roles')).get(roleIndex).click()
         .then(function () {
           var channels = browser.element.all(by.css('#collection-channels .channel-item'));
           channels.count()
@@ -60,10 +61,10 @@ module.exports = {
   roleChosen: {
     regex: /^I choose a( different)? role$/,
     fn: function (arg1, next) {
-      var roleIndex =
-      (arg1 == undefined)
-      ? 0
-      : 1
+        var roleIndex =
+        (arg1 == undefined)
+        ? 0
+        : 1
       browser.element(by.css('.role-selection')).click()
       .then(function () {
         browser.element.all(by.repeater('role in roles')).get(roleIndex).click()
