@@ -12,8 +12,6 @@ sleep 15
 # run protractor GUI tests
 sudo npm run cucumber
 
-cat ./tests/acceptance/report.json | ./node-modules/.bin/cucumber-junit > tests/acceptance/test-out.xml 
-
 # stop vertx
 pkill -n java
 
