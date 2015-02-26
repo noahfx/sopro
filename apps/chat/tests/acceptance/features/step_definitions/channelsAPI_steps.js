@@ -73,7 +73,7 @@ var channelsAPI_steps = module.exports = function(){
       if (response.channel.creator == this.roleID) {
         next();
       } else {
-        next.fail(new Error("Channel no created for role"));  
+        next.fail(new Error("No channel created for role"));  
       }
     } else {
       next.fail(new Error("Error in channel creation"));
