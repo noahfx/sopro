@@ -80,7 +80,7 @@ function checkChannelCardPresence (arg1, next){
     } else {
       channelCards
       .get(0)
-      .element(by.css('.card-content .title'))
+      .element(by.css('header .title'))
       .getText()
       .then(function(text){
         if(text !== CAM_MOCKS.newChannelName){
