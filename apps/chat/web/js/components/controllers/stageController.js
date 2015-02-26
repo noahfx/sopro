@@ -1,6 +1,8 @@
 var stageController = 
 angular.module('societyProChatApp.controller2',['ngMaterial'])
 .controller('stageController', ['$scope', '$http', function($scope,$http) {
+  $scope.stageCards = [];
+
   $scope.$on("createChannelClicked", function ($event) {
     console.log('Broadcast received');
     
@@ -28,11 +30,12 @@ angular.module('societyProChatApp.controller2',['ngMaterial'])
     }
 
     function insertCardElement(){
-      $('<md-card></md-card>')
+      $scope.stageCards.unshift({template:"web/partials/creation-card.html"});
+      /*$('<md-card></md-card>')
       .attr('id', 'card-create-channel')
       .addClass('creation-card')
       .text('Create Channel:')
-      .appendTo($('#main-stage'));
+      .appendTo($('#main-stage'));*/
     }
   });
 }]);

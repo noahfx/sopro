@@ -44,6 +44,7 @@
     </collection>
   </aside>
   <section flex layout="row" layout-wrap id="main-stage" ng-controller="stageController">
+    <ng-include flex="50"  ng-repeat="card in stageCards" src="card.template"></ng-include>
   </section>
 </div>
 </body>
