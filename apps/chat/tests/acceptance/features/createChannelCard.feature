@@ -25,11 +25,12 @@ Feature: Create a new channel card
       And the new channel should be POSTed via the API
 
   Scenario: cancelling the create channel form with the cancel button
-    Given I am viewing a channel creation card
+    Given there is an open "create channel" card on the main stage
     When I click the "cancel" button
     Then the channel creation card should close
 
   Scenario: cancelling the create channel form with the "X" icon button
-    Given I am viewing a channel creation card
+    Given there is an open "create channel" card on the main stage
     When I click the "X" icon button
-    Then the channel creation card should close
+    Then I should not see a channel creation card
+    And I should not see a channel card for that channel
