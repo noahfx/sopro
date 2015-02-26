@@ -102,24 +102,6 @@ var channelsList_steps = module.exports = function(){
     });
   });
 
-  this.Given(/^I am viewing a list of channels$/, function (next) {
-    browser.element(by.css('.role-selection')).click()
-    .then(function () {
-      browser.element.all(by.repeater('role in roles')).get(1).click()
-      .then(function () {
-        element.all(by.css('#collection-channels .channel-item'))
-        .count()
-        .then(function (count) {
-          if (count != 0) {
-            next()
-          } else {
-            next.fail(new Error("Channels are not being displayed"));
-          }
-        });
-      });
-    });
-  });
-
   this.When(/^I click "([^"]*)"$/, function (arg1, next) {
    browser.element(by.css(".sopro-more-channels")).click()
     .then(function () {
