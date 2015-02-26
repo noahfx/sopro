@@ -19,15 +19,24 @@ var clickAddChannelButton = function(next){
 
 
 function checkChannelCreationCardPresence (arg1, next) {
-  var cardExpected = 
+  var cardExpected =
   arg1 === undefined
   ? true
   : false;
+  var cardFound = undefined;
 
-  var channelCreationCard = element(by.css('#card-create-channel'));
-  channelCreationCard.isDisplayed()
-  .then(function(isDisplayed){
-    if(isDisplayed === cardExpected){
+  element.all(by.css('#card-create-channel'))
+  .count()
+  .then(function(length){
+    if(length === 0){
+      cardFound = false;
+    } else if(length === 1){
+      cardFound = true;
+    } else {
+      return next(new Error('Found more than one channel creation card'));
+    }
+
+    if(cardFound === cardExpected){
       return next();
     } else {
       if(!cardExpected){
@@ -94,11 +103,11 @@ function checkChannelCardPresence (arg1, next){
   this.Given(SSTEPS.viewingListOfChannels.regex, SSTEPS.viewingListOfChannels.fn);
 
 
-  this.When(/^I select "\+ Add Channel"$/, clickAddChannelButton)
+  this.When(/^I select "\+ Add Channel"$/,
+    clickAddChannelButton)
 
-
-
-  this.Then(/^I should( not)? see a channel creation card$/, checkChannelCreationCardPresence);
+  this.Then(/^I should( not)? see a channel creation card$/,
+    checkChannelCreationCardPresence);
 
   this.Then(/^the card should be in the number 1 position on the main stage$/, function(next){
     var firstCard = element(by.css('#main-stage #card-create-channel:first-child'));
@@ -122,9 +131,11 @@ function checkChannelCardPresence (arg1, next){
   this.Given(/^there is an open "create channel" card on the main stage$/,
     ensureChannelCreationCard);
 
-  this.When(/^I select "\+ Add Channel"$/, clickAddChannelButton)
+  this.When(/^I select "\+ Add Channel"$/,
+    clickAddChannelButton)
 
-  this.Then(/^I should( not)? see a channel creation card$/, checkChannelCreationCardPresence);
+  this.Then(/^I should( not)? see a channel creation card$/,
+    checkChannelCreationCardPresence);
 
 
 
@@ -164,20 +175,10 @@ function checkChannelCardPresence (arg1, next){
   });
 
 
-  this.Then(/^I should( not)? see a channel creation card$/, checkChannelCreationCardPresence);
-  this.Then(/^I should( not)? see a channel card for that channel$/, checkChannelCardPresence);
-
-/*
-  this.Then(/^the channel creation card should become a new channel history card$/, function(next){
-    next()
-  });
-*/
-
-  this.Then(/^the new channel should be POSTed via the API$/, function(next){
-
-    next()
-  });
-
+  this.Then(/^I should( not)? see a channel creation card$/,
+    checkChannelCreationCardPresence);
+  this.Then(/^I should( not)? see a channel card for that channel$/,
+    checkChannelCardPresence);
 
 
 /*
@@ -201,7 +202,38 @@ function checkChannelCardPresence (arg1, next){
     })
   });
 
-  this.Then(/^I should( not)? see a channel creation card$/, checkChannelCreationCardPresence);
-  this.Then(/^I should( not)? see a channel card for that channel$/, checkChannelCardPresence);
+  this.Then(/^I should( not)? see a channel creation card$/,
+    checkChannelCreationCardPresence);
+  this.Then(/^I should( not)? see a channel card for that channel$/,
+    checkChannelCardPresence);
+
+
+
+
+/*
+ *   Scenario: cancelling the create channel form with the "X" icon button
+ *
+ */
+  this.Given(/^there is an open "create channel" card on the main stage$/,
+    ensureChannelCreationCard);
+
+  this.When(/^I click the "X" icon button$/, function(next){
+    var cancel = element(by.css('#card-create-channel .cancel-button'));
+    cancel.isDisplayed()
+    .then(function(isDisplayed){
+      if(!isDisplayed){
+        return next(new Error('X button not found on create channel card'))
+      }
+      cancel.click()
+      .then(function(){
+        next();
+      })
+    })
+  });
+
+  this.Then(/^I should( not)? see a channel creation card$/,
+    checkChannelCreationCardPresence);
+  this.Then(/^I should( not)? see a channel card for that channel$/,
+    checkChannelCardPresence);
 
 }
