@@ -8,7 +8,7 @@ module.exports = function(){
 
   this.Given(SSTEPS.viewingListOfChannels.regex, SSTEPS.viewingListOfChannels.fn);
 
-  this.When(/^I select "\+ Add a channel"$/, function(next){
+  var clickAddChannelButton = function(next){
     var addChannelButton = element(by.css('#collection-channels-create'));
     addChannelButton.isDisplayed()
     .then(function(isDisplayed){
@@ -20,7 +20,9 @@ module.exports = function(){
         next();
       })
     })
-  });
+  }
+
+  this.When(/^I select "\+ Add Channel"$/, clickAddChannelButton)
 
   this.Then(/^I should see a channel creation card$/, function (next) {
     var channelCreationCard = element(by.css('#card-create-channel'));
@@ -49,5 +51,34 @@ module.exports = function(){
  * Scenario:
  * closing open create/add cards when "+ add a channel" is clicked
  */
+  this.Given(SSTEPS.viewingListOfChannels.regex, SSTEPS.viewingListOfChannels.fn);
+  this.Given(/^there is an open "create" card on the main stage$/, function(next){
+    var creationCard = element.all(by.css('#main-stage .creation-card'));
+    creationCard.count()
+    .then(function(count){
+      if(count === 0){
+        clickAddChannelButton(next)
+        //next(new Error('No creation cards found on main stage.'))
+      } else if (count > 1){
+        next(new Error('More than one creation cards found on main stage.'))
+      } else {
+        next();
+      }
+     })
+  });
+
+  this.When(/^I select "\+ Add Channel"$/, clickAddChannelButton)
+
+  this.Then(/^the open "create" card should close$/, function(next){
+    var creationCard = element.all(by.css('#main-stage .creation-card'));
+    creationCard.count()
+    .then(function(count){
+      if(count === 0){
+        next()
+      } else {
+        next(new Error('Creation card found on main stage.'));
+      }
+    })
+  });
 
 }

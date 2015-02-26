@@ -6,14 +6,14 @@ Feature: Create a new channel card
   Scenario: opening the channel creation card
     Given I have started the chatlog application
       And I am viewing a list of channels
-    When I select "+ Add a channel"
+    When I select "+ Add Channel"
     Then I should see a channel creation card
       And the card should be in the number 1 position on the main stage
 
   Scenario: closing open create/add cards when "+ add a channel" is clicked
     Given I am viewing a list of channels
       And there is an open "create" card on the main stage
-    When I click the  "+ Add a channel" button
+    When I select "+ Add Channel"
     Then the open "create" card should close
 
   Scenario: submiting the create channel form
