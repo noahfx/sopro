@@ -1,4 +1,5 @@
-var societyProChatControllers = angular.module('societyProChatApp.controllers',['ngMaterial'])
+var societyProChatControllers = 
+angular.module('societyProChatApp.controllers',['ngMaterial', 'societyProChatApp.controller2'])
 
 .controller('mainController',['$scope','$http',function($scope,$http) {
   var token = "12345";

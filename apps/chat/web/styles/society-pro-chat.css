@@ -111,6 +111,10 @@ collection {
   cursor: pointer;
 }
 
+.collection-create-link{
+  font-style: italic;
+}
+
 /* Channels Overflow */
 .sopro-channels-overflow {
   z-index: 200;

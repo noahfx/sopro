@@ -6,6 +6,7 @@
     <link rel="stylesheet" type="text/css" href="web/styles/dropdown-collections.css">
     <link rel="stylesheet" type="text/css" href="web/styles/society-pro-chat.css">
 
+    <script type="text/javascript" src="web/bower_components/jquery/dist/jquery.min.js"></script>
     <script src="web/bower_components/angular/angular.js"></script>
     <script type="text/javascript" src="web/bower_components/angular-aria/angular-aria.js"></script>
     <script type="text/javascript" src="web/bower_components/angular-animate/angular-animate.js"></script>
@@ -13,6 +14,7 @@
     <script src="web/js/components/global/global.js"></script>
     <script src="web/js/components/directives/directives.js"></script>
     <script src="web/js/components/controllers/mainController.js"></script>
+    <script src="web/js/components/controllers/stageController.js"></script>
     <script src="web/js/app.js"></script>
 </head>
 <body ng-controller="mainController" layout="column">
@@ -34,9 +36,15 @@
   </md-toolbar>
   <div class="sopro-main-content" flex layout="row">
   <aside id="sopro-channel-wrap" layout="column">
-    <collection id="collection-channels" title="CHANNELS" icon="web/images/icon-channels.png" repeater="channels"></collection>
-    <collection id="collection-peers" title="PEERS" icon="web/images/icon-peers.png" repeater="peers"></collection>
+    <collection id="collection-channels" title="CHANNELS" icon="web/images/icon-channels.png" repeater="channels">
+      <span id="collection-channels-create" class="collection-create-link">+ Add Channel</span>
+    </collection>
+    <collection id="collection-peers" title="PEERS" icon="web/images/icon-peers.png" repeater="peers">
+      <span id="collection-peers-create" class="collection-create-link">+ Add Peer</span>
+    </collection>
   </aside>
+  <section id="main-stage" ng-controller="stageController">
+  </section>
 </div>
 </body>
 </html>

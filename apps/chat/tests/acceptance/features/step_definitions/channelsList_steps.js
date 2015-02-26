@@ -4,10 +4,7 @@ var SSTEPS = require('../../shared_steps.js');
 
 var channelsList_steps = module.exports = function(){
 
-  this.Given(/^I have started the chatlog application$/, function (next) {
-    browser.get('/');
-    next();
-  });
+  this.Given(SSTEPS.appStarted.regex, SSTEPS.appStarted.fn)
 
   this.When(SSTEPS.roleChosen.regex, SSTEPS.roleChosen.fn);
 
