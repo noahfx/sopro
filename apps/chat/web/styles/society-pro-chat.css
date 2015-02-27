@@ -71,7 +71,7 @@ collection {
 #sopro-channel-wrap{
   background-color: white;
   width: 185px;
-  margin: 20px 16px;
+  margin: 20px 8px 20px 16px;
   border-radius: 2px;
   padding-bottom: 20px;
 }
@@ -126,12 +126,13 @@ collection {
 
 #main-stage {
   margin: 20px 16px 20px 0px;
+  background-color: inherit;
 }
 
 /*   Sopro Cards */
 .sopro-card {
   height: 270px;
-  margin: 0px;
+  margin: 0px 8px 8px 8px;
   background-color: white;
 }
 .sopro-card header{

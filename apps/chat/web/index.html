@@ -17,7 +17,7 @@
     <script src="web/js/components/controllers/stageController.js"></script>
     <script src="web/js/app.js"></script>
 </head>
-<body ng-controller="mainController" layout="column">
+<body ng-controller="mainController" layout="column" layout-fill>
   <md-toolbar layout="row">
       <span flex></span>
       <div class="role-selection" ng-click="showRoles=!showRoles" layout="row" layout-align="center center">
@@ -35,17 +35,17 @@
     </div>
   </md-toolbar>
   <div class="sopro-main-content" flex layout="row">
-  <aside id="sopro-channel-wrap" layout="column">
-    <collection id="collection-channels" title="CHANNELS" icon="web/images/icon-channels.png" repeater="channels">
-      <span id="collection-channels-create" class="collection-create-link">+ Add Channel</span>
-    </collection>
-    <collection id="collection-peers" title="PEERS" icon="web/images/icon-peers.png" repeater="peers">
-      <span id="collection-peers-create" class="collection-create-link">+ Add Peer</span>
-    </collection>
-  </aside>
-  <section flex layout="row" layout-wrap id="main-stage" ng-controller="stageController">
-    <ng-include flex="50" ng-repeat="(index, card) in stageCards" src="card.template"></ng-include>
-      </section>)
-</div>
+    <aside id="sopro-channel-wrap" layout="column">
+      <collection id="collection-channels" title="CHANNELS" icon="web/images/icon-channels.png" repeater="channels">
+        <span id="collection-channels-create" class="collection-create-link">+ Add Channel</span>
+      </collection>
+      <collection id="collection-peers" title="PEERS" icon="web/images/icon-peers.png" repeater="peers">
+        <span id="collection-peers-create" class="collection-create-link">+ Add Peer</span>
+      </collection>
+    </aside>
+    <md-content flex layout="row" layout-wrap id="main-stage" ng-controller="stageController">
+      <ng-include flex="50" ng-repeat="card in stageCards" src="card.template"></ng-include>
+    </md-content>
+  </div>
 </body>
 </html>

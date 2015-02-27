@@ -2,7 +2,7 @@ var societyProChatControllers =
 angular.module('societyProChatApp.controllers',['ngMaterial', 'societyProChatApp.controller2'])
 
 .controller('mainController',['$scope','$http',function($scope,$http) {
-  var token = "12345";
+  $scope.token = "12345";
 
   $scope.roles = [
     {
@@ -28,7 +28,7 @@ angular.module('societyProChatApp.controllers',['ngMaterial', 'societyProChatApp
         method: 'GET',
         url: '/channels',
         headers: {
-         'token-auth': token
+         'token-auth': $scope.token
         },
         params : {
           userID: role.id
