@@ -56,5 +56,15 @@ module.exports = CAM_MOCKS = {
         "name": "jhon"
       }
     ]
+  },
+  postChannel: {
+      "ok": true,
+      "channel": {
+          "id": "C024BE91L",
+          "creator": "U024BE7LH",
+          "members": [],
+          "topic": "Fun stuff",
+          "purpose": "just to have some fun"
+      }
   }
 }
