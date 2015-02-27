@@ -5,13 +5,13 @@ var eb = vertx.eventBus;
 // set CAM_MOCKS:
 load('tests/mock-data.js');
 
-console.log(JSON.stringify(CAM_MOCKS.postChannel, null, 2))
+//console.log(JSON.stringify(CAM_MOCKS.postChannelResponse, null, 2))
 
 var backend = {};
 backend.receive = {
   'token.authentication': tokenAuthentication,
   'get.channels': getChannels,
-  'channel.create': postChannel
+  'channel.create': postChannel,
 };
 
 for(topic in backend.receive){
@@ -42,7 +42,7 @@ function getChannels(msg, callback) {
 };
 
 function postChannel(msg, callback) {
-  var response = CAM_MOCKS.postChannel;
+  var response = CAM_MOCKS.postChannelResponse;
   var params = JSON.parse(msg);
   if (!params.name) {
     response = {"ok":false, "error":"no_channel"};

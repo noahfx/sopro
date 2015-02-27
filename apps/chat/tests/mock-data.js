@@ -58,14 +58,34 @@ module.exports = CAM_MOCKS = {
       }
     ]
   },
-  postChannel: {
-      "ok": true,
-      "channel": {
-          "id": "C024BE91L",
-          "creator": "U024BE7LH",
-          "members": [],
-          "topic": "Fun stuff",
-          "purpose": "just to have some fun"
-      }
+  channels3: {
+    "ok": true,
+    "channels": [
+      {"name": "general"},
+      {"name": "test"},
+      {"name": "devs"},
+      {"name": "random"},
+      {"name": "stuff"},
+      {"name": "channel2"}
+    ],
+    "peers": [
+      {"name": "Jimmy"},
+      {"name": "Mario"},
+      {"name": "jorge"},
+      {"name": "maria"},
+      {"name": "jhon"},
+      {"name": "peersito"}
+    ]
+},
+  postChannelResponse: {
+    "ok": true,
+    "channel": {
+      "id": "C024BE91L",
+      "name": "karmachannel",
+      "creator": "U024BE7LH",
+      "members": [],
+      "topic": "Fun stuff",
+      "purpose": "just to have some fun",
+    }
   }
 }

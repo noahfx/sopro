@@ -24,6 +24,9 @@ describe("Module societyProChatApp App", function () {
 
     it("has controllers module as a dependency", function() {
       expect(hasModule('societyProChatApp.controllers')).toEqual(true);
+      expect(hasModule('societyProChatApp.directives')).toEqual(true);
+      expect(hasModule('societyProChatApp.global')).toEqual(true);
+
     });
   });
 });
