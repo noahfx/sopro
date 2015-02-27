@@ -9,12 +9,9 @@ angular.module('societyProChatApp.controller2',['ngMaterial'])
     console.log('Broadcast received');
     
     // If there's an existing create channel card, toggle it off:
-    var createCardsPresent =
-      ($('.creation-card').length > 0)
-      ? true
-      : false;
+    var createCardsPresent = $scope.stageCards[0].creationCard;
     var createChannelPresent =
-      ($('#card-create-channel').length > 0)
+      ($scope.stageCards[0].type == "channel")
       ? true
       : false;
 
@@ -40,7 +37,7 @@ angular.module('societyProChatApp.controller2',['ngMaterial'])
   }
 
   function showCreateChannelCard(){
-    $scope.stageCards.unshift({type:"creationCard", object:"channel", template:"web/partials/creation-card.html"});
+    $scope.stageCards.unshift({creationCard:true, type:"channel", template:"web/partials/creation-card.html"});
   }
   function showChannelCard(data){
     $scope.stageCards.unshift(data);
@@ -54,6 +51,7 @@ angular.module('societyProChatApp.controller2',['ngMaterial'])
     if(i !== 0){throw new Error('Attempted to create a card from non-0 index');};
     if(!$scope.stageCards[i].creationTitle) {
       throw new Error('Missing title of channel');
+      return;
     }
     $http({
       method: 'POST',
@@ -75,7 +73,7 @@ angular.module('societyProChatApp.controller2',['ngMaterial'])
         var creationTitle = $scope.stageCards[i].creationTitle;
         var creationDesc = $scope.stageCards[i].creationDesc;
         hideCreationCard();
-        showChannelCard({type:"historyCard", template:"web/partials/channel-card.html", title: creationTitle, description: creationDesc});
+        showChannelCard({type:"channel", template:"web/partials/channel-card.html", title: creationTitle, description: creationDesc});
         // Remove the channel creation card to the stage:
       })
       .error(function(data, status, headers, config) {
