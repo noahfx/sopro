@@ -5,15 +5,12 @@ it('found the mocks', function(){
 })
 
 describe("societyProChat Controllers", function() {
-   var scope, rootscope, createController, httpBackend;
+  var scope, rootscope, createController, httpBackend;
 
   beforeEach(module("societyProChatApp"));
 
   beforeEach(inject(function ($rootScope, $controller, $httpBackend) {
       httpBackend = $httpBackend;
-      httpBackend.expect('GET', '/channels?userID=abc')
-        .respond(CAM_MOCKS.channels3);
-
       scope = $rootScope.$new();
       rootscope = $rootScope;
 
@@ -30,12 +27,17 @@ describe("societyProChat Controllers", function() {
   }));
 
 
-  afterEach(function() {
-      httpBackend.verifyNoOutstandingExpectation();
-      httpBackend.verifyNoOutstandingRequest();
-  });
 
   describe('main controller', function(){
+    beforeEach(function(){
+      httpBackend.expect('GET', '/channels?userID=abc')
+      .respond(CAM_MOCKS.channels3);
+    })
+    afterEach(function() {
+        httpBackend.verifyNoOutstandingExpectation();
+        httpBackend.verifyNoOutstandingRequest();
+    });
+
     it("has an array of roles", function () {
       var controller = createController();
       expect(scope.roles).not.toBeUndefined();
@@ -57,9 +59,9 @@ describe("societyProChat Controllers", function() {
 
   describe('stage controller', function(){
     beforeEach(function (){
-      httpBackend.expect('POST', '/channel?userID=abc&name=karmachannel')
-        .respond(CAM_MOCKS.postChannelResponse);
     });
+    afterEach(function(){
+    })
 
     it("has an array of staged cards", function () {
       var controller = createController('stageController');
@@ -68,12 +70,53 @@ describe("societyProChat Controllers", function() {
         .toEqual('[object Array]');
     });
 
-    it("creates a channel when it hears createChannelClicked event", function(){
-      createController('stageController');
-      scope.stageCards.push({creationTitle: "karmachannel"});
+    xit("creates a channel creation card when it hears createChannelClicked event", function(done){
+      //httpBackend.expect('POST', '/channel?userID=abc&name=karmachannel')
+        //.respond(CAM_MOCKS.postChannelResponse);
+      var controller = createController('stageController');
+      //scope.stageCards.push({creationTitle: "karmachannel"});
+
+
+      spyOn(scope, 'handleCreateChannelClicked');
       rootscope.$broadcast('createChannelClicked');
-      spyOn(scope, "$on");
-      expect(scope.$on).toHaveBeenCalled();
+      setTimeout(function(){
+        expect(scope.handleCreateChannelClicked).toHaveBeenCalled();
+        //httpBackend.verifyNoOutstandingExpectation();
+        //httpBackend.verifyNoOutstandingRequest();
+        done();
+      }, 3000)
+    })
+
+    it("creates a channel when Create is clicked", function(){
+      // Configure the stage in preparation to click Create:
+      httpBackend.expect('POST', '/channel?name=karmachannel&userID=abc')
+        .respond(CAM_MOCKS.postChannelResponse);
+      var controller = createController('stageController');
+      scope.currentRole = {
+        id: CAM_MOCKS.roleId1,
+      };
+      scope.stageCards.push({creationTitle: "karmachannel"});
+
+      // Click the Create button on the first card:
+      scope.createClicked(0);
+      httpBackend.flush();
+
+      // See if the first card is now a channel history card:
+      expect(scope.stageCards[0]).toEqual(
+        jasmine.objectContaining({
+          type: "channel",
+          title: "karmachannel",
+        })
+      );
+      expect(scope.stageCards[0]).not.toEqual(
+        jasmine.objectContaining({
+          creationCard: true,
+        })
+      );
+
+      httpBackend.verifyNoOutstandingExpectation();
+      httpBackend.verifyNoOutstandingRequest();
+
     })
 
   });

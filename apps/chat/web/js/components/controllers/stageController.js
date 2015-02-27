@@ -5,9 +5,13 @@ angular.module('societyProChatApp.controller2',['ngMaterial'])
   $scope.creationTitle = "";
   $scope.card = {};
 
-  $scope.$on("createChannelClicked", function ($event) {
+  $scope.handleCreateChannelClicked = function($event) {
     console.log('Broadcast received');
-    
+    // If there are no cards, add a create channel card:
+    if($scope.stageCards.length === 0){
+      return showCreateChannelCard();
+    }
+
     // If there's an existing create channel card, toggle it off:
     var createCardsPresent = $scope.stageCards[0].creationCard;
     var createChannelPresent =
@@ -28,7 +32,8 @@ angular.module('societyProChatApp.controller2',['ngMaterial'])
       showCreateChannelCard();
     }
 
-  });
+  };
+  $scope.$on("createChannelClicked", $scope.handleCreateChannelClicked);
 
   function hideCreationCard(){
     // Remove the first card from the stage.
