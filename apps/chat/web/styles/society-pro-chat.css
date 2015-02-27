@@ -132,7 +132,8 @@ collection {
 
 /*   Sopro Cards */
 .sopro-card {
-  height: 270px;
+  max-height: 270px;
+  min-height: 270px;
   margin: 0px 8px 8px 8px;
   background-color: white;
 }
