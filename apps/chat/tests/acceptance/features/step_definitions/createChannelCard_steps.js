@@ -174,10 +174,10 @@ function checkChannelCardPresence (arg1, next){
     });
   });
 
-
   this.Then(/^I should( not)? see a channel creation card$/,
     checkChannelCreationCardPresence);
-  this.Then(/^I should( not)? see a channel card for that channel$/,
+
+  this.Then(/^a channel should( not)? be created from the creation card$/, 
     checkChannelCardPresence);
 
 

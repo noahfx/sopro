@@ -41,36 +41,37 @@ routeMatcher.get('/channels', function(req) {
       });
     }
   });
-  routeMatcher.post('/channel', function(req) {
-    CAM.send.authenticate(req, function (err, data) {
-      if (err) {
-        req.response.end(err);
-      } else {
-        var roleID = "";
-        var name = "";
-        var topic = "";
-        var purpose = "";
-        //___________________________________________________
-        req.params().forEach(function(key, value) {
-          if (key == "userID") {roleID = value;console.log(roleID);}
-          else if (key == "name") name = value;
-          else if (key == "topic") topic = value;
-          else if (key == "purpose") purpose = value; 
-        });
-        if (!roleID) {
-          req.response.end('{"ok":false, "error":"No role id specified!"}');
-          return;
-        }
-        var params = {
-          roleID: roleID,
-          name: name,
-          topic: topic,
-          purpose: purpose 
-        }
-        eb.send("channel.create",JSON.stringify(params), function (reply) {
-          req.response.end(reply);
-        });
+});
+
+routeMatcher.post('/channel', function(req) {
+  CAM.send.authenticate(req, function (err, data) {
+    if (err) {
+      req.response.end(err);
+    } else {
+      var roleID = "";
+      var name = "";
+      var topic = "";
+      var purpose = "";
+      //___________________________________________________
+      req.params().forEach(function(key, value) {
+        if (key == "userID") {roleID = value;console.log(roleID);}
+        else if (key == "name") name = value;
+        else if (key == "topic") topic = value;
+        else if (key == "purpose") purpose = value; 
+      });
+      if (!roleID) {
+        req.response.end('{"ok":false, "error":"No role id specified!"}');
+        return;
       }
-    });
+      var params = {
+        roleID: roleID,
+        name: name,
+        topic: topic,
+        purpose: purpose 
+      }
+      eb.send("channel.create",JSON.stringify(params), function (reply) {
+        req.response.end(reply);
+      });
+    }
   });
 });
