@@ -13,7 +13,7 @@ var societyProChat = function () {
   this.collectionTitleChannels = element(by.css('#collection-channels .sopro-channel-title'));
 }
 
-describe('Channels list', function() {
+describe('Collections list', function() {
   browser.get('http://localhost:8080/');
   var chat = new societyProChat();
 
@@ -50,9 +50,18 @@ describe('Channels list', function() {
         expect(icon.getAttribute('src')).toMatch(/icon-channels.png$/);
       });
 
+      it('has a Add Channel link', function(){
+        expect(
+          element(by.css('#collection-channels .collection-create-link'))
+          .isDisplayed()
+        ).toBeTruthy();
+
+      });
+
       it('contains a list of channels', function(){
         expect(chat.channelsChannels.count()).toBeGreaterThan(0);
-      })
+      });
+
       describe('the first channel - ', function(){
         var first = chat.channelsChannels.first();
         it('has text "random"', function(){
