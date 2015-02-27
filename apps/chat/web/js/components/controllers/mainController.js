@@ -1,4 +1,5 @@
-var societyProChatControllers = angular.module('societyProChatApp.controllers',['ngMaterial'])
+var societyProChatControllers = 
+angular.module('societyProChatApp.controllers',['ngMaterial', 'societyProChatApp.controller2'])
 
 .controller('mainController',['$scope','$http',function($scope,$http) {
   var token = "12345";
@@ -18,7 +19,6 @@ var societyProChatControllers = angular.module('societyProChatApp.controllers',[
 
   $scope.channels = [];
   $scope.peers = [];
-  $scope.maxChannels = 2;
   $scope.currentRole = {};
 
   $scope.changeRole = function (role) {

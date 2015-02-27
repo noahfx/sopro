@@ -34,8 +34,8 @@ body{
 
 .sopro-ul-scroll{
     position: relative;
-    width: 180px; 
-    overflow-y: scroll;
+    width: 180px;
+    overflow-y: auto;
 }
 
 

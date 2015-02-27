@@ -4,10 +4,7 @@ var SSTEPS = require('../../shared_steps.js');
 
 var channelsList_steps = module.exports = function(){
 
-  this.Given(/^I have started the chatlog application$/, function (next) {
-    browser.get('/');
-    next();
-  });
+  this.Given(SSTEPS.appStarted.regex, SSTEPS.appStarted.fn)
 
   this.When(SSTEPS.roleChosen.regex, SSTEPS.roleChosen.fn);
 
@@ -23,8 +20,6 @@ var channelsList_steps = module.exports = function(){
           if (size == CAM_MOCKS.channels1.channels.length) {
             next();
           } else {
-            console.log('Found ', size)
-            console.log('Expected ', CAM_MOCKS.channels1.channels.length)
             next.fail(new Error("Wrong channels for role"));
           }
         });
@@ -55,7 +50,7 @@ var channelsList_steps = module.exports = function(){
           }
         });
       } else {
-        next.fail(new Error("List of channels is no displayed"));
+        next.fail(new Error("List of channels is not displayed"));
       }
     });
   });
@@ -68,7 +63,7 @@ var channelsList_steps = module.exports = function(){
         if (isDisplayed) {
           next();
         } else {
-          next.fail(new Error("List of channels is no displayed"));
+          next.fail(new Error("List of channels is not displayed"));
         }
       });
     });
@@ -88,7 +83,7 @@ var channelsList_steps = module.exports = function(){
     element.all(by.css('#collection-channels .channel-item'))
     .count()
     .then(function (count) {
-      if (count == 2) {
+      if (count == CAM_MOCKS.displayedChannelCount) {
           next();
         } else {
           next.fail(new Error("List of channels is bad displayed"));
@@ -102,26 +97,8 @@ var channelsList_steps = module.exports = function(){
       if (isDisplayed) {
         next()
       } else {
-        next.fail(new Error("more channels is no displayed"));
+        next.fail(new Error("more channels is not displayed"));
       }
-    });
-  });
-
-  this.Given(/^I am viewing a list of channels$/, function (next) {
-    browser.element(by.css('.role-selection')).click()
-    .then(function () {
-      browser.element.all(by.repeater('role in roles')).get(1).click()
-      .then(function () {
-        element.all(by.css('#collection-channels .channel-item'))
-        .count()
-        .then(function (count) {
-          if (count != 0) {
-            next()
-          } else {
-            next.fail(new Error("Channels are not being displayed"));
-          }
-        });
-      });
     });
   });
 

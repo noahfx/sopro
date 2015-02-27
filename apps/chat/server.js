@@ -17,7 +17,7 @@ load('eb-messengers.js');
 // ATM our server does not have any message handlers at all; all communication with the EB is req/rep from eb-messengers.js.
 //load('eb-handlers.js');
 
-server.listen(8080, "localhost", function(err) {
+server.listen(8080, "0.0.0.0", function(err) {
   if (!err) {
     console.log("Listen succeeded!");
   } else { 

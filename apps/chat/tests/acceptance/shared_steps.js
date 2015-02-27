@@ -1,6 +1,34 @@
 var CAM_MOCKS = require('../mock-data.js');
 
 module.exports = {
+  appStarted: {
+    regex: /^I have started the chatlog application$/,
+    fn: function (next) {
+      browser.get('/');
+      next();
+    },
+  },
+  viewingListOfChannels: {
+    regex: /^I am viewing a (long )?list of channels$/,
+    fn: function(arg1, next){
+      var roleIndex = (arg1 == undefined)? 0: 1;
+      browser.element(by.css('.role-selection')).click()
+      .then(function () {
+        browser.element.all(by.repeater('role in roles')).get(roleIndex).click()
+        .then(function () {
+          var channels = browser.element.all(by.css('#collection-channels .channel-item'));
+          channels.count()
+          .then(function (count) {
+            if (count >= 2) {
+              next();
+            } else {
+              next.fail(new Error("Less than two Channels displayed"));
+            }
+          })
+        });
+      });
+    }
+  },
   roleHasPeers: {
     regex: /^a specific role has peers$/,
     fn: function (next) {
@@ -33,10 +61,10 @@ module.exports = {
   roleChosen: {
     regex: /^I choose a( different)? role$/,
     fn: function (arg1, next) {
-      var roleIndex =
-      (arg1 == undefined)
-      ? 0
-      : 1
+        var roleIndex =
+        (arg1 == undefined)
+        ? 0
+        : 1
       browser.element(by.css('.role-selection')).click()
       .then(function () {
         browser.element.all(by.repeater('role in roles')).get(roleIndex).click()
@@ -45,5 +73,5 @@ module.exports = {
         });
       });
     },
-  }
+  },
 }

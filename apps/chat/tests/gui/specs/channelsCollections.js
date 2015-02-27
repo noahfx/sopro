@@ -1,3 +1,5 @@
+var CAM_MOCKS = require('../../mock-data.js');
+
 var societyProChat = function () {
   this.channelCollections = element.all(by.css('.channel-collection'))
   this.channelsChannels = element.all(by.css('#collection-channels .channel-item'));
@@ -82,7 +84,7 @@ describe('Channels list', function() {
         it('has a "+X more..." button if there are more channels than the limit', function () {
           chat.currentRole.click();
           chat.roles.get(1).click();
-          expect(chat.channelsChannels.count()).toEqual(2);
+          expect(chat.channelsChannels.count()).toEqual(CAM_MOCKS.displayedChannelCount);
           expect(chat.collectionChannelsMore.isDisplayed()).toBeTruthy();
           expect(chat.collectionChannelsMore.getText()).toEqual("+1 more...");
         });
@@ -94,10 +96,10 @@ describe('Channels list', function() {
         it("open an overflow with all the channels listed", function () {
           chat.currentRole.click();
           chat.roles.get(1).click();
-          expect(chat.channelsChannels.count()).toEqual(2);
+          expect(chat.channelsChannels.count()).toEqual(CAM_MOCKS.displayedChannelCount);
           expect(chat.collectionChannelsMore.isDisplayed()).toBeTruthy();
           chat.collectionChannelsMore.click();
-          expect(chat.collectionChannelsOverflow.count()).toEqual(3);
+          expect(chat.collectionChannelsOverflow.count()).toEqual(CAM_MOCKS.channels2.channels.length);
         });
       });
 
