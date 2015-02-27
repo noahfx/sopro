@@ -7,7 +7,7 @@ angular.module('societyProChatApp.directives',[
     transclude: true,
     restrict: 'E',
     scope: {
-      title: '@',
+      title: '@channelTitle',
       icon: '@',
       repeater: '=',
     },
