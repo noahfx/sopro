@@ -5,8 +5,6 @@ var eb = vertx.eventBus;
 // set CAM_MOCKS:
 load('tests/mock-data.js');
 
-//console.log(JSON.stringify(CAM_MOCKS.postChannelResponse, null, 2))
-
 var backend = {};
 backend.receive = {
   'token.authentication': tokenAuthentication,

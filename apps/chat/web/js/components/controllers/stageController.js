@@ -6,7 +6,6 @@ angular.module('societyProChatApp.controller2',['ngMaterial'])
   $scope.card = {};
 
   $scope.handleCreateChannelClicked = function($event) {
-    console.log('Broadcast received');
     // If there are no cards, add a create channel card:
     if($scope.stageCards.length === 0){
       return showCreateChannelCard();
