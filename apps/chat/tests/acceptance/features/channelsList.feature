@@ -15,7 +15,7 @@ Feature: Channels list
     Then the list of channels for that role should update automatically
 
   Scenario: truncating the list of channels
-    Given I am viewing a list of channels for a role
+    Given I am viewing a long list of channels
     When the number of channels exceeds a pre-defined number
     Then the list of channels is truncated at the pre-defined number
-      And the remainder is displayed as "+ N more"
+      And the hidden channel count is displayed as "+N more"
