@@ -21,7 +21,7 @@ var channelsList_steps = module.exports = function(){
       if (isDisplayed) {
         channelsRepeater.count()
         .then(function (size) {
-          if (size == CAM_MOCKS.channels1.channels.length) {
+          if (size == CAM_MOCKS.getChannelsResponse1.channels.length) {
             next();
           } else {
             next.fail(new Error("Wrong channels for role"));
@@ -56,7 +56,7 @@ var channelsList_steps = module.exports = function(){
         channelsRepeater
         .get(0).getText()
         .then(function (text) {
-          if (text == CAM_MOCKS.channels2.channels[0].name) {
+          if (text == CAM_MOCKS.getChannelsResponse2.channels[0].name) {
             next();
           } else {
             next.fail(new Error("Wrong channels for role"));
@@ -76,7 +76,7 @@ var channelsList_steps = module.exports = function(){
     SSTEPS.viewingListOfChannels.fn)
 
   this.When(/^the number of channels exceeds a pre\-defined number$/, function (next) {
-    var rolesChannels = CAM_MOCKS.channels2.channels;
+    var rolesChannels = CAM_MOCKS.getChannelsResponse2.channels;
     if(rolesChannels.length > CAM_MOCKS.displayedChannelCount){
       return next();
     } else {
@@ -108,7 +108,7 @@ var channelsList_steps = module.exports = function(){
       element.all(by.css('#collection-channels .channel-item'))
       .count()
       .then(function (count) {
-        var rolesChannels = CAM_MOCKS.channels2.channels;
+        var rolesChannels = CAM_MOCKS.getChannelsResponse2.channels;
         var difference = rolesChannels.length - count;
         browser.element(by.css("#collection-channels .sopro-more-channels"))
         .getText()

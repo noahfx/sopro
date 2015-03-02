@@ -1,13 +1,15 @@
 var CAM_MOCKS = require('../../../mock-data.js');
+var SA_STEPS = require('../../sharedAPI_steps.js');
+
 var channelsAPI_steps = module.exports = function(){
 
-  this.Given(/^I have a valid authentication token$/, function (next) {
-    this.token = CAM_MOCKS.validToken;
-    next();
-  });
+
+  this.Given(SA_STEPS.haveValidAuthToken.regex,
+    SA_STEPS.haveValidAuthToken.fn)
+
 
   this.When(/^I make the correct GET request to the API server with a role id$/, function (next) {
-    this.roleID = CAM_MOCKS.roleId1;
+    //this.roleID = CAM_MOCKS.roleId1;
     next();
   })
 
@@ -16,9 +18,9 @@ var channelsAPI_steps = module.exports = function(){
     var req = http.request({
       port: 8080,
       method: "GET",
-      path: "/channels?userID="+this.roleID,
+      path: "/channels?userID="+CAM_MOCKS.roleId1,
       headers: {
-        'token-auth': this.token
+        'token-auth': CAM_MOCKS.validToken,
       }
     }, function (res) {
       res.on('data', function (chunk) {
@@ -41,20 +43,20 @@ var channelsAPI_steps = module.exports = function(){
   //*********************POST CHANNEL*************************************
   this.When(/^I make the correct POST request to the API server$/, function (next) {
   // Write code here that turns the phrase above into concrete actions
-    this.roleID = CAM_MOCKS.roleId1;
     var self = this;
+    this.postChannels = {}
     var http = require('http');
     var req = http.request({
       port: 8080,
       method: "POST",
-      path: "/channel?userID="+this.roleID+"&name=fun",
+      path: "/channel?userID="+CAM_MOCKS.roleId1+"&name=fun",
       headers: {
-        'token-auth': this.token
+        'token-auth': CAM_MOCKS.validToken,
       }
     }, function (res) {
       res.on('data', function (chunk) {
         var response = JSON.parse(chunk);
-        self.response = response;
+        self.postChannelsResponse = response;
         next();
       });
     });
@@ -68,12 +70,12 @@ var channelsAPI_steps = module.exports = function(){
 
   this.Then(/^a channel should be created for the role specified$/, function (next) {
   // Write code here that turns the phrase above into concrete actions
-    var response = this.response;
+    var response = this.postChannelsResponse;
     if (response.ok && response.channel != undefined) {
-      if (response.channel.creator == this.roleID) {
+      if (response.channel.creator == CAM_MOCKS.roleId1) {
         next();
       } else {
-        next.fail(new Error("No channel created for role"));  
+        next.fail(new Error("No channel created for role"));
       }
     } else {
       next.fail(new Error("Error in channel creation"));
@@ -81,14 +83,12 @@ var channelsAPI_steps = module.exports = function(){
   });
 
   this.Then(/^a channel creation message should be placed on the event bus$/, function (next) {
-  // Write code here that turns the phrase above into concrete actions
-    next();
+    next.pending();
   });
 
   this.Then(/^the specified role should be subscribed to the channel$/, function (next) {
-  // Write code here that turns the phrase above into concrete actions
     var response = this.response;
-    if (response.channel.members[0] === this.roleID) {
+    if (response.channel.members[0] === CAM_MOCKS.roleId1) {
       next();
     } else {
       next.fail(new Error("Role not subscribed"));

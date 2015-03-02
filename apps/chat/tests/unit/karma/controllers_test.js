@@ -31,7 +31,7 @@ describe("societyProChat Controllers", function() {
   describe('main controller', function(){
     beforeEach(function(){
       httpBackend.expect('GET', '/channels?userID=abc')
-      .respond(CAM_MOCKS.channels3);
+      .respond(CAM_MOCKS.getChannelsResponse1);
     })
     afterEach(function() {
         httpBackend.verifyNoOutstandingExpectation();
