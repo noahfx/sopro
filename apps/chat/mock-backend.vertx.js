@@ -9,7 +9,8 @@ var backend = {};
 backend.receive = {
   'token.authentication': tokenAuthentication,
   'get.channels': getChannels,
-  'channel.create': postChannel,
+  'channel.create': postChannel
+
 };
 
 for(topic in backend.receive){
@@ -32,7 +33,7 @@ function tokenAuthentication(token, callback) {
 function getChannels(msg, callback) {
   var channels = {};
   if (msg == CAM_MOCKS.roleId1) {
-    channels = CAM_MOCKS.channels1;
+    channels = CAM_MOCKS.getChannelsResponse1;
   } else if (msg == CAM_MOCKS.roleId2) {
     channels = CAM_MOCKS.channels2;
   }
@@ -53,3 +54,23 @@ function postChannel(msg, callback) {
   }
   callback(JSON.stringify(response));
 };
+
+eb.registerHandler('user.'+CAM_MOCKS.roleId1+'.invites.channels', function (msg, callback) {
+  var params = JSON.parse(msg);
+  if (params.user == CAM_MOCKS.roleId1) {
+    callback(JSON.stringify({ok:false,error:"cant_invite_self"}));  
+    return;
+  }
+  var response = CAM_MOCKS.postChannelResponse;
+  callback(JSON.stringify(response));
+});
+
+eb.registerHandler('user.'+CAM_MOCKS.userId1+'.invites.channels', function (msg, callback) {
+  var params = JSON.parse(msg);
+  if (params.user == CAM_MOCKS.roleId2) {
+    callback(JSON.stringify({ok:false,error:"not_in_channel"}));  
+    return;
+  }
+  var response = CAM_MOCKS.postChannelResponse;
+  callback(JSON.stringify(response));
+});

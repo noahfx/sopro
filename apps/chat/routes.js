@@ -75,3 +75,41 @@ routeMatcher.post('/channel', function(req) {
     }
   });
 });
+
+routeMatcher.post('/channels.invite', function(req) {
+  CAM.send.authenticate(req, function (err, data) {
+    if (err) {
+      req.response.end(err);
+    } else {
+      var roleID = "";
+      var name = "";
+      var topic = "";
+      var purpose = "";
+      //___________________________________________________
+      req.params().forEach(function(key, value) {
+        if (key == "user") user = value;
+        else if (key == "role") role = value;
+        else if (key == "channel") channel = value; 
+      });
+      if (!role) {
+        req.response.end('{"ok":false, "error":"role_not_found"}');
+        return;
+      }
+      if (!user) {
+        req.response.end('{"ok":false, "error":"user_not_found"}');
+        return;
+      }
+      if (!channel) {
+        req.response.end('{"ok":false, "error":"channel_not_found"}');
+        return;
+      }
+      var params = {
+        user: role,
+        channel: channel 
+      }
+      eb.send("user."+user+".invites.channels",JSON.stringify(params), function (reply) {
+        req.response.end(reply);
+      });
+    }
+  });
+});
