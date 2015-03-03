@@ -105,10 +105,13 @@ describe('Collections list', function() {
         it("open an overflow with all the channels listed", function () {
           chat.currentRole.click();
           chat.roles.get(1).click();
-          expect(chat.channelsChannels.count()).toEqual(CAM_MOCKS.displayedChannelCount);
-          expect(chat.collectionChannelsMore.isDisplayed()).toBeTruthy();
+          expect(chat.channelsChannels.count())
+            .toEqual(CAM_MOCKS.displayedChannelCount);
+          expect(chat.collectionChannelsMore.isDisplayed())
+            .toBeTruthy();
           chat.collectionChannelsMore.click();
-          expect(chat.collectionChannelsOverflow.count()).toEqual(CAM_MOCKS.channels2.channels.length);
+          expect(chat.collectionChannelsOverflow.count())
+            .toEqual(CAM_MOCKS.getChannelsResponse2.channels.length);
         });
       });
 

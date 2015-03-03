@@ -10,13 +10,13 @@ backend.receive = {
   'token.authentication': tokenAuthentication,
   'get.channels': getChannels,
   'channel.create': postChannel,
+  'channel.info': getChannelInfo,
 };
 
 for(topic in backend.receive){
   if(!backend.receive.hasOwnProperty(topic)){
     continue;
   }
-  console.log('Registering topic: '+topic);
   eb.registerHandler(topic, backend.receive[topic]);
 }
 
@@ -32,12 +32,33 @@ function tokenAuthentication(token, callback) {
 function getChannels(msg, callback) {
   var channels = {};
   if (msg == CAM_MOCKS.roleId1) {
-    channels = CAM_MOCKS.channels1;
+    channels = CAM_MOCKS.getChannelsResponse1;
   } else if (msg == CAM_MOCKS.roleId2) {
-    channels = CAM_MOCKS.channels2;
+    channels = CAM_MOCKS.getChannelsResponse2;
   }
   callback(JSON.stringify(channels));
 };
+
+function getChannelInfo(msg, callback){
+  tokenAuthentication(msg.token, function(valid){
+    if(!valid){
+      return callback({ok: false, error: "Invalid token"});
+    }
+    var userid = msg.from_role;
+    //var channel = findChannel(msg.payload.channel)
+    var userFound = false;
+    CAM_MOCKS.getChannelInfoResponse.channel.members.forEach(function(member){
+      if(member.id === userid){
+        userFound = true;
+      }
+    })
+    if(!userFound){
+      return callback({ok: false, error: "You are not a member of this channel"})
+    }
+    // Failure cases accounted for. Send back the info:
+    return callback(CAM_MOCKS.getChannelInfoResponse);
+  })
+}
 
 function postChannel(msg, callback) {
   var response = CAM_MOCKS.postChannelResponse;
