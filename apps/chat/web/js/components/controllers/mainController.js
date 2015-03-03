@@ -26,12 +26,12 @@ angular.module('societyProChatApp.controllers',['ngMaterial', 'societyProChatApp
 
       $http({
         method: 'GET',
-        url: '/channels',
+        url: '/api/channels',
         headers: {
          'token-auth': $scope.token
         },
         params : {
-          userID: role.id
+          role: role.id
         }
       })
         .success(function(data, status, headers, config) {

@@ -16,9 +16,9 @@ var peersCollection_steps = module.exports = function(){
     var req = http.request({
       port: 8080,
       method: "POST",
-      path: "/channels.invite?role="+this.roleSubscribed+"&channel="+this.channel+"&user="+this.userToSubscribe,
+      path: "/api/channels.invite?role="+this.roleSubscribed+"&channel="+this.channel+"&user="+this.userToSubscribe,
       headers: {
-        'token-auth': this.token
+        'token-auth': CAM_MOCKS.validToken
       }
     }, function (res) {
       res.on('data', function (chunk) {

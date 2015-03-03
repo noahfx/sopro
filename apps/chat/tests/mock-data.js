@@ -2,9 +2,10 @@ module.exports = CAM_MOCKS = {
   validToken: "12345",
   roleId1: "abc",
   roleId2: "xyz",
+  userId1: "qwerty",
   displayedChannelCount: 2,
   newChannelName: "a name for the channel",
-  channels1: {
+  getChannelsResponse1: {
     "ok": true,
     "channels": [
       {
@@ -27,7 +28,7 @@ module.exports = CAM_MOCKS = {
       }
     ]
   },
-  channels2: {
+  getChannelsResponse2: {
     "ok": true,
     "channels": [
       {
@@ -58,32 +59,38 @@ module.exports = CAM_MOCKS = {
       }
     ]
   },
-  channels3: {
-    "ok": true,
-    "channels": [
-      {"name": "general"},
-      {"name": "test"},
-      {"name": "devs"},
-      {"name": "random"},
-      {"name": "stuff"},
-      {"name": "channel2"}
-    ],
-    "peers": [
-      {"name": "Jimmy"},
-      {"name": "Mario"},
-      {"name": "jorge"},
-      {"name": "maria"},
-      {"name": "jhon"},
-      {"name": "peersito"}
-    ]
-},
   postChannelResponse: {
     "ok": true,
     "channel": {
       "id": "C024BE91L",
       "name": "karmachannel",
       "creator": "U024BE7LH",
-      "members": [],
+      "members": [
+        {
+          "id": "abc",
+          "name": "davis"
+        },
+      ],
+      "topic": "Fun stuff",
+      "purpose": "just to have some fun",
+    }
+  },
+  getChannelInfoResponse: {
+    "ok": true,
+    "channel": {
+      "id": "C024BE91L",
+      "name": "karmachannel",
+      "creator": "U024BE7LH",
+      "members": [
+        {
+          "id": "abc",
+          "name": "davis"
+        },
+        {
+          "id": "C024BE91L",
+          "name": "jhon"
+        },
+      ],
       "topic": "Fun stuff",
       "purpose": "just to have some fun",
     }
