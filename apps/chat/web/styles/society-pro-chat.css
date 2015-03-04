@@ -1,3 +1,7 @@
+body {
+  background: #E9ECF2;
+}
+
 /*  TOOLBAR  */
 
 body > md-toolbar {
@@ -59,7 +63,7 @@ body > md-toolbar {
 
 /* MAIN CONTENT*/
 .sopro-main-content{
-  background: #E9ECF2;
+  margin: 20px 16px;
 }
 
 collection {
@@ -71,7 +75,7 @@ collection {
 #sopro-channel-wrap{
   background-color: white;
   width: 185px;
-  margin: 20px 8px 20px 16px;
+  margin-right: 8px;
   border-radius: 2px;
   padding-bottom: 20px;
 }
@@ -125,7 +129,6 @@ collection {
 }
 
 #main-stage {
-  margin: 20px 16px 20px 0px;
   background-color: inherit;
 }
 
@@ -135,6 +138,7 @@ collection {
   min-height: 270px;
   margin: 0px 8px 8px 8px;
   background-color: white;
+  box-shadow: none;
 }
 .sopro-card header{
   height: 50px;
@@ -144,6 +148,8 @@ collection {
   margin: 15px 16px;
   font-size: 18px;
   font-weight: bold;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 .sopro-card header .x-button{
   margin: 15px 16px;
@@ -159,6 +165,7 @@ collection {
    border: 1px solid #eaedf1; 
    border-radius: 2px; 
    padding: 14px 10px; 
+   margin-top: 3px;
 }
 .sopro-card .card-content .channel-description {
   height: 80px;
