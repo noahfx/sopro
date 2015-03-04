@@ -2,7 +2,8 @@ module.exports = CAM_MOCKS = {
   validToken: "12345",
   roleId1: "abc",
   roleId2: "xyz",
-  userId1: "qwerty",
+  nonsubscribedPeerId: "qwerty",
+  subscribedPeerId: "C024BE91L",
   displayedChannelCount: 2,
   newChannelName: "a name for the channel",
   getChannelsResponse1: {

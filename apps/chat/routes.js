@@ -48,7 +48,7 @@ routeMatcher.get('/api/channels', function(req) {
   var role = meta.qs['role'];
   var token = meta.headers['token-auth'];
   var params = {
-    from_role: role,
+    requester: role,
     token: token,
     payload: {
       role: role
@@ -81,7 +81,7 @@ routeMatcher.post('/api/channel', function(req) {
   var purpose = meta.qs['purpose'];
   var token = meta.headers['token-auth'];
   var params = {
-    from_role: role,
+    requester: role,
     token: token,
     payload: {
       role: role,
@@ -120,10 +120,10 @@ routeMatcher.post('/api/channels.invite', function(req) {
   var channel = meta.qs['channel'];
   var token = meta.headers['token-auth'];
   var params = {
-    from_role: role,
+    requester: role,
     token: token,
     payload: {
-      user: role,
+      user: user,
       channel: channel,
     }
   }
@@ -149,7 +149,7 @@ routeMatcher.get('/api/channel.info', function(req) {
     );
   }
   var params = {
-      from_role: meta.qs['role'],
+      requester: meta.qs['role'],
       token: meta.headers['token-auth'],
       payload: {
         channel: meta.qs['channel'],
