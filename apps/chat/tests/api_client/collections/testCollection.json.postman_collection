@@ -16,7 +16,9 @@
 				"d3ad53fe-c560-265b-9367-8acf677f58c2"
 			],
 			"collection_name": "ChannelAPI",
-			"collection_id": "59982276-2b5a-4627-daaf-e47ede4dd1f2"
+			"collection_id": "59982276-2b5a-4627-daaf-e47ede4dd1f2",
+			"collection_owner": "",
+			"write": true
 		},
 		{
 			"id": "2bedefdc-449d-ab73-304a-2af70d6b11cc",
@@ -30,10 +32,13 @@
 				"037e386f-9aa8-73b6-a6c0-4655a4669b2d",
 				"3cb19d19-6770-3d58-8845-7c864b110990",
 				"93cd91e9-90c7-c7a6-5528-be1db5e36dd7",
-				"6dde07f7-145c-e9b9-0917-722fecb27fe5"
+				"6dde07f7-145c-e9b9-0917-722fecb27fe5",
+				"c3b5c6d6-29cb-adee-dbc3-efa3c67f467f"
 			],
 			"collection_name": "ChannelAPI",
-			"collection_id": "59982276-2b5a-4627-daaf-e47ede4dd1f2"
+			"collection_id": "59982276-2b5a-4627-daaf-e47ede4dd1f2",
+			"collection_owner": "",
+			"write": true
 		},
 		{
 			"id": "f7ba6c4e-21ab-5746-ad57-5d64a8a881e1",
@@ -42,10 +47,13 @@
 			"order": [
 				"168ff629-01d2-77f5-89c6-7814367f459b",
 				"a0c67bd9-b979-ea10-25e6-6d398eebc906",
-				"2e3c67ef-0f6a-b824-fbb5-d86e588315d5"
+				"2e3c67ef-0f6a-b824-fbb5-d86e588315d5",
+				"e6250ac4-7789-d5d4-f9fa-003f99d82ae1"
 			],
 			"collection_name": "ChannelAPI",
-			"collection_id": "59982276-2b5a-4627-daaf-e47ede4dd1f2"
+			"collection_id": "59982276-2b5a-4627-daaf-e47ede4dd1f2",
+			"collection_owner": "",
+			"write": true
 		},
 		{
 			"id": "0bf1296d-9e1f-76b7-3822-8b45c5172032",
@@ -58,12 +66,18 @@
 				"d1d9b3bf-afcd-c989-3f3b-84cce90dd61e"
 			],
 			"collection_name": "ChannelAPI",
-			"collection_id": "59982276-2b5a-4627-daaf-e47ede4dd1f2"
+			"collection_id": "59982276-2b5a-4627-daaf-e47ede4dd1f2",
+			"collection_owner": "",
+			"write": true
 		}
 	],
 	"timestamp": 1423585182565,
 	"synced": false,
+	"owner": "",
+	"subscribed": false,
 	"remoteLink": "",
+	"public": false,
+	"write": true,
 	"requests": [
 		{
 			"id": "037e386f-9aa8-73b6-a6c0-4655a4669b2d",
@@ -208,7 +222,7 @@
 		{
 			"id": "6dde07f7-145c-e9b9-0917-722fecb27fe5",
 			"headers": "token-auth: 12345\n",
-			"url": "http://localhost:8080/api/channels.invite?role=abc&user=abc&channel=C024BE91L",
+			"url": "http://localhost:8080/api/channels.invite?role=qwerty&user=qwerty&channel=C024BE91L",
 			"preRequestScript": "",
 			"pathVariables": {},
 			"method": "POST",
@@ -218,8 +232,8 @@
 			"tests": "var data = JSON.parse(responseBody);\ntests[\"Check ok field\"] = data.ok === false;\n\ntests[\"Error Message\"] = data.error === \"cant_invite_self\";\n",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1425409181351,
-			"name": "POST Channel Invite to unsubscribed channel copy",
+			"time": 1425489820457,
+			"name": "POST Channel Invite to oneself",
 			"description": "",
 			"collectionId": "59982276-2b5a-4627-daaf-e47ede4dd1f2",
 			"responses": [],
@@ -240,26 +254,6 @@
 			"helperAttributes": {},
 			"time": 1425406457032,
 			"name": "POST Channel Invite",
-			"description": "",
-			"collectionId": "59982276-2b5a-4627-daaf-e47ede4dd1f2",
-			"responses": [],
-			"synced": false
-		},
-		{
-			"id": "7e1d6286-1c46-652f-5bf9-b6d4a065bbb2",
-			"headers": "token-auth: 12345\n",
-			"url": "http://localhost:8080/channels.invite?role=abc&user=qwerty&channel=C024BEg45",
-			"preRequestScript": "",
-			"pathVariables": {},
-			"method": "POST",
-			"data": [],
-			"dataMode": "params",
-			"version": 2,
-			"tests": "var data = JSON.parse(responseBody);\ntests[\"Check ok field\"] = data.ok === true;\n\ntests[\"Channel object defined\"] = data.channel !== undefined;\n\ntests[\"Status code is 200\"] = responseCode.code === 200;",
-			"currentHelper": "normal",
-			"helperAttributes": {},
-			"time": 1425327582049,
-			"name": "POST Channel Invite copy",
 			"description": "",
 			"collectionId": "59982276-2b5a-4627-daaf-e47ede4dd1f2",
 			"responses": [],
@@ -387,20 +381,20 @@
 			"synced": false
 		},
 		{
-			"id": "c61c0b81-6def-99dc-62c6-bf68c9dc1930",
+			"id": "c3b5c6d6-29cb-adee-dbc3-efa3c67f467f",
 			"headers": "token-auth: 12345\n",
-			"url": "http://localhost:8080/channels.invite?role=abc&user=qwerty&channel=C024BEg45",
+			"url": "http://localhost:8080/api/channels.invite?role=abc&user=uiop&channel=C024BE91L",
 			"preRequestScript": "",
 			"pathVariables": {},
 			"method": "POST",
 			"data": [],
 			"dataMode": "params",
 			"version": 2,
-			"tests": "var data = JSON.parse(responseBody);\ntests[\"Check ok field\"] = data.ok === true;\n\ntests[\"Channel object defined\"] = data.channel !== undefined;\n\ntests[\"Status code is 200\"] = responseCode.code === 200;",
+			"tests": "var data = JSON.parse(responseBody);\ntests[\"Check ok field\"] = data.ok === false;\n\ntests[\"Error Message\"] = data.error === \"already_in_channel\";\n",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1425327705628,
-			"name": "POST Channel Invite",
+			"time": 1425489989376,
+			"name": "POST Channel Invite to one already subscribed",
 			"description": "",
 			"collectionId": "59982276-2b5a-4627-daaf-e47ede4dd1f2",
 			"responses": [],
@@ -501,6 +495,26 @@
 			"helperAttributes": {},
 			"time": 1425410044634,
 			"name": "GET Channel Info with invalid token",
+			"description": "",
+			"collectionId": "59982276-2b5a-4627-daaf-e47ede4dd1f2",
+			"responses": [],
+			"synced": false
+		},
+		{
+			"id": "e6250ac4-7789-d5d4-f9fa-003f99d82ae1",
+			"headers": "token-auth: 123456789\n",
+			"url": "http://localhost:8080/api/channels?role=qwerty",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "GET",
+			"data": [],
+			"dataMode": "params",
+			"version": 2,
+			"tests": "var data = JSON.parse(responseBody);\ntests[\"Check ok field\"] = data.ok === false;\n\ntests[\"Error Message\"] = data.error === \"invalid_auth\";\n",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1425491334505,
+			"name": "Get Channels with invalid role",
 			"description": "",
 			"collectionId": "59982276-2b5a-4627-daaf-e47ede4dd1f2",
 			"responses": [],

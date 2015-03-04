@@ -3,7 +3,7 @@ module.exports = CAM_MOCKS = {
   roleId1: "abc",
   roleId2: "xyz",
   nonsubscribedPeerId: "qwerty",
-  subscribedPeerId: "C024BE91L",
+  subscribedPeerId: "uiop",
   displayedChannelCount: 2,
   newChannelName: "a name for the channel",
   getChannelsResponse1: {
@@ -88,7 +88,7 @@ module.exports = CAM_MOCKS = {
           "name": "davis"
         },
         {
-          "id": "C024BE91L",
+          "id": "uiop",
           "name": "jhon"
         },
       ],
