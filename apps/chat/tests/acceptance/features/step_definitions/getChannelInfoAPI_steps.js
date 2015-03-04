@@ -24,7 +24,7 @@ var channelsList_steps = module.exports = function(){
     var req = http.request({
       port: 8080,
       method: "GET",
-      path: '/api/channel.info?userID='
+      path: '/api/channel.info?role='
         + CAM_MOCKS.roleId1
         + '&channel='
         + encodeURIComponent(CAM_MOCKS.newChannelName),

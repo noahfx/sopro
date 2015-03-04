@@ -59,12 +59,12 @@ angular.module('societyProChatApp.controller2',['ngMaterial'])
     }
     $http({
       method: 'POST',
-      url: '/channel',
+      url: '/api/channel',
       headers: {
        'token-auth': $scope.token
       },
       params : {
-        userID: $scope.currentRole.id,
+        role: $scope.currentRole.id,
         name: $scope.stageCards[i].creationTitle,
         purpose: $scope.stageCards[i].creationDesc
       }
