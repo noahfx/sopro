@@ -18,7 +18,6 @@ routeMatcher.get('/', function(req) {
 
 
 function parseReq(req){
-  console.log('Parsing: '+ req.uri());
   var out = {
     headers: {},
     qs: {},

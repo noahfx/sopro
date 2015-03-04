@@ -119,7 +119,7 @@ function postChannel(msg, callback) {
 function inviteToChannel(msg, callback) {
   var params = JSON.parse(msg);
 
-  if (params.payload.user == params.payload.requester) {
+  if (params.payload.user == params.requester) {
     return callback(JSON.stringify({ok:false,error:"cant_invite_self"}));
   }
 
