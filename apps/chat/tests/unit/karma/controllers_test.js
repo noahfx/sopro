@@ -92,6 +92,7 @@ describe("societyProChat Controllers", function() {
       httpBackend.expect('POST', '/api/channel?name=karmachannel&role=abc')
         .respond(CAM_MOCKS.postChannelResponse);
       var controller = createController('stageController');
+      scope.channels =[];
       scope.currentRole = {
         id: CAM_MOCKS.roleId1,
       };
@@ -113,6 +114,10 @@ describe("societyProChat Controllers", function() {
           creationCard: true,
         })
       );
+
+      expect(scope.channels[0]).toEqual(
+        jasmine.objectContaining(CAM_MOCKS.postChannelResponse.channel)
+      );      
 
       httpBackend.verifyNoOutstandingExpectation();
       httpBackend.verifyNoOutstandingRequest();

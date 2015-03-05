@@ -10,7 +10,7 @@ sudo /etc/init.d/selenium start
 sleep 15
 
 # run protractor GUI tests
-sudo npm run cucumber
+sudo npm run acceptance
 
 # stop vertx
 pkill -n java
