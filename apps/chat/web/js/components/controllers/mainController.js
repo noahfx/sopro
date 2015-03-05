@@ -31,12 +31,11 @@ angular.module('societyProChatApp.controllers',['ngMaterial', 'societyProChatApp
     $(".dropdown-scrim").style("pointer-events","auto");
   }*/
   $(document).mouseup(function (e) {
-    var container = $("sopro-dropdown");
+    var container = $(".sopro-channels-overflow");
 
     if (!container.is(e.target) // if the target of the click isn't the container...
         && container.has(e.target).length === 0) // ... nor a descendant of the container
     {
-        console.log("hola");
         $rootScope.$broadcast("closeOverflow");
     }
   });
@@ -72,4 +71,5 @@ angular.module('societyProChatApp.controllers',['ngMaterial', 'societyProChatApp
 
 
   $scope.changeRole($scope.roles[0]);
+
 }]);

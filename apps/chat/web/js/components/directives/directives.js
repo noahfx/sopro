@@ -20,19 +20,39 @@ angular.module('societyProChatApp.directives',[
       };
 
       $scope.openOverflow = function ($event) {
-        $rootScope.$broadcast("closeOverflow");
-        $scope.fromElement = $event.target;
-        $scope.showOverflow = true;
+        safeApply($scope, function () {
+          console.log($scope.showOverflow)
+          if ($scope.showOverflow) {
+            $scope.showOverflow = false
+          } else {
+            $rootScope.$broadcast("closeOverflow", $scope.title);
+            $scope.fromElement = $event.target;
+            $scope.showOverflow = true;
+          }
+          console.log($scope.showOverflow)
+        });
       };
 
-      $scope.$on("closeOverflow", function ($event) {
-        console.log("adio");
-        $scope.showOverflow = false;
+      $scope.$on("closeOverflow", function ($event, title) {
+        safeApply($scope, function () {
+          $scope.showOverflow = false;
+        });
       });
+
+      function safeApply($scope, fn) {
+        var phase = $scope.$root.$$phase;
+        if (phase == '$apply' || phase == '$digest') {
+          if (fn && typeof fn === 'function') {
+            fn();
+          }
+        } else {
+          $scope.$apply(fn);
+        }
+      };
     },
     templateUrl: 'web/partials/collection.html'
   };
-}).directive('soproDropdown', function(){
+})/*.directive('soproDropdown', function(){
   return {
     transclude: true,
     restrict: 'E',
@@ -55,4 +75,4 @@ angular.module('societyProChatApp.directives',[
     },
     templateUrl: 'web/partials/dropdown.html'
   };
-});
+})*/;
