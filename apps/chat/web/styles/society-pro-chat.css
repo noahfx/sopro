@@ -185,3 +185,19 @@ collection {
   font-size: 14px; 
   color: #555459;
 }
+
+sopro-dropdown {
+  position: fixed;
+  background: white;
+}
+
+sopro-dropdown[type="overflow"] { 
+  z-index: 5;
+}
+
+/*.dropdown-scrim {
+  z-index: 2;
+  background-color: transparent;
+  position: fixed;
+  pointer-events:none;
+}*/

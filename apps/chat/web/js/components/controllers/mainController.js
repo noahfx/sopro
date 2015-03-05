@@ -1,7 +1,7 @@
 var societyProChatControllers = 
 angular.module('societyProChatApp.controllers',['ngMaterial', 'societyProChatApp.controller2'])
 
-.controller('mainController',['$scope','$http',function($scope,$http) {
+.controller('mainController',['$scope','$http','$rootScope',function($scope,$http,$rootScope) {
   $scope.token = "12345";
 
   $scope.roles = [
@@ -20,6 +20,26 @@ angular.module('societyProChatApp.controllers',['ngMaterial', 'societyProChatApp
   $scope.channels = [];
   $scope.peers = [];
   $scope.currentRole = {};
+
+  /*$(".dropdown-scrim").on("click", function () {
+    //Close open dropdowns
+    //Reset 
+    $(".dropdown-scrim").style("pointer-events","none");
+  });
+
+  function enableScrim () {
+    $(".dropdown-scrim").style("pointer-events","auto");
+  }*/
+  $(document).mouseup(function (e) {
+    var container = $("sopro-dropdown");
+
+    if (!container.is(e.target) // if the target of the click isn't the container...
+        && container.has(e.target).length === 0) // ... nor a descendant of the container
+    {
+        console.log("hola");
+        $rootScope.$broadcast("closeOverflow");
+    }
+  });
 
   $scope.changeRole = function (role) {
       $scope.currentRole = role;
