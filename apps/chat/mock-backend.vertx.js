@@ -84,10 +84,11 @@ for(topic in backend.handlersMap){
 function getChannels(msg, callback) {
   var params = JSON.parse(msg);
   var channels = {ok: false, error: "role_not_found"};
-  if (params.payload.role == CAM_MOCKS.roleId1)
+  if (params.payload.role == CAM_MOCKS.roleId1){
     channels = CAM_MOCKS.getChannelsResponse1;
-  else if (params.payload.role == CAM_MOCKS.roleId2) 
+  } else if (params.payload.role == CAM_MOCKS.roleId2) {
     channels = CAM_MOCKS.getChannelsResponse2;
+  }
   callback(JSON.stringify(channels));
 };
 
@@ -112,6 +113,13 @@ function postChannel(msg, callback) {
   response.channel.purpose = params.payload.purpose;
   response.channel.members = [params.payload.role];
   callback(JSON.stringify(response));
+
+  if (params.requester == CAM_MOCKS.roleId1){
+    CAM_MOCKS.getChannelsResponse1.channels.push(response.channel);
+  } else if (params.requester == CAM_MOCKS.roleId2) {
+    CAM_MOCKS.getChannelsResponse2.channels.push(response.channel);
+  };
+
 };
 
 
