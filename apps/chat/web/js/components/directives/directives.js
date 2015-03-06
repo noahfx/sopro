@@ -1,4 +1,15 @@
-var societyProChatDirectives = 
+function safeApply($scope, fn) {
+  var phase = $scope.$root.$$phase;
+  if (phase == '$apply' || phase == '$digest') {
+    if (fn && typeof fn === 'function') {
+      fn();
+    }
+  } else {
+    $scope.$apply(fn);
+  }
+};
+
+var societyProChatDirectives =
 angular.module('societyProChatApp.directives',[
   'societyProChatApp.global'
 ])
@@ -20,6 +31,14 @@ angular.module('societyProChatApp.directives',[
       };
 
       $scope.openOverflow = function ($event) {
+        console.log('overflow clicked in collection pane')
+        var o = $rootScope.dropdowns.overflow;
+        o.shown = true;
+        o.fromElement = $event.target;
+        o.title = $scope.title;
+        o.data = $scope.repeater;
+        $rootScope.$broadcast("openOverflow");
+        /*
         safeApply($scope, function () {
           console.log($scope.showOverflow)
           if ($scope.showOverflow) {
@@ -31,6 +50,7 @@ angular.module('societyProChatApp.directives',[
           }
           console.log($scope.showOverflow)
         });
+        */
       };
 
       $scope.$on("closeOverflow", function ($event, title) {
@@ -39,34 +59,34 @@ angular.module('societyProChatApp.directives',[
         });
       });
 
-      function safeApply($scope, fn) {
-        var phase = $scope.$root.$$phase;
-        if (phase == '$apply' || phase == '$digest') {
-          if (fn && typeof fn === 'function') {
-            fn();
-          }
-        } else {
-          $scope.$apply(fn);
-        }
-      };
+
     },
     templateUrl: 'web/partials/collection.html'
   };
-})/*.directive('soproDropdown', function(){
+})
+.directive('soproDropdown', function(){
   return {
     transclude: true,
     restrict: 'E',
     scope: {
       title: '@dropdownTitle',
-      channelId: "@",
-      fromElement: "=",
       type: "@"
     },
-    controller: function ($scope) {
-      $scope.repeater = [{name: "plato"}, {name:"jimmy"}];
+    controller: function ($rootScope, $scope) {
+      /*
       console.log($scope.title);
       console.log($scope.type);
       console.log($scope.fromElement);
+      */
+      $scope.$on("openOverflow", function(){
+        console.log('Local dropdown scope received openOverflow event');
+        var meta = $rootScope.dropdowns[$scope.type];
+        console.log(meta.shown);
+        $scope.repeater = meta.data;
+        //[{name: "plato"}, {name:"jimmy"}];
+        $scope.showOverflow = meta.shown;
+      });
+
     },
     link: function(scope, element, attrs){
       //var rect = scope.fromElement.getBoundingClientRect();
@@ -75,4 +95,4 @@ angular.module('societyProChatApp.directives',[
     },
     templateUrl: 'web/partials/dropdown.html'
   };
-})*/;
+});

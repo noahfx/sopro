@@ -3,6 +3,20 @@ angular.module('societyProChatApp.controllers',['ngMaterial', 'societyProChatApp
 
 .controller('mainController',['$scope','$http','$rootScope',function($scope,$http,$rootScope) {
   $scope.token = "12345";
+  $rootScope.dropdowns = {
+    overflow: {
+      shown: false,
+      title: "",
+      fromElement: null,
+      data: [],
+    },
+    subscribers: {
+      shown: false,
+      title: "",
+      fromElement: null,
+      data: [],
+    },
+  }
 
   $scope.roles = [
     {

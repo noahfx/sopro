@@ -43,6 +43,21 @@
       <collection id="collection-peers" channel-title="PEERS" icon="web/images/icon-peers.png" repeater="peers">
         <span id="collection-peers-create" class="collection-create-link">+ Add Peer</span>
       </collection>
+      <!--
+      <div class="sopro-channels-overflow" ng-if="dropdowns.overflow.shown">
+        <img class="sopro-arrow-overflow-dropdown" src="web/images/arrow-overflow-dropdown.png" width="10" height="18" alt="role-panel-arrow">
+        <div class="sopro-dropdown-collection-wrap" layout="column">
+          <div class="sopro-dropdown-title"><p>{{dropdowns.overflow.title}}</p></div>
+          <div class="sopro-ul-scroll" flex>
+            <ul>
+            <li class="overflow-item" ng-repeat="channelOverflow in dropdowns.overflow.data"><span>{{channelOverflow.name}}</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      -->
+      <sopro-dropdown ng-show="showOverflow" from-element="fromElement" dropdown-title="{{title}}" type="overflow"></sopro-dropdown>
+      <sopro-dropdown ng-show="showOverflow" from-element="fromElement" dropdown-title="{{title}}" type="subscribers"></sopro-dropdown>
     </aside>
     <md-content flex layout="row" layout-wrap id="main-stage" ng-controller="stageController">
       <ng-include layout="column" flex="50" flex-md="100" ng-repeat="card in stageCards" src="card.template"></ng-include>

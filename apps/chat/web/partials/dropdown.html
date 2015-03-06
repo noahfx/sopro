@@ -1,10 +1,11 @@
 <div class="sopro-dropdown" style="position:relative;">
   <img class="sopro-arrow-overflow-dropdown" src="web/images/arrow-overflow-dropdown.png" width="10" height="18" alt="role-panel-arrow">
+  <div ng-transclude></div>
   <div class="sopro-dropdown-collection-wrap" layout="column">
     <div class="sopro-dropdown-title"><p>{{dropdownTitle}}</p></div>
     <div class="sopro-ul-scroll" flex>
       <ul>
-        <li class="overflow-item" ng-repeat="subscriber in repeater"><span>{{subscriber.name}}</span></li>
+        <li class="dropdown-item" ng-repeat="item in repeater"><span>{{item.name}}</span></li>
       </ul>
     </div>
   </div>
