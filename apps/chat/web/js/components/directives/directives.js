@@ -1,18 +1,24 @@
-var societyProChatDirectives = angular.module('societyProChatApp.directives',[
+var societyProChatDirectives = 
+angular.module('societyProChatApp.directives',[
   'societyProChatApp.global'
-  ])
-
+])
 .directive('collection', function() {
   return {
+    transclude: true,
     restrict: 'E',
     scope: {
-      title: '@',
+      title: '@channelTitle',
       icon: '@',
       repeater: '=',
     },
     controller: function ($rootScope, $scope, maxChannels) {
       $scope.maxChannels = maxChannels;
       $scope.showOverflow = false;
+
+      $scope.createChannel = function () {
+        console.log("broadcasting creation")
+        $rootScope.$broadcast("createChannelClicked");
+      };
 
       $scope.openOverflow = function () {
         $scope.showOverflow = !$scope.showOverflow;

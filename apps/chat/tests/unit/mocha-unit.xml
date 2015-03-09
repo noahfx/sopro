@@ -1,3 +1,0 @@
-<testsuite name="Mocha Tests" tests="1" failures="0" errors="0" skipped="0" timestamp="Fri, 13 Feb 2015 17:16:56 GMT" time="0.031">
-<testcase classname="IMessageQueue init:" name="opens a connection with vertx" time="0.002"/>
-</testsuite>

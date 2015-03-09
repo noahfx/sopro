@@ -2,8 +2,11 @@ module.exports = CAM_MOCKS = {
   validToken: "12345",
   roleId1: "abc",
   roleId2: "xyz",
+  nonsubscribedPeerId: "qwerty",
+  subscribedPeerId: "uiop",
   displayedChannelCount: 2,
-  channels1: {
+  newChannelName: "a name for the channel",
+  getChannelsResponse1: {
     "ok": true,
     "channels": [
       {
@@ -26,7 +29,7 @@ module.exports = CAM_MOCKS = {
       }
     ]
   },
-  channels2: {
+  getChannelsResponse2: {
     "ok": true,
     "channels": [
       {
@@ -57,14 +60,40 @@ module.exports = CAM_MOCKS = {
       }
     ]
   },
-  postChannel: {
-      "ok": true,
-      "channel": {
-          "id": "C024BE91L",
-          "creator": "U024BE7LH",
-          "members": [],
-          "topic": "Fun stuff",
-          "purpose": "just to have some fun"
-      }
+  postChannelResponse: {
+    "ok": true,
+    "channel": {
+      "id": "C024BE91L",
+      "name": "karmachannel",
+      "creator": "U024BE7LH",
+      "members": [
+        {
+          "id": "abc",
+          "name": "davis"
+        },
+      ],
+      "topic": "Fun stuff",
+      "purpose": "just to have some fun",
+    }
+  },
+  getChannelInfoResponse: {
+    "ok": true,
+    "channel": {
+      "id": "C024BE91L",
+      "name": "karmachannel",
+      "creator": "U024BE7LH",
+      "members": [
+        {
+          "id": "abc",
+          "name": "davis"
+        },
+        {
+          "id": "uiop",
+          "name": "jhon"
+        },
+      ],
+      "topic": "Fun stuff",
+      "purpose": "just to have some fun",
+    }
   }
 }

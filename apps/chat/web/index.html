@@ -6,16 +6,18 @@
     <link rel="stylesheet" type="text/css" href="web/styles/dropdown-collections.css">
     <link rel="stylesheet" type="text/css" href="web/styles/society-pro-chat.css">
 
-    <script src="web/bower_components/angular/angular.js"></script>
+    <script type="text/javascript" src="web/bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="web/bower_components/angular/angular.min.js"></script>
     <script type="text/javascript" src="web/bower_components/angular-aria/angular-aria.js"></script>
     <script type="text/javascript" src="web/bower_components/angular-animate/angular-animate.js"></script>
     <script type="text/javascript" src="web/bower_components/angular-material/angular-material.js"></script>
     <script src="web/js/components/global/global.js"></script>
     <script src="web/js/components/directives/directives.js"></script>
     <script src="web/js/components/controllers/mainController.js"></script>
+    <script src="web/js/components/controllers/stageController.js"></script>
     <script src="web/js/app.js"></script>
 </head>
-<body ng-controller="mainController" layout="column">
+<body ng-controller="mainController" layout="column" layout-fill>
   <md-toolbar layout="row">
       <span flex></span>
       <div class="role-selection" ng-click="showRoles=!showRoles" layout="row" layout-align="center center">
@@ -33,10 +35,17 @@
     </div>
   </md-toolbar>
   <div class="sopro-main-content" flex layout="row">
-  <md-content id="sopro-channel-wrap">
-    <collection id="collection-channels" title="CHANNELS" icon="web/images/icon-channels.png" repeater="channels"></collection>
-    <collection id="collection-peers" title="PEERS" icon="web/images/icon-peers.png" repeater="peers"></collection>
-  </md-content>
-</div>
+    <aside id="sopro-channel-wrap">
+      <collection id="collection-channels" channel-title="CHANNELS" icon="web/images/icon-channels.png" repeater="channels">
+        <span id="collection-channels-create" class="collection-create-link">+ Add Channel</span>
+      </collection>
+      <collection id="collection-peers" channel-title="PEERS" icon="web/images/icon-peers.png" repeater="peers">
+        <span id="collection-peers-create" class="collection-create-link">+ Add Peer</span>
+      </collection>
+    </aside>
+    <md-content flex layout="row" layout-wrap id="main-stage" ng-controller="stageController">
+      <ng-include layout="column" flex="50" flex-md="100" ng-repeat="card in stageCards" src="card.template"></ng-include>
+    </md-content>
+  </div>
 </body>
 </html>

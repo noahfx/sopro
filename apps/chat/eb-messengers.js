@@ -6,6 +6,9 @@ CAM.send = {};
 
 
 //**************Authentication*************************
+// Deprecated. We now pass the token in each eventbus request.
+/*
+*/
 CAM.send.authenticate = function (req, cb) {
   var token = '';
 

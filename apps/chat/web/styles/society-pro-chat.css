@@ -1,3 +1,7 @@
+body {
+  background: #E9ECF2;
+}
+
 /*  TOOLBAR  */
 
 body > md-toolbar {
@@ -59,7 +63,7 @@ body > md-toolbar {
 
 /* MAIN CONTENT*/
 .sopro-main-content{
-  background: #E9ECF2;
+  margin: 20px 16px;
 }
 
 collection {
@@ -71,7 +75,7 @@ collection {
 #sopro-channel-wrap{
   background-color: white;
   width: 185px;
-  margin: 20px 16px;
+  margin-right: 8px;
   border-radius: 2px;
   padding-bottom: 20px;
 }
@@ -111,6 +115,10 @@ collection {
   cursor: pointer;
 }
 
+.collection-create-link{
+  font-style: italic;
+}
+
 /* Channels Overflow */
 .sopro-channels-overflow {
   z-index: 200;
@@ -118,4 +126,62 @@ collection {
   left: 125px;
   bottom: -200px;
   background: white;
+}
+
+#main-stage {
+  background-color: inherit;
+}
+
+/*   Sopro Cards */
+.sopro-card {
+  max-height: 270px;
+  min-height: 270px;
+  margin: 0px 8px 8px 8px;
+  background-color: white;
+  box-shadow: none;
+}
+.sopro-card header{
+  height: 50px;
+  border-bottom: 1px solid #eaedf1;
+}
+.sopro-card header .title{
+  margin: 15px 16px;
+  font-size: 18px;
+  font-weight: bold;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.sopro-card header .x-button{
+  margin: 15px 16px;
+  font-size: 18px;
+  cursor: pointer;
+}
+.sopro-card .card-content{
+  padding: 16px;
+}
+.sopro-card .card-content .title{
+  height: 40px;
+   font-size: 12px; 
+   border: 1px solid #eaedf1; 
+   border-radius: 2px; 
+   padding: 14px 10px; 
+   margin-top: 3px;
+}
+.sopro-card .card-content .channel-description {
+  height: 80px;
+   font-size: 12px; 
+   border: 1px solid #eaedf1; 
+   border-radius: 2px; 
+   padding: 14px 10px;
+   margin: 10px 0px;
+   resize: none;
+}
+.sopro-card footer{
+  height: 50px;
+  padding: 0px 16px;
+  border-top: 1px solid #eaedf1;
+}
+.sopro-card footer md-button{
+  font-size: 14px; 
+  color: #555459;
 }
