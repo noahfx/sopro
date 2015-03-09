@@ -3,20 +3,6 @@ angular.module('societyProChatApp.controllers',['ngMaterial', 'societyProChatApp
 
 .controller('mainController',['$scope','$http','$rootScope',function($scope,$http,$rootScope) {
   $scope.token = "12345";
-  $rootScope.dropdowns = {
-    overflow: {
-      shown: false,
-      title: "",
-      fromElement: null,
-      data: [],
-    },
-    subscribers: {
-      shown: false,
-      title: "",
-      fromElement: null,
-      data: [],
-    },
-  }
 
   $scope.roles = [
     {
@@ -35,22 +21,13 @@ angular.module('societyProChatApp.controllers',['ngMaterial', 'societyProChatApp
   $scope.peers = [];
   $scope.currentRole = {};
 
-  /*$(".dropdown-scrim").on("click", function () {
-    //Close open dropdowns
-    //Reset 
-    $(".dropdown-scrim").style("pointer-events","none");
-  });
-
-  function enableScrim () {
-    $(".dropdown-scrim").style("pointer-events","auto");
-  }*/
   $(document).mouseup(function (e) {
     var container = $(".sopro-channels-overflow");
 
     if (!container.is(e.target) // if the target of the click isn't the container...
-        && container.has(e.target).length === 0) // ... nor a descendant of the container
+      && container.has(e.target).length === 0) // ... nor a descendant of the container
     {
-        $rootScope.$broadcast("closeOverflow");
+      $rootScope.$broadcast("closeOverflow", e.target);
     }
   });
 

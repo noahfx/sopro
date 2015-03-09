@@ -31,31 +31,27 @@ angular.module('societyProChatApp.directives',[
       };
 
       $scope.openOverflow = function ($event) {
-        console.log('overflow clicked in collection pane')
-        var o = $rootScope.dropdowns.overflow;
-        o.shown = true;
-        o.fromElement = $event.target;
-        o.title = $scope.title;
-        o.data = $scope.repeater;
-        $rootScope.$broadcast("openOverflow");
-        /*
         safeApply($scope, function () {
           console.log($scope.showOverflow)
           if ($scope.showOverflow) {
-            $scope.showOverflow = false
+            $scope.showOverflow = false;
           } else {
+            $rootScope.$broadcast("newDropdown", $scope.title);
             $rootScope.$broadcast("closeOverflow", $scope.title);
             $scope.fromElement = $event.target;
             $scope.showOverflow = true;
           }
-          console.log($scope.showOverflow)
+          console.log($scope.showOverflow);
         });
-        */
       };
 
-      $scope.$on("closeOverflow", function ($event, title) {
+      $scope.$on("closeOverflow", function ($event, target) {
         safeApply($scope, function () {
-          $scope.showOverflow = false;
+          if ($scope.showOverflow) {
+            $scope.showOverflow = false;
+          } else {
+
+          }
         });
       });
 
