@@ -117,9 +117,13 @@ describe('Collections list', function() {
 
     });
 
-    xdescribe('"Peers" channel collection - ', function(){
+    describe('"Peers" channel collection - ', function(){
 
     });
+
+    it('gets past xdescribes', function(){
+      expect(true).toBe(true);
+    })
   })
 
 });

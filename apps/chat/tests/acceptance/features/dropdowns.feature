@@ -1,7 +1,7 @@
-Feature: Dropdown Styling and Action
+Feature: Opening and closing dropdowns
   As a Society Pro user
-  I want to be able to close a dropdown menu by clicking outside the menu
-  So that I can quickly dismiss distractions from my UI
+  I want to be able to open and close dropdowns with intuitive mouse clicks
+  So that I am not distracted by my UI
 
   Scenario: Opening a dropdown
     Given I have started the chatlog application
