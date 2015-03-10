@@ -6,14 +6,16 @@
   <ul>
       <li layout="column" layout-align="center start" ng-click="createChannel()" ng-transclude></li>
       <li class="channel-item" ng-class="{'channel-separator':$last && repeater.length <= maxChannels}" ng-repeat="item in repeater" ng-if="$index+1 <= maxChannels" layout="column" layout-align="center start">
-        <span>{{item.name}}</span>
+        <span ng-click="openSubscriberDropdown($event, $index)">{{item.name}}</span>
+        <sopro-subscribers-dropdown ng-if="subscriberDropdownIndex == $index" from-element="fromElement" dropdown-title="{{item.name}}" channel-id="{{item.id}}"></sopro-subscribers-dropdown>
       </li>
       <li ng-show="repeater.length > maxChannels" class="sopro-config-collection-link" ng-class="{'channel-separator':repeater.length > maxChannels}"layout="column" layout-align="center start">
         <span class="sopro-more-channels" ng-click="openOverflow($event)">+{{repeater.length - maxChannels}} more...</span>
+        <sopro-collection-dropdown ng-if="showOverflow" from-element="fromElement" dropdown-title="{{title}}" collection-repeater="repeater"></sopro-collection-dropdown>
       </li>
   </ul>
 </div>
-<div class="sopro-channels-overflow" ng-if="showOverflow">
+<!--<div class="sopro-channels-overflow" ng-if="showOverflow">
 <img class="sopro-arrow-overflow-dropdown" src="web/images/arrow-overflow-dropdown.png" width="10" height="18" alt="role-panel-arrow">
 <div class="sopro-dropdown-collection-wrap" layout="column">
 <div class="sopro-dropdown-title"><p>{{title}}</p></div>
@@ -23,5 +25,5 @@
 </ul>
 </div>
 </div>
-</div>
+</div>-->
 <!--<sopro-dropdown ng-show="showOverflow" from-element="fromElement" dropdown-title="{{title}}" type="overflow"></sopro-dropdown>-->
