@@ -89,16 +89,14 @@ var channelsList_steps = module.exports = function(){
     .count()
     .then(function (count) {
       if (count == CAM_MOCKS.displayedChannelCount) {
-          next();
-        } else {
-          next.fail(new Error("Incorrect number of channels displayed"));
-        }
+        next();
+      } else {
+        next.fail(new Error("Incorrect number of channels displayed"));
+      }
     });
   });
 
-  this.Then(/^the hidden channel count is displayed as "\+N more"$/
-    , function (next) {
-
+  this.Then(/^the hidden channel count is displayed as "\+N more"$/, function (next) {
     browser.element(by.css("#collection-channels .sopro-more-channels"))
     .isDisplayed()
     .then(function (isDisplayed) {
@@ -113,16 +111,19 @@ var channelsList_steps = module.exports = function(){
         browser.element(by.css("#collection-channels .sopro-more-channels"))
         .getText()
         .then(function(text){
-          if(text === "+"+difference+" more..."){
+          var correct =
+            text.match(/\+\d+ more/)
+            ? true
+            : false;
+          if(correct){
             return next()
           } else {
             return next(
-              new Error("Expected label +"+difference+" more; got label "+text)
+              new Error("Expected label +N more; got label "+text)
             )
           }
         })
       });
     });
   });
-
 }

@@ -92,14 +92,18 @@ describe("societyProChat Controllers", function() {
       httpBackend.expect('POST', '/api/channel?name=karmachannel&role=abc')
         .respond(CAM_MOCKS.postChannelResponse);
       var controller = createController('stageController');
+      scope.channels =[];
       scope.currentRole = {
         id: CAM_MOCKS.roleId1,
       };
       scope.stageCards.push({creationTitle: "karmachannel"});
 
+      var channelsLength1 = scope.channels.length;
       // Click the Create button on the first card:
       scope.createClicked(0);
       httpBackend.flush();
+      var channelsLength2 = scope.channels.length;
+
 
       // See if the first card is now a channel history card:
       expect(scope.stageCards[0]).toEqual(
@@ -113,6 +117,13 @@ describe("societyProChat Controllers", function() {
           creationCard: true,
         })
       );
+
+      // See if the new channel is in the channels array:
+      expect(scope.channels[0]).toEqual(
+        jasmine.objectContaining(CAM_MOCKS.postChannelResponse.channel)
+      );
+
+      expect(channelsLength2 - channelsLength1).toBe(1);
 
       httpBackend.verifyNoOutstandingExpectation();
       httpBackend.verifyNoOutstandingRequest();

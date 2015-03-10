@@ -14,7 +14,7 @@ Feature: Create a new channel card
     Given I am viewing a list of channels
       And there is an open "create channel" card on the main stage
     When I select "+ Add Channel"
-    Then I should not see a channel creation card
+    Then I should see a blank channel creation card
 
   Scenario: submiting the create channel form
     Given there is an open "create channel" card on the main stage

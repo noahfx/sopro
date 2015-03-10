@@ -1,5 +1,5 @@
 npm install
 #RUNS KARMA
-npm run test-single-run
+npm run unit
 #RUNS MOCHA
 #npm run mocha
