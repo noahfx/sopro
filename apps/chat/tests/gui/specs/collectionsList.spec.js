@@ -62,6 +62,24 @@ describe('Collections list', function() {
         expect(chat.channelsChannels.count()).toBeGreaterThan(0);
       });
 
+
+      it('has a "+X more..." button if there are more channels than the limit', function () {
+        chat.currentRole.click();
+        chat.roles.get(1).click();
+        expect(chat.channelsChannels.count()).toEqual(CAM_MOCKS.displayedChannelCount);
+        expect(chat.collectionChannelsMore.isDisplayed()).toBeTruthy();
+        var n = CAM_MOCKS.getChannelsResponse2.channels.length - CAM_MOCKS.displayedChannelCount;
+        var str = "+" + n + " more..."
+        expect(chat.collectionChannelsMore.getText()).toEqual(str);
+      });
+
+      it('does not have a "+X more..." button if there are fewer channels than the limit', function(){
+        chat.currentRole.click();
+        chat.roles.get(0).click();
+        expect(chat.collectionChannelsMore.isDisplayed()).toBeFalsy();
+      });
+
+
       describe('the first channel - ', function(){
         var first = chat.channelsChannels.first();
         it('has text "random"', function(){
@@ -89,37 +107,12 @@ describe('Collections list', function() {
         })
       })
 
-      describe('channels collection Overflow - ', function () {
-        it('has a "+X more..." button if there are more channels than the limit', function () {
-          chat.currentRole.click();
-          chat.roles.get(1).click();
-          expect(chat.channelsChannels.count()).toEqual(CAM_MOCKS.displayedChannelCount);
-          expect(chat.collectionChannelsMore.isDisplayed()).toBeTruthy();
-          expect(chat.collectionChannelsMore.getText()).toEqual("+1 more...");
-        });
+    });
 
-        xit('does not have a "+X more..." button if there are fewer channels than the limit', function(){
-
-        });
-
-        it("open an overflow with all the channels listed", function () {
-          chat.currentRole.click();
-          chat.roles.get(1).click();
-          expect(chat.channelsChannels.count())
-            .toEqual(CAM_MOCKS.displayedChannelCount);
-          expect(chat.collectionChannelsMore.isDisplayed())
-            .toBeTruthy();
-          chat.collectionChannelsMore.click();
-          expect(chat.collectionChannelsOverflow.count())
-            .toEqual(CAM_MOCKS.getChannelsResponse2.channels.length);
-        });
-      });
+    describe('"Peers" channel collection - ', function(){
 
     });
 
-    xdescribe('"Peers" channel collection - ', function(){
-
-    });
   })
 
 });
