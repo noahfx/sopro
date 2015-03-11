@@ -58,14 +58,6 @@ angular.module('societyProChatApp.directives',[
         onSubscriberPOOClick($rootScope, $event, item);
       }
 
-
-      $scope.$on("closeSubscriberDropdown", function ($event, target) {
-        safeApply($scope, function () {
-          $scope.subscriberDropdownIndex = -1;
-        });
-      });
-
-
     },
     templateUrl: 'web/partials/collection.html'
   };
@@ -107,14 +99,12 @@ angular.module('societyProChatApp.directives',[
     controller: function ($rootScope, $scope) {
 
       $scope.$on('collections.overflow.close', function(){
+        console.log('Subscribers dropdown closing after hearing collections dropdown closing.');
+
         $rootScope.$broadcast('subscribers.overflow.close')
       })
 
       $scope.$on('subscribers.overflow.open', function(){
-        safeApply($scope, function () {
-          $scope.fromElement = $event.target;
-          $scope.subscriberDropdownIndex = $index;
-        });
       });
 
 

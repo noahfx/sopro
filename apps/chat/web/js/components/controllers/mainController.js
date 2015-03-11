@@ -24,21 +24,26 @@ angular.module('societyProChatApp.controllers',['ngMaterial', 'societyProChatApp
   $scope.showSubscribersOverflow = null;
 
   $(document).mouseup(function (e) {
-    var container = $("sopro-collection-dropdown");
+    console.log('mouseup listener');
+    var container1 = $("sopro-collections-dropdown");
 
-    if (!container.is(e.target) // if the target of the click isn't the container...
-      && container.has(e.target).length === 0) // ... nor a descendant of the container
+    if (!container1.is(e.target) // if the target of the click isn't the container1...
+      && container1.has(e.target).length === 0 // ... nor a descendant of the container1
+      && $scope.showCollectionsOverflow) // and it's already open...
     {
+      console.log('mouseup closing container1');
       $rootScope.$broadcast("collections.overflow.close", e.target);
       $scope.showCollectionsOverflow = false;
       $scope.$apply();
     }
 
-    var container = $("sopro-subscribers-dropdown");
+    var container2 = $("sopro-subscribers-dropdown");
 
-    if (!container.is(e.target) // if the target of the click isn't the container...
-      && container.has(e.target).length === 0) // ... nor a descendant of the container
+    if (!container2.is(e.target) // if the target of the click isn't the container2...
+      && container2.has(e.target).length === 0 // ... nor a descendant of thecontainer2 
+      && $scope.showSubscribersOverflow) // and it's already open...
     {
+      console.log('mouseup closing container2');
       $rootScope.$broadcast("subscribers.overflow.close", e.target);
       $scope.showSubscribersOverflow = false;
       $scope.$apply();
