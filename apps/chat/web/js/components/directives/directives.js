@@ -66,6 +66,7 @@ angular.module('societyProChatApp.directives',[
   return {
     restrict: 'E',
     transclude: true,
+    scope: {},
     controller: function ($rootScope, $scope) {
 
       $scope.openSubscribersOverflow = function(e, item){
@@ -81,8 +82,6 @@ angular.module('societyProChatApp.directives',[
           $scope.fromElement = data.fromElement;
         });
       });
-
-      console.log($scope.repeater);
     },
     link: function(scope, element, attrs){
       //var rect = scope.fromElement.getBoundingClientRect();
@@ -96,6 +95,7 @@ angular.module('societyProChatApp.directives',[
   return {
     restrict: 'E',
     transclude: true,
+    scope: {},
     controller: function ($rootScope, $scope) {
 
       $scope.$on('collections.overflow.close', function(){
