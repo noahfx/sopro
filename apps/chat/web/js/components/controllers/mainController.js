@@ -2,7 +2,7 @@ var societyProChatControllers =
 angular.module('societyProChatApp.controllers',['ngMaterial', 'societyProChatApp.controller2'])
 
 .controller('mainController',['$scope','$http','$rootScope',function($scope,$http,$rootScope) {
-  $scope.token = "12345";
+  $rootScope.token = "12345";
 
   $scope.roles = [
     {
@@ -19,7 +19,7 @@ angular.module('societyProChatApp.controllers',['ngMaterial', 'societyProChatApp
 
   $scope.channels = [];
   $scope.peers = [];
-  $scope.currentRole = {};
+  $rootScope.currentRole = {};
   $scope.showCollectionsOverflow = null;
   $scope.showSubscribersOverflow = null;
 
@@ -52,13 +52,13 @@ angular.module('societyProChatApp.controllers',['ngMaterial', 'societyProChatApp
   });
 
   $scope.changeRole = function (role) {
-      $scope.currentRole = role;
+      $rootScope.currentRole = role;
 
       $http({
         method: 'GET',
         url: '/api/channels',
         headers: {
-         'token-auth': $scope.token
+         'token-auth': $rootScope.token
         },
         params : {
           role: role.id

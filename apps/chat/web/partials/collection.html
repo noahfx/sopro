@@ -9,8 +9,17 @@
       class="channel-item" 
       ng-class="{'channel-separator':$last && repeater.length <= maxChannels}" 
       ng-repeat="item in repeater" 
-      ng-if="$index+1 <= maxChannels" 
+      ng-if="title == 'CHANNELS' && $index+1 <= maxChannels" 
       ng-click="openSubscribersOverflow($event, item)"
+      layout="column" 
+      layout-align="center start">
+       {{item.name}}
+      </li>
+      <li 
+      class="channel-item" 
+      ng-class="{'channel-separator':$last && repeater.length <= maxChannels}" 
+      ng-repeat="item in repeater" 
+      ng-if="title == 'PEERS' && $index+1 <= maxChannels"
       layout="column" 
       layout-align="center start">
        {{item.name}}
