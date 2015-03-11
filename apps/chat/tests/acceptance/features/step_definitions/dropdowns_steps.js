@@ -5,6 +5,30 @@ var SSTEPS = require('../../shared_steps.js');
 
 module.exports = function(){
 
+function textCorrect(isSecond, isNested, text){
+  var names = {
+    p1: "CHANNELS",
+    p2: "PEERS",
+    n1: CAM_MOCKS.getChannelsResponse2.channels[0].name,
+    n2: CAM_MOCKS.getChannelsResponse2.channels[1].name,
+  }
+  var name;
+  if(!isSecond){
+    if(!isNested){
+      name = names.p1;
+    } else {
+      name = names.n1
+    }
+  } else {
+    if(!isNested){
+      name = names.p2;
+    } else {
+      name = names.n2
+    }
+  }
+  return name === text;
+}
+
 function findPOICSS(isSecond, isNested){
   var css;
   if(!isSecond){
@@ -17,7 +41,7 @@ function findPOICSS(isSecond, isNested){
     if(!isNested){ // second non-nested POI
       css = "#collection-peers .sopro-more-channels";
     } else {
-      css = "sopro-subscribers-dropdown .dropdown-item:first-child";
+      css = "sopro-collections-dropdown .dropdown-item:nth-child(2)";
     }
   }
   return css;
@@ -27,15 +51,15 @@ function findDropdownCSS(isSecond, isNested){
   var css;
   if(!isSecond){
     if(!isNested){ // first non-nested dropdown
-      css = "sopro-collections-dropdown";
+      css = "sopro-collections-dropdown .sopro-dropdown-title";
     } else { // first nested dropdown
-      css = "sopro-subscribers-dropdown";
+      css = "sopro-subscribers-dropdown .sopro-dropdown-title";
     }
   } else {
     if(!isNested){ // second non-nested dropdown
-      css = "sopro-collections-dropdown";
+      css = "sopro-collections-dropdown .sopro-dropdown-title";
     } else {
-      css = "sopro-subscribers-dropdown";
+      css = "sopro-subscribers-dropdown .sopro-dropdown-title";
     }
   }
   return css;
@@ -48,7 +72,7 @@ function POIVisible(arg1, arg2, next){
   var css = findPOICSS(isSecond, isNested);
 
   element(by.css(css))
-  .isDisplayed()
+  .getText()
   .then(function(isDisplayed){
     if(isDisplayed){
       return next();
@@ -74,27 +98,15 @@ function clickPOI(arg1, arg2, next){
   });
 }
 
-//   /^the( second)?( nested)? dropdown is visible$/,
+//   /^the( second)?( nested)? dropdown is already visible$/,
 function ensureDropdownIsVisible(arg1, arg2, next){
   var isSecond = arg1 ? true : false;
   var isNested = arg2 ? true : false;
+  openDropdown(isSecond, isNested, next);
 
-  // Identify which element is relevant:
-  var css = findDropdownCSS(isSecond, isNested);
-  element.all(by.css(css))
-  .count()
-  .then(function(count){
-    if(count === 0){
-      openDropdown(isSecond, isNested, next)
-    } else if(count === 1){
-      return next()
-    } else {
-      return next.fail(new Error('Found more than one open dropdown'))
-    }
-  })
 }
 
-function openDropdown(isSecond, isNested, callback){
+function openDropdown(isSecond, isNested, next){
 //  var css = findPOICSS(isSecond, isNested);
   if(!isSecond){
     if(!isNested){
@@ -147,7 +159,6 @@ function openDropdown(isSecond, isNested, callback){
   }
 }
 
-
 //  /^Then the( second)?( nested)? dropdown is( not)? visible$/
 function isDropdownVisible(arg1, arg2, arg3, next){
   var isSecond = arg1 ? true : false;
@@ -163,18 +174,27 @@ function isDropdownVisible(arg1, arg2, arg3, next){
     .count()
     .then(function(count){
       if(count !== 0){
-        return next.fail(new Error('Found an unexpected dropdown'));
+        element.all(by.css(css))
+        .getText()
+        .then(function(text){
+          if(!textCorrect(isSecond, isNested, text)){
+            // Found some other element
+            return next();
+          } else {
+            return next.fail(new Error('Found an unexpected dropdown'));
+          }
+        })
       } else {
         return next();
       }
     })
   } else {
-    // Element is expected to be found. Go ahead and try and access it.
+    // Look for a title element that matches the expected name.
     element.all(by.css(css))
     .get(0)
-    .isDisplayed()
-    .then(function(isDisplayed){
-      if(!isDisplayed){
+    .getText()
+    .then(function(text){
+      if(!textCorrect(isSecond, isNested, text)){
         return next.fail(new Error('Did not find an expected dropdown'))
       } else {
         return next();
@@ -207,7 +227,7 @@ function isDropdownVisible(arg1, arg2, arg3, next){
  */
   this.Given(/^I have a( second)?( nested)? point of origin visible$/,
     POIVisible);
-  this.Given(/^the( second)?( nested)? dropdown is visible$/,
+  this.Given(/^the( second)?( nested)? dropdown is already visible$/,
     ensureDropdownIsVisible);
   this.When(/^I click the( second)?( nested)? point of origin$/,
     clickPOI);
@@ -219,7 +239,7 @@ function isDropdownVisible(arg1, arg2, arg3, next){
  */
   this.Given(/^I have a( second)?( nested)? point of origin visible$/,
     POIVisible);
-  this.Given(/^the( second)?( nested)? dropdown is visible$/,
+  this.Given(/^the( second)?( nested)? dropdown is already visible$/,
     ensureDropdownIsVisible);
   this.When(/^I click the( second)?( nested)? point of origin$/,
     clickPOI);
@@ -231,7 +251,7 @@ function isDropdownVisible(arg1, arg2, arg3, next){
 /*
  * Scenario: Closing a dropdown by clicking outside it
  */
-  this.Given(/^the( second)?( nested)? dropdown is visible$/,
+  this.Given(/^the( second)?( nested)? dropdown is already visible$/,
     ensureDropdownIsVisible);
 
   this.When(/I click somewhere other than the dropdown or a point of origin$/, function(next){
@@ -247,7 +267,7 @@ function isDropdownVisible(arg1, arg2, arg3, next){
 /*
  * Scenario: Opening a nested dropdown
  */
-  this.Given(/^the( second)?( nested)? dropdown is visible$/,
+  this.Given(/^the( second)?( nested)? dropdown is already visible$/,
     ensureDropdownIsVisible);
   this.Given(/^I have a( second)?( nested)? point of origin visible$/,
     POIVisible);
@@ -261,9 +281,9 @@ function isDropdownVisible(arg1, arg2, arg3, next){
 /*
  * Scenario: Opening a second primary dropdown while a primary and nested dropdown are shown
  */
-  this.Given(/^the( second)?( nested)? dropdown is visible$/,
+  this.Given(/^the( second)?( nested)? dropdown is already visible$/,
     ensureDropdownIsVisible);
-  this.Given(/^the( second)?( nested)? dropdown is visible$/,
+  this.Given(/^the( second)?( nested)? dropdown is already visible$/,
     ensureDropdownIsVisible);
   this.Given(/^I have a( second)?( nested)? point of origin visible$/,
     POIVisible);
@@ -279,9 +299,9 @@ function isDropdownVisible(arg1, arg2, arg3, next){
 /*
  * Scenario: Opening a second nested dropdown while a primary and nested dropdown are shown
  */
-  this.Given(/^the( second)?( nested)? dropdown is visible$/,
+  this.Given(/^the( second)?( nested)? dropdown is already visible$/,
     ensureDropdownIsVisible);
-  this.Given(/^the( second)?( nested)? dropdown is visible$/,
+  this.Given(/^the( second)?( nested)? dropdown is already visible$/,
     ensureDropdownIsVisible);
   this.Given(/^I have a( second)?( nested)? point of origin visible$/,
     POIVisible);
@@ -297,12 +317,12 @@ function isDropdownVisible(arg1, arg2, arg3, next){
 /*
  * Scenario: Closing a nested dropdown but not the primary dropdown
  */
-  this.Given(/^the( second)?( nested)? dropdown is visible$/,
+  this.Given(/^the( second)?( nested)? dropdown is already visible$/,
     ensureDropdownIsVisible);
-  this.Given(/^the( second)?( nested)? dropdown is visible$/,
+  this.Given(/^the( second)?( nested)? dropdown is already visible$/,
     ensureDropdownIsVisible);
   this.Given(/^I have a non-point-of-origin visible within the dropdown$/, function(next){
-    element(by.css('#collection-channels .sopro-channels-overflow .sopro-dropdown-title'))
+    element(by.css('sopro-collections-dropdown .sopro-dropdown-title'))
     .isDisplayed()
     .then(function(isDisplayed){
       if(!isDisplayed){
@@ -314,7 +334,7 @@ function isDropdownVisible(arg1, arg2, arg3, next){
   });
 
   this.When(/^I click the non-point-of-origin$/, function(next){
-    element(by.css('#collection-channels .sopro-channels-overflow .sopro-dropdown-title'))
+    element(by.css('sopro-collections-dropdown .sopro-dropdown-title'))
     .click()
     .then(function(){
       return next();
