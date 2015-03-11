@@ -186,13 +186,17 @@ collection {
   color: #555459;
 }
 
-sopro-dropdown {
+sopro-collections-dropdown, sopro-subscribers-dropdown {
   position: fixed;
   background: white;
 }
 
-sopro-dropdown[type="overflow"] { 
+sopro-collections-dropdown{
   z-index: 5;
+}
+
+sopro-subscribers-dropdown{
+  z-index: 10;
 }
 
 /*.dropdown-scrim {

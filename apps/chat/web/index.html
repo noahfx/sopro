@@ -36,16 +36,16 @@
     </div>
   </md-toolbar>
   <div class="sopro-main-content" flex layout="row">
-    <aside id="sopro-channel-wrap">
+    <md-content id="sopro-channel-wrap">
       <collection id="collection-channels" channel-title="CHANNELS" icon="web/images/icon-channels.png" repeater="channels">
         <span id="collection-channels-create" class="collection-create-link">+ Add Channel</span>
       </collection>
       <collection id="collection-peers" channel-title="PEERS" icon="web/images/icon-peers.png" repeater="peers">
         <span id="collection-peers-create" class="collection-create-link">+ Add Peer</span>
       </collection>
-      <sopro-collections-dropdown ng-show="showCollectionsOverflow"></sopro-collections-dropdown>
-      <sopro-subscribers-dropdown ng-show="showSubscribersOverflow"></sopro-subscribers-dropdown>
-    </aside>
+    </md-content>
+    <sopro-collections-dropdown ng-show="showCollectionsOverflow"></sopro-collections-dropdown>
+    <sopro-subscribers-dropdown ng-show="showSubscribersOverflow"></sopro-subscribers-dropdown>
     <md-content flex layout="row" layout-wrap id="main-stage" ng-controller="stageController">
       <ng-include layout="column" flex="50" flex-md="100" ng-repeat="card in stageCards" src="card.template"></ng-include>
     </md-content>

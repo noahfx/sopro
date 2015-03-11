@@ -18,6 +18,17 @@ function onSubscriberPOOClick ($rootScope, $event, item) {
   });
 };
 
+function positionDropdown($element, data){
+  var $from = $(data.fromElement);
+  var $to = $($element)
+
+  $to.css({
+    'top': $from.offset().top,
+    'left': $from.offset().left + $from.outerWidth(),
+  })
+}
+
+
 var societyProChatDirectives =
 angular.module('societyProChatApp.directives',[
   'societyProChatApp.global'
@@ -67,19 +78,21 @@ angular.module('societyProChatApp.directives',[
     restrict: 'E',
     transclude: true,
     scope: {},
-    controller: function ($rootScope, $scope) {
+    controller: function ($rootScope, $scope, $element) {
 
       $scope.openSubscribersOverflow = function(e, item){
         onSubscriberPOOClick($rootScope, e, item);
       }
 
       $scope.$on("POO.click.collections", function ($event, data) {
+
         safeApply($scope, function () {
           //$scope.subscriberDropdownIndex = -1;
           // Show dropdown
           $scope.repeater = data.repeater;
           $scope.dropdownTitle = data.title;
           $scope.fromElement = data.fromElement;
+          positionDropdown($element, data);
         });
       });
     },
@@ -96,7 +109,7 @@ angular.module('societyProChatApp.directives',[
     restrict: 'E',
     transclude: true,
     scope: {},
-    controller: function ($rootScope, $scope) {
+    controller: function ($rootScope, $scope, $element) {
 
       $scope.$on('collections.overflow.close', function(){
         console.log('Subscribers dropdown closing after hearing collections dropdown closing.');
@@ -113,6 +126,7 @@ angular.module('societyProChatApp.directives',[
           $scope.repeater = ['a','b','c','d','rrrrr'];
           $scope.dropdownTitle = data.title;
           $scope.fromElement = data.fromElement;
+          positionDropdown($element, data);
         });
       });
 
