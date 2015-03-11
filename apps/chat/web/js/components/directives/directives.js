@@ -9,6 +9,15 @@ function safeApply($scope, fn) {
   }
 };
 
+function onSubscriberPOOClick ($rootScope, $event, item) {
+  console.log('Subscriber dropdown POO clicked')
+  $rootScope.$broadcast("POO.click.subscribers", {
+    fromElement: $event.target,
+    title: item.name,
+    id: item.id,
+  });
+};
+
 var societyProChatDirectives =
 angular.module('societyProChatApp.directives',[
   'societyProChatApp.global'
@@ -17,11 +26,17 @@ angular.module('societyProChatApp.directives',[
   return {
     transclude: true,
     restrict: 'E',
+    require:'^mainController',
     scope: {
       title: '@channelTitle',
       icon: '@',
       repeater: '=',
     },
+    /*
+    link: function(scope, element, attrs, mainController){
+      //scope.openSubscriberDropdown = mainController.openSubscriberDropdown;
+    },
+    */
     controller: function ($rootScope, $scope, maxChannels) {
       $scope.maxChannels = maxChannels;
       $scope.showOverflow = false;
@@ -30,27 +45,19 @@ angular.module('societyProChatApp.directives',[
         $rootScope.$broadcast("createChannelClicked");
       };
 
-      $scope.openCollectionsDropdown = function ($event) {
-        safeApply($scope, function () {
-          $rootScope.$broadcast("POO.click.collection", {
-            fromElement: $event.target,
-            title: $scope.title,
-            repeater: $scope.repeater,
-          });
-          //$scope.fromElement = $event.target;
-          //$scope.showOverflow = true;
+      $scope.openCollectionsOverflow = function ($event) {
+        $rootScope.$broadcast("POO.click.collections", {
+          fromElement: $event.target,
+          title: $scope.title,
+          repeater: $scope.repeater,
         });
       };
 
-/*
-      $scope.openSubscriberDropdown = function ($event, $index) {
-        safeApply($scope, function () {
-          $rootScope.$broadcast("closeSubscriberDropdown");
-          $scope.fromElement = $event.target;
-          $scope.subscriberDropdownIndex = $index;
-        });
-      };
-*/
+      $scope.openSubscribersOverflow = function($event, item){
+        console.log('collections controller and directive openSubscribersOverflow')
+        onSubscriberPOOClick($rootScope, $event, item);
+      }
+
 
       $scope.$on("closeSubscriberDropdown", function ($event, target) {
         safeApply($scope, function () {
@@ -63,25 +70,17 @@ angular.module('societyProChatApp.directives',[
     templateUrl: 'web/partials/collection.html'
   };
 })
-.directive('soproCollectionDropdown', function(){
+.directive('soproCollectionsDropdown', function(){
   return {
     restrict: 'E',
     transclude: true,
     controller: function ($rootScope, $scope) {
 
-      $scope.openSubscribersOverflow = function ($event) {
-        safeApply($scope, function () {
-          $rootScope.$broadcast("POO.click.subscribers", {
-            fromElement: $event.target,
-            title: $scope.title,
-            repeater: $scope.collectionRepeater,
-          });
-          //$scope.fromElement = $event.target;
-          //$scope.showOverflow = true;
-        });
-      };
+      $scope.openSubscribersOverflow = function(e, item){
+        onSubscriberPOOClick($rootScope, e, item);
+      }
 
-      $scope.$on("POO.click.collection", function ($event, data) {
+      $scope.$on("POO.click.collections", function ($event, data) {
         safeApply($scope, function () {
           //$scope.subscriberDropdownIndex = -1;
           // Show dropdown
@@ -105,21 +104,38 @@ angular.module('societyProChatApp.directives',[
   return {
     restrict: 'E',
     transclude: true,
-    scope: {
-      title: '@dropdownTitle',
-      fromElement:'='
-    },
     controller: function ($rootScope, $scope) {
 
-      $scope.$on('collection.overflow.close', function(){
+      $scope.$on('collections.overflow.close', function(){
         $rootScope.$broadcast('subscribers.overflow.close')
       })
+
+      $scope.$on('subscribers.overflow.open', function(){
+        safeApply($scope, function () {
+          $scope.fromElement = $event.target;
+          $scope.subscriberDropdownIndex = $index;
+        });
+      });
+
+
+      $scope.$on('POO.click.subscribers', function($event, data){
+        safeApply($scope, function () {
+          $scope.repeater = ['a','b','c','d','rrrrr'];
+          $scope.dropdownTitle = data.title;
+          $scope.fromElement = data.fromElement;
+        });
+      });
+
+
+
     },
     link: function(scope, element, attrs){
       //var rect = scope.fromElement.getBoundingClientRect();
       //element[0].style.top = rect.top - 30;
       //element[0].style.left = rect.right + 50;
     },
+    /*
+    */
     templateUrl: 'web/partials/dropdown.html'
   };
 });

@@ -20,7 +20,8 @@ angular.module('societyProChatApp.controllers',['ngMaterial', 'societyProChatApp
   $scope.channels = [];
   $scope.peers = [];
   $scope.currentRole = {};
-  $scope.showCollectionOverflow = null;
+  $scope.showCollectionsOverflow = null;
+  $scope.showSubscribersOverflow = null;
 
   $(document).mouseup(function (e) {
     var container = $("sopro-collection-dropdown");
@@ -28,8 +29,9 @@ angular.module('societyProChatApp.controllers',['ngMaterial', 'societyProChatApp
     if (!container.is(e.target) // if the target of the click isn't the container...
       && container.has(e.target).length === 0) // ... nor a descendant of the container
     {
-      $rootScope.$broadcast("collection.overflow.close", e.target);
-      $scope.showCollectionOverflow = false;
+      $rootScope.$broadcast("collections.overflow.close", e.target);
+      $scope.showCollectionsOverflow = false;
+      $scope.$apply();
     }
 
     var container = $("sopro-subscribers-dropdown");
@@ -37,7 +39,9 @@ angular.module('societyProChatApp.controllers',['ngMaterial', 'societyProChatApp
     if (!container.is(e.target) // if the target of the click isn't the container...
       && container.has(e.target).length === 0) // ... nor a descendant of the container
     {
-      $rootScope.$broadcast("closeSubscriberDropdown", e.target);
+      $rootScope.$broadcast("subscribers.overflow.close", e.target);
+      $scope.showSubscribersOverflow = false;
+      $scope.$apply();
     } 
 
   });
@@ -74,8 +78,15 @@ angular.module('societyProChatApp.controllers',['ngMaterial', 'societyProChatApp
 
   $scope.changeRole($scope.roles[0]);
 
-  $scope.$on("POO.click.collection", function ($event, data) {
-    $scope.showCollectionOverflow = true;
+  // Open/Close Dropdown Logic:
+
+  $scope.$on("POO.click.collections", function ($event, data) {
+    $scope.showSubscribersOverflow = false;
+    $scope.showCollectionsOverflow = true;
+  });
+
+  $scope.$on("POO.click.subscribers", function ($event, data) {
+    $scope.showSubscribersOverflow = true;
   });
 
 }]);
