@@ -9,22 +9,39 @@ function safeApply($scope, fn) {
   }
 };
 
-function onSubscriberPOOClick ($rootScope, $event, item) {
+function onSubscriberPOOClick ($rootScope, $event, item, title) {
   console.log('Subscriber dropdown POO clicked')
-  $rootScope.$broadcast("POO.click.subscribers", {
-    fromElement: $event.target,
-    title: item.name,
-    id: item.id,
-  });
+  if(title === "CHANNELS"){
+    $rootScope.$broadcast("POO.click.subscribers", {
+      // todo: rename to "open the channel subscribers" or simmilar
+      fromElement: $event.target,
+      title: item.name,
+      id: item.id,
+    });
+  }
 };
 
 function positionDropdown($element, data){
   var $from = $(data.fromElement);
   var $to = $($element)
+  var $cp = $('#sopro-channel-wrap');
+  var $arrow = $to.find($('.sopro-arrow-overflow-dropdown'));
+  var pooYmid =
+    $from.offset().top 
+    + ($from.outerHeight()/2);
 
+  // Middle of arrow should align with middle of POO:
+  var arrowTop = pooYmid - ($arrow.outerHeight()/2);
+  var pooRight = $from.offset().left + $from.outerWidth();
+
+
+  $arrow.css({
+    'top': arrowTop,
+    'left': pooRight-9,
+  })
   $to.css({
     'top': $from.offset().top,
-    'left': $from.offset().left + $from.outerWidth(),
+    'left': pooRight,
   })
 }
 
@@ -64,9 +81,9 @@ angular.module('societyProChatApp.directives',[
         });
       };
 
-      $scope.openSubscribersOverflow = function($event, item){
+      $scope.openSubscribersOverflow = function($event, item, title){
         console.log('collections controller and directive openSubscribersOverflow')
-        onSubscriberPOOClick($rootScope, $event, item);
+        onSubscriberPOOClick($rootScope, $event, item, title);
       }
 
     },
@@ -80,15 +97,13 @@ angular.module('societyProChatApp.directives',[
     scope: {},
     controller: function ($rootScope, $scope, $element) {
 
-      $scope.openSubscribersOverflow = function(e, item){
-        onSubscriberPOOClick($rootScope, e, item);
+      $scope.openSubscribersOverflow = function(e, item, title){
+        onSubscriberPOOClick($rootScope, e, item, title);
       }
 
       $scope.$on("POO.click.collections", function ($event, data) {
 
         safeApply($scope, function () {
-          //$scope.subscriberDropdownIndex = -1;
-          // Show dropdown
           $scope.repeater = data.repeater;
           $scope.dropdownTitle = data.title;
           $scope.fromElement = data.fromElement;
@@ -159,8 +174,6 @@ angular.module('societyProChatApp.directives',[
       //element[0].style.top = rect.top - 30;
       //element[0].style.left = rect.right + 50;
     },
-    /*
-    */
     templateUrl: 'web/partials/dropdown.html'
   };
 });

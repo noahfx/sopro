@@ -25,25 +25,40 @@ angular.module('societyProChatApp.controllers',['ngMaterial', 'societyProChatApp
 
   $(document).mouseup(function (e) {
     console.log('mouseup listener');
-    var container1 = $("sopro-collections-dropdown");
 
-    if (!container1.is(e.target) // if the target of the click isn't the container1...
-      && container1.has(e.target).length === 0 // ... nor a descendant of the container1
-      && $scope.showCollectionsOverflow) // and it's already open...
-    {
-      console.log('mouseup closing container1');
+    var container1 = $("sopro-collections-dropdown");
+    var container2 = $("sopro-subscribers-dropdown");
+
+    // Determine which, if any, dropdowns to close based on a click event somewhere on the page
+    var isOpen1 = $scope.showCollectionsOverflow;
+    var isOpen2 = $scope.showSubscribersOverflow;
+
+    var clicked1 = container1.is(e.target);
+    var clicked1child = container1.has(e.target).length > 0;
+
+    var clicked2 = container2.is(e.target);
+    var clicked2child = container2.has(e.target).length > 0;
+
+
+    // if the target of the click isn't the container1...
+    // ... nor a descendant of the container1
+    // and it's already open...
+    if ( !clicked1
+      && !clicked1child
+      && isOpen1
+      && !clicked2
+      && !clicked2child
+    ){
       $rootScope.$broadcast("collections.overflow.close", e.target);
       $scope.showCollectionsOverflow = false;
       $scope.$apply();
     }
 
-    var container2 = $("sopro-subscribers-dropdown");
 
-    if (!container2.is(e.target) // if the target of the click isn't the container2...
-      && container2.has(e.target).length === 0 // ... nor a descendant of thecontainer2 
-      && $scope.showSubscribersOverflow) // and it's already open...
+    if (!clicked2
+      && !clicked2child
+      && isOpen2) 
     {
-      console.log('mouseup closing container2');
       $rootScope.$broadcast("subscribers.overflow.close", e.target);
       $scope.showSubscribersOverflow = false;
       $scope.$apply();

@@ -8,10 +8,13 @@ var Elements = function () {
   this.channelsChannels = element.all(by.css('#collection-channels .channel-item'));
   this.collectionChannelsOverflow = element.all(by.css('#collection-channels .overflow-item'));
   this.collectionChannelsMore = element(by.css('#collection-channels .sopro-more-channels'));
+  this.pooCollections1 = this.collectionChannelsMore;
   this.collectionChannelsContainer = element.all(by.css("collection"));
   this.channelsContainer = element(by.css("#sopro-channel-wrap"));
   this.channelsTitles = element.all(by.css('.sopro-channel-title'));
   this.collectionTitleChannels = element(by.css('#collection-channels .sopro-channel-title'));
+  this.pooCollections2 = element(by.css('#collection-peers .sopro-more-channels'));
+  this.pooSubscribers1 = element(by.css('sopro-collections-dropdown .dropdown-item:first-child'));
 }
 
 describe('Dropdowns', function(){
@@ -52,11 +55,28 @@ describe('Dropdowns', function(){
 
   describe('Dropdown position', function(){
     describe('Short dropdown in screen middle', function(){
+      var POO1y;
       var pxAbove;
       var pxBelow;
-      beforeAll(function(){
-        pxAbove = POOtop - dropdownTop;
-        pxBelow = dropdownBottom - POOtop;
+      var els;
+
+      beforeAll(function(done){
+        els = new Elements();
+        els.currentRole.click();
+        els.roles.get(1).click();
+        els.pooCollections1.click();
+
+        var POO1 = els.pooCollections1;
+        //var POO2 = els.pooCollections2;
+        //var POO3 = els.pooSubscribers1;
+
+        POO1.getLocation()
+        .then(function(loc){
+          POO1y = loc.y;
+        })
+
+        //pxAbove =  - dropdownTop;
+        //pxBelow = dropdownBottom - POOtop;
       })
       xit('Top of dropdown is aligned with top of POO element', function(){
         expect(pxAbove).toBe(0);

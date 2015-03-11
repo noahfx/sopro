@@ -1,4 +1,4 @@
-<div class="sopro-dropdown" style="position:relative;">
+<div class="sopro-dropdown">
   <img class="sopro-arrow-overflow-dropdown" src="web/images/arrow-overflow-dropdown.png" width="10" height="18" alt="role-panel-arrow">
   <div class="sopro-dropdown-collection-wrap" layout="column">
     <div class="sopro-dropdown-title"><p>{{dropdownTitle}}</p></div>
@@ -7,7 +7,7 @@
         <li
         class="dropdown-item"
         ng-repeat="item in repeater"
-        ng-click="openSubscribersOverflow($event, item)"
+        ng-click="openSubscribersOverflow($event, item, dropdownTitle)"
         >
           {{item.name}}
         </li>

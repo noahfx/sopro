@@ -8,7 +8,7 @@ var channelSubscriberDropdown_steps = module.exports = function(){
   });
 
   this.Then(/^I should see a list of channel subscribers$/, function (next) {
-    element(by.css("#subscribers-dropdown li")).isDisplayed()
+    element(by.css("sopro-subscribers-dropdown")).isDisplayed()
     .then(function(isDisplayed) {
       if (isDisplayed) {
         next();

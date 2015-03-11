@@ -11,13 +11,13 @@ function findPOICSS(isSecond, isNested){
     if(!isNested){ // first non-nested POI
       css = "#collection-channels .sopro-more-channels";
     } else { // first nested POI
-      css = "#collection-channels .sopro-channels-overflow .overflow-item:first-child";
+      css = "sopro-collections-dropdown .dropdown-item:first-child";
     }
   } else {
     if(!isNested){ // second non-nested POI
       css = "#collection-peers .sopro-more-channels";
     } else {
-      css = "#collection-peers .sopro-channels-overflow .overflow-item:first-child";
+      css = "sopro-subscribers-dropdown .dropdown-item:first-child";
     }
   }
   return css;
@@ -27,15 +27,15 @@ function findDropdownCSS(isSecond, isNested){
   var css;
   if(!isSecond){
     if(!isNested){ // first non-nested dropdown
-      css = "#collection-channels .sopro-channels-overflow";
+      css = "sopro-collections-dropdown";
     } else { // first nested dropdown
-      css = "#collection-channels .sopro-channels-overflow .sopro-channels-overflow";
+      css = "sopro-subscribers-dropdown";
     }
   } else {
     if(!isNested){ // second non-nested dropdown
-      css = "#collection-peers .sopro-channels-overflow";
+      css = "sopro-collections-dropdown";
     } else {
-      css = "#collection-peers .sopro-channels-overflow .sopro-channels-overflow";
+      css = "sopro-subscribers-dropdown";
     }
   }
   return css;
