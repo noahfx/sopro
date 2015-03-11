@@ -96,7 +96,7 @@ collection {
   padding-left: 40px;
   margin-right: 20px;
   color: rgba(85, 84, 89, 1);
-  cursor: pointer;
+  cursor: pointer !important;
 }
 #sopro-channel-wrap ul li.channel-item:hover {
   background-color: rgba(131, 131, 131, 1);
@@ -111,8 +111,7 @@ collection {
   padding: 0px;
 }
 .sopro-more-channels {
-  font-size: 13px;
-  cursor: pointer;
+  font-size: 13px !important;
 }
 
 .collection-create-link{

@@ -13,21 +13,16 @@
       ng-click="openSubscribersOverflow($event, item)"
       layout="column" 
       layout-align="center start">
-        <span>
-         {{item.name}}
-        </span>
-
+       {{item.name}}
       </li>
       <li
       ng-show="repeater.length > maxChannels"
-      class="sopro-config-collection-link"
+      class="sopro-config-collection-link sopro-more-channels"
       ng-class="{'channel-separator':repeater.length > maxChannels}"
       layout="column"
       layout-align="center start"
       ng-click="openCollectionsOverflow($event)">
-        <span class="sopro-more-channels">
         +{{repeater.length - maxChannels}} more...
-        </span>
       </li>
   </ul>
 </div>
