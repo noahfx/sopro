@@ -9,9 +9,14 @@
         <span ng-click="openSubscriberDropdown($event, $index)">{{item.name}}</span>
         <sopro-subscribers-dropdown ng-if="subscriberDropdownIndex == $index" from-element="fromElement" dropdown-title="{{item.name}}" channel-id="{{item.id}}"></sopro-subscribers-dropdown>
       </li>
-      <li ng-show="repeater.length > maxChannels" class="sopro-config-collection-link" ng-class="{'channel-separator':repeater.length > maxChannels}"layout="column" layout-align="center start">
-        <span class="sopro-more-channels" ng-click="openOverflow($event)">+{{repeater.length - maxChannels}} more...</span>
-        <sopro-collection-dropdown ng-if="showOverflow" from-element="fromElement" dropdown-title="{{title}}" collection-repeater="repeater"></sopro-collection-dropdown>
+      <li
+      ng-show="repeater.length > maxChannels"
+      class="sopro-config-collection-link"
+      ng-class="{'channel-separator':repeater.length > maxChannels}"
+      layout="column"
+      layout-align="center start"
+      ng-click="openCollectionsDropdown($event)">
+        <span class="sopro-more-channels">+{{repeater.length - maxChannels}} more...</span>
       </li>
   </ul>
 </div>

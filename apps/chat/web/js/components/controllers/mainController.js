@@ -20,6 +20,7 @@ angular.module('societyProChatApp.controllers',['ngMaterial', 'societyProChatApp
   $scope.channels = [];
   $scope.peers = [];
   $scope.currentRole = {};
+  $scope.showCollectionOverflow = null;
 
   $(document).mouseup(function (e) {
     var container = $("sopro-collection-dropdown");
@@ -27,7 +28,8 @@ angular.module('societyProChatApp.controllers',['ngMaterial', 'societyProChatApp
     if (!container.is(e.target) // if the target of the click isn't the container...
       && container.has(e.target).length === 0) // ... nor a descendant of the container
     {
-      $rootScope.$broadcast("closeOverflow", e.target);
+      $rootScope.$broadcast("collection.overflow.close", e.target);
+      $scope.showCollectionOverflow = false;
     }
 
     var container = $("sopro-subscribers-dropdown");
@@ -71,5 +73,9 @@ angular.module('societyProChatApp.controllers',['ngMaterial', 'societyProChatApp
 
 
   $scope.changeRole($scope.roles[0]);
+
+  $scope.$on("POO.click.collection", function ($event, data) {
+    $scope.showCollectionOverflow = true;
+  });
 
 }]);
