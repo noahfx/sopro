@@ -77,14 +77,14 @@ collection {
   border-radius: 2px;
   padding-bottom: 20px;
 }
-.sopro-channel-title{
+.sopro-collection-title{
   height: 32px;
   font-size: 13px;
   padding: 0px 16px;
   color: rgba(85, 84, 89, 1);
   font-weight: bold;
 }
-.sopro-channel-title > span{
+.sopro-collection-title > span{
   margin: 5px;
   text-transform: uppercase;
 }

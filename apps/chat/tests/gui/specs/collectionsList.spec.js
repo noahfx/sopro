@@ -8,8 +8,8 @@ var societyProChat = function () {
   this.currentRole = element(by.css(".role-selection"));
   this.roles = element.all(by.repeater('role in roles'));
   this.collectionsContainer = element(by.css("#sopro-collections-wrap"));
-  this.channelsTitles = element.all(by.css('.sopro-channel-title'));
-  this.collectionTitleChannels = element(by.css('#collection-channels .sopro-channel-title'));
+  this.channelsTitles = element.all(by.css('.sopro-collection-title'));
+  this.collectionTitleChannels = element(by.css('#collection-channels .sopro-collection-title'));
 }
 
 describe('Collections list', function() {
