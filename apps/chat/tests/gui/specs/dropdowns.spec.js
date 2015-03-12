@@ -86,7 +86,7 @@ describe('Dropdowns', function(){
       });
     })
 
-    it('Many elements: Dropdown is shorter than parent container', function(){
+    it('Many elements: Dropdown is shorter than comm panel', function(){
       els.currentRole.click();
       els.roles.get(0).click();
       els.collectionPeersMore.click();
@@ -99,7 +99,7 @@ describe('Dropdowns', function(){
 
   describe('Dropdown position', function(){
 
-    describe('Short dropdown in screen middle', function(){
+    describe('Short dropdown', function(){
 
       var pooTop;
       var pooBottom;
@@ -135,48 +135,72 @@ describe('Dropdowns', function(){
         });
       })
 
-      it('Top of dropdown is aligned with top of POO element', function(){
-        expect(pooTop - dropdownTop).toBe(0);
-      });
-      it('Extends mostly down from POO', function(){
-        expect(dropdownBottom - pooBottom).toBeGreaterThan(0);
-      });
-      xit('does not have a scrollbar', function(){
-        expect(scrollbar.isDisplayed()).toBeFalsy()
+      describe('in screen middle', function(){
+        it('Top of dropdown is aligned with top of POO element', function(){
+          expect(pooTop - dropdownTop).toBe(0);
+        });
+        it('Extends mostly down from POO', function(){
+          expect(dropdownBottom - pooBottom).toBeGreaterThan(0);
+        });
+        xit('does not have a scrollbar', function(){
+          expect(scrollbar.isDisplayed()).toBeFalsy()
+        })
+        it('Extends no further up than 20px below the comm panel top', function(){
+          expect(dropdownTop - cpTop).not.toBeLessThan(20);
+        });
+        it('Extends no further down than 20px above the comm panel bottom', function(){
+          expect(cpBottom - dropdownBottom).not.toBeLessThan(20);
+        });
       })
-    });
 
-    describe('Short dropdown at screen bottom', function(){
-      xit('Extends no further than 20px before the comm panel bottom', function(){
-
-      });
-      xit('Extends further toward the top of screen', function(){
-
-      });
-      xit('does not have a scrollbar', function(){
-        //expect(scrollbar.isDisplayed()).toBeFalsy()
-      });
-    });
-
-    describe('Short dropdown at screen top', function(){
-      xit('Extends no further than 20px before the comm panel top', function(){
-
-      });
-      xit('Extends further toward the bottom of screen', function(){
-
-      });
-      xit('does not have a scrollbar', function(){
-        //expect(scrollbar.isDisplayed()).toBeFalsy()
-      });
     });
 
     describe('Tall dropdown', function(){
-      xit('Extends no further than 20px before the comm panel top', function(){
 
-      });
-      xit('Extends no further than 20px before the comm panel bottom', function(){
+      var pooTop;
+      var pooBottom;
 
+      var dropdownTop;
+      var dropdownBottom;
+
+      beforeAll(function(done){
+        var POO2 = els.pooCollections2;
+        els.currentRole.click();
+        els.roles.get(0).click();
+        POO2.click()
+        .then(function(){
+
+          POO2.getLocation()
+          .then(function(loc){
+            pooTop = loc.y;
+            POO2.getSize()
+            .then(function(size){
+              pooBottom = loc.y + size.height;
+
+              els.collectionsOverflow.getSize()
+              .then(function(size2){
+                els.collectionsOverflow.getLocation()
+                .then(function(loc2){
+                  dropdownTop = loc2.y
+                  dropdownBottom = loc2.y + size2.height;
+
+                  done();
+                })
+              })
+            })
+          })
+        });
+      })
+
+      it('Extends no further up than 20px below the comm panel top', function(){
+        expect(dropdownTop - cpTop).not.toBeLessThan(20);
       });
+
+      it('Extends no further down than 20px above the comm panel bottom', function(){
+        console.log(require('util').format('cpBottom: %s dropdownBottom: %s', cpBottom, dropdownBottom))
+        expect(cpBottom - dropdownBottom).not.toBeLessThan(20);
+      });
+
       xit('has a scrollbar', function(){
         //expect(scrollbar.isDisplayed()).toBeTruthy()
       });

@@ -68,8 +68,8 @@ describe('Collections list', function() {
         expect(chat.collectionChannelsItems.count()).toEqual(CAM_MOCKS.displayedChannelCount);
         expect(chat.collectionChannelsMore.isDisplayed()).toBeTruthy();
         var n = CAM_MOCKS.getChannelsResponse2.channels.length - CAM_MOCKS.displayedChannelCount;
-        var str = "+" + n + " more..."
-        expect(chat.collectionChannelsMore.getText()).toEqual(str);
+        var regex = /^\+[\d]+ more\.\.\.$/
+        expect(chat.collectionChannelsMore.getText()).toMatch(regex)
       });
 
       it('does not have a "+X more..." button if there are fewer channels than the limit', function(){
