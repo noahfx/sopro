@@ -24,7 +24,7 @@ function onSubscriberPOOClick ($rootScope, $event, item, title) {
 function positionDropdown($element, data){
   var $from = $(data.fromElement);
   var $to = $($element)
-  var $cp = $('#sopro-channel-wrap');
+  var $cp = $('#sopro-collections-wrap');
   var $arrow = $to.find($('.sopro-arrow-overflow-dropdown'));
   var pooYmid =
     $from.offset().top 

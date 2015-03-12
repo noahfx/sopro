@@ -2,13 +2,12 @@ var CAM_MOCKS = require('../../mock-data.js');
 
 var societyProChat = function () {
   this.channelCollections = element.all(by.css('.channel-collection'))
-  this.channelsChannels = element.all(by.css('#collection-channels .channel-item'));
-  this.collectionChannelsOverflow = element.all(by.css('#collection-channels .overflow-item'));
+  this.collectionChannelsItems = element.all(by.css('#collection-channels .channel-item'));
   this.collectionChannelsMore = element(by.css('#collection-channels .sopro-more-channels'));
   this.collectionChannelsContainer = element.all(by.css("collection"));
   this.currentRole = element(by.css(".role-selection"));
   this.roles = element.all(by.repeater('role in roles'));
-  this.channelsContainer = element(by.css("#sopro-channel-wrap"));
+  this.collectionsContainer = element(by.css("#sopro-collections-wrap"));
   this.channelsTitles = element.all(by.css('.sopro-channel-title'));
   this.collectionTitleChannels = element(by.css('#collection-channels .sopro-channel-title'));
 }
@@ -19,7 +18,7 @@ describe('Collections list', function() {
 
   it('has margin: 20px 16px', function(){
     var top = chat.collectionChannelsContainer.get(0).getCssValue('margin-top');
-    var bottom = chat.channelsContainer.getCssValue('padding-bottom');
+    var bottom = chat.collectionsContainer.getCssValue('padding-bottom');
     var left = chat.channelsTitles.first().getCssValue('padding-left');
     var right = chat.channelsTitles.first().getCssValue('padding-right');
     expect(top).toBe('20px');
@@ -59,14 +58,14 @@ describe('Collections list', function() {
       });
 
       it('contains a list of channels', function(){
-        expect(chat.channelsChannels.count()).toBeGreaterThan(0);
+        expect(chat.collectionChannelsItems.count()).toBeGreaterThan(0);
       });
 
 
       it('has a "+X more..." button if there are more channels than the limit', function () {
         chat.currentRole.click();
         chat.roles.get(1).click();
-        expect(chat.channelsChannels.count()).toEqual(CAM_MOCKS.displayedChannelCount);
+        expect(chat.collectionChannelsItems.count()).toEqual(CAM_MOCKS.displayedChannelCount);
         expect(chat.collectionChannelsMore.isDisplayed()).toBeTruthy();
         var n = CAM_MOCKS.getChannelsResponse2.channels.length - CAM_MOCKS.displayedChannelCount;
         var str = "+" + n + " more..."
@@ -81,7 +80,7 @@ describe('Collections list', function() {
 
 
       describe('the first channel - ', function(){
-        var first = chat.channelsChannels.first();
+        var first = chat.collectionChannelsItems.first();
         it('has text "random"', function(){
           expect(first.getText()).toEqual('random');
         });

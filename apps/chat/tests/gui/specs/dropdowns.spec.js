@@ -3,14 +3,13 @@ var CAM_MOCKS = require('../../mock-data.js');
 var Elements = function () {
   this.currentRole = element(by.css(".role-selection"));
   this.roles = element.all(by.repeater('role in roles'));
-
-  this.channelCollections = element.all(by.css('.channel-collection'));
-  this.channelsChannels = element.all(by.css('#collection-channels .channel-item'));
-  this.collectionChannelsOverflow = element.all(by.css('#collection-channels .overflow-item'));
+  this.collectionChannelsItems = element.all(by.css('#collection-channels .channel-item'));
+  this.collectionsOveflow = element(by.css('sopro-collections-dropdown .sopro-dropdown-collection-wrap'));
+  this.collectionsOveflowTitle = element(by.css('sopro-collections-dropdown .sopro-dropdown-title'))
+  this.collectionsOverflowItems = element.all(by.css('sopro-collections-dropdown .dropdown-item'));
   this.collectionChannelsMore = element(by.css('#collection-channels .sopro-more-channels'));
   this.pooCollections1 = this.collectionChannelsMore;
-  this.collectionChannelsContainer = element.all(by.css("collection"));
-  this.channelsContainer = element(by.css("#sopro-channel-wrap"));
+  this.collectionsContainer = element(by.css("#sopro-collections-wrap"));
   this.channelsTitles = element.all(by.css('.sopro-channel-title'));
   this.collectionTitleChannels = element(by.css('#collection-channels .sopro-channel-title'));
   this.pooCollections2 = element(by.css('#collection-peers .sopro-more-channels'));
@@ -20,29 +19,55 @@ var Elements = function () {
 describe('Dropdowns', function(){
   browser.get('http://localhost:8080/');
   var els = new Elements();
+  beforeAll(function(){
+    els.currentRole.click();
+    els.roles.get(1).click();
+  })
   describe('Collections: Channels Overflow', function(){
-    beforeAll(function(){
-        els.currentRole.click();
-        els.roles.get(1).click();
-    })
-
     it("opens an overflow with all the channels listed", function () {
-      expect(els.channelsChannels.count())
+      expect(els.collectionChannelsItems.count())
         .toEqual(CAM_MOCKS.displayedChannelCount);
       expect(els.collectionChannelsMore.isDisplayed())
         .toBeTruthy();
       els.collectionChannelsMore.click();
-      expect(els.collectionChannelsOverflow.count())
+      expect(els.collectionsOverflowItems.count())
         .toEqual(CAM_MOCKS.getChannelsResponse2.channels.length);
     });
 
-    xit('highlights the POO element', function(){
-
+    it('highlights the POO element', function(){
+      expect(els.collectionChannelsItems.get(0).getCssValue("background-color")).toEqual("rgba(0, 0, 0, 0)");
+      browser.actions().
+      mouseMove(els.collectionChannelsItems.get(0)).
+      perform();
+      expect(els.collectionChannelsItems.get(0).getCssValue("background-color")).toEqual("rgba(131, 131, 131, 1)");
     })
   })
 
+  describe("dropdown keylines", function () {
+    it("has a 20px margin", function () {
+      els.collectionChannelsMore.click();
+      expect(els.collectionsOveflow.getCssValue("padding-top")).toEqual("20px");
+      expect(els.collectionsOveflow.getCssValue("padding-bottom")).toEqual("20px");
+      expect(els.collectionsOveflow.getCssValue("padding-right")).toEqual("20px");
+      expect(els.collectionsOveflow.getCssValue("padding-left")).toEqual("20px");
+    });
+
+    it("has a 20px tall title", function () {
+      els.collectionChannelsMore.click();
+      expect(els.collectionsOveflowTitle.getCssValue("height")).toEqual("20px");
+    });
+
+    it("has items 30px tall", function () {
+      els.collectionChannelsMore.click();
+      expect(els.collectionsOverflowItems.get(0).getCssValue("height")).toEqual("30px");
+    })
+  });
+
   describe('Dropdown heights', function(){
-    xit('Few elements: Dropdown shrinks to fit', function(){
+    it('Few elements: Dropdown shrinks to fit', function(){
+      //els.collectionChannelsMore.click();
+
+      //expect("")
       //expect(dropdownHeight - dropdownElementsHeight).toBe(x);
       //expect(scrollbar.isDisplayed()).toBeFalsy()
     })

@@ -19,14 +19,12 @@ module.exports = CAM_MOCKS = {
       }
     ],
     "peers": [
-      {
-        "id": "C024BE91L",
-        "name": "plato"
-      },
-      {
-        "id": "C024BE91L",
-        "name": "jimmy"
-      }
+      {"id": "C024BE91L","name": "plato"},{"id": "C024BE91L","name": "jimmy"},{"id": "C024BE91L","name": "jimmy"},{"id": "C024BE91L","name": "jimmy"},{"id": "C024BE91L","name": "jimmy"},
+      {"id": "C024BE91L","name": "plato"},{"id": "C024BE91L","name": "jimmy"},{"id": "C024BE91L","name": "jimmy"},{"id": "C024BE91L","name": "jimmy"},{"id": "C024BE91L","name": "jimmy"},
+      {"id": "C024BE91L","name": "plato"},{"id": "C024BE91L","name": "jimmy"},{"id": "C024BE91L","name": "jimmy"},{"id": "C024BE91L","name": "jimmy"},{"id": "C024BE91L","name": "jimmy"},
+      {"id": "C024BE91L","name": "plato"},{"id": "C024BE91L","name": "jimmy"},{"id": "C024BE91L","name": "jimmy"},{"id": "C024BE91L","name": "jimmy"},{"id": "C024BE91L","name": "jimmy"},
+      {"id": "C024BE91L","name": "plato"},{"id": "C024BE91L","name": "jimmy"},{"id": "C024BE91L","name": "jimmy"},{"id": "C024BE91L","name": "jimmy"},{"id": "C024BE91L","name": "jimmy"},
+      {"id": "C024BE91L","name": "plato"},{"id": "C024BE91L","name": "jimmy"},{"id": "C024BE91L","name": "jimmy"},{"id": "C024BE91L","name": "jimmy"},{"id": "C024BE91L","name": "jimmy"},
     ]
   },
   getChannelsResponse2: {

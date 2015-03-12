@@ -70,7 +70,7 @@ collection {
 }
 
 /* Channel Collections */
-#sopro-channel-wrap{
+#sopro-collections-wrap{
   background-color: white;
   width: 185px;
   margin-right: 8px;
@@ -88,7 +88,7 @@ collection {
   margin: 5px;
   text-transform: uppercase;
 }
-#sopro-channel-wrap ul li {
+#sopro-collections-wrap ul li {
   height: 32px;
   font-size: 15px;
   padding-left: 40px;
@@ -96,14 +96,14 @@ collection {
   color: rgba(85, 84, 89, 1);
   cursor: pointer !important;
 }
-#sopro-channel-wrap ul li.channel-item:hover {
+#sopro-collections-wrap ul li.channel-item:hover {
   background-color: rgba(131, 131, 131, 1);
   color: rgba(204, 204, 204, 1);
 }
-#sopro-channel-wrap ul li.channel-separator {
+#sopro-collections-wrap ul li.channel-separator {
   border-bottom: 1px solid rgba(131,131,131,0.5);
 }
-#sopro-channel-wrap ul {
+#sopro-collections-wrap ul {
   list-style: none;
   margin: 0px;
   padding: 0px;
