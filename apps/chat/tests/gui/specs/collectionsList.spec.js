@@ -13,7 +13,7 @@ var societyProChat = function () {
 }
 
 describe('Collections list', function() {
-  browser.get('http://localhost:8080/');
+  browser.get('/');
   var chat = new societyProChat();
 
   it('has margin: 20px 16px', function(){

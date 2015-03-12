@@ -18,15 +18,22 @@ var Elements = function () {
 }
 
 describe('Dropdowns', function(){
-  browser.get('http://localhost:8080/');
+  browser.get('/');
   var els = new Elements();
   var cpHeight = null;
+  var cpTop = null;
+  var cpBottom = null;
   beforeAll(function(){
     els.currentRole.click();
     els.roles.get(1).click();
     els.collectionsContainer.getSize()
     .then(function(size){
       cpHeight = size.height;
+      els.collectionsContainer.getLocation()
+      .then(function(loc){
+        cpTop = loc.y;
+        cpBottom = loc.y + size.height;
+      })
     })
   })
   describe('Collections: Channels Overflow', function(){
@@ -91,40 +98,51 @@ describe('Dropdowns', function(){
   })
 
   describe('Dropdown position', function(){
-    var POOtop;
-    var POObottom;
-    beforeAll(function(done){
-      els.currentRole.click();
-      els.roles.get(1).click();
 
-      var POO1 = els.pooCollections1;
-      //var POO2 = els.pooCollections2;
-      //var POO3 = els.pooSubscribers1;
-
-      POO1.getLocation()
-      .then(function(loc){
-        POO1y = loc.y;
-      })
-    });
     describe('Short dropdown in screen middle', function(){
+
+      var pooTop;
+      var pooBottom;
 
       var dropdownTop;
       var dropdownBottom;
 
-      beforeAll(function () {
-        els.pooCollections1.click();
-      });
+      beforeAll(function(done){
+        var POO1 = els.pooCollections1;
 
-      //pxAbove =  - dropdownTop;
-      //pxBelow = dropdownBottom - POOtop;
-      xit('Top of dropdown is aligned with top of POO element', function(){
-        expect(pxAbove).toBe(0);
+        POO1.click()
+        .then(function(){
+
+          POO1.getLocation()
+          .then(function(loc){
+            pooTop = loc.y;
+            POO1.getSize()
+            .then(function(size){
+              pooBottom = loc.y + size.height;
+
+              els.collectionsOverflow.getSize()
+              .then(function(size2){
+                els.collectionsOverflow.getLocation()
+                .then(function(loc2){
+                  dropdownTop = loc2.y
+                  dropdownBottom = loc2.y + size2.height;
+
+                  done();
+                })
+              })
+            })
+          })
+        });
+      })
+
+      it('Top of dropdown is aligned with top of POO element', function(){
+        expect(pooTop - dropdownTop).toBe(0);
       });
-      xit('Extends mostly down from POO', function(){
-        expect(pxBelow).toBeGreaterThan(0);
+      it('Extends mostly down from POO', function(){
+        expect(dropdownBottom - pooBottom).toBeGreaterThan(0);
       });
       xit('does not have a scrollbar', function(){
-        //expect(scrollbar.isDisplayed()).toBeFalsy()
+        expect(scrollbar.isDisplayed()).toBeFalsy()
       })
     });
 
