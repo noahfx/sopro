@@ -8,6 +8,7 @@
         class="dropdown-item"
         ng-repeat="item in repeater"
         ng-click="openSubscribersOverflow($event, item, dropdownTitle)"
+        wait-for-render
         >
           {{item.name}}
         </li>

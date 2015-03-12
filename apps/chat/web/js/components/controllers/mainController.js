@@ -1,5 +1,5 @@
 var societyProChatControllers = 
-angular.module('societyProChatApp.controllers',['ngMaterial', 'societyProChatApp.controller2'])
+angular.module('societyProChatApp.controllers',['ngMaterial', 'ngAnimate', 'societyProChatApp.controller2'])
 
 .controller('mainController',['$scope','$http','$rootScope',function($scope,$http,$rootScope) {
   $rootScope.token = "12345";

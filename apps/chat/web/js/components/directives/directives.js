@@ -21,28 +21,94 @@ function onSubscriberPOOClick ($rootScope, $event, item, title) {
   }
 };
 
-function positionDropdown($element, data){
-  var $from = $(data.fromElement);
-  var $to = $($element)
-  var $cp = $('#sopro-collections-wrap');
-  var $arrow = $to.find($('.sopro-arrow-overflow-dropdown'));
-  var pooYmid =
-    $from.offset().top 
-    + ($from.outerHeight()/2);
+function positionDropdown(dataCount, fromElement){
+  // Calculate and return the position for this element.
+  var positions = {
+    arrow: {},
+    dropdown: {},
+    keylines: {
+      a0: null,
+      a1: null,
+      a2: null,
+      edge: null,
+    }
+  }
+  var $from = $(fromElement);
+  //var $to = $($element);
+  var dropdownItemsHeight = 30 * dataCount;
+  var dropdownHeight = 20 + 30 + dropdownItemsHeight + 20;
 
-  // Middle of arrow should align with middle of POO:
-  var arrowTop = pooYmid - ($arrow.outerHeight()/2);
+  var $cp = $('#sopro-collections-wrap');
+  //var $arrow = $to.find($('.sopro-arrow-overflow-dropdown'));
+
+  //console.log('Positioning something with height', $to.innerHeight());
+
+
+  var a0 = $cp.offset().top + 20;
+  var a1 = $from.offset().top;
+  var a2 = a0 + $cp.height() - 40;
+
+  var pooYmid =
+    $from.offset().top
+ + ($from.outerHeight()/2);
+
+  // Middle of arrow should align with middle of POO. Arrow is 10px * 18px
+  var arrowTop = pooYmid - 9;
   var pooRight = $from.offset().left + $from.outerWidth();
 
+  positions.keylines.a0 = a0;
+  positions.keylines.a1 = a1;
+  positions.keylines.a2 = a2;
+  positions.keylines.edge = pooRight;
+  positions.arrow.top = arrowTop;
+  positions.arrow.left = pooRight - 9;
+  positions.dropdown.left = pooRight;
 
-  $arrow.css({
-    'top': arrowTop,
-    'left': pooRight-9,
-  })
-  $to.css({
-    'top': $from.offset().top,
-    'left': pooRight,
-  })
+  var scenario = null;
+  if(dropdownHeight <= (a2-a1)){
+    // Scenario: Dropdown is short and in the middle of the screen
+    positions.dropdown.top = a1+'px';
+    positions.dropdown.height = dropdownHeight+'px';
+    positions.dropdown['overflow-y'] = 'hidden';
+  }
+
+  if(dropdownHeight > (a2-a1)
+    && dropdownHeight <= (a2-a0)
+  ){
+    // Scenario: Dropdown exceeds distance from POO to bottom
+    positions.dropdown.top = (a2-dropdownHeight)+'px';
+    positions.dropdown.height = dropdownHeight+'px';
+    positions.dropdown['overflow-y'] = 'hidden';
+  }
+
+  if(dropdownHeight > (a2 - a0)){
+    // Scenario: Dropdown exceeds maximum distance from top to bottom
+    positions.dropdown.top = a0+'px';
+    positions.dropdown.height = (a2-a0)+'px';
+    positions.dropdown['overflow-y'] = 'scroll';
+
+  }
+  return positions;
+}
+
+function drawDropdown($animate, $element, positions, zIndex){
+  $element
+  .css(positions.dropdown);
+
+  $element.find('.sopro-arrow-overflow-dropdown')
+  .css(positions.arrow);
+
+  if(zIndex){
+    $element.addClass('md-whiteframe-z'+zIndex);
+  }
+
+  $animate.animate($element, {
+    top: positions.keylines.a1,
+    height: "0px",
+  }, {
+    top: positions.dropdown.top,
+    height: positions.dropdown.height,
+  });
 }
 
 
@@ -82,7 +148,8 @@ angular.module('societyProChatApp.directives',[
       };
 
       $scope.openSubscribersOverflow = function($event, item, title){
-        console.log('collections controller and directive openSubscribersOverflow')
+        // This is getting triggered from multiple collections. 
+        // Check whether it's a channel overflow or peers:
         onSubscriberPOOClick($rootScope, $event, item, title);
       }
 
@@ -95,20 +162,27 @@ angular.module('societyProChatApp.directives',[
     restrict: 'E',
     transclude: true,
     scope: {},
-    controller: function ($rootScope, $scope, $element) {
+    controller: function ($rootScope, $scope, $element, $animate) {
 
       $scope.openSubscribersOverflow = function(e, item, title){
         onSubscriberPOOClick($rootScope, e, item, title);
       }
+/*
+      $scope.$on('dropdownReadyToRender', function(){
+        setTimeout(function(){
+          positionDropdown($element, $scope.fromElement);
+        }, 100)
+        console.log('rendering collection dropdown')
+
+      })
+*/
 
       $scope.$on("POO.click.collections", function ($event, data) {
-
-        safeApply($scope, function () {
-          $scope.repeater = data.repeater;
-          $scope.dropdownTitle = data.title;
-          $scope.fromElement = data.fromElement;
-          positionDropdown($element, data);
-        });
+        $scope.repeater = data.repeater;
+        $scope.dropdownTitle = data.title;
+        $scope.fromElement = data.fromElement;
+        var positions = positionDropdown(data.repeater.length, $scope.fromElement);
+        drawDropdown($animate, $element, positions, 1);
       });
     },
     link: function(scope, element, attrs){
@@ -124,7 +198,7 @@ angular.module('societyProChatApp.directives',[
     restrict: 'E',
     transclude: true,
     scope: {},
-    controller: function ($rootScope, $scope, $element, $http) {
+    controller: function ($rootScope, $scope, $element, $http, $animate) {
 
       $scope.$on('collections.overflow.close', function(){
         console.log('Subscribers dropdown closing after hearing collections dropdown closing.');
@@ -132,15 +206,14 @@ angular.module('societyProChatApp.directives',[
         $rootScope.$broadcast('subscribers.overflow.close')
       })
 
-      $scope.$on('subscribers.overflow.open', function(){
-      });
-
+      $scope.$on('dropdownReadyToRender', function(){
+        var positions = positionDropdown($element, $scope.fromElement);
+      })
 
       $scope.$on('POO.click.subscribers', function($event, data){
         safeApply($scope, function () {
           $scope.dropdownTitle = data.title;
           $scope.fromElement = data.fromElement;
-          positionDropdown($element, data);
           $http({
             method: 'GET',
             url: '/api/channel.info',
@@ -157,6 +230,8 @@ angular.module('societyProChatApp.directives',[
               // when the response is available
               console.log(data);
               $scope.repeater = data.channel.members;
+              var positions = positionDropdown(data.channel.members.length, $scope.fromElement);
+              drawDropdown($animate, $element, positions, 1);
             })
             .error(function(data, status, headers, config) {
               // called asynchronously if an error occurs
@@ -176,4 +251,12 @@ angular.module('societyProChatApp.directives',[
     },
     templateUrl: 'web/partials/dropdown.html'
   };
-});
+})
+.directive('waitForRender', function(){
+  return function(scope, element, attrs){
+    if(scope.$last){
+      console.log('Emitting dropdownReadyToRender')
+      scope.$emit("dropdownReadyToRender")
+    }
+  }
+})

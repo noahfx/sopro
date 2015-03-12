@@ -75,7 +75,6 @@ collection {
   width: 185px;
   margin-right: 8px;
   border-radius: 2px;
-  padding-bottom: 20px;
 }
 .sopro-collection-title{
   height: 32px;
@@ -194,8 +193,9 @@ collection {
 .sopro-dropdown-collection-wrap{
     position: relative;
     width: 186px;
-    border:1px solid #cdcdcd;
     padding:20px 0px 20px 0px;
+    /* REPLACE ME WITH .md-whiteframe-z1 
+    border:1px solid #cdcdcd;
     float: left;
     -webkit-border-radius: 2px;
     -moz-border-radius: 2px;
@@ -203,6 +203,7 @@ collection {
     -webkit-box-shadow: 0px 0px 12px 0px rgba(50, 50, 50, 0.47);
     -moz-box-shadow: 0px 0px 12px 0px rgba(50, 50, 50, 0.47);
     box-shadow: 0px 0px 12px 0px rgba(50, 50, 50, 0.47);
+    */
 }
 
 sopro-collections-dropdown, sopro-subscribers-dropdown {
@@ -218,12 +219,12 @@ sopro-subscribers-dropdown{
   z-index: 10;
 }
 
-/*.dropdown-scrim {
-  z-index: 2;
-  background-color: transparent;
-  position: fixed;
-  pointer-events:none;
-}*/
+.dropdown-item{
+  width: 9em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 
 /* FROM CALIX */
 .sopro-ul-scroll{
@@ -262,16 +263,15 @@ sopro-subscribers-dropdown{
    background: #838383;
    cursor: pointer;
    color: #cccccc;
-       
 }
 
 .sopro-dropdown-collection-wrap a {
-   cursor: pointer;    
+   cursor: pointer;
 }
 
 .sopro-dropdown-collection-wrap ul li {
     width: 148px;
-    height: 24px;
+    height: 30px;
     margin-left: 0px;
     font-size: 15px;
     padding: 6px 0px 0px 20px;
@@ -284,7 +284,7 @@ sopro-subscribers-dropdown{
 }
 
 .sopro-dropdown-title{
-    height: 30px;
+    height: 20px;
     font-size: 13px;
     padding: 0px 0px 0px 20px;
 }
