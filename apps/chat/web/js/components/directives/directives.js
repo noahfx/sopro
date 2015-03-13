@@ -162,7 +162,7 @@ angular.module('societyProChatApp.directives',[
     restrict: 'E',
     transclude: true,
     scope: {},
-    controller: function ($rootScope, $scope, $element, $animate) {
+    controller: function ($rootScope, $scope, $element, $animate, $window) {
 
       $scope.openSubscribersOverflow = function(e, item, title){
         onSubscriberPOOClick($rootScope, e, item, title);
@@ -176,13 +176,20 @@ angular.module('societyProChatApp.directives',[
 
       })
 */
+      
+      var win = angular.element($window);
+      win.bind("resize",function(e){
+        var positions = positionDropdown($scope.repeater.length, $scope.fromElement);
+        drawDropdown($animate, $element, positions, 2);
+      });
+
 
       $scope.$on("POO.click.collections", function ($event, data) {
         $scope.repeater = data.repeater;
         $scope.dropdownTitle = data.title;
         $scope.fromElement = data.fromElement;
         var positions = positionDropdown(data.repeater.length, $scope.fromElement);
-        drawDropdown($animate, $element, positions, 1);
+        drawDropdown($animate, $element, positions, 2);
       });
     },
     link: function(scope, element, attrs){
