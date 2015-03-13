@@ -4,7 +4,8 @@ var Elements = function () {
   this.currentRole = element(by.css(".role-selection"));
   this.roles = element.all(by.repeater('role in roles'));
   this.collectionChannelsItems = element.all(by.css('#collection-channels .channel-item'));
-  this.collectionsOverflow = element(by.css('sopro-collections-dropdown .sopro-dropdown-collection-wrap'));
+  this.collectionsOverflow = element(by.css('sopro-collections-dropdown'));
+  this.collectionsOverflowWrap = element(by.css('sopro-collections-dropdown .sopro-dropdown-collection-wrap'));
   this.collectionsOverflowTitle = element(by.css('sopro-collections-dropdown .sopro-dropdown-title'))
   this.collectionsOverflowItems = element.all(by.css('sopro-collections-dropdown .dropdown-item'));
   this.collectionChannelsMore = element(by.css('#collection-channels .sopro-more-channels'));
@@ -59,10 +60,10 @@ describe('Dropdowns', function(){
   describe("dropdown keylines", function () {
     it("has a 20px margin", function () {
       els.collectionChannelsMore.click();
-      expect(els.collectionsOverflow.getCssValue("padding-top")).toEqual("20px");
-      expect(els.collectionsOverflow.getCssValue("padding-bottom")).toEqual("20px");
-      expect(els.collectionsOverflow.getCssValue("padding-right")).toEqual("20px");
-      expect(els.collectionsOverflow.getCssValue("padding-left")).toEqual("20px");
+      expect(els.collectionsOverflowWrap.getCssValue("padding-top")).toEqual("20px");
+      expect(els.collectionsOverflowWrap.getCssValue("padding-bottom")).toEqual("20px");
+      expect(els.collectionsOverflowWrap.getCssValue("padding-right")).toEqual("20px");
+      expect(els.collectionsOverflowWrap.getCssValue("padding-left")).toEqual("20px");
     });
 
     it("has a 20px tall title", function () {
@@ -82,7 +83,7 @@ describe('Dropdowns', function(){
       els.collectionsOverflowItems.count()
       .then(function (count) {
         var expectedHeight = (count * 30 + 60) + "px";
-        expect(els.collectionsOverflow.getCssValue("height")).toEqual(expectedHeight); 
+        expect(els.collectionsOverflowWrap.getCssValue("height")).toEqual(expectedHeight); 
       });
     })
 
@@ -120,9 +121,9 @@ describe('Dropdowns', function(){
             .then(function(size){
               pooBottom = loc.y + size.height;
 
-              els.collectionsOverflow.getSize()
+              els.collectionsOverflowWrap.getSize()
               .then(function(size2){
-                els.collectionsOverflow.getLocation()
+                els.collectionsOverflowWrap.getLocation()
                 .then(function(loc2){
                   dropdownTop = loc2.y
                   dropdownBottom = loc2.y + size2.height;
