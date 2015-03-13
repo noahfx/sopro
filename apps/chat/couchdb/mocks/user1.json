@@ -1,0 +1,10 @@
+{
+  "type":"user",
+  "userid":"user-abc",
+  "roleids":["abc"],
+  "username":"calyx",
+  "realname":"Louis Adverso",
+  "email":"calyx@centralservices.io",
+  "salt":"aaaa",
+  "hash":"bbbb"
+}
