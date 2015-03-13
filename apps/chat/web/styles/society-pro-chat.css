@@ -31,9 +31,6 @@ body > md-toolbar {
   margin: 15px 10px 0 0;
   float: right;
   padding: 20px 0px 10px 0px;
-  -webkit-box-shadow: 0px 0px 10px 2px rgba(50, 50, 50, 0.47);
-  -moz-box-shadow: 0px 0px 10px 2px rgba(50, 50, 50, 0.47);
-  box-shadow: 0px 0px 10px 2px rgba(50, 50, 50, 0.47);
 }
 .sopro-arrow-role-panel{
   position: fixed;
@@ -186,16 +183,6 @@ collection {
     position: relative;
     width: 186px;
     padding:20px;
-    /* REPLACE ME WITH .md-whiteframe-z1 
-    border:1px solid #cdcdcd;
-    float: left;
-    -webkit-border-radius: 2px;
-    -moz-border-radius: 2px;
-    border-radius: 2px;
-    -webkit-box-shadow: 0px 0px 12px 0px rgba(50, 50, 50, 0.47);
-    -moz-box-shadow: 0px 0px 12px 0px rgba(50, 50, 50, 0.47);
-    box-shadow: 0px 0px 12px 0px rgba(50, 50, 50, 0.47);
-    */
 }
 
 sopro-collections-dropdown, sopro-subscribers-dropdown {

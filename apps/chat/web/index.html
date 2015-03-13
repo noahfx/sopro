@@ -25,7 +25,7 @@
         <span>{{currentRole.name}}</span>
         <img src="web/images/role-arrow.png" width="10" height="5" alt="arrow-role"/>
       </div>
-      <div class="sopro-role-panel" layout="column" ng-show="showRoles">
+      <div class="sopro-role-panel md-whiteframe-z2" layout="column" ng-show="showRoles">
         <img class="sopro-arrow-role-panel" src="web/images/arrow-role-panel.png" alt="role-pannel-arrow">
         <span class="sopro-role-panel-title">ROLES</span>
         <div class="sopro-role-item" ng-class="{'sp-w-b':$last}" layout="row" layout-align="start center" ng-repeat="role in roles" ng-click="changeRole(role)">
@@ -43,8 +43,8 @@
         <span id="collection-peers-create" class="collection-create-link">+ Add Peer</span>
       </collection>
     </md-content>
-    <sopro-collections-dropdown ng-show="showCollectionsOverflow"></sopro-collections-dropdown>
-    <sopro-subscribers-dropdown ng-show="showSubscribersOverflow"></sopro-subscribers-dropdown>
+    <sopro-collections-dropdown ng-show="showCollectionsOverflow" class="md-whiteframe-z2"></sopro-collections-dropdown>
+    <sopro-subscribers-dropdown ng-show="showSubscribersOverflow" class="md-whiteframe-z2"></sopro-subscribers-dropdown>
     <md-content flex layout="row" layout-wrap id="main-stage" ng-controller="stageController">
       <ng-include layout="column" flex="50" flex-md="100" ng-repeat="card in stageCards" src="card.template"></ng-include>
     </md-content>

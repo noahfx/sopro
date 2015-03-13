@@ -99,11 +99,7 @@ function drawDropdown($animate, $element, positions, zIndex){
   $element.find('.sopro-arrow-overflow-dropdown')
   .css(positions.arrow);
 
-  if(zIndex){
-    $element.addClass('md-whiteframe-z'+zIndex);
-  }
-
-  $animate.animate($element, {
+ $animate.animate($element, {
     top: positions.keylines.a1,
     height: "0px",
   }, {
