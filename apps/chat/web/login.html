@@ -1,0 +1,38 @@
+<html ng-app="societyProChatApp">
+<head>
+    <title>SocietyPro Chat</title>
+
+    <link rel="stylesheet" type="text/css" href="web/bower_components/angular-material/angular-material.css">
+    <link rel="stylesheet" type="text/css" href="web/styles/dropdown-collections.css">
+    <link rel="stylesheet" type="text/css" href="web/styles/society-pro-chat.css">
+
+    <script type="text/javascript" src="web/bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="web/bower_components/angular/angular.min.js"></script>
+    <script type="text/javascript" src="web/bower_components/angular-aria/angular-aria.js"></script>
+    <script type="text/javascript" src="web/bower_components/angular-animate/angular-animate.js"></script>
+    <script type="text/javascript" src="web/bower_components/angular-material/angular-material.js"></script>
+    <script src="web/js/components/global/global.js"></script>
+    <script src="web/js/components/directives/directives.js"></script>
+    <script src="web/js/components/controllers/mainController.js"></script>
+    <script src="web/js/components/controllers/stageController.js"></script>
+    <script src="web/js/app.js"></script>
+</head>
+<body ng-controller="mainController" layout="column" layout-fill>
+  <md-toolbar layout="row">
+
+  </md-toolbar>
+  <div class="sopro-main-content" flex layout="row">
+    <md-content flex layout="row" layout-wrap id="main-stage">
+      <form action="/login/password" method="POST">
+        <label> Username:
+          <input type="text" name="username" value="calyx"></input>
+        </label>
+        <label> Password:
+          <input type="text" name="password" value="aaaa"></input>
+        </label>
+        <input type="submit"></input>
+      </form>
+    </md-content>
+  </div>
+</body>
+</html>

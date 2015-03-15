@@ -16,6 +16,10 @@ routeMatcher.get('/', function(req) {
   req.response.sendFile("web/index.html", "web/handler_404.html");
 });
 
+routeMatcher.get('/login', function(req) {
+  req.response.sendFile("web/login.html", "web/handler_404.html");
+});
+
 function parseReq(req){
   var out = {
     headers: {},
@@ -32,8 +36,19 @@ function parseReq(req){
 
 
 routeMatcher.post('/login/password', function(req){
+  req.expectMultiPart(true);
   var meta = parseReq(req);
-  req.response.end('{"ok":false, "error":"unimplemented"}')
+
+  req.bodyHandler(function(body) {
+    var form = req.formAttributes();
+    CAM.couchdb.checkAuth(form.get('username'), form.get('password'), function(err, valid, userid){
+      if(err || !valid){
+        req.response.end('{"ok":false, "error":"unauthorized"}')
+      } else {
+        req.response.end('{"ok":true, "userid":' + userid + '}')
+      }
+    })
+  });
 })
 
 routeMatcher.get('/api/channels', function(req) {
@@ -129,7 +144,7 @@ routeMatcher.post('/api/channels.invite', function(req) {
       user: user,
       channel: channel,
     }
-  });
+  };
 });
 
 routeMatcher.post('/channel', function(req) {
