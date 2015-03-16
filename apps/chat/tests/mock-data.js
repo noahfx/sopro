@@ -2,6 +2,7 @@ module.exports = CAM_MOCKS = {
   validToken: "12345",
   roleId1: "abc",
   roleId2: "xyz",
+  nonsubsribedRoleId: "foobar",
   nonsubscribedPeerId: "qwerty",
   subscribedPeerId: "uiop",
   displayedChannelCount: 2,
@@ -88,6 +89,10 @@ module.exports = CAM_MOCKS = {
         {
           "id": "uiop",
           "name": "jhon"
+        },
+        {
+          "id": "xyz",
+          "name": "tomas"
         },
       ],
       "topic": "Fun stuff",
