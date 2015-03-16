@@ -20,6 +20,12 @@ routeMatcher.get('/login', function(req) {
   req.response.sendFile("web/login.html", "web/handler_404.html");
 });
 
+function ensureAuthed(req, callback){
+  var meta = parseReq(req);
+  var sessionCookie = req.headers['Cookie'];
+  console.log(sessionCookie);
+}
+
 function parseReq(req){
   var out = {
     headers: {},
@@ -45,7 +51,46 @@ routeMatcher.post('/login/password', function(req){
       if(err || !valid){
         req.response.end('{"ok":false, "error":"unauthorized"}')
       } else {
-        req.response.end('{"ok":true, "userid":' + userid + '}')
+        //req.response.end('{"ok":true, "userid":' + userid + '}')
+        var token = 'foobar';
+        var header = 'sopro-auth-token=' + token;
+        //header += '; expires=' +thenStr;
+        header += '; httponly'
+
+        req.response.headers().set("Set-Cookie", authString2)
+        req.response.end(JSON.stringify({
+          "ok":true, "userid":userid
+        }))
+
+
+        /*
+        CAM.coudchdb.user_by_userid(userid, function(err, user){
+          if(err){
+            req.response.end('{"ok":false, "error":"server error"}')
+          } else {
+            // Create a session cookie:
+            var now = new Date();
+            var then = new Date(now.valueOf() + 1000*60*60);
+            var thenStr = then.toUTCString();
+            CAM.crypto.generateToken(function(err, token){
+
+              CAM.couchdb.store({
+                type: 'sessiontoken',
+                expires: then,
+                header: 
+              }, function(){
+
+              })
+              CAM.sessions.create(user, function(token){
+                req.response.headers().set("Authorization", authString2)
+
+              })
+
+            })
+          }
+
+        })
+        */
       }
     })
   });
