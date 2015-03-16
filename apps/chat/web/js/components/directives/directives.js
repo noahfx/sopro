@@ -177,12 +177,13 @@ angular.module('societyProChatApp.directives',[
 
       })
 */
-      
+      $('sopro-collections-dropdown').perfectScrollbar();
       var win = angular.element($window);
       win.bind("resize",function(e){
         if ($scope.repeater) {
           var positions = positionDropdown($scope.repeater.length, $scope.fromElement);
           drawDropdown($animate, $element, positions, 2);
+          $('sopro-collections-dropdown').perfectScrollbar('update');
         }
       });
 
@@ -193,6 +194,9 @@ angular.module('societyProChatApp.directives',[
         $scope.fromElement = data.fromElement;
         var positions = positionDropdown(data.repeater.length, $scope.fromElement);
         drawDropdown($animate, $element, positions, 2);
+        setTimeout(function () {
+          $('sopro-collections-dropdown').perfectScrollbar('update');  
+        }, 100);
       });
     },
     link: function(scope, element, attrs){
@@ -220,11 +224,14 @@ angular.module('societyProChatApp.directives',[
         var positions = positionDropdown($element, $scope.fromElement);
       })
 
+      $('sopro-subscribers-dropdown').perfectScrollbar();
+
       var win = angular.element($window);
       win.bind("resize",function(e){
         if ($scope.repeater) {
           var positions = positionDropdown($scope.repeater.length, $scope.fromElement);
           drawDropdown($animate, $element, positions, 2);
+          $('sopro-subscribers-dropdown').perfectScrollbar('update');
         }
       });
 
@@ -251,9 +258,10 @@ angular.module('societyProChatApp.directives',[
               $scope.repeater = data.channel.members;
               var positions = positionDropdown(data.channel.members.length, $scope.fromElement);
               drawDropdown($animate, $element, positions, 1);
-            } else {
-
             }
+            setTimeout(function () {
+              $('sopro-subscribers-dropdown').perfectScrollbar('update');  
+            }, 200);
           })
           .error(function(data, status, headers, config) {
             // called asynchronously if an error occurs
