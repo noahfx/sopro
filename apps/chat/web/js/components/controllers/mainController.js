@@ -1,7 +1,14 @@
 var societyProChatControllers = 
 angular.module('societyProChatApp.controllers',['ngMaterial', 'ngAnimate', 'societyProChatApp.controller2'])
 
-.controller('mainController',['$scope','$http','$rootScope',function($scope,$http,$rootScope) {
+.controller('mainController',['$scope','$http','$rootScope','$window',function($scope,$http,$rootScope,$window) {
+  $('#sopro-collections-wrap').perfectScrollbar();
+
+  var win = angular.element($window);
+  win.bind("resize",function(e){
+    $('#sopro-collections-wrap').perfectScrollbar('update');
+  });
+
   $rootScope.token = "12345";
 
   $scope.roles = [
@@ -85,6 +92,9 @@ angular.module('societyProChatApp.controllers',['ngMaterial', 'ngAnimate', 'soci
           //console.log(data);
           $scope.channels = data.channels;
           $scope.peers = data.peers;
+          setTimeout(function () {
+            $('#sopro-collections-wrap').perfectScrollbar('update')
+          },200);
         })
         .error(function(data, status, headers, config) {
           // called asynchronously if an error occurs
