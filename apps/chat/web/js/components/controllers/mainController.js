@@ -94,7 +94,7 @@ angular.module('societyProChatApp.controllers',['ngMaterial', 'ngAnimate', 'soci
           $scope.peers = data.peers;
           setTimeout(function () {
             $('#sopro-collections-wrap').perfectScrollbar('update')
-          },200);
+          },300);
         })
         .error(function(data, status, headers, config) {
           // called asynchronously if an error occurs
