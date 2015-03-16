@@ -149,7 +149,6 @@ angular.module('societyProChatApp.directives',[
         // Check whether it's a channel overflow or peers:
         onSubscriberPOOClick($rootScope, $event, item, title);
       }
-
     },
     templateUrl: 'web/partials/collection.html'
   };
@@ -188,11 +187,16 @@ angular.module('societyProChatApp.directives',[
         $scope.repeater = data.repeater;
         $scope.dropdownTitle = data.title;
         $scope.fromElement = data.fromElement;
+        $($scope.fromElement).addClass('poo-highlight-collection');
         var positions = positionDropdown(data.repeater.length, $scope.fromElement);
         drawDropdown($animate, $element, positions, 2);
         setTimeout(function () {
           $('sopro-collections-dropdown').perfectScrollbar('update');  
         }, 100);
+      });
+
+      $scope.$on('collections.overflow.close', function (){
+        $('.poo-highlight-collection').removeClass('poo-highlight-collection');
       });
     },
     link: function(scope, element, attrs){
@@ -235,6 +239,7 @@ angular.module('societyProChatApp.directives',[
         console.log(data);  
         $scope.dropdownTitle = data.title;
         $scope.fromElement = data.fromElement;
+        $($scope.fromElement).addClass('poo-highlight-subscriber');
         $http({
           method: 'GET',
           url: '/api/channel.info',
@@ -246,26 +251,30 @@ angular.module('societyProChatApp.directives',[
             channel: data.id
           }
         })
-          .success(function(data, status, headers, config) {
-            // this callback will be called asynchronously
-            // when the response is available
-            console.log(data);
-            if (data.ok) {
-              $scope.repeater = data.channel.members;
-              var positions = positionDropdown(data.channel.members.length, $scope.fromElement);
-              drawDropdown($animate, $element, positions, 1);
-            }
-            setTimeout(function () {
-              $('sopro-subscribers-dropdown').perfectScrollbar('update');  
-            }, 200);
-          })
-          .error(function(data, status, headers, config) {
-            // called asynchronously if an error occurs
-            // or server returns response with an error status.
-            console.log(data);
-          });
+        .success(function(data, status, headers, config) {
+          // this callback will be called asynchronously
+          // when the response is available
+          console.log(data);
+          if (data.ok) {
+            $scope.repeater = data.channel.members;
+            var positions = positionDropdown(data.channel.members.length, $scope.fromElement);
+            drawDropdown($animate, $element, positions, 1);
+          }
+          setTimeout(function () {
+            $('sopro-subscribers-dropdown').perfectScrollbar('update');  
+          }, 200);
+        })
+        .error(function(data, status, headers, config) {
+          // called asynchronously if an error occurs
+          // or server returns response with an error status.
+          console.log(data);
         });
+      });
 
+
+      $scope.$on('subscribers.overflow.close', function (){
+        $('.poo-highlight-subscriber').removeClass('poo-highlight-subscriber');
+      });
 
 
     },

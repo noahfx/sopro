@@ -119,4 +119,6 @@ angular.module('societyProChatApp.controllers',['ngMaterial', 'ngAnimate', 'soci
     $scope.showSubscribersOverflow = true;
   });
 
+
+
 }]);
