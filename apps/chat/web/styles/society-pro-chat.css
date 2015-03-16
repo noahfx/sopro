@@ -260,6 +260,13 @@ sopro-subscribers-dropdown{
     font-size: 10px;
     margin: 0;
 }
-.ps-container > .ps-scrollbar-y-rail {
-  opacity: 1;
+
+
+.ps-scrollbar-y-rail{
+    background:rgba(234, 237, 241,1) !important;
+}
+
+.ps-scrollbar-y{
+    background: rgba(205, 205, 208,1) !important;
+    border: 1px rgba(255,255,255,1) solid;
 }
