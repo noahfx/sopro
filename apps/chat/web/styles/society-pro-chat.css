@@ -62,6 +62,8 @@ body > md-toolbar {
 /* MAIN CONTENT*/
 .sopro-main-content{
   margin: 20px 16px;
+  height: inherit;
+  overflow: hidden;
 }
 
 collection {
@@ -76,6 +78,7 @@ collection {
   padding: 20px 16px;
   margin: 0;
   border-radius: 2px;
+  position: relative;
 }
 .sopro-collection-title{
   height: 32px;
@@ -236,24 +239,6 @@ sopro-subscribers-dropdown{
     */
 }
 
-.sopro-ul-scroll::-webkit-scrollbar{
-    width:6px;
-    background: #eaedf1;
-    -webkit-border-radius: 20px;
-    -moz-border-radius: 20px;
-    border-radius: 20px;
-}
-
-.sopro-ul-scroll::-webkit-scrollbar-thumb{
-    background-color:#cdcdd0;
-    border-top: 1px  solid #ffffff;
-    border-bottom: 1px  solid #ffffff;
-    -webkit-border-radius: 20px;
-    -moz-border-radius: 20px;
-    border-radius: 20px;
-}
-
-
 
 .sopro-dropdown-collection-wrap ul {
    list-style: none;
@@ -287,4 +272,7 @@ sopro-subscribers-dropdown{
 .sopro-dropdown-title p{
     font-size: 10px;
     margin: 0;
+}
+.ps-container > .ps-scrollbar-y-rail {
+  opacity: 1;
 }

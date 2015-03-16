@@ -3,9 +3,11 @@
     <title>SocietyPro Chat</title>
 
     <link rel="stylesheet" type="text/css" href="web/bower_components/angular-material/angular-material.css">
+    <link rel='stylesheet' href='web/bower_components/perfect-scrollbar/css/perfect-scrollbar.css'/>
     <link rel="stylesheet" type="text/css" href="web/styles/society-pro-chat.css">
 
     <script type="text/javascript" src="web/bower_components/jquery/dist/jquery.min.js"></script>
+    <script src='web/bower_components/perfect-scrollbar/js/perfect-scrollbar.jquery.js'></script>
     <script src="web/bower_components/angular/angular.min.js"></script>
     <script type="text/javascript" src="web/bower_components/angular-aria/angular-aria.js"></script>
     <script type="text/javascript" src="web/bower_components/angular-animate/angular-animate.js"></script>
@@ -35,7 +37,7 @@
     </div>
   </md-toolbar>
   <div class="sopro-main-content" flex layout="row">
-    <md-content id="sopro-collections-wrap">
+    <md-content id="sopro-collections-wrap" class="ps-container ps-active-y">
       <collection id="collection-channels" channel-title="CHANNELS" icon="web/images/icon-channels.png" repeater="channels">
         <span id="collection-channels-create" class="collection-create-link">+ Add Channel</span>
       </collection>

@@ -180,8 +180,10 @@ angular.module('societyProChatApp.directives',[
       
       var win = angular.element($window);
       win.bind("resize",function(e){
-        var positions = positionDropdown($scope.repeater.length, $scope.fromElement);
-        drawDropdown($animate, $element, positions, 2);
+        if ($scope.repeater) {
+          var positions = positionDropdown($scope.repeater.length, $scope.fromElement);
+          drawDropdown($animate, $element, positions, 2);
+        }
       });
 
 
@@ -220,8 +222,10 @@ angular.module('societyProChatApp.directives',[
 
       var win = angular.element($window);
       win.bind("resize",function(e){
-        var positions = positionDropdown($scope.repeater.length, $scope.fromElement);
-        drawDropdown($animate, $element, positions, 2);
+        if ($scope.repeater) {
+          var positions = positionDropdown($scope.repeater.length, $scope.fromElement);
+          drawDropdown($animate, $element, positions, 2);
+        }
       });
 
       $scope.$on('POO.click.subscribers', function($event, data){
