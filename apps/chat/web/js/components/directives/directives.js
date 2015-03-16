@@ -206,7 +206,7 @@ angular.module('societyProChatApp.directives',[
     restrict: 'E',
     transclude: true,
     scope: {},
-    controller: function ($rootScope, $scope, $element, $http, $animate) {
+    controller: function ($rootScope, $scope, $element, $http, $animate, $window) {
 
       $scope.$on('collections.overflow.close', function(){
         console.log('Subscribers dropdown closing after hearing collections dropdown closing.');
@@ -218,36 +218,45 @@ angular.module('societyProChatApp.directives',[
         var positions = positionDropdown($element, $scope.fromElement);
       })
 
+      var win = angular.element($window);
+      win.bind("resize",function(e){
+        var positions = positionDropdown($scope.repeater.length, $scope.fromElement);
+        drawDropdown($animate, $element, positions, 2);
+      });
+
       $scope.$on('POO.click.subscribers', function($event, data){
-        safeApply($scope, function () {
-          $scope.dropdownTitle = data.title;
-          $scope.fromElement = data.fromElement;
-          $http({
-            method: 'GET',
-            url: '/api/channel.info',
-            headers: {
-             'token-auth': $rootScope.token
-            },
-            params : {
-              role: $rootScope.currentRole.id,
-              channel: data.id
-            }
-          })
-            .success(function(data, status, headers, config) {
-              // this callback will be called asynchronously
-              // when the response is available
-              console.log(data);
+        console.log(data);  
+        $scope.dropdownTitle = data.title;
+        $scope.fromElement = data.fromElement;
+        $http({
+          method: 'GET',
+          url: '/api/channel.info',
+          headers: {
+           'token-auth': $rootScope.token
+          },
+          params : {
+            role: $rootScope.currentRole.id,
+            channel: data.id
+          }
+        })
+          .success(function(data, status, headers, config) {
+            // this callback will be called asynchronously
+            // when the response is available
+            console.log(data);
+            if (data.ok) {
               $scope.repeater = data.channel.members;
               var positions = positionDropdown(data.channel.members.length, $scope.fromElement);
               drawDropdown($animate, $element, positions, 1);
-            })
-            .error(function(data, status, headers, config) {
-              // called asynchronously if an error occurs
-              // or server returns response with an error status.
-              console.log(data);
-            });
+            } else {
+
+            }
+          })
+          .error(function(data, status, headers, config) {
+            // called asynchronously if an error occurs
+            // or server returns response with an error status.
+            console.log(data);
+          });
         });
-      });
 
 
 
