@@ -218,6 +218,7 @@ sopro-subscribers-dropdown{
     margin-left: -20px;
     height: 30px;
     line-height: 30px;
+    width: 166px;
 }
 
 .poo-highlight-collection, .poo-highlight-subscriber {
@@ -240,7 +241,8 @@ sopro-subscribers-dropdown{
 .sopro-dropdown-collection-wrap ul {
    list-style: none;
    margin:  0px;
-   padding: 0px;    
+   padding: 0px;   
+   position: absolute; 
 }
 
 

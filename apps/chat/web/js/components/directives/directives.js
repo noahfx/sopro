@@ -207,7 +207,9 @@ angular.module('societyProChatApp.directives',[
         $scope.fromElement = data.fromElement;
         $($scope.fromElement).addClass('poo-highlight-collection');
         var positions = positionDropdown(data.repeater.length, $scope.fromElement);
-        drawDropdown($animate, $element, positions, 2);
+        setTimeout(function () {
+          drawDropdown($animate, $element, positions, 2);
+        },100);
       });
 
       $scope.$on('collections.overflow.close', function (){
