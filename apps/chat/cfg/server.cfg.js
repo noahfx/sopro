@@ -7,4 +7,7 @@ module.exports = {
     host: 'localhost',
     port: 5984,
   },
+  vertx: {
+    eburl: 'http://localhost:3333'
+  }
 }
