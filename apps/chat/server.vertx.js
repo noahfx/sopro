@@ -5,7 +5,6 @@ var vertx = require('vertx');
 console = require('vertx/console');
 container = require('vertx/container');
 
-
 var server = vertx.createHttpServer();
 var eb = vertx.eventBus;
 
@@ -13,13 +12,7 @@ CAM.vertx = vertx;
 CAM.server = server;
 CAM.eb = eb;
 
-load('routes.vertx.js');
-load('eb-messengers.js');
 container.deployVerticle("mock-backend.vertx.js");
-// ATM our server does not have any message handlers at all; all communication with the EB is req/rep from eb-messengers.js.
-//load('eb-handlers.js');
-
-
 var sockJSServer = vertx.createSockJSServer(server);
 
 // Todo: Security analysis: 

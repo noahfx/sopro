@@ -70,10 +70,68 @@ module.exports = function(app, eb){
   });
 
 
+  app.post('/api/channels.invite', function(req, res, next) {
+
+    if (req.query['role'] == undefined) {
+      return res.send(
+        '{"ok":false, "error":"role_not_found"}'
+      );
+    } else if(req.query['user'] == undefined){
+      return res.send(
+        '{"ok":false, "error":"user_not_found"}'
+      );
+    } else if(req.query['channel'] == undefined){
+      return res.send(
+        '{"ok":false, "error":"channel_not_found"}'
+      );
+    }
+    var user = req.query['user'];
+    var role = req.query['role'];
+    var channel = req.query['channel'];
+    var params = {
+      requester: role,
+      token: req.authToken,
+      payload: {
+        user: user,
+        channel: channel,
+      }
+    }
+    eb.send("user."+user+".invites.channels",JSON.stringify(params), function (reply) {
+      res.send(reply);
+    });
+  });
+
+  app.get('/api/channel.info', function(req, res, next) {
+
+    if (req.query['role'] == undefined) {
+      return res.send(
+        '{"ok":false, "error":"role_not_found"}'
+      );
+    } else if(req.query['channel'] == undefined){
+      return res.send(
+        '{"ok":false, "error":"channel_not_found"}'
+      );
+    }
+    var params = {
+        requester: req.query['role'],
+        token: req.authToken,
+        payload: {
+          channel: req.query['channel'],
+        }
+      };
+    eb.send("channel.info",JSON.stringify(params),
+      function(reply) {
+        res.send(reply);
+      }
+    );
+  });
+
+
+
+  // 4-ary function sig indicates an Express error handler:
   app.use(function(err, req, res, next){
     console.log('error for',req.originalUrl);
     console.log(err);
-    // 4-ary function sig indicates an Express error handler
     res.status(404).end()
   })
 }
