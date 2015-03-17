@@ -1,14 +1,22 @@
-~/vert.x-2.1.5/bin/vertx run -cluster mock-backend.vertx.js  &
+# Ensure nvm binary selection is respected by sudo:
+export NVM_DIR="/home/ubuntu/.nvm"
+. "$NVM_DIR/nvm.sh"
+
+nvm use 0.10
+#nvm alias default 0.11
+
+~/vert.x-2.1.5/bin/vertx run server.vertx.js &
+
+sleep 10
 
 npm install
+npm start &
 
-~/vert.x-2.1.5/bin/vertx run -cluster server.js &
-
-sleep 15
+sleep 5
 
 npm run api
 
 # stop vertx
-pkill -n java
 
 pkill -n java
+pkill -n node
