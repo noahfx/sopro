@@ -31,14 +31,9 @@ body > md-toolbar {
   margin: 15px 10px 0 0;
   float: right;
   padding: 20px 0px 10px 0px;
-  -webkit-box-shadow: 0px 0px 10px 2px rgba(50, 50, 50, 0.47);
-  -moz-box-shadow: 0px 0px 10px 2px rgba(50, 50, 50, 0.47);
-  box-shadow: 0px 0px 10px 2px rgba(50, 50, 50, 0.47);
 }
 .sopro-arrow-role-panel{
-  position: absolute;
-  top: -10px;
-  right: 13px;
+  position: fixed;
 }
 .sopro-role-panel-title {
   color: #555459; 
@@ -64,6 +59,8 @@ body > md-toolbar {
 /* MAIN CONTENT*/
 .sopro-main-content{
   margin: 20px 16px;
+  height: inherit;
+  overflow: hidden;
 }
 
 collection {
@@ -72,60 +69,54 @@ collection {
 }
 
 /* Channel Collections */
-#sopro-channel-wrap{
+#sopro-collections-wrap{
   background-color: white;
-  width: 185px;
-  margin-right: 8px;
+  width: 188px;
+  padding: 20px 16px;
+  margin: 0;
   border-radius: 2px;
-  padding-bottom: 20px;
+  position: relative;
 }
-.sopro-channel-title{
+.sopro-collection-title{
   height: 32px;
   font-size: 13px;
   padding: 0px 16px;
   color: rgba(85, 84, 89, 1);
   font-weight: bold;
 }
-.sopro-channel-title > span{
+.sopro-collection-title > span{
   margin: 5px;
   text-transform: uppercase;
 }
-#sopro-channel-wrap ul li {
+#sopro-collections-wrap ul li {
   height: 32px;
   font-size: 15px;
   padding-left: 40px;
   margin-right: 20px;
   color: rgba(85, 84, 89, 1);
-  cursor: pointer;
+  cursor: pointer !important;
 }
-#sopro-channel-wrap ul li.channel-item:hover {
-  background-color: rgba(131, 131, 131, 1);
-  color: rgba(204, 204, 204, 1);
+#sopro-collections-wrap ul li.channel-item:hover {
+  background-color: rgba(0, 0, 0, 0.05);
 }
-#sopro-channel-wrap ul li.channel-separator {
+#sopro-collections-wrap .channel-item.poo-highlight-collection, {
+color: rgba(204, 204, 204, 1);
+}
+#sopro-collections-wrap ul li.channel-separator {
   border-bottom: 1px solid rgba(131,131,131,0.5);
 }
-#sopro-channel-wrap ul {
+#sopro-collections-wrap ul {
   list-style: none;
   margin: 0px;
   padding: 0px;
 }
 .sopro-more-channels {
-  font-size: 13px;
-  cursor: pointer;
+  font-size: 13px !important;
 }
 
 .collection-create-link{
   font-style: italic;
-}
-
-/* Channels Overflow */
-.sopro-channels-overflow {
-  z-index: 200;
-  position: absolute;
-  left: 125px;
-  bottom: -200px;
-  background: white;
+  font-size: 11px;
 }
 
 #main-stage {
@@ -184,4 +175,111 @@ collection {
 .sopro-card footer md-button{
   font-size: 14px; 
   color: #555459;
+}
+
+
+/* DROPDOWNS */
+
+.sopro-arrow-overflow-dropdown{
+    position: fixed;
+    z-index: 1;
+}
+
+.sopro-dropdown-collection-wrap{
+    position: relative;
+    width: 186px;
+    padding:20px;
+}
+
+sopro-collections-dropdown, sopro-subscribers-dropdown {
+  position: fixed;
+  background: white;
+}
+
+sopro-collections-dropdown{
+  z-index: 5;
+}
+
+sopro-subscribers-dropdown{
+  z-index: 10;
+}
+
+.dropdown-item{
+
+}
+
+.sopro-dropdown-collection-wrap .dropdown-item {
+    max-width: 19em;
+    white-space: nowrap;
+    /*overflow: hidden;*/
+    text-overflow: ellipsis;
+    font-size: 15px;
+    padding-left: 20px;
+    margin-left: -20px;
+    height: 30px;
+    line-height: 30px;
+    width: 166px;
+}
+
+.poo-highlight-collection, .poo-highlight-subscriber {
+  background-color: rgba(131, 131, 131, 1) !important;
+  color: rgba(255,255,255,0.8) !important;
+}
+
+
+/* FROM CALIX */
+.sopro-ul-scroll{
+    overflow-y: auto;
+    margin-left: -20px;
+    padding-left: 20px;
+    /*
+    overflow-x: hidden;
+    */
+}
+
+
+.sopro-dropdown-collection-wrap ul {
+   list-style: none;
+   margin:  0px;
+   padding: 0px;   
+   position: relative; 
+}
+
+
+.sopro-dropdown-collection-wrap li:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+    color: rgba(0, 0, 0, 1);
+    cursor: pointer;
+}
+
+.sopro-dropdown-collection-wrap a {
+   cursor: pointer;
+}
+
+
+/*
+.sopro-dropdown-collection-wrap ul li a span {
+    position: absolute;
+    margin: -2px 0 0 0;    
+}
+*/
+.sopro-dropdown-title{
+    height: 20px;
+    font-size: 13px;
+    color: #555459;
+    text-transform: uppercase;
+}
+.sopro-dropdown-title p{
+    font-size: 10px;
+    margin: 0;
+}
+
+
+.ps-scrollbar-y-rail{
+    background:rgba(234, 237, 241,1) !important;
+}
+
+.ps-scrollbar-y{
+    background: rgba(205, 205, 208,1) !important;
+    border: 1px rgba(255,255,255,1) solid;
 }

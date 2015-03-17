@@ -23,7 +23,6 @@ eventbus.onopen = function() {
 
 };
 
-
 setTimeout(function(){
   if(flagConnected){return}
   console.log('\nIf your eventbus SocksJS server is on a local network it should have connected in less than 5 seconds. Is it running on '+config.vertx.eburl+'?')

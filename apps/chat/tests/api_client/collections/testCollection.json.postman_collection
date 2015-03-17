@@ -282,7 +282,7 @@
 		{
 			"id": "93cd91e9-90c7-c7a6-5528-be1db5e36dd7",
 			"headers": "token-auth: 12345\n",
-			"url": "http://localhost:8080/api/channels.invite?role=xyz&user=qwerty&channel=C024BE91L",
+			"url": "http://localhost:8080/api/channels.invite?role=foobar&user=qwerty&channel=C024BE91L",
 			"preRequestScript": "",
 			"pathVariables": {},
 			"method": "POST",

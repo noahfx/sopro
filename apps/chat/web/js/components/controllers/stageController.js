@@ -1,6 +1,6 @@
 var stageController = 
 angular.module('societyProChatApp.controller2',['ngMaterial'])
-.controller('stageController', ['$scope', '$http', function($scope,$http) {
+.controller('stageController', ['$scope', '$http', '$rootScope',function($scope,$http,$rootScope) {
   $scope.stageCards = [];
   $scope.creationTitle = "";
   $scope.card = {};
@@ -64,10 +64,10 @@ angular.module('societyProChatApp.controller2',['ngMaterial'])
       method: 'POST',
       url: '/api/channel',
       headers: {
-       'token-auth': $scope.token
+       'token-auth': $rootScope.token
       },
       params : {
-        role: $scope.currentRole.id,
+        role: $rootScope.currentRole.id,
         name: $scope.stageCards[i].creationTitle,
         purpose: $scope.stageCards[i].creationDesc
       }

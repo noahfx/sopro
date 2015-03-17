@@ -14,7 +14,7 @@ module.exports = function(){
 
   this.Then(/^I should see the entire list of channels to which that role is subscribed$/, function (next) {
     // Write code here that turns the phrase above into concrete actions
-    browser.element(by.css("#collection-channels .sopro-channels-overflow"))
+    browser.element(by.css("sopro-collections-dropdown"))
     .isDisplayed()
     .then(function (isDisplayed) {
       if (isDisplayed) {

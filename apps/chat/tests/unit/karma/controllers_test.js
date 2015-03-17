@@ -99,6 +99,9 @@ describe("societyProChat Controllers", function() {
       scope.stageCards.push({creationTitle: "karmachannel"});
 
       var channelsLength1 = scope.channels.length;
+      // The stage controller doesn't know about $rootScope.currentRole.id
+
+      rootscope.currentRole = {id: 'abc'};
       // Click the Create button on the first card:
       scope.createClicked(0);
       httpBackend.flush();
