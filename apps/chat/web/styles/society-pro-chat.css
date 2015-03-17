@@ -97,8 +97,7 @@ collection {
   cursor: pointer !important;
 }
 #sopro-collections-wrap ul li.channel-item:hover {
-  background-color: rgba(131, 131, 131, 1);
-  color: rgba(204, 204, 204, 1);
+  background-color: rgba(0, 0, 0, 0.05);
 }
 #sopro-collections-wrap .channel-item.poo-highlight-collection, {
 color: rgba(204, 204, 204, 1);
@@ -222,7 +221,7 @@ sopro-subscribers-dropdown{
 
 .poo-highlight-collection, .poo-highlight-subscriber {
   background-color: rgba(131, 131, 131, 1);
-  color: rgba(204, 204, 204, 1) !important;
+  color: rgba(0, 0, 0, 1) !important;
 }
 
 
@@ -265,6 +264,7 @@ sopro-subscribers-dropdown{
     height: 20px;
     font-size: 13px;
     color: #555459;
+    text-transform: uppercase;
 }
 .sopro-dropdown-title p{
     font-size: 10px;
