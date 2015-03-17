@@ -2,11 +2,11 @@
 
 sleep 5
 
-npm start &
+sudo npm start &
 
 sleep 5
 
-npm run api
+sudo npm run api
 
 # stop vertx
 

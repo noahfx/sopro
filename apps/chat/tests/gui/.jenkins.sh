@@ -8,7 +8,7 @@ sudo /etc/init.d/selenium start
 
 sleep 5
 
-npm start &
+sudo npm start &
 
 sleep 5
 
