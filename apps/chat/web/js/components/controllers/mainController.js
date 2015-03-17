@@ -107,6 +107,9 @@ angular.module('societyProChatApp.controllers',['ngMaterial', 'ngAnimate', 'soci
           //console.log(data);
           $scope.channels = data.channels;
           $scope.peers = data.peers;
+          setTimeout(function () {
+            positionCommpanelScrollbar();
+          }, 50);
         })
         .error(function(data, status, headers, config) {
           // called asynchronously if an error occurs
