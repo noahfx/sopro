@@ -8,6 +8,6 @@ module.exports = {
     port: 5984,
   },
   vertx: {
-    eburl: 'http://localhost:3333'
+    eburl: 'http://localhost:3333/eventbus'
   }
 }

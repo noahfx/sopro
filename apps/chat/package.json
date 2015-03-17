@@ -13,6 +13,7 @@
     "bower": "bower install",
     "postinstall": "./node_modules/.bin/bower install",
     "prestart": "npm install",
+    "start": "node server.js",
     "pretest": "npm install",
     "test": "./node_modules/karma/bin/karma start ./tests/unit/karma.conf.js",
     "unit": "./node_modules/karma/bin/karma start ./tests/unit/karma.conf.js  --single-run",
