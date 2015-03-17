@@ -1,14 +1,12 @@
-~/vert.x-2.1.5/bin/vertx run -cluster mock-backend.vertx.js  &
+~/vert.x-2.1.5/bin/vertx run server.vertx.js &
 
-npm install
+sleep 5
 
-~/vert.x-2.1.5/bin/vertx run -cluster server.js &
-
-sleep 15
+npm start
 
 npm run api
 
 # stop vertx
-pkill -n java
 
 pkill -n java
+pkill -n node
