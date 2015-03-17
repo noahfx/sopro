@@ -1,18 +1,26 @@
-~/vert.x-2.1.5/bin/vertx run -cluster mock-backend.vertx.js  &
+# Ensure nvm binary selection is respected by sudo:
+export NVM_DIR="/home/ubuntu/.nvm"
+. "$NVM_DIR/nvm.sh"
+
+nvm use 0.11
 
 sudo /etc/init.d/xvfb start
 
 sudo /etc/init.d/selenium start
 
 # lift the vertx app
-~/vert.x-2.1.5/bin/vertx run -cluster server.js &
+~/vert.x-2.1.5/bin/vertx run server.js &
 
-sleep 15
+sleep 10
+
+npm start &
+
+sleep 5
 
 # run protractor GUI tests
-sudo npm run acceptance
+npm run acceptance
 
 # stop vertx
 pkill -n java
 
-pkill -n java
+pkill -n node
