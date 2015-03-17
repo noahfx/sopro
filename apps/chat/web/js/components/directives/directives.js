@@ -115,7 +115,7 @@ function drawDropdown($animate, $element, positions, zIndex){
     top: positions.dropdown.top,
     height: positions.dropdown.height,
   });
-  if(positions.short){
+  if(positions.short && $($element).hasClass("ps-container")) {
     $($element).perfectScrollbar('destroy');
   } else {
     $($element).perfectScrollbar({
@@ -123,6 +123,7 @@ function drawDropdown($animate, $element, positions, zIndex){
       wheelPropagation: true,
       minScrollbarLength: 20
     });
+    $($element).perfectScrollbar('update'); 
   }
 }
 
@@ -196,7 +197,6 @@ angular.module('societyProChatApp.directives',[
         if ($scope.repeater) {
           var positions = positionDropdown($scope.repeater.length, $scope.fromElement);
           drawDropdown($animate, $element, positions, 2);
-          $('sopro-collections-dropdown').perfectScrollbar('update');
         }
       });
 
@@ -208,9 +208,6 @@ angular.module('societyProChatApp.directives',[
         $($scope.fromElement).addClass('poo-highlight-collection');
         var positions = positionDropdown(data.repeater.length, $scope.fromElement);
         drawDropdown($animate, $element, positions, 2);
-        setTimeout(function () {
-          $('sopro-collections-dropdown').perfectScrollbar('update');  
-        }, 100);
       });
 
       $scope.$on('collections.overflow.close', function (){
@@ -242,14 +239,11 @@ angular.module('societyProChatApp.directives',[
         var positions = positionDropdown($element, $scope.fromElement);
       })
 
-      $('sopro-subscribers-dropdown').perfectScrollbar();
-
       var win = angular.element($window);
       win.bind("resize",function(e){
         if ($scope.repeater) {
           var positions = positionDropdown($scope.repeater.length, $scope.fromElement);
           drawDropdown($animate, $element, positions, 2);
-          $('sopro-subscribers-dropdown').perfectScrollbar('update');
         }
       });
 
@@ -278,9 +272,6 @@ angular.module('societyProChatApp.directives',[
             var positions = positionDropdown(data.channel.members.length, $scope.fromElement);
             drawDropdown($animate, $element, positions, 1);
           }
-          setTimeout(function () {
-            $('sopro-subscribers-dropdown').perfectScrollbar('update');  
-          }, 200);
         })
         .error(function(data, status, headers, config) {
           // called asynchronously if an error occurs

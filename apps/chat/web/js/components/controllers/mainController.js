@@ -2,11 +2,26 @@ var societyProChatControllers =
 angular.module('societyProChatApp.controllers',['ngMaterial', 'ngAnimate', 'societyProChatApp.controller2'])
 
 .controller('mainController',['$scope','$http','$rootScope','$window',function($scope,$http,$rootScope,$window) {
-  $('#sopro-collections-wrap').perfectScrollbar();
-
+  
+  
+  var positionCommpanelScrollbar = function () {
+    var $cp = $('#sopro-collections-wrap');
+    if ($cp[0].scrollHeight > $cp.innerHeight()) {
+      $cp.perfectScrollbar();
+      $cp.perfectScrollbar('update');
+    } else {
+      if ($cp.hasClass("ps-container")) {
+        $cp.perfectScrollbar('destroy');
+        $cp.removeClass("ps-container")
+      }
+    }
+  }
+  setTimeout(function () {
+    positionCommpanelScrollbar();
+  }, 100);
   var win = angular.element($window);
   win.bind("resize",function(e){
-    $('#sopro-collections-wrap').perfectScrollbar('update');
+    positionCommpanelScrollbar();
   });
 
   $rootScope.token = "12345";
@@ -30,7 +45,7 @@ angular.module('societyProChatApp.controllers',['ngMaterial', 'ngAnimate', 'soci
   $scope.showCollectionsOverflow = null;
   $scope.showSubscribersOverflow = null;
 
-  $(document).mouseup(function (e) {
+  $(document).mousedown(function (e) {
     console.log('mouseup listener');
 
     var container1 = $("sopro-collections-dropdown");
@@ -92,9 +107,6 @@ angular.module('societyProChatApp.controllers',['ngMaterial', 'ngAnimate', 'soci
           //console.log(data);
           $scope.channels = data.channels;
           $scope.peers = data.peers;
-          setTimeout(function () {
-            $('#sopro-collections-wrap').perfectScrollbar('update')
-          },300);
         })
         .error(function(data, status, headers, config) {
           // called asynchronously if an error occurs
