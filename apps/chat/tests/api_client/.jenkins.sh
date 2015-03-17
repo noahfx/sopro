@@ -2,7 +2,9 @@
 
 sleep 5
 
-npm start
+npm start &
+
+sleep 5
 
 npm run api
 

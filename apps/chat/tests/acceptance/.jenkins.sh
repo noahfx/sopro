@@ -8,7 +8,9 @@ sudo /etc/init.d/selenium start
 
 sleep 5
 
-npm start
+npm start &
+
+sleep 5
 
 # run protractor GUI tests
 sudo npm run acceptance
