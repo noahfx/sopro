@@ -9,8 +9,8 @@ function textCorrect(isSecond, isNested, text){
   var names = {
     p1: "CHANNELS",
     p2: "PEERS",
-    n1: CAM_MOCKS.getChannelsResponse2.channels[0].name,
-    n2: CAM_MOCKS.getChannelsResponse2.channels[1].name,
+    n1: CAM_MOCKS.getChannelsResponse2.channels[0].name.toUpperCase(),
+    n2: CAM_MOCKS.getChannelsResponse2.channels[1].name.toUpperCase(),
   }
   var name;
   if(!isSecond){

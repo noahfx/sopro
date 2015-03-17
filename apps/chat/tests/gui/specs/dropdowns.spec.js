@@ -53,7 +53,7 @@ describe('Dropdowns', function(){
       browser.actions().
       mouseMove(els.collectionChannelsItems.get(0)).
       perform();
-      expect(els.collectionChannelsItems.get(0).getCssValue("background-color")).toEqual("rgba(131, 131, 131, 1)");
+      expect(els.collectionChannelsItems.get(0).getCssValue("background-color")).toEqual("rgba(0, 0, 0, 0.0470588)");
     })
   })
 
@@ -79,6 +79,8 @@ describe('Dropdowns', function(){
 
   describe('Dropdown heights', function(){
     it('Few elements: Dropdown shrinks to fit', function(){
+      els.currentRole.click();
+      els.roles.get(0).click();
       els.collectionChannelsMore.click();
       els.collectionsOverflowItems.count()
       .then(function (count) {

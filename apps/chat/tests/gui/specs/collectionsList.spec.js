@@ -100,8 +100,8 @@ describe('Collections list', function() {
           })
 
           it('has light gray text and gray background', function(){
-            expect(first.getCssValue('color')).toEqual('rgba(204, 204, 204, 1)');
-            expect(first.getCssValue('background-color')).toEqual('rgba(131, 131, 131, 1)');
+            expect(first.getCssValue('color')).toEqual('rgba(85, 84, 89, 1)');
+            expect(first.getCssValue('background-color')).toEqual('rgba(0, 0, 0, 0.0470588)');
           });
         })
       })
