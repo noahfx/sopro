@@ -1,8 +1,8 @@
 # Ensure nvm binary selection is respected by sudo:
-#export NVM_DIR="/home/ubuntu/.nvm"
-#. "$NVM_DIR/nvm.sh"
-#
-#nvm use 0.11
+export NVM_DIR="/home/ubuntu/.nvm"
+. "$NVM_DIR/nvm.sh"
+
+nvm use 0.10
 #nvm alias default 0.11
 
 ~/vert.x-2.1.5/bin/vertx run server.vertx.js &
