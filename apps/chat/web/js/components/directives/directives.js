@@ -31,7 +31,8 @@ function positionDropdown(dataCount, fromElement){
       a1: null,
       a2: null,
       edge: null,
-    }
+    },
+    short: null,
   }
   var $from = $(fromElement);
   //var $to = $($element);
@@ -65,9 +66,9 @@ function positionDropdown(dataCount, fromElement){
   positions.arrow.left = pooRight - 9;
   positions.dropdown.left = pooRight;
 
-  var scenario = null;
   if(dropdownHeight <= (a2-a1)){
     // Scenario: Dropdown is short and in the middle of the screen
+    positions.short = true;
     positions.dropdown.top = a1+'px';
     positions.dropdown.height = dropdownHeight+'px';
     positions.dropdown['overflow-y'] = 'hidden';
@@ -76,7 +77,8 @@ function positionDropdown(dataCount, fromElement){
   if(dropdownHeight > (a2-a1)
     && dropdownHeight <= (a2-a0)
   ){
-    // Scenario: Dropdown exceeds distance from POO to bottom
+    // Scenario: Dropdown is short but exceeds distance from POO to bottom
+    positions.short = true;
     positions.dropdown.top = (a2-dropdownHeight)+'px';
     positions.dropdown.height = dropdownHeight+'px';
     positions.dropdown['overflow-y'] = 'hidden';
@@ -84,6 +86,7 @@ function positionDropdown(dataCount, fromElement){
 
   if(dropdownHeight > (a2 - a0)){
     // Scenario: Dropdown exceeds maximum distance from top to bottom
+    positions.short = false;
     positions.dropdown.top = a0+'px';
     positions.dropdown.height = (a2-a0)+'px';
     positions.dropdown['overflow-y'] = 'scroll';
@@ -95,17 +98,32 @@ function positionDropdown(dataCount, fromElement){
 function drawDropdown($animate, $element, positions, zIndex){
   $element
   .css(positions.dropdown);
-
-  $element.find('.sopro-arrow-overflow-dropdown')
-  .css(positions.arrow);
-
- $animate.animate($element, {
+  if ((positions.arrow.top + 18) <=
+  (parseInt(positions.dropdown.top.substring(0,positions.dropdown.top.indexOf('p'))) + 
+  (parseInt(positions.dropdown.height.substring(0,positions.dropdown.height.indexOf('p')))))) {
+    $element.find('.sopro-arrow-overflow-dropdown')
+    .css(positions.arrow);
+  } else {
+    $element.find('.sopro-arrow-overflow-dropdown')
+    .css({top:-18});
+  }
+  
+  $animate.animate($element, {
     top: positions.keylines.a1,
     height: "0px",
   }, {
     top: positions.dropdown.top,
     height: positions.dropdown.height,
   });
+  if(positions.short){
+    $($element).perfectScrollbar('destroy');
+  } else {
+    $($element).perfectScrollbar({
+      wheelSpeed: 2,
+      wheelPropagation: true,
+      minScrollbarLength: 20
+    });
+  }
 }
 
 
