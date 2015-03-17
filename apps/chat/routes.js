@@ -9,23 +9,27 @@ module.exports = function(app, eb){
   })
 
 
+  app.all('/api/*', function(req, res, next){
+    var token = req.header('token-auth')
+    if(token == undefined){
+      res.status(401).send('{"ok":false, "error":"not_authed"}');
+    } else {
+      req.authToken = token;
+      next();
+    }
+  })
+
   app.get('/api/channels', function(req, res, next) {
-    console.log('ping');
     var role = req.query['role'];
-    var token = req.header('token-auth');
     if (role == undefined) {
       return res.end(
         '{"ok":false, "error":"role_not_found"}'
-      );
-    } else if(token == undefined){
-      return res.end(
-        '{"ok":false, "error":"not_authed"}'
       );
     }
 
     var params = {
       requester: role,
-      token: token,
+      token: req.authToken,
       payload: {
         role: role
       }
@@ -34,6 +38,37 @@ module.exports = function(app, eb){
       res.send(reply);
     });
   });
+
+  app.post('/api/channel', function(req, res, next) {
+    var role = req.query['role'];
+    var name = req.query['name'];
+    var topic = req.query['topic'];
+    var purpose = req.query['purpose'];
+    if (role == undefined) {
+      return res.send(
+        '{"ok":false, "error":"role_not_found"}'
+      );
+    } else if(name == undefined){
+      return res.send(
+        '{"ok":false, "error":"no_channel"}'
+      );
+    }
+
+    var params = {
+      requester: role,
+      token: req.authToken,
+      payload: {
+        role: role,
+        name: name,
+        topic: topic,
+        purpose: purpose
+      }
+    }
+    eb.send("channel.create",JSON.stringify(params), function (reply) {
+      res.send(reply);
+    });
+  });
+
 
   app.use(function(err, req, res, next){
     console.log('error for',req.originalUrl);
