@@ -1,3 +1,9 @@
+# Ensure nvm binary selection is respected by sudo:
+export NVM_DIR="/home/ubuntu/.nvm"
+. "$NVM_DIR/nvm.sh"
+alias sudo='sudo '
+
+nvm use 0.12
 
 sudo /etc/init.d/xvfb start
 
