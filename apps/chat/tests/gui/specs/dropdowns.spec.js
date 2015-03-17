@@ -80,7 +80,7 @@ describe('Dropdowns', function(){
   describe('Dropdown heights', function(){
     it('Few elements: Dropdown shrinks to fit', function(){
       els.currentRole.click();
-      els.roles.get(0).click();
+      els.roles.get(1).click();
       els.collectionChannelsMore.click();
       els.collectionsOverflowItems.count()
       .then(function (count) {
