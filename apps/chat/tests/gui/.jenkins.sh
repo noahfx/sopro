@@ -13,6 +13,7 @@ sudo /etc/init.d/selenium start
 
 sleep 10
 
+npm install
 npm start &
 
 sleep 5

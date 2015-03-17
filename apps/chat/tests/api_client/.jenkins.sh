@@ -9,7 +9,7 @@ nvm use 0.10
 
 sleep 10
 
-
+npm install
 npm start &
 
 sleep 5
