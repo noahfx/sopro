@@ -2,8 +2,8 @@
 export NVM_DIR="/home/ubuntu/.nvm"
 . "$NVM_DIR/nvm.sh"
 
-nvm use 0.12
-nvm alias default 0.12
+nvm use 0.11
+nvm alias default 0.11
 
 ~/vert.x-2.1.5/bin/vertx run server.vertx.js &
 
