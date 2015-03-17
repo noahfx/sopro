@@ -29,16 +29,16 @@ function textCorrect(isSecond, isNested, text){
   return name === text;
 }
 
-function findPOICSS(isSecond, isNested){
+function findPOOCSS(isSecond, isNested){
   var css;
   if(!isSecond){
-    if(!isNested){ // first non-nested POI
+    if(!isNested){ // first non-nested POO
       css = "#collection-channels .sopro-more-channels";
-    } else { // first nested POI
+    } else { // first nested POO
       css = "sopro-collections-dropdown .dropdown-item:first-child";
     }
   } else {
-    if(!isNested){ // second non-nested POI
+    if(!isNested){ // second non-nested POO
       css = "#collection-peers .sopro-more-channels";
     } else {
       css = "sopro-collections-dropdown .dropdown-item:nth-child(2)";
@@ -66,10 +66,10 @@ function findDropdownCSS(isSecond, isNested){
 }
 
 //     /^I have a( second)?( nested)? point of origin visible$/
-function POIVisible(arg1, arg2, next){
+function POOVisible(arg1, arg2, next){
   var isSecond = arg1 ? true : false;
   var isNested = arg2 ? true : false;
-  var css = findPOICSS(isSecond, isNested);
+  var css = findPOOCSS(isSecond, isNested);
 
   element(by.css(css))
   .getText()
@@ -86,10 +86,10 @@ function POIVisible(arg1, arg2, next){
 
 //  /^I click the( second)?( nested)? point of origin$/
 
-function clickPOI(arg1, arg2, next){
+function clickPOO(arg1, arg2, next){
   var isSecond = arg1 ? true : false;
   var isNested = arg2 ? true : false;
-  var css = findPOICSS(isSecond, isNested);
+  var css = findPOOCSS(isSecond, isNested);
 
   element(by.css(css))
   .click()
@@ -107,11 +107,11 @@ function ensureDropdownIsVisible(arg1, arg2, next){
 }
 
 function openDropdown(isSecond, isNested, next){
-//  var css = findPOICSS(isSecond, isNested);
+//  var css = findPOOCSS(isSecond, isNested);
   if(!isSecond){
     if(!isNested){
       // open the first primary dropdown
-      var css = findPOICSS(false, false);
+      var css = findPOOCSS(false, false);
       element(by.css(css))
       .click()
       .then(function(){
@@ -119,12 +119,12 @@ function openDropdown(isSecond, isNested, next){
       });
     } else {
       // start by opening the first primary dropdown:
-      var css = findPOICSS(false, false);
+      var css = findPOOCSS(false, false);
       element(by.css(css))
       .click()
       .then(function(){
         // continue by opening the first nested dropdown:
-        var css = findPOICSS(false, true);
+        var css = findPOOCSS(false, true);
         element(by.css(css))
         .click()
         .then(function(){
@@ -135,7 +135,7 @@ function openDropdown(isSecond, isNested, next){
   } else {
     if(!isNested){
       // open the second primary dropdown
-      var css = findPOICSS(true, false);
+      var css = findPOOCSS(true, false);
       element(by.css(css))
       .click()
       .then(function(){
@@ -143,12 +143,12 @@ function openDropdown(isSecond, isNested, next){
       });
     } else {
       // start by opening the second primary dropdown:
-      var css = findPOICSS(true, false);
+      var css = findPOOCSS(true, false);
       element(by.css(css))
       .click()
       .then(function(){
         // continue by opening the second nested dropdown:
-        var css = findPOICSS(true, true);
+        var css = findPOOCSS(true, true);
         element(by.css(css))
         .click()
         .then(function(){
@@ -214,10 +214,10 @@ function isDropdownVisible(arg1, arg2, arg3, next){
     SSTEPS.viewingListOfChannels.fn);
 
   this.Given(/^I have a( second)?( nested)? point of origin visible$/,
-    POIVisible);
+    POOVisible);
 
   this.When(/^I click the( second)?( nested)? point of origin$/,
-    clickPOI);
+    clickPOO);
 
   this.Then(/^the( second)?( nested)? dropdown is( not)? visible$/,
     isDropdownVisible);
@@ -226,11 +226,11 @@ function isDropdownVisible(arg1, arg2, arg3, next){
  * Scenario: Clicking the same point of origin with an open dropdown
  */
   this.Given(/^I have a( second)?( nested)? point of origin visible$/,
-    POIVisible);
+    POOVisible);
   this.Given(/^the( second)?( nested)? dropdown is already visible$/,
     ensureDropdownIsVisible);
   this.When(/^I click the( second)?( nested)? point of origin$/,
-    clickPOI);
+    clickPOO);
   this.Then(/^the( second)?( nested)? dropdown is( not)? visible$/,
     isDropdownVisible);
 
@@ -238,11 +238,11 @@ function isDropdownVisible(arg1, arg2, arg3, next){
  * Scenario: Clicking a different point of origin with an open dropdown
  */
   this.Given(/^I have a( second)?( nested)? point of origin visible$/,
-    POIVisible);
+    POOVisible);
   this.Given(/^the( second)?( nested)? dropdown is already visible$/,
     ensureDropdownIsVisible);
   this.When(/^I click the( second)?( nested)? point of origin$/,
-    clickPOI);
+    clickPOO);
   this.Then(/^the( second)?( nested)? dropdown is( not)? visible$/,
     isDropdownVisible);
   this.Then(/^the( second)?( nested)? dropdown is( not)? visible$/,
@@ -270,9 +270,9 @@ function isDropdownVisible(arg1, arg2, arg3, next){
   this.Given(/^the( second)?( nested)? dropdown is already visible$/,
     ensureDropdownIsVisible);
   this.Given(/^I have a( second)?( nested)? point of origin visible$/,
-    POIVisible);
+    POOVisible);
   this.When(/^I click the( second)?( nested)? point of origin$/,
-    clickPOI);
+    clickPOO);
   this.Then(/^the( second)?( nested)? dropdown is( not)? visible$/,
     isDropdownVisible);
   this.Then(/^the( second)?( nested)? dropdown is( not)? visible$/,
@@ -286,9 +286,9 @@ function isDropdownVisible(arg1, arg2, arg3, next){
   this.Given(/^the( second)?( nested)? dropdown is already visible$/,
     ensureDropdownIsVisible);
   this.Given(/^I have a( second)?( nested)? point of origin visible$/,
-    POIVisible);
+    POOVisible);
   this.When(/^I click the( second)?( nested)? point of origin$/,
-    clickPOI);
+    clickPOO);
   this.Then(/^the( second)?( nested)? dropdown is( not)? visible$/,
     isDropdownVisible);
   this.Then(/^the( second)?( nested)? dropdown is( not)? visible$/,
@@ -304,9 +304,9 @@ function isDropdownVisible(arg1, arg2, arg3, next){
   this.Given(/^the( second)?( nested)? dropdown is already visible$/,
     ensureDropdownIsVisible);
   this.Given(/^I have a( second)?( nested)? point of origin visible$/,
-    POIVisible);
+    POOVisible);
   this.When(/^I click the( second)?( nested)? point of origin$/,
-    clickPOI);
+    clickPOO);
   this.Then(/^the( second)?( nested)? dropdown is( not)? visible$/,
     isDropdownVisible);
   this.Then(/^the( second)?( nested)? dropdown is( not)? visible$/,

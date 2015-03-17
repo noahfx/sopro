@@ -211,7 +211,7 @@ sopro-subscribers-dropdown{
 .sopro-dropdown-collection-wrap .dropdown-item {
     max-width: 19em;
     white-space: nowrap;
-    /*overflow: hidden;*/
+    overflow: hidden;
     text-overflow: ellipsis;
     font-size: 15px;
     padding-left: 20px;

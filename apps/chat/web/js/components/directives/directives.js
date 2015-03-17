@@ -9,7 +9,7 @@ function safeApply($scope, fn) {
   }
 };
 
-function onSubscriberPOOClick ($rootScope, $event, item, title) {
+function filterOnlyChannelClicks($rootScope, $event, item, title) {
   console.log('Subscriber dropdown POO clicked')
   if(title === "CHANNELS"){
     $rootScope.$broadcast("POO.click.subscribers", {
@@ -26,24 +26,19 @@ function positionDropdown(dataCount, fromElement){
   var positions = {
     arrow: {},
     dropdown: {},
-    keylines: {
-      a0: null,
-      a1: null,
-      a2: null,
-      edge: null,
+    keylines: { // These keylines represent the possible edges of the dropdown
+      a0: null, // Vertical pixels from window top to (20px below commpanel top)
+      a1: null, // Vertical pixels from window top to POO top
+      a2: null, // Vertical pixels from window top to (20px above commpanel bottom)
+      edge: null, // Horizontal pixels from window left to POO right
     },
-    short: null,
+    short: null,  // "tall" height > max and has a scrollbar; "short" height < max and has no scrollbar
   }
   var $from = $(fromElement);
-  //var $to = $($element);
   var dropdownItemsHeight = 30 * dataCount;
   var dropdownHeight = 20 + 30 + dropdownItemsHeight + 20;
 
   var $cp = $('#sopro-collections-wrap');
-  //var $arrow = $to.find($('.sopro-arrow-overflow-dropdown'));
-
-  //console.log('Positioning something with height', $to.innerHeight());
-
 
   var a0 = $cp.offset().top + 20;
   var a1 = $from.offset().top;
@@ -85,7 +80,7 @@ function positionDropdown(dataCount, fromElement){
   }
 
   if(dropdownHeight > (a2 - a0)){
-    // Scenario: Dropdown exceeds maximum distance from top to bottom
+    // Scenario: Dropdown is tall: exceeds maximum distance from top to bottom
     positions.short = false;
     positions.dropdown.top = a0+'px';
     positions.dropdown.height = (a2-a0)+'px';
@@ -142,11 +137,6 @@ angular.module('societyProChatApp.directives',[
       icon: '@',
       repeater: '=',
     },
-    /*
-    link: function(scope, element, attrs, mainController){
-      //scope.openSubscriberDropdown = mainController.openSubscriberDropdown;
-    },
-    */
     controller: function ($rootScope, $scope, maxChannels) {
       $scope.maxChannels = maxChannels;
       $scope.showOverflow = false;
@@ -166,7 +156,7 @@ angular.module('societyProChatApp.directives',[
       $scope.openSubscribersOverflow = function($event, item, title){
         // This is getting triggered from multiple collections. 
         // Check whether it's a channel overflow or peers:
-        onSubscriberPOOClick($rootScope, $event, item, title);
+        filterOnlyChannelClicks($rootScope, $event, item, title);
       }
     },
     templateUrl: 'web/partials/collection.html'
@@ -180,17 +170,9 @@ angular.module('societyProChatApp.directives',[
     controller: function ($rootScope, $scope, $element, $animate, $window) {
 
       $scope.openSubscribersOverflow = function(e, item, title){
-        onSubscriberPOOClick($rootScope, e, item, title);
+        filterOnlyChannelClicks($rootScope, e, item, title);
       }
-/*
-      $scope.$on('dropdownReadyToRender', function(){
-        setTimeout(function(){
-          positionDropdown($element, $scope.fromElement);
-        }, 100)
-        console.log('rendering collection dropdown')
 
-      })
-*/
       $('sopro-collections-dropdown').perfectScrollbar();
       var win = angular.element($window);
       win.bind("resize",function(e){
@@ -216,11 +198,6 @@ angular.module('societyProChatApp.directives',[
         $('.poo-highlight-collection').removeClass('poo-highlight-collection');
       });
     },
-    link: function(scope, element, attrs){
-      //var rect = scope.fromElement.getBoundingClientRect();
-      //element[0].style.top = rect.top - 30;
-      //element[0].style.left = rect.right + 50;
-    },
     templateUrl: 'web/partials/dropdown.html'
   };
 })
@@ -235,10 +212,6 @@ angular.module('societyProChatApp.directives',[
         console.log('Subscribers dropdown closing after hearing collections dropdown closing.');
 
         $rootScope.$broadcast('subscribers.overflow.close')
-      })
-
-      $scope.$on('dropdownReadyToRender', function(){
-        var positions = positionDropdown($element, $scope.fromElement);
       })
 
       var win = angular.element($window);
@@ -287,21 +260,7 @@ angular.module('societyProChatApp.directives',[
         $('.poo-highlight-subscriber').removeClass('poo-highlight-subscriber');
       });
 
-
-    },
-    link: function(scope, element, attrs){
-      //var rect = scope.fromElement.getBoundingClientRect();
-      //element[0].style.top = rect.top - 30;
-      //element[0].style.left = rect.right + 50;
     },
     templateUrl: 'web/partials/dropdown.html'
   };
-})
-.directive('waitForRender', function(){
-  return function(scope, element, attrs){
-    if(scope.$last){
-      console.log('Emitting dropdownReadyToRender')
-      scope.$emit("dropdownReadyToRender")
-    }
-  }
-})
+});
