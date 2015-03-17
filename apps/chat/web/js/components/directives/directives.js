@@ -98,10 +98,16 @@ function positionDropdown(dataCount, fromElement){
 function drawDropdown($animate, $element, positions, zIndex){
   $element
   .css(positions.dropdown);
-
-  $element.find('.sopro-arrow-overflow-dropdown')
-  .css(positions.arrow);
-
+  if ((positions.arrow.top + 18) <=
+  (parseInt(positions.dropdown.top.substring(0,positions.dropdown.top.indexOf('p'))) + 
+  (parseInt(positions.dropdown.height.substring(0,positions.dropdown.height.indexOf('p')))))) {
+    $element.find('.sopro-arrow-overflow-dropdown')
+    .css(positions.arrow);
+  } else {
+    $element.find('.sopro-arrow-overflow-dropdown')
+    .css({top:-18});
+  }
+  
   $animate.animate($element, {
     top: positions.keylines.a1,
     height: "0px",
