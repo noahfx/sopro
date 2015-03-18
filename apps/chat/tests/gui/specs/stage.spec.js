@@ -1,5 +1,5 @@
 describe("Main Stage",function  () {
-  browser.get('http://localhost:8080/');
+  browser.get('/');
   describe("Create a new channel", function () {
 
     var els = {

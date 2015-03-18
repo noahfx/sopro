@@ -1,51 +1,158 @@
-if(CAM === undefined){
-  throw new Error('routes.js requires a global CAM object')
+var fs = require('fs');
+
+module.exports = function(app, eb){
+  var indexHTML = fs.readFileSync('./web/index.html');
+  var loginHTML = fs.readFileSync('./web/login.html');
+  //var err404HTML = fs.readFileSync('./web/handler_404.html');
+  //var err404HTML = fs.readFileSync('./web/handler_404.html');
+  app.get('/', function(req, res){
+    res.set('Content-Type', 'text/html');
+    res.status(200).end(indexHTML)
+  })
+
+
+  app.all('/api/*', function(req, res, next){
+    var token = req.header('token-auth')
+    if(token == undefined){
+      res.status(401).send('{"ok":false, "error":"not_authed"}');
+    } else {
+      req.authToken = token;
+      next();
+    }
+  })
+
+
+function ensureAuthed(req, res, next){
+  var sessionCookie = req.header('Cookie');
+  if(sessionCookie === undefined){
+    res.status(401).send()
+  }
 }
 
-var server = CAM.server;
-var vertx = CAM.vertx;
-var routeMatcher = new vertx.RouteMatcher();
+  app.get('/api/channels', function(req, res, next) {
+    var role = req.query['role'];
+    if (role == undefined) {
+      return res.end(
+        '{"ok":false, "error":"role_not_found"}'
+      );
+    }
 
-server.requestHandler(routeMatcher);
-
-routeMatcher.getWithRegEx('\/(web)\/([^¡]+)', function(req) {
-    req.response.sendFile(req.path().substring(1,req.path().length), "web/handler_404.html"); 
-});
-
-routeMatcher.get('/', function(req) {
-  req.response.sendFile("web/index.html", "web/handler_404.html");
-});
-
-routeMatcher.get('/login', function(req) {
-  req.response.sendFile("web/login.html", "web/handler_404.html");
-});
-
-function ensureAuthed(req, callback){
-  var meta = parseReq(req);
-  var sessionCookie = req.headers['Cookie'];
-  console.log(sessionCookie);
-}
-
-function parseReq(req){
-  var out = {
-    headers: {},
-    qs: {},
-  };
-  req.headers().forEach(function(key, value) {
-    out.headers[key] = value;
+    var params = {
+      requester: role,
+      token: req.authToken,
+      payload: {
+        role: role
+      }
+    }
+    eb.send("get.channels",JSON.stringify(params), function (reply) {
+      res.send(reply);
+    });
   });
-  req.params().forEach(function(key, value) {
-    out.qs[key] = value;
+
+  app.post('/api/channel', function(req, res, next) {
+    var role = req.query['role'];
+    var name = req.query['name'];
+    var topic = req.query['topic'];
+    var purpose = req.query['purpose'];
+    if (role == undefined) {
+      return res.send(
+        '{"ok":false, "error":"role_not_found"}'
+      );
+    } else if(name == undefined){
+      return res.send(
+        '{"ok":false, "error":"no_channel"}'
+      );
+    }
+
+    var params = {
+      requester: role,
+      token: req.authToken,
+      payload: {
+        role: role,
+        name: name,
+        topic: topic,
+        purpose: purpose
+      }
+    }
+    eb.send("channel.create",JSON.stringify(params), function (reply) {
+      res.send(reply);
+    });
   });
-  return out;
+
+
+  app.post('/api/channels.invite', function(req, res, next) {
+
+    if (req.query['role'] == undefined) {
+      return res.send(
+        '{"ok":false, "error":"role_not_found"}'
+      );
+    } else if(req.query['user'] == undefined){
+      return res.send(
+        '{"ok":false, "error":"user_not_found"}'
+      );
+    } else if(req.query['channel'] == undefined){
+      return res.send(
+        '{"ok":false, "error":"channel_not_found"}'
+      );
+    }
+    var user = req.query['user'];
+    var role = req.query['role'];
+    var channel = req.query['channel'];
+    var params = {
+      requester: role,
+      token: req.authToken,
+      payload: {
+        user: user,
+        channel: channel,
+      }
+    }
+    eb.send("user."+user+".invites.channels",JSON.stringify(params), function (reply) {
+      res.send(reply);
+    });
+  });
+
+  app.get('/api/channel.info', function(req, res, next) {
+
+    if (req.query['role'] == undefined) {
+      return res.send(
+        '{"ok":false, "error":"role_not_found"}'
+      );
+    } else if(req.query['channel'] == undefined){
+      return res.send(
+        '{"ok":false, "error":"channel_not_found"}'
+      );
+    }
+    var params = {
+        requester: req.query['role'],
+        token: req.authToken,
+        payload: {
+          channel: req.query['channel'],
+        }
+      };
+    eb.send("channel.info",JSON.stringify(params),
+      function(reply) {
+        res.send(reply);
+      }
+    );
+  });
+
+
+
+  // 4-ary function sig indicates an Express error handler:
+  app.use(function(err, req, res, next){
+    console.log('error for',req.originalUrl);
+    console.log(err);
+    res.status(404).end()
+  })
 }
 
+app.get('/login', function(req, res, next) {
+    res.set('Content-Type', 'text/html');
+    res.status(200).end(loginHTML)
+});
 
-routeMatcher.post('/login/password', function(req){
-  req.expectMultiPart(true);
-  var meta = parseReq(req);
-
-  req.bodyHandler(function(body) {
+/*
+app.post('/login/password', function(req, res, next){
     var form = req.formAttributes();
     CAM.couchdb.checkAuth(form.get('username'), form.get('password'), function(err, valid, userid){
       if(err || !valid){
@@ -63,7 +170,6 @@ routeMatcher.post('/login/password', function(req){
         }))
 
 
-        /*
         CAM.coudchdb.user_by_userid(userid, function(err, user){
           if(err){
             req.response.end('{"ok":false, "error":"server error"}')
@@ -90,137 +196,7 @@ routeMatcher.post('/login/password', function(req){
           }
 
         })
-        */
       }
     })
-  });
 })
-
-routeMatcher.get('/api/channels', function(req) {
-  var meta = parseReq(req);
-
-  if (meta.qs['role'] == undefined) {
-    return req.response.end(
-      '{"ok":false, "error":"role_not_found"}'
-    );
-  } else if(meta.headers['token-auth'] == undefined){
-    return req.response.end(
-      '{"ok":false, "error":"not_authed"}'
-    );
-  }
-  var role = meta.qs['role'];
-  var token = meta.headers['token-auth'];
-  var params = {
-    requester: role,
-    token: token,
-    payload: {
-      role: role
-    }
-  }
-  eb.send("get.channels",JSON.stringify(params), function (reply) {
-    req.response.end(reply);
-  });
-});
-
-routeMatcher.post('/api/channel', function(req) {
-  var meta = parseReq(req);
-
-  if (meta.qs['role'] == undefined) {
-    return req.response.end(
-      '{"ok":false, "error":"role_not_found"}'
-    );
-  } else if(meta.qs['name'] == undefined){
-    return req.response.end(
-      '{"ok":false, "error":"no_channel"}'
-    );
-  } else if(meta.headers['token-auth'] == undefined){
-    return req.response.end(
-      '{"ok":false, "error":"not_authed"}'
-    );
-  }
-  var role = meta.qs['role'];
-  var name = meta.qs['name'];
-  var topic = meta.qs['topic'];
-  var purpose = meta.qs['purpose'];
-  var token = meta.headers['token-auth'];
-  var params = {
-    requester: role,
-    token: token,
-    payload: {
-      role: role,
-      name: name,
-      topic: topic,
-      purpose: purpose
-    }
-  }
-  eb.send("channel.create",JSON.stringify(params), function (reply) {
-    req.response.end(reply);
-  });
-});
-
-routeMatcher.post('/api/channels.invite', function(req) {
-  var meta = parseReq(req);
-
-  if (meta.qs['role'] == undefined) {
-    return req.response.end(
-      '{"ok":false, "error":"role_not_found"}'
-    );
-  } else if(meta.qs['user'] == undefined){
-    return req.response.end(
-      '{"ok":false, "error":"user_not_found"}'
-    );
-  } else if(meta.qs['channel'] == undefined){
-    return req.response.end(
-      '{"ok":false, "error":"channel_not_found"}'
-    );
-  } else if(meta.headers['token-auth'] == undefined){
-    return req.response.end(
-      '{"ok":false, "error":"not_authed"}'
-    );
-  }
-  var user = meta.qs['user'];
-  var role = meta.qs['role'];
-  var channel = meta.qs['channel'];
-  var token = meta.headers['token-auth'];
-  var params = {
-    requester: role,
-    token: token,
-    payload: {
-      user: user,
-      channel: channel,
-    }
-  };
-});
-
-routeMatcher.post('/channel', function(req) {
-  CAM.send.authenticate(req, function (err, data) {
-    if (err) {
-      req.response.end(err);
-    } else {
-      var roleID = "";
-      var name = "";
-      var topic = "";
-      var purpose = "";
-      //___________________________________________________
-      req.params().forEach(function(key, value) {
-        if (key == "userID") {roleID = value;console.log(roleID);}
-        else if (key == "name") name = value;
-        else if (key == "topic") topic = value;
-        else if (key == "purpose") purpose = value; 
-      });
-      if (!roleID) {
-        req.response.end('{"ok":false, "error":"No role id specified!"}');
-        return;
-      }
-      var params = {
-        roleID: roleID,
-        name: name,
-        topic: topic,
-        purpose: purpose 
-      }
-      eb.send("channel.create",JSON.stringify(params), function (reply) {
-        req.response.end(reply);
-      });
-    }
-  });
-});
+*/

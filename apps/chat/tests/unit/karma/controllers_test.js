@@ -30,8 +30,8 @@ describe("societyProChat Controllers", function() {
 
   describe('main controller', function(){
     beforeEach(function(){
-      httpBackend.expect('GET', '/channels?userID=abc')
-      .respond(CAM_MOCKS.channels3);
+      httpBackend.expect('GET', '/api/channels?role=abc')
+      .respond(CAM_MOCKS.getChannelsResponse1);
     })
     afterEach(function() {
         httpBackend.verifyNoOutstandingExpectation();
@@ -71,7 +71,7 @@ describe("societyProChat Controllers", function() {
     });
 
     xit("creates a channel creation card when it hears createChannelClicked event", function(done){
-      //httpBackend.expect('POST', '/channel?userID=abc&name=karmachannel')
+      //httpBackend.expect('POST', '/api/channel?role=abc&name=karmachannel')
         //.respond(CAM_MOCKS.postChannelResponse);
       var controller = createController('stageController');
       //scope.stageCards.push({creationTitle: "karmachannel"});
@@ -89,17 +89,24 @@ describe("societyProChat Controllers", function() {
 
     it("creates a channel when Create is clicked", function(){
       // Configure the stage in preparation to click Create:
-      httpBackend.expect('POST', '/channel?name=karmachannel&userID=abc')
+      httpBackend.expect('POST', '/api/channel?name=karmachannel&role=abc')
         .respond(CAM_MOCKS.postChannelResponse);
       var controller = createController('stageController');
+      scope.channels =[];
       scope.currentRole = {
         id: CAM_MOCKS.roleId1,
       };
       scope.stageCards.push({creationTitle: "karmachannel"});
 
+      var channelsLength1 = scope.channels.length;
+      // The stage controller doesn't know about $rootScope.currentRole.id
+
+      rootscope.currentRole = {id: 'abc'};
       // Click the Create button on the first card:
       scope.createClicked(0);
       httpBackend.flush();
+      var channelsLength2 = scope.channels.length;
+
 
       // See if the first card is now a channel history card:
       expect(scope.stageCards[0]).toEqual(
@@ -113,6 +120,13 @@ describe("societyProChat Controllers", function() {
           creationCard: true,
         })
       );
+
+      // See if the new channel is in the channels array:
+      expect(scope.channels[0]).toEqual(
+        jasmine.objectContaining(CAM_MOCKS.postChannelResponse.channel)
+      );
+
+      expect(channelsLength2 - channelsLength1).toBe(1);
 
       httpBackend.verifyNoOutstandingExpectation();
       httpBackend.verifyNoOutstandingRequest();

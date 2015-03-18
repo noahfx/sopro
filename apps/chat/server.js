@@ -1,41 +1,42 @@
-// One global variable to share state across files:
-CAM = {};
+var express = require('express');
+var app = express();
+var config = require('./cfg/server.cfg.js');
 
-var vertx = require('vertx');
-console = require('vertx/console');
-container = require('vertx/container');
+// Serve static files under /web from the ./web directory
+app.use('/web', express.static(__dirname+'/web'));
 
-var server = vertx.createHttpServer();
-var eb = vertx.eventBus;
+var vertx = require('vertx-eventbus-client');
+var eventbus = new vertx.EventBus(config.vertx.eburl);
+process.stdout.write('Waiting for eventbus connection...');
 
-CAM.vertx = vertx;
-CAM.server = server;
-CAM.eb = eb;
-
-load('routes.js');
-load('eb-messengers.js');
-container.deployVerticle("mock-backend.vertx.js");
-load("couchdb.vertx.js");
-
-
-console.log('Querying couchdb:');
-CAM.couchdb.checkAuth('calyx', 'aaaa', onAuthComplete);
-CAM.couchdb.checkAuth('calyx', 'wrong', onAuthComplete);
-
-function onAuthComplete(err, valid, userid){
-  if(err){ throw new Error(err) }
-  var msg = valid ? " authed successfully" : " failed to auth";
-  console.log(userid + msg)
-}  
+var flagConnected = false;
+eventbus.onopen = function() {
+  process.stdout.write(' Connected!\n');
+  flagConnected = true;
+  //console.log('eb.onopen start.');
+  console.log('Binding routes...')
+  require('./routes.js')(app, eventbus);
 
 
-// ATM our server does not have any message handlers at all; all communication with the EB is req/rep from eb-messengers.js.
-//load('eb-handlers.js');
+  app.listen(config.server.port, config.server.host, function(){
+    console.log('Listening on '+config.server.host+':'+config.server.port);
+  })
 
-server.listen(8080, "0.0.0.0", function(err) {
-  if (!err) {
-    console.log("Listen succeeded!");
-  } else { 
-    console.log(err);
+};
+
+
+/*
+  CAM.couchdb.checkAuth('calyx', 'aaaa', onAuthComplete);
+  CAM.couchdb.checkAuth('calyx', 'wrong', onAuthComplete);
+
+  function onAuthComplete(err, valid, userid){
+    if(err){ throw new Error(err) }
+    var msg = valid ? " authed successfully" : " failed to auth";
+    console.log(userid + msg)
   }
-});
+*/
+
+setTimeout(function(){
+  if(flagConnected){return}
+  console.log('\nIf your eventbus SocksJS server is on a local network it should have connected in less than 5 seconds. Is it running on '+config.vertx.eburl+'?')
+}, 5000)

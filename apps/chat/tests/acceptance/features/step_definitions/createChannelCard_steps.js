@@ -17,12 +17,18 @@ var clickAddChannelButton = function(next){
   })
 }
 
-
-function checkChannelCreationCardPresence (arg1, next) {
+// /^I should( not)? see a( blank)? channel creation card$/
+function checkChannelCreationCardPresence (arg1, arg2, next) {
   var cardExpected =
   arg1 === undefined
   ? true
   : false;
+
+  var blankExpected =
+  arg2 === undefined
+  ? false
+  : true;
+
   var cardFound = undefined;
 
   element.all(by.css('#card-create-channel'))
@@ -37,8 +43,22 @@ function checkChannelCreationCardPresence (arg1, next) {
     }
 
     if(cardFound === cardExpected){
-      return next();
-    } else {
+      // Don't check the title if it's not expected:
+      if(cardExpected){
+        element(by.css('#card-create-channel input.title'))
+        .getText()
+        .then(function(text){
+          if(blankExpected){
+            if(text !== ""){
+              return next(new Error('Expected the channel creation card to be blank'));
+            }
+          }
+          return next();
+        })
+      } else { // No card? No problem!
+        return next();
+      }
+    } else { // Expected and actual didn't match
       if(!cardExpected){
         return next(new Error('Found an unexpected channel creation card'));
       } else {
@@ -66,7 +86,7 @@ function ensureChannelCreationCard(next){
 }
 
 function checkChannelCardPresence (arg1, next){
-  var cardExpected = 
+  var cardExpected =
   arg1 === undefined
   ? true
   : false;
@@ -106,7 +126,7 @@ function checkChannelCardPresence (arg1, next){
   this.When(/^I select "\+ Add Channel"$/,
     clickAddChannelButton)
 
-  this.Then(/^I should( not)? see a channel creation card$/,
+  this.Then(/^I should( not)? see a( blank)? channel creation card$/,
     checkChannelCreationCardPresence);
 
   this.Then(/^the card should be in the number 1 position on the main stage$/, function(next){
@@ -134,7 +154,7 @@ function checkChannelCardPresence (arg1, next){
   this.When(/^I select "\+ Add Channel"$/,
     clickAddChannelButton)
 
-  this.Then(/^I should( not)? see a channel creation card$/,
+  this.Then(/^I should( not)? see a( blank)? channel creation card$/,
     checkChannelCreationCardPresence);
 
 
@@ -174,7 +194,7 @@ function checkChannelCardPresence (arg1, next){
     });
   });
 
-  this.Then(/^I should( not)? see a channel creation card$/,
+  this.Then(/^I should( not)? see a( blank)? channel creation card$/,
     checkChannelCreationCardPresence);
 
   this.Then(/^a channel should( not)? be created from the creation card$/, 
@@ -202,7 +222,7 @@ function checkChannelCardPresence (arg1, next){
     })
   });
 
-  this.Then(/^I should( not)? see a channel creation card$/,
+  this.Then(/^I should( not)? see a( blank)? channel creation card$/,
     checkChannelCreationCardPresence);
   this.Then(/^I should( not)? see a channel card for that channel$/,
     checkChannelCardPresence);
@@ -231,7 +251,7 @@ function checkChannelCardPresence (arg1, next){
     })
   });
 
-  this.Then(/^I should( not)? see a channel creation card$/,
+  this.Then(/^I should( not)? see a( blank)? channel creation card$/,
     checkChannelCreationCardPresence);
   this.Then(/^I should( not)? see a channel card for that channel$/,
     checkChannelCardPresence);

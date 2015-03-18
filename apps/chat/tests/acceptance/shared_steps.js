@@ -36,7 +36,7 @@ module.exports = {
       var req = http.request({
         port: 8080,
         method: "GET",
-        path: "/channels?userID="+CAM_MOCKS.roleId1,
+        path: "/api/channels?role="+CAM_MOCKS.roleId1,
         headers: {
           'token-auth': CAM_MOCKS.validToken,
         }
