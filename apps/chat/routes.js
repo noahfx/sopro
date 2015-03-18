@@ -1,15 +1,43 @@
 var fs = require('fs');
 
 module.exports = function(app, eb){
-  var indexHTML = fs.readFileSync('./web/index.html');
   var loginHTML = fs.readFileSync('./web/login.html');
   //var err404HTML = fs.readFileSync('./web/handler_404.html');
-  //var err404HTML = fs.readFileSync('./web/handler_404.html');
+
+
+  function checkEnterpriseAuth(req, res, next){
+    if(app.sopro.features.ee.fixedUserIdentities){
+      // expect the request has a user already logged in
+    } else {
+      next();
+    }
+  }
+
+  function compareAuthedUserAndRole(req, res, next){
+    if (req.user){
+      if(req.user.userid === req.query['role']){
+        // The logged in user requested his own role
+        return next()
+      };
+    };
+    res.status(401).json({ok: false, error: "That is not your role"})
+  }
+
+
+
+
+
+
+
   app.get('/', function(req, res){
-    res.set('Content-Type', 'text/html');
-    res.status(200).end(indexHTML)
+    res.locals.features = app.sopro.features;
+    res.render('index');
   })
 
+  app.get('/login', function(req, res, next) {
+      res.set('Content-Type', 'text/html');
+      res.status(200).end(loginHTML)
+  });
 
   app.all('/api/*', function(req, res, next){
     var token = req.header('token-auth')
@@ -29,7 +57,9 @@ function ensureAuthed(req, res, next){
   }
 }
 
-  app.get('/api/channels', function(req, res, next) {
+  app.get('/api/channels',
+  //compareAuthedUserAndRole,
+  function(req, res, next) {
     var role = req.query['role'];
     if (role == undefined) {
       return res.end(
@@ -146,12 +176,8 @@ function ensureAuthed(req, res, next){
   })
 }
 
-app.get('/login', function(req, res, next) {
-    res.set('Content-Type', 'text/html');
-    res.status(200).end(loginHTML)
-});
-
 /*
+
 app.post('/login/password', function(req, res, next){
     var form = req.formAttributes();
     CAM.couchdb.checkAuth(form.get('username'), form.get('password'), function(err, valid, userid){
