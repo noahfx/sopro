@@ -24,7 +24,13 @@
 
     <md-toolbar layout="row">
       <span flex></span>
-      <div class="role-selection" ng-click="showRoles=!showRoles" layout="row" layout-align="center center">
+      <div 
+      class="role-selection" 
+      ng-click="showRoles=!showRoles" 
+      layout="row" 
+      layout-align="center center"
+      data-currentuser="<%= currentUser %>"
+      >
         <img ng-src="{{currentRole.img}}" width="36" height="36" alt="role-icon">
         <span>{{currentRole.name}}</span>
         <img src="web/images/role-arrow.png" width="10" height="5" alt="arrow-role"/>

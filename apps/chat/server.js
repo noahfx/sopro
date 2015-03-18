@@ -24,7 +24,7 @@ eventbus.onopen = function() {
   //console.log('eb.onopen start.');
   console.log('Binding routes...')
   require('./routes.js')(app, eventbus);
-
+  
 
   app.listen(serverConfig.server.port, serverConfig.server.host, function(){
     console.log('Listening on '+serverConfig.server.host+':'+serverConfig.server.port);

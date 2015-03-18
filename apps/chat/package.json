@@ -10,6 +10,8 @@
     "ejs": "^2.3.1",
     "express": "^4.12.2",
     "nano": "^6.1.2",
+    "passport": "^0.2.1",
+    "passport-local": "^1.0.0",
     "vertx-eventbus-client": "0.0.4"
   },
   "scripts": {

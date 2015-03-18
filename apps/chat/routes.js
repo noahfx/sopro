@@ -4,13 +4,20 @@ module.exports = function(app, eb){
   var loginHTML = fs.readFileSync('./web/login.html');
   //var err404HTML = fs.readFileSync('./web/handler_404.html');
 
+  app.all('*', function(req, res, next){
+    req.user = {userid:"abc"};
+    next()
+  })
 
+  // Verify that this request is for a logged in user:
   function checkEnterpriseAuth(req, res, next){
     if(app.sopro.features.ee.fixedUserIdentities){
       // expect the request has a user already logged in
-    } else {
-      next();
-    }
+      if(!req.user){
+        return res.redirect('/login');
+      };
+    };
+    next();
   }
 
   function compareAuthedUserAndRole(req, res, next){
@@ -29,8 +36,11 @@ module.exports = function(app, eb){
 
 
 
-  app.get('/', function(req, res){
+  app.get('/',
+  checkEnterpriseAuth,
+  function(req, res){
     res.locals.features = app.sopro.features;
+    res.locals.currentUser = JSON.stringify(req.user)
     res.render('index');
   })
 
