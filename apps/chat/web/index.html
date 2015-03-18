@@ -3,10 +3,13 @@
     <title>SocietyPro Chat</title>
 
     <link rel="stylesheet" type="text/css" href="web/bower_components/angular-material/angular-material.css">
-    <link rel="stylesheet" type="text/css" href="web/styles/dropdown-collections.css">
+    <link rel='stylesheet' href='web/bower_components/perfect-scrollbar/css/perfect-scrollbar.css'/>
     <link rel="stylesheet" type="text/css" href="web/styles/society-pro-chat.css">
-
+    <!--[if IE]>
+    <link rel="stylesheet" type="text/css" href="web/styles/society-pro-chat-ie-support.css">
+    <![endif]-->
     <script type="text/javascript" src="web/bower_components/jquery/dist/jquery.min.js"></script>
+    <script src='web/bower_components/perfect-scrollbar/js/perfect-scrollbar.jquery.js'></script>
     <script src="web/bower_components/angular/angular.min.js"></script>
     <script type="text/javascript" src="web/bower_components/angular-aria/angular-aria.js"></script>
     <script type="text/javascript" src="web/bower_components/angular-animate/angular-animate.js"></script>
@@ -25,7 +28,7 @@
         <span>{{currentRole.name}}</span>
         <img src="web/images/role-arrow.png" width="10" height="5" alt="arrow-role"/>
       </div>
-      <div class="sopro-role-panel" layout="column" ng-show="showRoles">
+      <div class="sopro-role-panel md-whiteframe-z2" layout="column" ng-show="showRoles">
         <img class="sopro-arrow-role-panel" src="web/images/arrow-role-panel.png" alt="role-pannel-arrow">
         <span class="sopro-role-panel-title">ROLES</span>
         <div class="sopro-role-item" ng-class="{'sp-w-b':$last}" layout="row" layout-align="start center" ng-repeat="role in roles" ng-click="changeRole(role)">
@@ -35,14 +38,16 @@
     </div>
   </md-toolbar>
   <div class="sopro-main-content" flex layout="row">
-    <aside id="sopro-channel-wrap">
+    <md-content id="sopro-collections-wrap">
       <collection id="collection-channels" channel-title="CHANNELS" icon="web/images/icon-channels.png" repeater="channels">
         <span id="collection-channels-create" class="collection-create-link">+ Add Channel</span>
       </collection>
       <collection id="collection-peers" channel-title="PEERS" icon="web/images/icon-peers.png" repeater="peers">
         <span id="collection-peers-create" class="collection-create-link">+ Add Peer</span>
       </collection>
-    </aside>
+    </md-content>
+    <sopro-collections-dropdown ng-show="showCollectionsOverflow" class="md-whiteframe-z2"></sopro-collections-dropdown>
+    <sopro-subscribers-dropdown ng-show="showSubscribersOverflow" class="md-whiteframe-z2"></sopro-subscribers-dropdown>
     <md-content flex layout="row" layout-wrap id="main-stage" ng-controller="stageController">
       <ng-include layout="column" flex="50" flex-md="100" ng-repeat="card in stageCards" src="card.template"></ng-include>
     </md-content>

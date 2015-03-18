@@ -13,17 +13,26 @@ exports.config = {
 
   baseUrl: 'http://localhost:8080/',
 
-  framework: 'jasmine',
+  framework: 'jasmine2',
 
   jasmineNodeOpts: {
-    defaultTimeoutInterval: 30000
+    defaultTimeoutInterval: 30000,
+    print: function() {},
   },
 
   onPrepare: function() {
-    require('jasmine-reporters');
+    var jasmineReporters = require('jasmine-reporters');
+    var jUnitXmlReporter = new jasmineReporters.JUnitXmlReporter({
+      savePath: "tests/gui/",
+      filePrefix: 'test-out',
+      consolidateAll: true,
+    })
+    jasmine.getEnv().addReporter(jUnitXmlReporter);
+    
     var SpecReporter = require('jasmine-spec-reporter');
-
-    jasmine.getEnv().addReporter(new jasmine.JUnitXmlReporter("tests/gui/",true,true,"test-out",true));
-    jasmine.getEnv().addReporter(new SpecReporter({displayStacktrace: false}));
+    jasmine.getEnv().addReporter(new SpecReporter({
+      displayStacktrace: false,
+      displayPendingSpec: true,
+    }));
   }
 };

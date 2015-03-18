@@ -1,3 +1,14 @@
+# 0.1.5 (2015-03-18)
+Someone accidentally already pushed a 0.1.4 tag to git. So we can't use that one again.
+Git tag 0.1.5 now instead marks todays Feature:Dropdowns release.
+
+# 0.1.4 Feature: Dropdowns (2015-03-18)
+Now the HTTP server that hosts angular is back to using Node again.
+VertX is still used; it hosts a websocket HTTP server and a mock backend verticle.
+Now we have collections dropdowns that describe comm panel collection elements,
+and subscribers dropdowns that describe the subscribers to a channel.
+
+
 # 0.1.0 Vertx (2015-02-18)
 
 Now SocietyPro run in vertx and not in node anymore.

@@ -15,9 +15,16 @@ You need git to clone the sopro repository. You can get git from
 We also use a number of node.js tools to test sopro chat. You must have node.js and
 its package manager (npm) installed.  You can get them from [http://nodejs.org/](http://nodejs.org/).
 
+##### For windows 
+You need to install:
+  * .net framework 2 sdk
+  * Microsoft visual studio 2005
+
+
+
 To run the acceptance tests, you need `cucumber` on your path: `npm install -g cucumber`
 
-SocietyPro Chat runs in vertx, so you need to have [vertx](http://vertx.io/) installed. You can download it [here](http://vertx.io/downloads.html). 
+SocietyPro Chat uses vertx, so you need to have [vertx](http://vertx.io/) installed. You can download it [here](http://vertx.io/downloads.html). 
 
 ### Clone sopro
 
@@ -46,41 +53,39 @@ Behind the scenes this will also call `bower install`.  You should find that you
 folders in your project.
 
 * `node_modules` - contains the npm packages for the tools we need
-* `assets/bower_components` - contains the angular framework files
+* `web/bower_components` - contains the angular framework files
 
 *Note that the `bower_components` folder would normally be installed in the root folder but
 sopro chat changes this location through the `.bowerrc` file.  Putting it in the assets folder makes
 it easier to serve the files by a webserver.*
 
 ### Run the Application
-
-We have preconfigured the project with a simple development web server.  The simplest way to start
-this server is:
+There are two servers involved. You need both of them.  
+First, start the vertx eventbus server. This hosts a websocket that lets non-JVM code talk to the eventbus. It also spawns a mock-backend verticle that handles API requests, returning mocks.
 
 ```
-vertx run server.js
+vertx run server.vertx.js
+```
+
+Second, start the node.js http server to host angular:
+
+```
+npm start
 ```
 
 Now browse to the app at `http://localhost:8080/`.
 
-If you don't have a SoPro backend available, you can test the frontend against a mock backend. You will need to launch two verticles in cluster mode:
-
-```
-vertx run -cluster server.js
-vertx run -cluster mock-backend.vertx.js
-```
-
-
 ## Directory Layout
 
 ```
+cfg/                   --> This folder contains configuration files
 web/                   --> This folder contains all the frontend logic and views
 tests/                 --> Unit, E2E, API and acceptance tests
 ```
 
 ## Testing
 
-There are four kinds of tests in the angular-seed application: Unit tests and End to End tests.
+There are four kinds of tests included: Unit tests, API tests, GUI tests, and Acceptance tests.
 
 ### Running Unit Tests
 
@@ -97,32 +102,7 @@ configuration file to run them.
 The easiest way to run the unit tests is to use the supplied npm script:
 
 ```
-npm test
-```
-
-This script will start the Karma test runner to execute the unit tests. Moreover, Karma will sit and
-watch the source and test files for changes and then re-run the tests whenever any of them change.
-This is the recommended strategy; if your unit tests are being run every time you save a file then
-you receive instant feedback on any changes that break the expected code functionality.
-
-You can also ask Karma to do a single run of the tests and then exit.  This is useful if you want to
-check that a particular version of the code is operating as expected.  The project contains a
-predefined script to do this:
-
-```
-npm run test-single-run
-```
-
-#### Backend
-
-These are written in [Jasmine][jasmine], which we run with the [Mocha][mocha]. 
-
-* the unit tests are found next to the code they are testing and are named as `tests/unit/mocha/*.js`.
-
-The easiest way to run the unit tests is to use the supplied npm script:
-
-```
-npm run mocha
+npm run unit
 ```
 
 ### API testing
@@ -131,24 +111,24 @@ The SocietyPro chat comes with [Postman][postman] testing tool. Postman is an ap
 
 * the api tests are found in `tests/api_client/collections/`
 
-Protractor make api requests with our web app and verifies that the application responds
-correctly. Therefore, our web server needs to be serving up the application, so that Protractor
-can interact with it.
+Newman makes API requests to our web app and verifies that the application responds
+correctly. Make sure both node and vertx are running first:
 
 ```
-vertx run server.js
+vertx run server.vertx.js
+npm start
 ```
 
 Once you have ensured that the development web server hosting our application is up and running, you can run the api tests using the supplied npm script:
 
 ```
-npm run newman
+npm run api
 ```
 
 
 ### End to end testing
 
-The SocietyPro chat app comes with end-to-end tests, again written in [Jasmine][jasmine]. These tests
+The SocietyPro chat app comes with end-to-end GUI tests, again written in [Jasmine][jasmine]. These tests
 are run with the [Protractor][protractor] End-to-End test runner.  It uses native events and has
 special features for Angular applications.
 
@@ -156,11 +136,11 @@ special features for Angular applications.
 * the end-to-end tests are found in `tests/gui/specs/`
 
 Protractor simulates interaction with our web app and verifies that the application responds
-correctly. Therefore, our web server needs to be serving up the application, so that Protractor
-can interact with it.
+correctly. Make sure both node and vertx are running first:
 
 ```
-vertx run server.js
+vertx run server.vertx.js
+npm start
 ```
 
 In addition, since Protractor is built upon WebDriver we need to install this.  The angular-seed
@@ -176,11 +156,8 @@ Once you have ensured that the development web server hosting our application is
 and WebDriver is updated, you can run the end-to-end tests using the supplied npm script:
 
 ```
-npm run protractor
+npm run gui
 ```
-
-This script will execute the end-to-end tests against the application being hosted on the
-development server.
 
 ### Acceptance tests
 
@@ -188,27 +165,18 @@ And finally, SocietyPro Chat app also comes with acceptance tests, for this we u
 
 * the features are found at `tests/acceptance/features/`
 
+Cucumber also simulates interaction with our web app and verifies that the application responds
+correctly. Make sure both node and vertx are running first:
+
+```
+vertx run server.vertx.js
+npm start
+```
+
 You can run the cucumber tests using the supplied npm script:
 
 ```
-npm run cucumber
-```
-
-### Running the App during Development
-
-The SocietyPro chat project comes preconfigured with a local development webserver.  It is a node.js
-framewrok called [SailsJS][sailsjs].  You can start this webserver with `vertx run server.js` but you may choose to
-install the tool globally:
-
-```
-sudo npm install -g sails
-```
-
-Then you can start your own development web server by
-running:
-
-```
-vertx run server.js
+npm run acceptance
 ```
 
 ## Continuous Integration
@@ -217,7 +185,7 @@ vertx run server.js
 
 [Jenkins][jenkins] is a continuous integration service, which can monitor GitHub for new commits
 to your repository and execute scripts such as building the app or running tests. The SocietyPro
-chat project has a Jenkins Server that biulds and runs all the tests. You can see the pipeline [here](http://ci.societypro.org:8080/view/huevon_tests/).
+chat project has a Jenkins Server that biulds and runs all the tests. You can see the master pipeline [here](http://ci.societypro.org:8080/view/huevon_tests/) and the staging pipeline [here](http://ci.societypro.org:8080/view/sopro.staging/).
 
 [git]: http://git-scm.com/
 [bower]: http://bower.io

@@ -16,7 +16,7 @@ var peersCollection_steps = module.exports = function(){
     this.roleId =
       (arg1 === undefined)
       ? CAM_MOCKS.roleId1
-      : CAM_MOCKS.roleId2;
+      : CAM_MOCKS.nonsubscribedRoleId;
     next();
   }
 
