@@ -1,5 +1,5 @@
 // This script wipes out, recreates, and populates the 'mocks' database.
-var config = require('./config.js');
+var config = require('../cfg/server.cfg.js').couchdb;
 
 var nano = require('nano')({
   url: config.url
@@ -39,27 +39,32 @@ function createTestDb(done){
   });
 }
 
-function populateTestDb(done){
+function populateTestDb(callback){
   var mocks = nano.use('mocks');
   var user1JSON = fs.readFileSync('./mocks/user1.json');
   var user1 = JSON.parse(user1JSON);
+  var user2JSON = fs.readFileSync('./mocks/user2.json');
+  var user2 = JSON.parse(user2JSON);
   var soprochatJSON = fs.readFileSync('./soprochat-views.json');
   var soprochat = JSON.parse(soprochatJSON);
 
-  mocks.insert(user1, user1.userid, function(err, body, header){
-    if(err){ return done(err)}
-    ///done();
-  /*
-    nano.request({
-      db: 'mocks',
-      method: 'put',
-      doc: soprochat['']
+  var mockDocuments = [
+    './mocks/user1.json',
+    './mocks/user2.json',
+    './mocks/identity1.json',
+    './mocks/identity2.json',
+    './soprochat-views.json',
+  ]
 
-    })
-*/
-    mocks.insert(soprochatJSON, soprochat._id, function(err){
-      if(err){ return done(err)}
-      done();
-    })
+  async.eachSeries(mockDocuments, function(path, done){
+    var json = fs.readFileSync(path);
+    var doc = JSON.parse(json);
+    mocks.insert(doc, doc._id, done)
+  }, function(err){
+    if(err){
+      return callback(err)
+    }
+    callback(null);
   })
+
 }

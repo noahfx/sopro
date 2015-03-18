@@ -42,6 +42,7 @@ angular.module('societyProChatApp.controllers',['ngMaterial', 'ngAnimate', 'soci
   $scope.channels = [];
   $scope.peers = [];
   $rootScope.currentRole = {};
+  $scope.currentUser = $('#role-selection').data('currentuser');
   $scope.showCollectionsOverflow = null;
   $scope.showSubscribersOverflow = null;
 

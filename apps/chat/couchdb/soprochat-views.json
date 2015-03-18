@@ -6,6 +6,9 @@
     },
     "user_by_userid" : {
       "map" : "function(doc){ if(doc.type==='user'){ emit(doc.userid, doc) }}"
+    },
+    "identities_for_userid": {
+      "map" : "function(doc){ if(doc.type==='identity'){ emit(doc.userid, doc) }}"
     }
   }
 }

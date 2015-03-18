@@ -6,6 +6,12 @@ module.exports = CAM_CONFIG_SERVERS = {
   couchdb: {
     host: 'localhost',
     port: 5984,
+    url: 'http://localhost:5984',
+    //url: "https://admin:sopassword@sopro.iriscouch.com",
+    db: 'mocks',
+    //host: "sopro.iriscouch.com",
+    //user: "admin",
+    //pass: "sopassword",
   },
   vertx: {
     host: 'localhost',

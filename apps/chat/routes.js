@@ -50,9 +50,14 @@ module.exports = function(app, eb, passport){
   }))
 
   app.get('/login', function(req, res, next) {
-      res.set('Content-Type', 'text/html');
-      res.status(200).end(loginHTML)
+    res.set('Content-Type', 'text/html');
+    res.status(200).end(loginHTML)
   });
+
+  app.get('/logout', function(req, res, next){
+    req.logOut();
+    res.redirect('/');
+  })
 
   app.all('/api/*', function(req, res, next){
     var token = req.header('token-auth')

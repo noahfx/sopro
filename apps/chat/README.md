@@ -59,6 +59,20 @@ folders in your project.
 sopro chat changes this location through the `.bowerrc` file.  Putting it in the assets folder makes
 it easier to serve the files by a webserver.*
 
+
+#### Couchdb
+We currently use CouchDB as a persistency layer for our user objects.  
+Install couchdb then test if it's running with: `curl localhost:5984`.  
+Once it's set, configure your CouchDB host and port in `apps/chat/cfg/servers.cfg.js`.  
+Finally, bootstrap the database (installing mock data and view functions) like this:
+
+```
+cd apps/chat/couchdb
+node populate-couchdb-mocks.js
+```
+
+Confirm that it worked with `curl localhost:5984/mocks`.
+
 ### Run the Application
 There are two servers involved. You need both of them.  
 First, start the vertx eventbus server. This hosts a websocket that lets non-JVM code talk to the eventbus. It also spawns a mock-backend verticle that handles API requests, returning mocks.
