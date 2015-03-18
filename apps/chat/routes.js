@@ -1,11 +1,11 @@
 var fs = require('fs');
 
-module.exports = function(app, eb){
+module.exports = function(app, eb, passport){
   var loginHTML = fs.readFileSync('./web/login.html');
   //var err404HTML = fs.readFileSync('./web/handler_404.html');
 
   app.all('*', function(req, res, next){
-    req.user = {userid:"abc"};
+    //req.user = {userid:"abc"};
     next()
   })
 
@@ -43,6 +43,11 @@ module.exports = function(app, eb){
     res.locals.currentUser = JSON.stringify(req.user)
     res.render('index');
   })
+
+  app.post('/login/password', passport.authenticate('local', {
+    successRedirect: '/',
+    failureRedirect: '/login'
+  }))
 
   app.get('/login', function(req, res, next) {
       res.set('Content-Type', 'text/html');
@@ -186,10 +191,8 @@ function ensureAuthed(req, res, next){
   })
 }
 
-/*
 
-app.post('/login/password', function(req, res, next){
-    var form = req.formAttributes();
+/*
     CAM.couchdb.checkAuth(form.get('username'), form.get('password'), function(err, valid, userid){
       if(err || !valid){
         req.response.end('{"ok":false, "error":"unauthorized"}')
@@ -234,5 +237,4 @@ app.post('/login/password', function(req, res, next){
         })
       }
     })
-})
 */

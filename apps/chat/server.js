@@ -1,6 +1,9 @@
 var express = require('express');
 var app = express();
 
+/*
+ *  EXPRESS CONFIGURATION
+ */
 var serverConfig = require('./cfg/server.cfg.js');
 var featureConfig = require('./cfg/feature.cfg.js');
 
@@ -9,22 +12,52 @@ app.sopro.servers = serverConfig;
 app.sopro.features = featureConfig;
 
 // Serve static files under /web from the ./web directory
-app.set('view engine', 'ejs');
-//app.set('views', __dirname+'/views')
 app.use('/web', express.static(__dirname+'/web'));
+
+// Parse cookies into req.cookies on every request:
+var cookieParser = require('cookie-parser')
+app.use(cookieParser())
+
+// Have Express set up sessions
+var session = require('express-session');
+app.use(session({ 
+  secret: 'welcometoPANTHEONNNNN',
+  resave: false,
+  saveUninitialized: false,
+}));
+
+
+// Parse json and url-encoded form bodies:
+var bodyParser = require('body-parser');
+app.use(bodyParser.urlencoded({ extended: false })); //  application/x-www-form-urlencoded
+app.use(bodyParser.json()) // parse application/json
+
+// Use ejs templates
+app.set('view engine', 'ejs');
+
+/*
+ * MAIN HTTP SERVER LOGIC
+ */
 
 var vertx = require('vertx-eventbus-client');
 var eventbus = new vertx.EventBus(serverConfig.vertx.eburl);
 process.stdout.write('Waiting for eventbus connection...');
+var passport;
 
 var flagConnected = false;
 eventbus.onopen = function() {
   process.stdout.write(' Connected!\n');
   flagConnected = true;
-  //console.log('eb.onopen start.');
+
+  console.log('Configuring auth...')
+  passport = require('./passport.auth.js')(app);
+
+  app.use(passport.initialize());
+  app.use(passport.session());
+
   console.log('Binding routes...')
-  require('./routes.js')(app, eventbus);
-  
+  // We wait till here so we can use eventbus and passport in our routes:
+  require('./routes.js')(app, eventbus, passport); 
 
   app.listen(serverConfig.server.port, serverConfig.server.host, function(){
     console.log('Listening on '+serverConfig.server.host+':'+serverConfig.server.port);
