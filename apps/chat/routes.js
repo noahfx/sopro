@@ -4,20 +4,45 @@ module.exports = function(app, eb, passport){
   var loginHTML = fs.readFileSync('./web/login.html');
   //var err404HTML = fs.readFileSync('./web/handler_404.html');
 
-  app.all('*', function(req, res, next){
-    //req.user = {userid:"abc"};
-    next()
-  })
+  /*
+   * HTTPS ROUTING
+   */
+
+  function requireSecure(req, res, next){
+    if(!req.secure){
+      var port = +app.sopro.servers.express.sslPort || 443;
+      if(port != 443){
+        res.redirect('https://'+req.host+':'+port+req.originalUrl);
+        //console.log('redirecting to https://'+req.host+':'+port+req.originalUrl);
+      } else {
+        res.redirect('https://'+req.host+req.originalUrl);
+        //console.log('redirecting to https://'+req.host+req.originalUrl);
+      };
+    } else {
+      next();
+    };
+  }
+
+  app.all('*', requireSecure); 
+
+  /*
+   * HTTP REQUEST AUTHENTICATION
+   */
 
   // Verify that this request is for a logged in user:
-  function checkEnterpriseAuth(req, res, next){
-    if(app.sopro.features.ee.fixedUserIdentities){
-      // expect the request has a user already logged in
-      if(!req.user){
-        return res.redirect('/login');
-      };
+  function requireLogin(req, res, next){
+    if(!req.user){
+      return res.redirect('/login');
     };
     next();
+  }
+
+
+  function ensureAuthed(req, res, next){
+    var sessionCookie = req.header('Cookie');
+    if(sessionCookie === undefined){
+      res.status(401).send()
+    }
   }
 
   function compareAuthedUserAndRole(req, res, next){
@@ -25,19 +50,59 @@ module.exports = function(app, eb, passport){
       if(req.user.userid === req.query['role']){
         // The logged in user requested his own role
         return next()
-      };
-    };
-    res.status(401).json({ok: false, error: "That is not your role"})
+      }
+      res.status(401).json({ok: false, error: "That is not your role"})
+    } else {
+      res.status(401).json({ok: false, error: "unauthorized"})
+    }
   }
 
+  /*
+   *  REQUEST CONFIG MIDDLEWARES:
+   */
 
+   app.all('*', function(req, res, next){
+     res.locals.config = app.sopro;
+     next();
+   })
 
+  /*
+   *  DEVELOPMENT ROUTES
+   */
 
+  // Danger, this route can change configs. Only use in development:
+  if( app.get('env') === "development"){
+    app.post('/api/dev/setconfig', function(req, res, next){
+      var key = body.key;
+      var value = body.value;
+      if(value === 'true' || value==='false'){
+        value = !!value;
+      }
+      var tmpObj = app.sopro;
+      var tmpPath = "app.sopro"
+      var path = key.split('.');
+      // Drill down to the second to last segment:
+      for(var i=0; i<(path.length-1); i++){
+        if(tmp[segment] === undefined){
+          return res.status(404).send(tmpPath+'.'+segment+' not found');
+        }
+        tmpObj = tmpObj[segment];
+        tmpPath = tmpPath + '.' + segment;
+      }
+      // Set the value of the final property:
+      var lastProperty = path[path.length-1];
+      tmpObj[lastProperty] = value;
+      console.log(app.sopro);
+      res.send(200);
+    })
+  }
 
-
+  /*
+   *  ANGULAR ROUTING
+   */
 
   app.get('/',
-  checkEnterpriseAuth,
+  requireLogin,
   function(req, res){
     res.locals.features = app.sopro.features;
     res.locals.currentUser = JSON.stringify(req.user)
@@ -59,6 +124,10 @@ module.exports = function(app, eb, passport){
     res.redirect('/');
   })
 
+  /*
+   *  API ROUTING
+   */
+
   app.all('/api/*', function(req, res, next){
     var token = req.header('token-auth')
     if(token == undefined){
@@ -69,13 +138,6 @@ module.exports = function(app, eb, passport){
     }
   })
 
-
-function ensureAuthed(req, res, next){
-  var sessionCookie = req.header('Cookie');
-  if(sessionCookie === undefined){
-    res.status(401).send()
-  }
-}
 
   app.get('/api/channels',
   //compareAuthedUserAndRole,
@@ -186,7 +248,9 @@ function ensureAuthed(req, res, next){
     );
   });
 
-
+  /*
+   *  UNHANDLED ERROR ROUTING
+   */
 
   // 4-ary function sig indicates an Express error handler:
   app.use(function(err, req, res, next){
@@ -195,51 +259,3 @@ function ensureAuthed(req, res, next){
     res.status(404).end()
   })
 }
-
-
-/*
-    CAM.couchdb.checkAuth(form.get('username'), form.get('password'), function(err, valid, userid){
-      if(err || !valid){
-        req.response.end('{"ok":false, "error":"unauthorized"}')
-      } else {
-        //req.response.end('{"ok":true, "userid":' + userid + '}')
-        var token = 'foobar';
-        var header = 'sopro-auth-token=' + token;
-        //header += '; expires=' +thenStr;
-        header += '; httponly'
-
-        req.response.headers().set("Set-Cookie", authString2)
-        req.response.end(JSON.stringify({
-          "ok":true, "userid":userid
-        }))
-
-
-        CAM.coudchdb.user_by_userid(userid, function(err, user){
-          if(err){
-            req.response.end('{"ok":false, "error":"server error"}')
-          } else {
-            // Create a session cookie:
-            var now = new Date();
-            var then = new Date(now.valueOf() + 1000*60*60);
-            var thenStr = then.toUTCString();
-            CAM.crypto.generateToken(function(err, token){
-
-              CAM.couchdb.store({
-                type: 'sessiontoken',
-                expires: then,
-                header: 
-              }, function(){
-
-              })
-              CAM.sessions.create(user, function(token){
-                req.response.headers().set("Authorization", authString2)
-
-              })
-
-            })
-          }
-
-        })
-      }
-    })
-*/

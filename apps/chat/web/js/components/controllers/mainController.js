@@ -26,7 +26,10 @@ angular.module('societyProChatApp.controllers',['ngMaterial', 'ngAnimate', 'soci
 
   $rootScope.token = "12345";
 
-  $scope.roles = [
+  var user = $('#role-selection').data('currentuser');
+  $rootScope.currentUser = user;
+  $scope.roles = user.identities;
+  /*
     {
       "id": "abc",
       "name": "Calix",
@@ -38,6 +41,7 @@ angular.module('societyProChatApp.controllers',['ngMaterial', 'ngAnimate', 'soci
       "img": "web/images/role-image.png" 
     }
   ]
+  */
 
   $scope.channels = [];
   $scope.peers = [];
@@ -99,7 +103,7 @@ angular.module('societyProChatApp.controllers',['ngMaterial', 'ngAnimate', 'soci
          'token-auth': $rootScope.token
         },
         params : {
-          role: role.id
+          role: role.identityid
         }
       })
         .success(function(data, status, headers, config) {

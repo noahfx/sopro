@@ -1,26 +1,47 @@
+var fs = require('fs');
+var argh = require('argh').argv;
+
+var serverConfig = require('./cfg/server.cfg.js');
+var featureConfig;
 var express = require('express');
 var app = express();
 
-/*
- *  EXPRESS CONFIGURATION
- */
-var serverConfig = require('./cfg/server.cfg.js');
-var featureConfig = require('./cfg/feature.cfg.js');
 
 app.sopro = {};
 app.sopro.servers = serverConfig;
+
+// Override env variable with --enterprise flag:
+if(argh.enterprise){
+  app.set('env', 'enterprise');
+  featureConfig = require('./cfg/features.enterprise.js');
+} else{
+  if(app.get('env') === undefined){
+    app.set('env', 'standard');
+  }
+  featureConfig= require('./cfg/features.standard.js');
+}
+
+app.sopro.env = app.get('env');
 app.sopro.features = featureConfig;
 
-// Serve static files under /web from the ./web directory
+/*
+ *  EXPRESS CONFIGURATION:
+ *  Keep in mind Express constructs a request pipeline in order.
+ *  So every time we call app.use(fn) it adds that function to the end of the request pipeline.
+ *  Requests go through the pipeline in order.
+ *  E.g. the first handler that a request hits is the static middleware, below
+ */
+
+// Serve static files matching /web/* from the ./web directory:
 app.use('/web', express.static(__dirname+'/web'));
 
-// Parse cookies into req.cookies on every request:
+// Parse header cookies into req.cookies on every request:
 var cookieParser = require('cookie-parser')
 app.use(cookieParser())
 
-// Have Express set up sessions
+// Have Express set up sessions:
 var session = require('express-session');
-app.use(session({ 
+app.use(session({
   secret: 'welcometoPANTHEONNNNN',
   resave: false,
   saveUninitialized: false,
@@ -32,11 +53,11 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: false })); //  application/x-www-form-urlencoded
 app.use(bodyParser.json()) // parse application/json
 
-// Use ejs templates
+// Use ejs templates from the default views folder:
 app.set('view engine', 'ejs');
 
 /*
- * MAIN HTTP SERVER LOGIC
+ *  VERTX EVENT BUS:
  */
 
 var vertx = require('vertx-eventbus-client');
@@ -48,22 +69,43 @@ var flagConnected = false;
 eventbus.onopen = function() {
   process.stdout.write(' Connected!\n');
   flagConnected = true;
+  startExpress()
+};
 
+/*
+ *  EXPRESS STARTUP:
+ */
+
+function startExpress(){
+  // Configure authentication logic:
   console.log('Configuring auth...')
   passport = require('./passport.auth.js')(app);
-
   app.use(passport.initialize());
   app.use(passport.session());
 
   console.log('Binding routes...')
-  // We wait till here so we can use eventbus and passport in our routes:
-  require('./routes.js')(app, eventbus, passport); 
+  // The routing logic needs eventbus and passport:
+  require('./routes.js')(app, eventbus, passport);
 
-  app.listen(serverConfig.server.port, serverConfig.server.host, function(){
-    console.log('Listening on '+serverConfig.server.host+':'+serverConfig.server.port);
+  // Start http server:
+  app.listen(serverConfig.express.port, serverConfig.express.host, function(){
+    console.log('Listening on http://'+serverConfig.express.host+':'+serverConfig.express.port);
   })
 
-};
+  // Load ssl credentials:
+  var key = fs.readFileSync(serverConfig.express.sslOptions.keyfile);
+  var cert = fs.readFileSync(serverConfig.express.sslOptions.certfile);
+
+  // Start https server:
+  require('https')
+  .createServer({
+    key: key,
+    cert: cert
+  }, app)
+  .listen(serverConfig.express.sslPort, serverConfig.express.host, function(){
+    console.log('Listening on https://'+serverConfig.express.host+':'+serverConfig.express.sslPort);
+  })
+}
 
 
 /*

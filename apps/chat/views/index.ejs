@@ -20,7 +20,7 @@
       <script src="web/js/components/controllers/stageController.js"></script>
       <script src="web/js/app.js"></script>
   </head>
-  <body ng-controller="mainController" layout="column" layout-fill>
+  <body ng-controller="mainController" layout="column" layout-fill data-soproenv="<%= config.env %>">
 
     <md-toolbar layout="row">
       <span flex></span>
@@ -31,8 +31,8 @@
       layout-align="center center"
       data-currentuser="<%= currentUser %>"
       >
-        <img ng-src="{{currentRole.img}}" width="36" height="36" alt="role-icon">
-        <span class="roleLabel">{{currentRole.name}}</span>
+        <img ng-src="data:image/png;base64,{{currentRole.avatar}}" width="36" height="36" alt="role-icon">
+        <span class="roleLabel">{{currentRole.rolename}}</span>
         <a href="/logout" class="roleLogout">Logout</a>
         <img src="web/images/role-arrow.png" width="10" height="5" alt="arrow-role"/>
       </div>
@@ -41,8 +41,8 @@
         <img class="sopro-arrow-role-panel" src="web/images/arrow-role-panel.png" alt="role-pannel-arrow">
         <span class="sopro-role-panel-title">ROLES</span>
         <div class="sopro-role-item" ng-class="{'sp-w-b':$last}" layout="row" layout-align="start center" ng-repeat="role in roles" ng-click="changeRole(role)">
-          <img class="sopro-img-role-panel" ng-src="{{role.img}}" width="35" height="35" alt="role-icon">
-          <span class="sopro-role-name">{{role.name}}</span>
+          <img class="sopro-img-role-panel" ng-src="data:image/png;base64,{{role.avatar}}" width="35" height="35" alt="role-icon">
+          <span class="sopro-role-name">{{role.rolename}}</span>
         </div>
       </div>
       <% } %>

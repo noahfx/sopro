@@ -1,7 +1,12 @@
 module.exports = CAM_CONFIG_SERVERS = {
-  server: {
-    host: 'localhost',
+  express: {
+    host: '0.0.0.0',
     port: 8080,
+    sslPort: 443,
+    sslOptions: {
+      keyfile: 'cfg/ssl/192.168.10.206.key',
+      certfile: 'cfg/ssl/192.168.10.206.crt',
+    }
   },
   couchdb: {
     host: 'localhost',
