@@ -1,7 +1,13 @@
 var societyProChatControllers = 
 angular.module('societyProChatApp.controllers',['ngMaterial', 'ngAnimate', 'societyProChatApp.controller2'])
-
-.controller('mainController',['$scope','$http','$rootScope','$window',function($scope,$http,$rootScope,$window) {
+.service('UserService', ['$scope', '$rootScope', function($scope, $rootScope){
+  $scope.setUser = function(){
+    var user = $('#role-selection').data('currentuser');
+    $rootScope.currentUser = user;
+    $scope.currentUser = user;
+  }
+}])
+.controller('mainController',['$scope','$http','$rootScope','$window', 'UserService', function($scope,$http,$rootScope,$window,UserService) {
   
   
   var positionCommpanelScrollbar = function () {
@@ -26,9 +32,8 @@ angular.module('societyProChatApp.controllers',['ngMaterial', 'ngAnimate', 'soci
 
   $rootScope.token = "12345";
 
-  var user = $('#role-selection').data('currentuser');
-  $rootScope.currentUser = user;
-  $scope.roles = user.identities;
+  $scope.setUser();
+  $scope.roles = $scope.currentUser.identities;
   /*
     {
       "id": "abc",
@@ -46,7 +51,6 @@ angular.module('societyProChatApp.controllers',['ngMaterial', 'ngAnimate', 'soci
   $scope.channels = [];
   $scope.peers = [];
   $rootScope.currentRole = {};
-  $scope.currentUser = $('#role-selection').data('currentuser');
   $scope.showCollectionsOverflow = null;
   $scope.showSubscribersOverflow = null;
 

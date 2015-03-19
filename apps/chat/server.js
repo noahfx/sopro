@@ -2,7 +2,7 @@ var fs = require('fs');
 var os = require('os');
 var argh = require('argh').argv;
 
-var serverConfig = require('./cfg/server.cfg.js');
+var serverConfig = require('./cfg/servers.js');
 var featureConfig;
 var express = require('express');
 var app = express();

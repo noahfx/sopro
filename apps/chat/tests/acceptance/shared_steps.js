@@ -1,5 +1,7 @@
 var CAM_MOCKS = require('../mock-data.js');
 
+var request = require('request');
+
 var changeIndentity = function (i) {
   console.log("changeIndentity:");
   var Q = require('q');
@@ -90,30 +92,22 @@ module.exports = {
   roleHasPeers: {
     regex: /^a specific role has peers$/,
     fn: function (next) {
-      var http = require('http');
-      var req = http.request({
-        port: 8080,
+      this.soproRequest('https://localhost/api/channels', {
         method: "GET",
-        path: "/api/channels?role="+CAM_MOCKS.roleId1,
-        headers: {
-          'token-auth': CAM_MOCKS.validToken,
+        qs: {
+          role: CAM_MOCKS.roleId1,
         }
-      }, function (res) {
-        res.on('data', function (chunk) {
-          var response = JSON.parse(chunk);
-          if (response.peers != undefined) {
-            next();
-          } else {
-            next.fail(new Error(response.error));
-          }
-        });
-      });
-
-      req.on('error', function(e) {
-        next.fail(new Error(e.message));
-      });
-
-      req.end();
+      }, function (err, res, body) {
+        if(err){
+          return next.fail(new Error(err));
+        }
+        var parsed = JSON.parse(body);
+        if (parsed.peers != undefined) {
+          next();
+        } else {
+          next.fail(new Error(parsed.error));
+        }
+      })
     }
   },
   roleChosen: {

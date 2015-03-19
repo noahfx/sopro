@@ -17,6 +17,7 @@
     "passport": "^0.2.1",
     "passport-local": "^1.0.0",
     "q": "^1.2.0",
+    "request": "^2.53.0",
     "vertx-eventbus-client": "0.0.4"
   },
   "scripts": {

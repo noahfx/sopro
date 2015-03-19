@@ -234,7 +234,7 @@ angular.module('societyProChatApp.directives',[
            'token-auth': $rootScope.token
           },
           params : {
-            role: $rootScope.currentRole.id,
+            role: $rootScope.currentRole.identityid,
             channel: data.id
           }
         })

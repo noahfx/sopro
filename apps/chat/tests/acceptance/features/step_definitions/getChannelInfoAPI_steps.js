@@ -1,6 +1,8 @@
 var CAM_MOCKS = require('../../../mock-data.js');
 var SSTEPS = require('../../shared_steps.js');
 var SA_STEPS = require('../../sharedAPI_steps.js');
+var request = require('request');
+var fs = require('fs');
 
 var channelsList_steps = module.exports = function(){
 
@@ -20,47 +22,40 @@ var channelsList_steps = module.exports = function(){
   });
 
   this.Then(/^the response should contain a list of peers that are subscribed to that channel$/, function (next) {
-    var http = require('http');
-    var req = http.request({
-      port: 8080,
+    this.soproRequest({
+      //port: 8080,
       method: "GET",
-      url: 'https://localhost/api/channel.info?role='
-        + CAM_MOCKS.roleId1
-        + '&channel='
-        + encodeURIComponent(CAM_MOCKS.newChannelName),
-      headers: {
-        'token-auth': CAM_MOCKS.validToken,
+      url: 'https://localhost/api/channel.info',
+      qs: {
+        role: CAM_MOCKS.roleId1,
+        channel: CAM_MOCKS.newChannelName,
       },
-    }, function (res) {
-      res.on('data', function (chunk) {
-        console.log(chunk.toString());
-        var response = JSON.parse(chunk);
-        var members = [];
-        if(response.ok !== true){
-          return next.fail(response.error || "Unknown vertx error")
-        }
-        try{
-          members = response.channel.members;
-        } catch(e){
-          return next.fail(e);
-        }
-        if(!response.ok){
-          return next.fail(new Error(response.error));
-        }
-        if(members.length !== CAM_MOCKS.getChannelInfoResponse.channel.members.length){
-          return next.fail(new Error('/api/channel.info got an unexpected number of members'));
-        };
+    }, function onResponse(err, res, body) {
+      if(err){
+        return next.fail(new Error(err));
+      }
 
-        // Got here without a failure? Great, pass:
-        return next();
-      });
+      var parsed = JSON.parse(body);
+      var members = [];
+      if(parsed.ok !== true){
+        return next.fail(parsed.error || "Unknown vertx error")
+      }
+      try{
+        members = parsed.channel.members;
+      } catch(e){
+        return next.fail(e);
+      }
+      if(!parsed.ok){
+        return next.fail(new Error(parsed.error));
+      }
+      if(members.length !== CAM_MOCKS.getChannelInfoResponse.channel.members.length){
+        return next.fail(new Error('/api/channel.info got an unexpected number of members'));
+      };
+
+      // Got here without a failure? Great, pass:
+      return next() ;
     });
 
-    req.on('error', function(e) {
-      next.fail(new Error(e.message));
-    });
-
-    req.end(); 
   });
 
 }
