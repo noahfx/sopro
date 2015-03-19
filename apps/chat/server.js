@@ -1,4 +1,5 @@
 var fs = require('fs');
+var os = require('os');
 var argh = require('argh').argv;
 
 var serverConfig = require('./cfg/server.cfg.js');
@@ -76,6 +77,8 @@ eventbus.onopen = function() {
  *  EXPRESS STARTUP:
  */
 
+var flagHTTPStarted = false;
+var flagHTTPSStarted = false;
 function startExpress(){
   // Configure authentication logic:
   console.log('Configuring auth...')
@@ -90,6 +93,8 @@ function startExpress(){
   // Start http server:
   app.listen(serverConfig.express.port, serverConfig.express.host, function(){
     console.log('Listening on http://'+serverConfig.express.host+':'+serverConfig.express.port);
+    flagHTTPStarted = true;
+    dropPrivileges();
   })
 
   // Load ssl credentials:
@@ -104,21 +109,32 @@ function startExpress(){
   }, app)
   .listen(serverConfig.express.sslPort, serverConfig.express.host, function(){
     console.log('Listening on https://'+serverConfig.express.host+':'+serverConfig.express.sslPort);
+    flagHTTPSStarted = true;
+    dropPrivileges();
   })
 }
 
-
-/*
-  CAM.couchdb.checkAuth('calyx', 'aaaa', onAuthComplete);
-  CAM.couchdb.checkAuth('calyx', 'wrong', onAuthComplete);
-
-  function onAuthComplete(err, valid, userid){
-    if(err){ throw new Error(err) }
-    var msg = valid ? " authed successfully" : " failed to auth";
-    console.log(userid + msg)
+function dropPrivileges(){
+  if(!flagHTTPStarted || !flagHTTPSStarted){ 
+    return;
   }
-*/
+  if(os.platform() === 'win32'){
+    console.log('NOT dropping privileges because windows doesn\'t do that');
+    return;
+  }
 
+  try {
+    console.log('Old User ID: ' + process.getuid() + ', Old Group ID: ' + process.getgid());
+    process.setgid(app.sopro.servers.express.runtimeGroup);
+    process.setuid(app.sopro.servers.express.runtimeUser);
+    console.log('New User ID: ' + process.getuid() + ', New Group ID: ' + process.getgid());
+  } catch (err) {
+    console.log('Tried and failed to switch user away from root.');
+    process.exit(1);
+  }
+}
+
+// Helpful warning if socksjs is delayed:
 setTimeout(function(){
   if(flagConnected){return}
   console.log('\nIf your eventbus SocksJS server is on a local network it should have connected in less than 5 seconds. Is it running on '+serverConfig.vertx.eburl+'?')
