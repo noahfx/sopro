@@ -1,8 +1,6 @@
 var fs = require('fs');
 
 module.exports = function(app, eb, passport){
-  var loginHTML = fs.readFileSync('./web/login.html');
-  //var err404HTML = fs.readFileSync('./web/handler_404.html');
 
   /*
    * HTTPS ROUTING
@@ -12,10 +10,10 @@ module.exports = function(app, eb, passport){
     if(!req.secure){
       var port = +app.sopro.servers.express.sslPort || 443;
       if(port != 443){
-        res.redirect('https://'+req.host+':'+port+req.originalUrl);
+        res.redirect('https://'+req.hostname+':'+port+req.originalUrl);
         //console.log('redirecting to https://'+req.host+':'+port+req.originalUrl);
       } else {
-        res.redirect('https://'+req.host+req.originalUrl);
+        res.redirect('https://'+req.hostname+req.originalUrl);
         //console.log('redirecting to https://'+req.host+req.originalUrl);
       };
     } else {
@@ -115,8 +113,9 @@ module.exports = function(app, eb, passport){
   }))
 
   app.get('/login', function(req, res, next) {
-    res.set('Content-Type', 'text/html');
-    res.status(200).end(loginHTML)
+    res.locals.features = app.sopro.features;
+    res.locals.currentUser = JSON.stringify(req.user)
+    res.render('login');
   });
 
   app.get('/logout', function(req, res, next){
