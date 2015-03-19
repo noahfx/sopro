@@ -132,6 +132,19 @@ function dropPrivileges(){
     console.log('Tried and failed to switch user away from root.');
     process.exit(1);
   }
+
+  var didThrow = null;
+  try{
+    fs.writeFileSync('/root/shouldNotBeWritable.txt', 'foo')
+  } catch(e) {
+    didThrow = true;
+  } finally {
+    if(!didThrow){
+      fs.unlinkSync('/root/shouldNotBeWritable.txt');
+      throw new Error('Successfully wrote to /root; expected failure')
+    }
+  }
+
 }
 
 // Helpful warning if socksjs is delayed:

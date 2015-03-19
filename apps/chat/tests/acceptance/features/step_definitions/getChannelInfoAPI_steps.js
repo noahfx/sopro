@@ -24,7 +24,7 @@ var channelsList_steps = module.exports = function(){
     var req = http.request({
       port: 8080,
       method: "GET",
-      path: '/api/channel.info?role='
+      url: 'https://localhost/api/channel.info?role='
         + CAM_MOCKS.roleId1
         + '&channel='
         + encodeURIComponent(CAM_MOCKS.newChannelName),
@@ -33,6 +33,7 @@ var channelsList_steps = module.exports = function(){
       },
     }, function (res) {
       res.on('data', function (chunk) {
+        console.log(chunk.toString());
         var response = JSON.parse(chunk);
         var members = [];
         if(response.ok !== true){
