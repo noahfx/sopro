@@ -71,8 +71,8 @@ module.exports = function(app, eb, passport){
   // Danger, this route can change configs. Only use in development:
   if( app.get('env') === "development"){
     app.post('/api/dev/setconfig', function(req, res, next){
-      var key = body.key;
-      var value = body.value;
+      var key = req.body.key;
+      var value = req.body.value;
       if(value === 'true' || value==='false'){
         value = !!value;
       }
@@ -81,7 +81,8 @@ module.exports = function(app, eb, passport){
       var path = key.split('.');
       // Drill down to the second to last segment:
       for(var i=0; i<(path.length-1); i++){
-        if(tmp[segment] === undefined){
+        var segment = path[i];
+        if(tmpObj[segment] === undefined){
           return res.status(404).send(tmpPath+'.'+segment+' not found');
         }
         tmpObj = tmpObj[segment];
