@@ -15,10 +15,12 @@ describe("societyProChat Controllers", function() {
       //scope.currentUser = require('./couchdb/mocks/user1')
       rootscope = $rootScope;
       UserServiceMock = {
-        setCurrentUser: function() {
-          scope.roles = [1, 2];
-        }
-      };
+        identities: [
+          {
+            "identityid":"abc",
+          }
+        ]
+      }
       createController = function(name) {
           name = name || 'mainController';
           var controller = $controller(name, {
@@ -28,7 +30,6 @@ describe("societyProChat Controllers", function() {
           if(name === 'mainController'){
             httpBackend.flush();
           }
-          scope.roles = [1, 2];
           return controller;
       };
   }));

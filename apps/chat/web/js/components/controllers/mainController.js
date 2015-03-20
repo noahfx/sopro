@@ -1,12 +1,8 @@
 var societyProChatControllers = 
 angular.module('societyProChatApp.controllers',['ngMaterial', 'ngAnimate', 'societyProChatApp.controller2'])
-.service('UserService', ['$scope', '$rootScope', function($scope, $rootScope){
-  $scope.setUser = function(){
-    var user = $('#role-selection').data('currentuser');
-    $rootScope.currentUser = user;
-    $scope.currentUser = user;
-  }
-}])
+.factory('UserService', function(){
+  return $('#role-selection').data('currentuser');
+})
 .controller('mainController',['$scope','$http','$rootScope','$window', 'UserService', function($scope,$http,$rootScope,$window,UserService) {
   
   
@@ -32,7 +28,7 @@ angular.module('societyProChatApp.controllers',['ngMaterial', 'ngAnimate', 'soci
 
   $rootScope.token = "12345";
 
-  $scope.setUser();
+  $scope.currentUser = $rootScope.currentUser = UserService;   
   $scope.roles = $scope.currentUser.identities;
   /*
     {
