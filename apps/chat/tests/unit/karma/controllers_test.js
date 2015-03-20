@@ -109,7 +109,7 @@ describe("societyProChat Controllers", function() {
       var channelsLength1 = scope.channels.length;
       // The stage controller doesn't know about $rootScope.currentRole.id
 
-      rootscope.currentRole = {id: 'abc'};
+      rootscope.currentRole = {identityid: 'abc'};
       // Click the Create button on the first card:
       scope.createClicked(0);
       httpBackend.flush();
