@@ -1,9 +1,9 @@
 module.exports = function (browser, element) {
 
   var login = {}
-  login.changeIndentity = changeIndentity;
+  login.changeIdentity = changeIdentity;
 
-  function changeIndentity (i) {  
+  function changeIdentity (i) {  
     var Q = require('q');
     var fs = require('fs');
     var user1 = fs.readFileSync("couchdb/mocks/user1.json", 'utf8');
