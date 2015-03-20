@@ -5,7 +5,7 @@ var vertx = require('vertx');
 console = require('vertx/console');
 container = require('vertx/container');
 
-load('./cfg/server.cfg.js');
+load('./cfg/servers.js');
 var cfg = CAM_CONFIG_SERVERS;
 
 var server = vertx.createHttpServer();

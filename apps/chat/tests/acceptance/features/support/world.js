@@ -23,7 +23,6 @@ module.exports = function() {
       }
 
     })
-
     callback(); // tell Cucumber we're finished and to use 'this' as the world instance
   };
 }

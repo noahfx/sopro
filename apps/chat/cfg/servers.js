@@ -6,7 +6,9 @@ module.exports = CAM_CONFIG_SERVERS = {
     sslOptions: {
       keyfile: 'cfg/ssl/192.168.10.206.key',
       certfile: 'cfg/ssl/192.168.10.206.crt',
-    }
+    },
+    runtimeGroup: "jimmy",
+    runtimeUser: "jimmy"
   },
   couchdb: {
     host: 'localhost',
