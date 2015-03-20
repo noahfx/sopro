@@ -1,4 +1,4 @@
-var serverConfig = require('./cfg/server.cfg.js');
+var serverConfig = require('./cfg/servers.js');
 var nano = require('nano')(serverConfig.couchdb.url);
 var async = require('async');
 
