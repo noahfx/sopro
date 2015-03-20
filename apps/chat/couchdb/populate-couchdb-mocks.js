@@ -1,5 +1,5 @@
 // This script wipes out, recreates, and populates the 'mocks' database.
-var config = require('../cfg/server.cfg.js').couchdb;
+var config = require('../cfg/servers.js').couchdb;
 
 var nano = require('nano')({
   url: config.url
