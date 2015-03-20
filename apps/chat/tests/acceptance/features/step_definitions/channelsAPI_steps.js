@@ -14,30 +14,23 @@ var channelsAPI_steps = module.exports = function(){
   })
 
   this.Then(/^the response should contain a list of channels for that role$/, function (next) {
-    var http = require('http');
-    var req = http.request({
-      port: 8080,
+    this.soproRequest("https://localhost/api/channels", {
+      //port: 8080,
       method: "GET",
-      path: "/api/channels?role="+CAM_MOCKS.roleId1,
-      headers: {
-        'token-auth': CAM_MOCKS.validToken,
+      qs: {
+        role: CAM_MOCKS.roleId1,
+      },
+    }, function (err, res, body) {
+      if(err){
+        return next.fail(new Error(err));
       }
-    }, function (res) {
-      res.on('data', function (chunk) {
-        var response = JSON.parse(chunk);
-        if (response.channels != undefined && response.peers != undefined) {
-          next();
-        } else {
-          next.fail(new Error(response.error));
-        }
-      });
-    });
-
-    req.on('error', function(e) {
-      next.fail(new Error(e.message));
-    });
-
-    req.end();
+      var parsed = JSON.parse(body);
+      if (parsed.channels != undefined && parsed.peers != undefined) {
+        next();
+      } else {
+        next.fail(new Error(parsed.error));
+      }
+    })
   });
 
   //*********************POST CHANNEL*************************************
@@ -46,26 +39,20 @@ var channelsAPI_steps = module.exports = function(){
     var self = this;
     this.postChannels = {}
     var http = require('http');
-    var req = http.request({
-      port: 8080,
+    this.soproRequest("https://localhost/api/channel", {
       method: "POST",
-      path: "/api/channel?role="+CAM_MOCKS.roleId1+"&name=fun",
-      headers: {
-        'token-auth': CAM_MOCKS.validToken,
+      qs: {
+        role:CAM_MOCKS.roleId1,
+        name: "fun",
+      },
+    }, function (err, res, body) {
+      if(err){
+        return next.fail(new Error(err));
       }
-    }, function (res) {
-      res.on('data', function (chunk) {
-        var response = JSON.parse(chunk);
-        self.postChannelsResponse = response;
-        next();
-      });
+      var parsed = JSON.parse(body);
+      self.postChannelsResponse = parsed;
+      next();
     });
-
-    req.on('error', function(e) {
-      next.fail(new Error(e.message));
-    });
-
-    req.end();
   });
 
   this.Then(/^a channel should be created for the role specified$/, function (next) {

@@ -9,13 +9,25 @@ body > md-toolbar {
 }
 
 /* --- Role Selection */
-.role-selection {
+#role-selection {
   margin: 0px 15px;
   cursor: pointer;
 }
-.role-selection > * {
+#role-selection > * {
   margin: 5px;
   font-size: 13px;
+}
+#role-selection .roleLabel{
+  display: inline-block;
+}
+#role-selection .roleLogout{
+ display: none;
+}
+#role-selection:hover .roleLabel{
+  display: none;
+}
+#role-selection:hover .roleLogout{
+  display: inline-block;
 }
 .sopro-role-panel{
   top: 50px;
