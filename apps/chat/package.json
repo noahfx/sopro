@@ -28,7 +28,7 @@
     "pretest": "npm install",
     "test": "./node_modules/karma/bin/karma start ./tests/unit/karma.conf.js",
     "unit": "./node_modules/karma/bin/karma start ./tests/unit/karma.conf.js  --single-run",
-    "api": "./node_modules/.bin/newman -c tests/api_client/collections/testCollection.json.postman_collection --testReportFile tests/api_client/test-out.xml",
+    "api": "./node_modules/.bin/newman -k -c tests/api_client/collections/testCollection.json.postman_collection --testReportFile tests/api_client/test-out.xml",
     "gui": "protractor tests/gui/protractor.conf.js",
     "preupdate-webdriver": "npm install",
     "update-webdriver": "webdriver-manager update",

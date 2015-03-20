@@ -1,6 +1,6 @@
 exports.config = {
 
-  //seleniumAddress: 'http://localhost:4444/wd/hub',
+  seleniumAddress: 'http://localhost:4444/wd/hub',
   
   resultJsonOutputFile: 'tests/acceptance/report.json',
   
@@ -12,7 +12,7 @@ exports.config = {
     'browserName': 'chrome'
   },
 
-  baseUrl: 'http://localhost:8080/',
+  baseUrl: 'https://localhost/',
 
   framework: 'cucumber',
 

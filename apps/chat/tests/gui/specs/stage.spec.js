@@ -1,5 +1,8 @@
+var changeIndentity = require('../../protractorLogin.js')(browser,element).changeIndentity;
+
 describe("Main Stage",function  () {
   browser.get('/');
+  changeIndentity(0);
   describe("Create a new channel", function () {
 
     var els = {

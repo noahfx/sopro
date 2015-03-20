@@ -1,6 +1,6 @@
 module.exports = CAM_CONFIG_SERVERS = {
   express: {
-    host: '0.0.0.0',
+    host: 'localhost',
     port: 8080,
     sslPort: 443,
     sslOptions: {
