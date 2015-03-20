@@ -1,5 +1,5 @@
 var CAM_MOCKS = require('../mock-data.js');
-var changeIndentity = require('../protractorLogin.js')(browser,element).changeIndentity;
+var changeIdentity = require('../protractorLogin.js')(browser,element).changeIdentity;
 var request = require('request');
 
 module.exports = {
@@ -8,7 +8,7 @@ module.exports = {
     fn: function (next) {
       browser.get('/')
       .then(function () {
-        changeIndentity(0)
+        changeIdentity(0)
         .then(function(){
           next();
         });
@@ -19,7 +19,7 @@ module.exports = {
     regex: /^I am viewing a (long )?list of channels$/,
     fn: function(arg1, next){
       var roleIndex = (arg1 == undefined)? 0: 1;
-      changeIndentity(roleIndex)
+      changeIdentity(roleIndex)
       .then(function(){
         var channels = browser.element.all(by.css('#collection-channels .channel-item'));
         channels.count()
@@ -61,7 +61,7 @@ module.exports = {
         (arg1 == undefined)
         ? 0
         : 1
-      changeIndentity(roleIndex)
+      changeIdentity(roleIndex)
       .then(function () {
         next();
       });
