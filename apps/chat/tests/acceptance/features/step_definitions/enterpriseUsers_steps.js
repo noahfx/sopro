@@ -31,7 +31,7 @@ var enterpriseUsers_steps = module.exports = function() {
   });
 
   this.When(/^I authenticate$/, function (next) {
-    changeIdentity(0)
+    protractorHelpers.changeIdentity(0)
     .then(function () {
       next(); 
     },function (err) {
@@ -69,7 +69,14 @@ var enterpriseUsers_steps = module.exports = function() {
     });
   });
 
-  this.Then("/^I should not see multiple roles listed$/", function () {
-
+  this.Then(/^I should not see multiple roles listed$/, function (next) {
+    browser.element(by.css(".sopro-role-panel")).isPresent()
+    .then(function (isPresent) {
+      if(isPresent){
+        next.fail(new Error('Expected NOT to find .sopro-role-panel'));
+      } else {
+        next();
+      }
+    });
   });
 }

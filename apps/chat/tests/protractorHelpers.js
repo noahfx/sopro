@@ -51,7 +51,6 @@ module.exports = function (browser, element) {
               fillForm();
             }
           });
-          
         }
       });
     });
@@ -69,8 +68,12 @@ module.exports = function (browser, element) {
         }
         var features = require(configFile);
         features.env = env;
-        defer.resolve(env);
-      });
+        defer.resolve(features);
+      }, function(err){
+        defer.reject(err)
+      })
+    }, function(err){
+      defer.reject(err)
     });
     return defer.promise;
   }

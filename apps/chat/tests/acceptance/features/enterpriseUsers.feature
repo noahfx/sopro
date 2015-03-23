@@ -13,4 +13,3 @@ Feature: Remove Roles from Toolbar Dropdown
     Given I am using the Society Pro enterprise edition
     When I click the toolbar dropdown button associated with my username
     Then I should not see multiple roles listed
-      And I should not be able to choose any other role than the default
