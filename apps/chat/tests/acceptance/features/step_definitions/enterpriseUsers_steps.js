@@ -43,7 +43,7 @@ var enterpriseUsers_steps = module.exports = function() {
     });
   });
 
-  this.Then(/^the application should use the default role for my user$/, function () {
+  this.Then(/^the application should use the default role for my user$/, function (next) {
     element(by.css("#role-selection")).getAttribute("data-currentuser")
     .then(function (currentUserJSON) {
       var currentUser = JSON.parse(currentUserJSON);
