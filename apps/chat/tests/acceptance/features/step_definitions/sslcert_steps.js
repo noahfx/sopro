@@ -18,7 +18,7 @@ module.exports = function(){
 
 
   this.When(/^Society Pro is configured to use that certificate$/, function(next){
-    var sslEnabled;;
+    var sslEnabled;
     try {
       sslEnabled = serverConfig.express.sslEnabled;
     } catch(e){

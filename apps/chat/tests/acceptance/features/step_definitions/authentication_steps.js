@@ -1,4 +1,5 @@
 var protractorHelpers = require('../../../protractorHelpers.js')(browser,element);
+var fs = require('fs');
 
 var authentication_steps = module.exports = function() {
 
@@ -26,7 +27,10 @@ var authentication_steps = module.exports = function() {
     })
   });
 
-  this.When(/^I connect to the Society Pro server$/, function (next) {
+  this.When(/^I login to the Society Pro server$/, function (next) {
+    protractorHelpers.changeIdentity(0)
+    .then(next);
+/*
     var request = require('request');
     var self = this;
     request.get('https://localhost/', {
@@ -39,13 +43,27 @@ var authentication_steps = module.exports = function() {
       self.client = res.client;
       next();
     });
+*/
   });
 
-  this.Then(/^the session is authenticated against a Society Pro database of user credentials$/, function (next) {
-    if (this.client && this.client.pair.cleartext.getPeerCertificate()) {
-      next();
-    } else {
-      next.fail("No peer Certificate");
-    }
+
+  this.Then(/^the session is authenticated against local Society Pro users$/, function (next) {
+    element(by.css('#role-selection'))
+    .getAttribute('data-currentuser')
+    .then(function(userJSON){
+      var actualUser = JSON.parse(userJSON);
+      var expectedUser = JSON.parse(
+        fs.readFileSync('./couchdb/mocks/user1.json')
+      );
+      if(actualUser.userid === undefined || expectedUser.userid === undefined){
+        return next.fail('Got an undefined userid');
+      }
+      if(actualUser.userid === expectedUser.userid){
+        return next();
+      } else {
+        return next.fail('Expected '+expectedUser.userid+', got '+actualUser.userid);
+      }
+
+    })
   });
 }

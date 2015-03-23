@@ -5,5 +5,5 @@ Feature: Society Pro Authentication
 
   Scenario: authenticating with the Society Pro database
     Given I have not configured Society Pro to use an authentication application
-    When I connect to the Society Pro server
-    Then the session is authenticated against a Society Pro database of user credentials
+    When I login to the Society Pro server
+    Then the session is authenticated against local Society Pro users

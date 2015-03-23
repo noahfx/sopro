@@ -21,7 +21,6 @@ async.series([
 function destroyOldTestDb(done){
   nano.db.destroy('mocks', function(err, body, headers){
     if(err){
-      console.log(err, body, headers);
       if(err.error !== "not_found"){
         throw(err);
       }
