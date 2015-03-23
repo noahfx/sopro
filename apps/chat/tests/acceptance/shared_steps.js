@@ -1,5 +1,5 @@
 var CAM_MOCKS = require('../mock-data.js');
-var changeIdentity = require('../protractorLogin.js')(browser,element).changeIdentity;
+var changeIdentity = require('../protractorHelpers.js')(browser,element).changeIdentity;
 var request = require('request');
 
 module.exports = {

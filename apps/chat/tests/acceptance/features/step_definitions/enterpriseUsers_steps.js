@@ -1,5 +1,5 @@
 var CAM_MOCKS = require('../../../mock-data.js');
-var changeIdentity = require('../../../protractorLogin.js')(browser,element).changeIdentity;
+var protractorHelpers = require('../../../protractorHelpers.js')(browser,element);
 var fs = require('fs');
 
 var enterpriseUsers_steps = module.exports = function() {
@@ -7,15 +7,14 @@ var enterpriseUsers_steps = module.exports = function() {
   this.Given(/^I am using the Society Pro enterprise edition$/,function (next) {
     browser.get("/")
     .then(function(){
-      element(by.css("body")).getAttribute('data-soproenv')
-      .then(function (env) {
-        console.log(env);
-        if (env == "enterprise") {
-          next();      
+      protractorHelpers.getFeaturesConfig()
+      .then(function (sopro) {
+        if (sopro.env == "enterprise") {
+          next();
         } else {
           next.pending();
         }
-      });
+      }); 
     });
   });
 
@@ -33,13 +32,11 @@ var enterpriseUsers_steps = module.exports = function() {
 
   this.When(/^I authenticate$/, function (next) {
     changeIdentity(0)
-    .then(function (err) {
-      if (err) {
-        console.log(err);
-        next.fail(new Error(err));
-      } else {
-        next(); 
-      }
+    .then(function () {
+      next(); 
+    },function (err) {
+      console.log(err);
+      next.fail(new Error(err));
     });
   });
 
@@ -63,5 +60,16 @@ var enterpriseUsers_steps = module.exports = function() {
       //expect(currentUser.identities.length).toEqual(1);
       //expect(currentUser.identities[0].identityid).toEqual(expectedIdentity.identityid);
     })
-  })
+  });
+
+  this.When(/^I click the toolbar dropdown button associated with my username$/, function (next) {
+    browser.element(by.css("#role-selection")).click()
+    .then(function () {
+      next();
+    });
+  });
+
+  this.Then("/^I should not see multiple roles listed$/", function () {
+
+  });
 }

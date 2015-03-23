@@ -1,11 +1,11 @@
 module.exports = function (browser, element) {
-
+  var Q = require('q');
+  var fs = require('fs');
   var login = {}
   login.changeIdentity = changeIdentity;
+  login.getFeaturesConfig = getFeaturesConfig; 
 
-  function changeIdentity (i) {  
-    var Q = require('q');
-    var fs = require('fs');
+  function changeIdentity (i) {
     var user1 = fs.readFileSync("couchdb/mocks/user1.json", 'utf8');
     var user2 = fs.readFileSync("couchdb/mocks/user2.json", 'utf8');
     var defer = Q.defer();
@@ -53,6 +53,23 @@ module.exports = function (browser, element) {
           });
           
         }
+      });
+    });
+    return defer.promise;
+  }
+
+  function getFeaturesConfig() {
+    var defer = Q.defer();
+    browser.get("/").then(function () {
+      element(by.css("body")).getAttribute('data-soproenv')
+      .then(function (env) {
+        var configFile = '../cfg/features.standard.js';
+        if (env == "enterprise" ) {
+          configFile = '../cfg/features.enterprise.js';
+        }
+        var features = require(configFile);
+        features.env = env;
+        defer.resolve(env);
       });
     });
     return defer.promise;

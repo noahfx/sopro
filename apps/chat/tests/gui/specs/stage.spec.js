@@ -1,4 +1,4 @@
-var changeIdentity = require('../../protractorLogin.js')(browser,element).changeIdentity;
+var changeIdentity = require('../../protractorHelpers.js')(browser,element).changeIdentity;
 
 describe("Main Stage",function  () {
   browser.get('/');

@@ -1,6 +1,9 @@
+var protractorHelpers = require('../../../protractorHelpers.js')(browser,element);
+
 var authentication_steps = module.exports = function() {
 
   this.Given(/^I have not configured Society Pro to use an authentication application$/,function (next) {
+    
     next();
   });
 
