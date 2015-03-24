@@ -1,22 +1,12 @@
 var CAM_MOCKS = require('../../../mock-data.js');
+var S_STEPS = require('../../shared_steps.js');
 var protractorHelpers = require('../../../protractorHelpers.js')(browser,element);
 var fs = require('fs');
 
 var enterpriseUsers_steps = module.exports = function() {
 
-  this.Given(/^I am using the Society Pro enterprise edition$/,function (next) {
-    browser.get("/")
-    .then(function(){
-      protractorHelpers.getFeaturesConfig()
-      .then(function (sopro) {
-        if (sopro.env == "enterprise") {
-          next();
-        } else {
-          next.pending();
-        }
-      }); 
-    });
-  });
+  this.Given(S_STEPS.usingEE.regex,
+    S_STEPS.usingEE.fn)
 
   this.When(/^I launch the application$/, function (next) {
     browser.get("/")
@@ -30,15 +20,8 @@ var enterpriseUsers_steps = module.exports = function() {
     });
   });
 
-  this.When(/^I authenticate$/, function (next) {
-    protractorHelpers.changeIdentity(0)
-    .then(function () {
-      next(); 
-    },function (err) {
-      console.log(err);
-      next.fail(new Error(err));
-    });
-  });
+  this.When(S_STEPS.iAuthenticate.regex,
+    S_STEPS.iAuthenticate.fn);
 
   this.Then(/^the application should use the default role for my user$/, function (next) {
     element(by.css("#role-selection")).getAttribute("data-currentuser")

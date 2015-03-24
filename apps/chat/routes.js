@@ -1,6 +1,6 @@
 var fs = require('fs');
 
-module.exports = function(app, eb, passport){
+module.exports = function(app, eb, passport, acl){
 
   /*
    * HTTPS ROUTING
@@ -22,6 +22,12 @@ module.exports = function(app, eb, passport){
   }
 
   app.all('*', requireSecure); 
+  app.all('*', function(req, res, next){
+    if(req.user && req.session){
+      req.session.userId = req.user._id;
+    }
+    next();
+  })
 
   /*
    * HTTP REQUEST AUTHENTICATION
@@ -108,6 +114,13 @@ module.exports = function(app, eb, passport){
     res.render('index');
   })
 
+  app.get('/admin',
+  requireLogin,
+  acl.middleware(),
+  function(req, res, next){
+    next();
+  });
+
   app.post('/login/password', passport.authenticate('local', {
     successRedirect: '/',
     failureRedirect: '/login'
@@ -127,6 +140,8 @@ module.exports = function(app, eb, passport){
   /*
    *  API ROUTING
    */
+
+  app.get('/api/denyauth', acl.middleware());
 
   app.all('/api/*', function(req, res, next){
     var token = req.header('token-auth')
