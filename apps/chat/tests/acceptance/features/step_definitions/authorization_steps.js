@@ -43,7 +43,7 @@ module.exports = function(){
     })
   }
 
-  function actionWasTaken(arg1, next){
+  function actionWasPerformed(arg1, next){
     var expectedOK = !arg1;
     var code = this.response.statusCode;
     if(expectedOK){
@@ -76,8 +76,8 @@ module.exports = function(){
   this.When(/^the user performs that action on that object$/,
     performAction);
 
-  this.Then(/^the action should( not)? be taken$/,
-    actionWasTaken);
+  this.Then(/^the action should( not)? be performed$/,
+    actionWasPerformed);
 
   /*
    *  Scenario: checking user authorization for failure
@@ -94,6 +94,6 @@ module.exports = function(){
   this.When(/^the user performs that action on that object$/,
     performAction);
 
-  this.Then(/^the action should( not)? be taken$/,
-    actionWasTaken);
+  this.Then(/^the action should( not)? be performed$/,
+    actionWasPerformed);
 }
