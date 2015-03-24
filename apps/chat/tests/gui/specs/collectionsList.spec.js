@@ -1,4 +1,5 @@
 var CAM_MOCKS = require('../../mock-data.js');
+var changeIdentity = require('../../protractorHelpers.js')(browser,element).changeIdentity;
 
 var societyProChat = function () {
   this.channelCollections = element.all(by.css('.channel-collection'))
@@ -14,6 +15,7 @@ var societyProChat = function () {
 
 describe('Collections list', function() {
   browser.get('/');
+  changeIdentity(0);
   var chat = new societyProChat();
 
   it('has margin: 20px 16px', function(){
@@ -34,8 +36,7 @@ describe('Collections list', function() {
 
     describe('"Channels" channel collection - ', function(){
       it('goes to the first role', function(){
-        chat.currentRole.click();
-        chat.roles.get(0).click();
+        changeIdentity(0);
       });
       it('has text "CHANNELS"', function(){
         var title = chat.collectionTitleChannels;
@@ -63,8 +64,7 @@ describe('Collections list', function() {
 
 
       it('has a "+X more..." button if there are more channels than the limit', function () {
-        chat.currentRole.click();
-        chat.roles.get(1).click();
+        changeIdentity(1);
         expect(chat.collectionChannelsItems.count()).toEqual(CAM_MOCKS.displayedChannelCount);
         expect(chat.collectionChannelsMore.isDisplayed()).toBeTruthy();
         var n = CAM_MOCKS.getChannelsResponse2.channels.length - CAM_MOCKS.displayedChannelCount;
@@ -73,8 +73,7 @@ describe('Collections list', function() {
       });
 
       it('does not have a "+X more..." button if there are fewer channels than the limit', function(){
-        chat.currentRole.click();
-        chat.roles.get(0).click();
+        changeIdentity(0);
         expect(chat.collectionChannelsMore.isDisplayed()).toBeFalsy();
       });
 

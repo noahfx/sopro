@@ -1,4 +1,5 @@
 var CAM_MOCKS = require('../../mock-data.js');
+var changeIdentity = require('../../protractorHelpers.js')(browser,element).changeIdentity;
 
 var Elements = function () {
   this.currentRole = element(by.css(".role-selection"));
@@ -20,13 +21,13 @@ var Elements = function () {
 
 describe('Dropdowns', function(){
   browser.get('/');
+  changeIdentity(0);
   var els = new Elements();
   var cpHeight = null;
   var cpTop = null;
   var cpBottom = null;
   beforeAll(function(){
-    els.currentRole.click();
-    els.roles.get(1).click();
+    changeIdentity(1);
     els.collectionsContainer.getSize()
     .then(function(size){
       cpHeight = size.height;
@@ -79,8 +80,7 @@ describe('Dropdowns', function(){
 
   describe('Dropdown heights', function(){
     it('Few elements: Dropdown shrinks to fit', function(){
-      els.currentRole.click();
-      els.roles.get(1).click();
+      changeIdentity(1);
       els.collectionChannelsMore.click();
       els.collectionsOverflowItems.count()
       .then(function (count) {
@@ -90,13 +90,11 @@ describe('Dropdowns', function(){
     })
 
     it('Many elements: Dropdown is shorter than comm panel', function(){
-      els.currentRole.click();
-      els.roles.get(0).click();
+      changeIdentity(0);
       els.collectionPeersMore.click();
       var expectedHeight = (cpHeight - 40) + "px";
       expect(els.collectionsOverflow.getCssValue("height")).toEqual(expectedHeight);
-      els.currentRole.click();
-      els.roles.get(1).click();
+      changeIdentity(1);
     })
   })
 
@@ -168,8 +166,7 @@ describe('Dropdowns', function(){
 
       beforeAll(function(done){
         var POO2 = els.pooCollections2;
-        els.currentRole.click();
-        els.roles.get(0).click();
+        changeIdentity(0);
         POO2.click()
         .then(function(){
 

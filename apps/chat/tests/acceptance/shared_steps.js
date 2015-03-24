@@ -1,61 +1,57 @@
 var CAM_MOCKS = require('../mock-data.js');
+var changeIdentity = require('../protractorHelpers.js')(browser,element).changeIdentity;
+var request = require('request');
 
 module.exports = {
   appStarted: {
     regex: /^I have started the chatlog application$/,
     fn: function (next) {
-      browser.get('/');
-      next();
+      browser.get('/')
+      .then(function () {
+        changeIdentity(0)
+        .then(function(){
+          next();
+        });
+      });
     },
   },
   viewingListOfChannels: {
     regex: /^I am viewing a (long )?list of channels$/,
     fn: function(arg1, next){
       var roleIndex = (arg1 == undefined)? 0: 1;
-      browser.element(by.css('.role-selection')).click()
-      .then(function () {
-        browser.element.all(by.repeater('role in roles')).get(roleIndex).click()
-        .then(function () {
-          var channels = browser.element.all(by.css('#collection-channels .channel-item'));
-          channels.count()
-          .then(function (count) {
-            if (count >= 2) {
-              next();
-            } else {
-              next.fail(new Error("Less than two Channels displayed"));
-            }
-          })
-        });
-      });
+      changeIdentity(roleIndex)
+      .then(function(){
+        var channels = browser.element.all(by.css('#collection-channels .channel-item'));
+        channels.count()
+        .then(function (count) {
+          if (count >= 2) {
+            next();
+          } else {
+            next.fail(new Error("Less than two Channels displayed"));
+          }
+        })
+      })
     }
   },
   roleHasPeers: {
     regex: /^a specific role has peers$/,
     fn: function (next) {
-      var http = require('http');
-      var req = http.request({
-        port: 8080,
+      this.soproRequest('https://localhost/api/channels', {
         method: "GET",
-        path: "/api/channels?role="+CAM_MOCKS.roleId1,
-        headers: {
-          'token-auth': CAM_MOCKS.validToken,
+        qs: {
+          role: CAM_MOCKS.roleId1,
         }
-      }, function (res) {
-        res.on('data', function (chunk) {
-          var response = JSON.parse(chunk);
-          if (response.peers != undefined) {
-            next();
-          } else {
-            next.fail(new Error(response.error));
-          }
-        });
-      });
-
-      req.on('error', function(e) {
-        next.fail(new Error(e.message));
-      });
-
-      req.end();
+      }, function (err, res, body) {
+        if(err){
+          return next.fail(new Error(err));
+        }
+        var parsed = JSON.parse(body);
+        if (parsed.peers != undefined) {
+          next();
+        } else {
+          next.fail(new Error(parsed.error));
+        }
+      })
     }
   },
   roleChosen: {
@@ -65,12 +61,9 @@ module.exports = {
         (arg1 == undefined)
         ? 0
         : 1
-      browser.element(by.css('.role-selection')).click()
+      changeIdentity(roleIndex)
       .then(function () {
-        browser.element.all(by.repeater('role in roles')).get(roleIndex).click()
-        .then(function () {
-          next();
-        });
+        next();
       });
     },
   },

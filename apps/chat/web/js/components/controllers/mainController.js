@@ -1,7 +1,9 @@
 var societyProChatControllers = 
 angular.module('societyProChatApp.controllers',['ngMaterial', 'ngAnimate', 'societyProChatApp.controller2'])
-
-.controller('mainController',['$scope','$http','$rootScope','$window',function($scope,$http,$rootScope,$window) {
+.factory('UserService', function(){
+  return $('#role-selection').data('currentuser');
+})
+.controller('mainController',['$scope','$http','$rootScope','$window', 'UserService', function($scope,$http,$rootScope,$window,UserService) {
   
   
   var positionCommpanelScrollbar = function () {
@@ -26,7 +28,9 @@ angular.module('societyProChatApp.controllers',['ngMaterial', 'ngAnimate', 'soci
 
   $rootScope.token = "12345";
 
-  $scope.roles = [
+  $scope.currentUser = $rootScope.currentUser = UserService;   
+  $scope.roles = $scope.currentUser.identities;
+  /*
     {
       "id": "abc",
       "name": "Calix",
@@ -38,6 +42,7 @@ angular.module('societyProChatApp.controllers',['ngMaterial', 'ngAnimate', 'soci
       "img": "web/images/role-image.png" 
     }
   ]
+  */
 
   $scope.channels = [];
   $scope.peers = [];
@@ -98,7 +103,7 @@ angular.module('societyProChatApp.controllers',['ngMaterial', 'ngAnimate', 'soci
          'token-auth': $rootScope.token
         },
         params : {
-          role: role.id
+          role: role.identityid
         }
       })
         .success(function(data, status, headers, config) {

@@ -67,7 +67,7 @@ angular.module('societyProChatApp.controller2',['ngMaterial'])
        'token-auth': $rootScope.token
       },
       params : {
-        role: $rootScope.currentRole.id,
+        role: $rootScope.currentRole.identityid,
         name: $scope.stageCards[i].creationTitle,
         purpose: $scope.stageCards[i].creationDesc
       }

@@ -59,6 +59,20 @@ folders in your project.
 sopro chat changes this location through the `.bowerrc` file.  Putting it in the assets folder makes
 it easier to serve the files by a webserver.*
 
+
+#### Couchdb
+We currently use CouchDB as a persistency layer for our user objects.  
+Install couchdb then test if it's running with: `curl localhost:5984`.  
+Once it's set, configure your CouchDB host and port in `apps/chat/cfg/servers.cfg.js`.  
+Finally, bootstrap the database (installing mock data and view functions) like this:
+
+```
+cd apps/chat/couchdb
+node populate-couchdb-mocks.js
+```
+
+Confirm that it worked with `curl localhost:5984/mocks`.
+
 ### Run the Application
 There are two servers involved. You need both of them.  
 First, start the vertx eventbus server. This hosts a websocket that lets non-JVM code talk to the eventbus. It also spawns a mock-backend verticle that handles API requests, returning mocks.
@@ -186,6 +200,38 @@ npm run acceptance
 [Jenkins][jenkins] is a continuous integration service, which can monitor GitHub for new commits
 to your repository and execute scripts such as building the app or running tests. The SocietyPro
 chat project has a Jenkins Server that biulds and runs all the tests. You can see the master pipeline [here](http://ci.societypro.org:8080/view/huevon_tests/) and the staging pipeline [here](http://ci.societypro.org:8080/view/sopro.staging/).
+
+### Jenkins Configuration
+In most cases the tests only need:
+```
+chmod a+x ./tests/*/.jenkins.sh
+```
+
+However, do note that the node binary must be 0.10 for both the default user and the sudo user.
+One way to set this version on sudo comes from Qua locus:
+```
+# https://qualocus.wordpress.com/2014/04/19/how-i-installed-nvm-and-node-js-globally/
+sudo git clone https://github.com/creationix/nvm.git /opt/nvm-repo
+# ^^^ this command clones the repo from github as root
+sudo mkdir /opt/nvm
+sudo chmod a+rx /opt/nvm
+echo "export NVM_DIR=/opt/nvm" | sudo tee -a /root/.profile
+echo "source /opt/nvm-repo/nvm.sh" | sudo tee -a /root/.profile
+sudo su -
+# ^^^ To use 'sudo su' or just 'sudo' instead of 'sudo su -' or 'sudo -i':
+#     source /root/.profile in /root/.bashrc
+
+# And then all of the following as root:
+nvm install 0.10.26
+ln -s /opt/nvm/v0.10.26/bin/node /usr/local/bin/node
+npm install -g nodemon
+ln -s /opt/nvm/v0.10.26/bin/nodemon /usr/local/bin/nodemon
+npm install -g forever
+ln -s /opt/nvm/v0.10.26/bin/forever /usr/local/bin/forever
+npm install -g grunt-cli
+ln -s /opt/nvm/v0.10.26/bin/grunt /usr/local/bin/grunt
+# And likewise for any other packages you want to use
+```
 
 [git]: http://git-scm.com/
 [bower]: http://bower.io

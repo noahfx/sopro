@@ -5,19 +5,27 @@ it('found the mocks', function(){
 })
 
 describe("societyProChat Controllers", function() {
-  var scope, rootscope, createController, httpBackend;
+  var scope, rootscope, createController, httpBackend, UserServiceMock;
 
   beforeEach(module("societyProChatApp"));
 
   beforeEach(inject(function ($rootScope, $controller, $httpBackend) {
       httpBackend = $httpBackend;
       scope = $rootScope.$new();
+      //scope.currentUser = require('./couchdb/mocks/user1')
       rootscope = $rootScope;
-
+      UserServiceMock = {
+        identities: [
+          {
+            "identityid":"abc",
+          }
+        ]
+      }
       createController = function(name) {
           name = name || 'mainController';
           var controller = $controller(name, {
-              '$scope': scope
+            '$scope': scope,
+            'UserService': UserServiceMock,
           });
           if(name === 'mainController'){
             httpBackend.flush();
@@ -101,7 +109,7 @@ describe("societyProChat Controllers", function() {
       var channelsLength1 = scope.channels.length;
       // The stage controller doesn't know about $rootScope.currentRole.id
 
-      rootscope.currentRole = {id: 'abc'};
+      rootscope.currentRole = {identityid: 'abc'};
       // Click the Create button on the first card:
       scope.createClicked(0);
       httpBackend.flush();

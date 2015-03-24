@@ -35,27 +35,22 @@ var peersCollection_steps = module.exports = function(){
   function sendChannelInvite(next) {
     this.channel = CAM_MOCKS.postChannelResponse.channel.id;
     var self = this;
-    var http = require('http');
-    var req = http.request({
-      port: 8080,
+    this.soproRequest("https://localhost/api/channels.invite", {
       method: "POST",
-      path: "/api/channels.invite?role="+this.roleId+"&channel="+this.channel+"&user="+this.peerId,
-      headers: {
-        'token-auth': CAM_MOCKS.validToken
+      qs: {
+        role: this.roleId,
+        channel: this.channel,
+        user: this.peerId,
+      },
+    }, function (err, res, body) {
+      if(err){
+        return next.fail(new Error(err));
       }
-    }, function (res) {
-      res.on('data', function (chunk) {
-        var response = JSON.parse(chunk);
-        self.response = response;
-        next();
-      });
+      var parsed = JSON.parse(body);
+      self.response = parsed;
+      next();
     });
 
-    req.on('error', function(e) {
-      next.fail(new Error(e.message));
-    });
-
-    req.end();
   }
 
   this.Then(/^a channel join invitation should( not)? be sent for that peer ID$/,
