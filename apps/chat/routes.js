@@ -149,6 +149,8 @@ module.exports = function(app, eb, passport, acl){
    *  API ROUTING
    */
 
+  app.get('/api/denyauth', acl.middleware());
+
   app.all('/api/*', function(req, res, next){
     var token = req.header('token-auth')
     if(token == undefined){
