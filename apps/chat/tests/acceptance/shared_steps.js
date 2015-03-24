@@ -1,5 +1,8 @@
 var CAM_MOCKS = require('../mock-data.js');
-var changeIdentity = require('../protractorHelpers.js')(browser,element).changeIdentity;
+var protractorHelpers = require('../protractorHelpers.js')(browser,element);
+var changeIdentity = protractorHelpers.changeIdentity;
+var fs = require('fs');
+
 var request = require('request');
 
 module.exports = {
@@ -67,4 +70,53 @@ module.exports = {
       });
     },
   },
+
+  usingEE: {
+    regex: /^I am( not)? using the Society Pro Enterprise Edition$/,
+    fn: function(arg1, next){
+      browser.get("/")
+      .then(function(){
+        protractorHelpers.getFeaturesConfig()
+        .then(function (sopro) {
+          var ee = false;
+          if (sopro.env == "enterprise") {
+            ee = true;
+          }
+
+          if(arg1){ // Standard expected
+            if(ee){
+              console.log('Skipping standard edition tests; this is EE')
+              next.pending();
+            } else { // Standard found
+              next()
+            }
+          } else { // EE expected
+            if(ee){
+              next();
+            } else {
+              console.log('Skipping EE tests; this is standard')
+              next.pending()
+            }
+          }
+        });
+      });
+    }
+  },
+
+  iAuthenticate: {
+    regex: /^I authenticate$/,
+    fn: function (next) {
+      var self = this;
+      protractorHelpers.changeIdentity(0)
+      .then(function () {
+        var json = fs.readFileSync('couchdb/mocks/user1.json', {encoding:'utf8'});
+        self.authenticatedUserId = JSON.parse(json)._id;
+        next();
+      },function (err) {
+        console.log(err);
+        next.fail(new Error(err));
+      });
+    }
+  }
+
 }

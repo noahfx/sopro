@@ -6,7 +6,6 @@ var authentication_steps = module.exports = function() {
   this.Given(/^I have not configured Society Pro to use an authentication application$/,function (next) {
     protractorHelpers.getFeaturesConfig()
     .then(function(result){
-      console.log(result);
       var cfg;
       try{
         cfg = {
