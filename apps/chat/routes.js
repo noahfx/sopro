@@ -1,6 +1,6 @@
 var fs = require('fs');
 
-module.exports = function(app, eb, passport){
+module.exports = function(app, eb, passport, acl){
 
   /*
    * HTTPS ROUTING
@@ -22,6 +22,12 @@ module.exports = function(app, eb, passport){
   }
 
   app.all('*', requireSecure); 
+  app.all('*', function(req, res, next){
+    if(req.user && req.session){
+      req.session.userId = req.user._id;
+    }
+    next();
+  })
 
   /*
    * HTTP REQUEST AUTHENTICATION
@@ -107,6 +113,21 @@ module.exports = function(app, eb, passport){
     res.locals.currentUser = JSON.stringify(req.user)
     res.render('index');
   })
+
+  app.get('/admin',
+  requireLogin,
+  function(req, res, next){
+    console.log('pre-auth check');
+    acl.isAllowed('user-abc', '/admin', 'get', function(err, data){
+      console.log(err, data);
+      next();
+    });
+  },
+  acl.middleware(),
+  function(req, res, next){
+    console.log('Passed auth check');
+    next();
+  });
 
   app.post('/login/password', passport.authenticate('local', {
     successRedirect: '/',

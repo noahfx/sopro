@@ -58,6 +58,11 @@ app.use(bodyParser.json()) // parse application/json
 app.set('view engine', 'ejs');
 
 /*
+ * ACL AUTHORIZATION SETUP
+ */
+
+var acl = require('./auth-matrix.js')();
+/*
  *  VERTX EVENT BUS:
  */
 
@@ -89,7 +94,7 @@ function startExpress(){
 
   console.log('Binding routes...')
   // The routing logic needs eventbus and passport:
-  require('./routes.js')(app, eventbus, passport);
+  require('./routes.js')(app, eventbus, passport, acl);
 
   // Start http server:
   app.listen(serverConfig.express.port, serverConfig.express.host, function(){
