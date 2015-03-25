@@ -1,11 +1,8 @@
 {
   "_id":"user-abc",
   "soproModel":"user",
-  "userid":"user-abc",
   "roleids":["abc"],
   "username":"louise",
   "realname":"Louise Adversity",
-  "email":"louise@centralservices.io",
-  "salt":"aaaa",
-  "hash":"129c025f1dad5f0f2227beaead729c09c5f52748ffa69397f97f13e272651dae"
+  "email":"louise@centralservices.io"
 }

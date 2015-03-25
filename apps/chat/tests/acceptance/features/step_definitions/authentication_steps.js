@@ -54,13 +54,13 @@ var authentication_steps = module.exports = function() {
       var expectedUser = JSON.parse(
         fs.readFileSync('./couchdb/mocks/user1.json')
       );
-      if(actualUser.userid === undefined || expectedUser.userid === undefined){
-        return next.fail('Got an undefined userid');
+      if(actualUser._id === undefined || expectedUser._id === undefined){
+        return next.fail('Got an undefined _id');
       }
-      if(actualUser.userid === expectedUser.userid){
+      if(actualUser._id === expectedUser._id){
         return next();
       } else {
-        return next.fail('Expected '+expectedUser.userid+', got '+actualUser.userid);
+        return next.fail('Expected '+expectedUser._id+', got '+actualUser._id);
       }
 
     })

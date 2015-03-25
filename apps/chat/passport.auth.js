@@ -13,108 +13,114 @@ module.exports = function(app){
 
   // Take a user and turn it into a unique key for the session identifier
   passport.serializeUser(function(user, done) {
-    done(null, user.userid);
+    done(null, user._id);
   });
 
   // Take the session identifier and turn it into a unique key for a user
   passport.deserializeUser(function(id, done) {
+    var opts = {id: id};
     async.waterfall([
       function(next){
-        userById(id, next)
+        userById(opts, next)
       },
-      findRoles,
-    ], function(err, userWithRoles){
+      setIdentities,
+    ], function(err, opts){
       if(err){
+        console.log(err);
         return done(err);
       }
-      done(null, userWithRoles);
+      done(null, opts.user);
     })
   });
 
   return passport;
 }
 
-function userById(id, callback){
-  db.view('soprochat', 'user_by_userid', {key: id}, function(err, body){
+function userById(opts, callback){
+  db.view('soprochat', 'user_by_userid', {key: opts.id}, function(err, body){
     if(err){
       return callback(err)
     };
     if(body.rows.length > 1){
-      return callback(new Error('Found more than one user object for id '+id))
+      return callback(new Error('Found more than one user object for id '+opts.id))
     };
     if(body.rows.length == 0){
       return callback('not_found')
     }
-    callback(null, body.rows[0].value)
+    opts.user = body.rows[0].value;
+    callback(null, opts);
   })
 }
 
 
 function checkAuthCouchdb(username, password, callback){
+  var opts = {
+    username: username,
+    password: password,
+  }
   async.waterfall([
     function(next){
-      next(null, username, password);
+      next(null, opts);
     },
-    compareHash,
     findUser,
-    findRoles,
-  ], function (err, user){
-    callback(err, user);
+    checkHash,
+    setIdentities,
+  ], function (err, opts){
+    if(err){
+      return callback(err, false);
+    }
+    callback(null, opts.user);
   })
 }
+  function findUser(opts, next){
+    db.view('soprochat', 'user_by_name', {key: opts.username}, function(err, body){
+      if(err){
+        return next(err);
+      }
+      if(body.rows.length !== 1){
+        return next('Found non-1 number of users matching '+opts.username)
+      }
+      opts.user = body.rows[0].value;
+      next(null, opts);
+    });
+  }
 
-  function compareHash(username, password, next){
-    db.view('soprochat', 'pwdauth', {key: username}, function(err, body){
+  function checkHash(opts, next){
+    db.view('soprochat', 'pwdcreds_by_userid', {key: opts.user._id}, function(err, body){
       if(err){
         console.log(err);
         return next(err, false);
       }
       if(body.rows.length === 0){
-        return next(null, false);
+        return next('No credentials for userid '+opts.user._id);
       }
       if(body.rows.length > 1){
-        return next('multiple users found', false);
+        return next('multiple users found');
       }
-      var salt = body.rows[0].value[0];
-      var hash = body.rows[0].value[1];
-      var userid = body.rows[0].value[2];
+      var doc = body.rows[0].value;
+      var salt = doc.salt;
+      var hash = doc.hash;
 
-      var toHash = password.concat(salt);
+      var toHash = opts.password.concat(salt);
       var sha256er = crypto.createHash('sha256');
       sha256er.update(toHash,'utf8');
       var saltedHash = sha256er.digest('hex');
 
       if(saltedHash == hash) { // password matched
-        return next(null, userid)
+        return next(null, opts)
       } else {
-        return next(null, false);
+        return next('Password mismatch');
       };
 
     })
   }
 
-  function findUser(userid, next){
-    if(userid === false){
-      return next(null, false);
-    }
-    userById(userid, function(err, user){
-      user.salt = undefined;
-      user.hash = undefined;
-      if(err && err === 'not_found'){
-        return next(null, false);
-      } else if(err){
-        return next(err, false);
-      }
-      return next(null, user);
-    })
-  }
 
-
-  function findRoles(user, next){
-    if(user === false){
-      return next(null, false);
+  function setIdentities(opts, next){
+    if(opts.user === false){
+      return next('Can\'t set identities without a user');
     }
-    db.view('soprochat', 'identities_for_userid', {key: user.userid}, function(err, body){
+    db.view('soprochat', 'identities_for_userid', {key: opts.user._id}, function(err, body){
       if(err){
         return next(err)
       };
@@ -125,9 +131,9 @@ function checkAuthCouchdb(username, password, callback){
       body.rows.forEach(function(row){
         identities.push(row.value);
       })
-      user.identities = identities;
-      user.currentIdentity = identities[0];
-      next(null, user)
+      opts.user.identities = identities;
+      opts.user.currentIdentity = identities[0];
+      next(null, opts)
     })
   };
 

@@ -57,6 +57,8 @@ function populateTestDb(callback){
     './mocks/user2.json',
     './mocks/identity1.json',
     './mocks/identity2.json',
+    './mocks/pwdcreds1.json',
+    './mocks/pwdcreds2.json',
   ]
 
   async.eachSeries(mockDocuments, function(path, done){
