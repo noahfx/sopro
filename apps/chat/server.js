@@ -7,6 +7,10 @@ var featureConfig;
 var express = require('express');
 var app = express();
 
+var PI = require('./persistence-interface.js')();
+var PICouch = require('./persistence-couchdb');
+PI.use(PICouch);
+
 
 app.sopro = {};
 app.sopro.servers = serverConfig;

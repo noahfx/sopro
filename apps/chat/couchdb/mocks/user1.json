@@ -1,6 +1,6 @@
 {
   "_id":"user-abc",
-  "type":"user",
+  "soproModel":"user",
   "userid":"user-abc",
   "roleids":["abc"],
   "username":"louise",
