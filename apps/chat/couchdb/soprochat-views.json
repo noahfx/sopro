@@ -9,6 +9,9 @@
     },
     "identities_for_userid": {
       "map" : "function(doc){ if(doc.type==='identity'){ emit(doc.userid, doc) }}"
+    },
+    "docs_by_model" : {
+      "map" : "function(doc){ emit(doc.soproModel, doc) }"
     }
   }
 }

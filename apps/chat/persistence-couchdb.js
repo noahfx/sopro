@@ -19,6 +19,19 @@ couch.read = function(id, callback){
   db.get(id, callback);
 }
 
+couch.readAll = function(model, callback) {
+  db.view('soprochat', 'docs_by_model', {key: model}, function(err, body){
+    if(err){
+      return callback(err)
+    };
+    var docs = [];
+    body.rows.forEach(function(row){
+      docs.push(row.value);
+    })
+    callback(null, docs);
+  });
+};
+
 couch.update = function(data, callback){
   assert(data._id);
   assert(data._rev);

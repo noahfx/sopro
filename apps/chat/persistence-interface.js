@@ -74,6 +74,17 @@ module.exports = function(){
     })
   };
 
+  PI.readAll = function(model, callback){
+    async.mapSeries(PI.adapters, function(adapter, done){
+      adapter.readAll(model, done);
+    }, function(err, results){
+      if(err){
+        return callback(err);
+      }
+      callback(null, results)
+    })
+  };  
+
   PI.destroy = function(data, callback){
     async.each(PI.adapters, function(adapter, done){
       adapter.destroy(data, done);

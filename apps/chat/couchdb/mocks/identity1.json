@@ -1,6 +1,6 @@
 {
   "_id":"abc",
-  "type":"identity",
+  "soproModel":"identity",
   "identityid":"abc",
   "rolename": "Machete Sales",
   "userid": "user-abc",

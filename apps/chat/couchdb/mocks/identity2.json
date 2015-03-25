@@ -1,6 +1,6 @@
 {
   "_id": "xyz",
-  "type":"identity",
+  "soproModel":"identity",
   "rolename": "Trolling",
   "identityid":"xyz",
   "userid": "user-xyz",
