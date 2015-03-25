@@ -149,7 +149,16 @@ module.exports = function(app, eb, passport, acl){
       res.status(401).send('{"ok":false, "error":"not_authed"}');
     } else {
       req.authToken = token;
-      next();
+      PI.read('user-abc', function(err, user){
+        if(err){
+          return res.status(500).json({
+            ok: false,
+            error: "server error",
+          }))
+        }
+        req.logIn(user);
+        next();
+      })
     }
   })
 
