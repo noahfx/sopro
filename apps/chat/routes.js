@@ -1,6 +1,6 @@
 var fs = require('fs');
 
-module.exports = function(app, eb, passport, acl){
+module.exports = function(app, eb, passport, acl, PI){
 
   /*
    * HTTPS ROUTING
@@ -148,23 +148,54 @@ module.exports = function(app, eb, passport, acl){
     if(token == undefined){
       res.status(401).send('{"ok":false, "error":"not_authed"}');
     } else {
+      console.log('Setting user based on token')
       req.authToken = token;
       PI.read('user-abc', function(err, user){
         if(err){
+          console.log(err);
           return res.status(500).json({
             ok: false,
             error: "server error",
-          }))
+          })
         }
-        req.logIn(user);
-        next();
+        req.session.userId = user._id;
+        req.logIn(user, function(){
+          console.log('Logged in', req.user.username, req.method, req.session.userId)
+          next();
+        });
       })
     }
-  })
+  });
+  app.get('/api/*', acl.middleware());
+  app.post('/api/*', acl.middleware());
+  app.put('/api/*', acl.middleware());
+  app.delete('/api/*', acl.middleware());
 
+  /*
+   *  USERS API ROUTES
+   */
+   app.get('/api/users',
+    function(req, res, next){
+      PI.readAll('user', function(err, users){
+        if(err){
+          console.log(err)
+          return res.status(500).json({
+            ok: false,
+            error: 'server error'
+          })
+        }
+        res.status(200).json({
+          ok: true,
+          users: users,
+        })
+      })
+    })
+
+  /*
+   *  CHANNELS API ROUTES
+   */
 
   app.get('/api/channels',
-  //compareAuthedUserAndRole,
   function(req, res, next) {
     var role = req.query['role'];
     if (role == undefined) {
@@ -185,7 +216,10 @@ module.exports = function(app, eb, passport, acl){
     });
   });
 
-  app.post('/api/channel', function(req, res, next) {
+  app.post('/api/channel', 
+    //acl.middleware(), 
+    function(req, res, next) {
+    console.log('Beginning of /api/channel')
     var role = req.query['role'];
     var name = req.query['name'];
     var topic = req.query['topic'];
@@ -210,6 +244,7 @@ module.exports = function(app, eb, passport, acl){
         purpose: purpose
       }
     }
+    console.log('Attempting channel creation')
     eb.send("channel.create",JSON.stringify(params), function (reply) {
       res.send(reply);
     });
