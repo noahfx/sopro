@@ -2,13 +2,13 @@
   "_id" : "_design/soprochat",
   "views" : {
     "pwdauth" : {
-      "map" : "function(doc){ if(doc.type==='user'){ emit(doc.username, [doc.salt, doc.hash, doc.userid]); emit(doc.email, [doc.salt, doc.hash, doc.userid]); }}"
+      "map" : "function(doc){ if(doc.soproModel==='user'){ emit(doc.username, [doc.salt, doc.hash, doc.userid]); emit(doc.email, [doc.salt, doc.hash, doc.userid]); }}"
     },
     "user_by_userid" : {
-      "map" : "function(doc){ if(doc.type==='user'){ emit(doc.userid, doc) }}"
+      "map" : "function(doc){ if(doc.soproModel==='user'){ emit(doc.userid, doc) }}"
     },
     "identities_for_userid": {
-      "map" : "function(doc){ if(doc.type==='identity'){ emit(doc.userid, doc) }}"
+      "map" : "function(doc){ if(doc.soproModel==='identity'){ emit(doc.userid, doc) }}"
     },
     "docs_by_model" : {
       "map" : "function(doc){ emit(doc.soproModel, doc) }"
