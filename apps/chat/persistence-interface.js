@@ -8,9 +8,16 @@ module.exports = function(){
     PI.adapters.push(adapter);
   }
 
-  function ensureId(data){
+  function ensureId(action, data){
     if(data._id === undefined){
-      data._id = uuid.v4();
+      switch (action) {
+        case "create": 
+          data._id = uuid.v4();
+          break;
+        case "update":
+          throw new Error("No _id field specified in update");
+          break; 
+      }
     }
     return data;
   };
@@ -25,11 +32,15 @@ module.exports = function(){
     return data;
   };
 
-  PI.create = function(model, data, callback){
-    data = ensureId(data);
+  function createOrUpdate(action, model, data, callback) {
+    data = ensureId(action,data);
     data = ensureModel(data, model);
-    async.map(PI.adapters, function(adapter, done){
-      adapter.create(model, data, done);
+    async.mapSeries(PI.adapters, function(adapter, done){
+      if (action == "create") {
+        adapter.create(model, data, done);  
+      } else if (action == "update") {
+        adapter.update(data, done);
+      } 
     }, function(err, results){
       if(err){
         return callback(err);
@@ -38,11 +49,19 @@ module.exports = function(){
         console.log('Read an object from multiple persistors. Returning the first one.')
       }
       callback(null, results[0])
-    })
+    });
+  }
+
+  PI.create = function(model, data, callback){
+    createOrUpdate("create", model, data, callback);
+  };
+
+  PI.update = function(model, data, callback){
+    createOrUpdate("update", model, data, callback);
   };
 
   PI.read = function(id, callback){
-    async.map(PI.adapters, function(adapter, done){
+    async.mapSeries(PI.adapters, function(adapter, done){
       adapter.read(id, done);
     }, function(err, results){
       if(err){
