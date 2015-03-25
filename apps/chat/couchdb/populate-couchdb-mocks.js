@@ -1,6 +1,10 @@
 // This script wipes out, recreates, and populates the 'mocks' database.
 var config = require('../cfg/servers.js').couchdb;
 
+var PI = require('../persistence-interface.js')();
+var PICouch = require('../persistence-couchdb');
+PI.use(PICouch);
+
 var nano = require('nano')({
   url: config.url
 });
@@ -11,6 +15,7 @@ var fs = require('fs');
 async.series([
   destroyOldTestDb,
   createTestDb,
+  populateDesignDocs,
   populateTestDb,
 ], function(err){
   if(err){ throw new Error(err)}
@@ -38,32 +43,26 @@ function createTestDb(done){
   });
 }
 
-function populateTestDb(callback){
+function populateDesignDocs(done){
   var mocks = nano.use('mocks');
-  var user1JSON = fs.readFileSync('./mocks/user1.json');
-  var user1 = JSON.parse(user1JSON);
-  var user2JSON = fs.readFileSync('./mocks/user2.json');
-  var user2 = JSON.parse(user2JSON);
   var soprochatJSON = fs.readFileSync('./soprochat-views.json');
   var soprochat = JSON.parse(soprochatJSON);
+  // Not using PI.create because design docs don't have a .soproModel property
+  mocks.insert(soprochat, soprochat._id, done)
+}
 
+function populateTestDb(callback){
   var mockDocuments = [
     './mocks/user1.json',
     './mocks/user2.json',
     './mocks/identity1.json',
     './mocks/identity2.json',
-    './soprochat-views.json',
   ]
 
   async.eachSeries(mockDocuments, function(path, done){
     var json = fs.readFileSync(path);
     var doc = JSON.parse(json);
-    mocks.insert(doc, doc._id, done)
-  }, function(err){
-    if(err){
-      return callback(err)
-    }
-    callback(null);
+    PI.create(doc.soproModel, doc, done)
   })
 
 }
