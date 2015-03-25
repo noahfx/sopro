@@ -126,6 +126,7 @@ function checkAuthCouchdb(username, password, callback){
         identities.push(row.value);
       })
       user.identities = identities;
+      user.currentIdentity = identities[0];
       next(null, user)
     })
   };
