@@ -4,10 +4,6 @@ export NVM_DIR="/home/ubuntu/.nvm"
 
 nvm use 0.10
 
-cd couchdb
-node populate-couchdb-mocks.js
-cd ..
-
 sudo /etc/init.d/xvfb start
 
 sudo /etc/init.d/selenium start
@@ -18,7 +14,12 @@ sudo /etc/init.d/selenium start
 sleep 10
 
 npm install
-sudo npm start &
+
+cd couchdb
+node populate-couchdb-mocks.js
+cd ..
+
+sudo npm run start -- $1 &
 
 sleep 5
 
