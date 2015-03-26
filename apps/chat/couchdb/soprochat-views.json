@@ -1,17 +1,20 @@
 {
   "_id" : "_design/soprochat",
   "views" : {
-    "pwdauth" : {
-      "map" : "function(doc){ if(doc.soproModel==='user'){ emit(doc.username, [doc.salt, doc.hash, doc.userid]); emit(doc.email, [doc.salt, doc.hash, doc.userid]); }}"
+    "user_by_name" : {
+      "map" : "function(doc){ if(doc.soproModel==='user'){ emit(doc.username, doc); emit(doc.email, doc); }}"
     },
     "user_by_userid" : {
-      "map" : "function(doc){ if(doc.soproModel==='user'){ emit(doc.userid, doc) }}"
+      "map" : "function(doc){ if(doc.soproModel==='user'){ emit(doc._id, doc) }}"
     },
     "identities_for_userid": {
-      "map" : "function(doc){ if(doc.soproModel==='identity'){ emit(doc.userid, doc) }}"
+      "map" : "function(doc){ if(doc.soproModel==='identity'){ emit(doc.for_userid, doc) }}"
     },
     "docs_by_model" : {
       "map" : "function(doc){ emit(doc.soproModel, doc) }"
+    },
+    "pwdcreds_by_userid" : {
+      "map" : "function(doc){ if(doc.soproModel==='pwdcred'){ emit(doc.for_userid, doc) }}"
     }
   }
 }

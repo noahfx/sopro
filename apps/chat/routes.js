@@ -24,7 +24,7 @@ module.exports = function(app, eb, passport, acl){
   app.all('*', requireSecure); 
   app.all('*', function(req, res, next){
     if(req.user && req.session){
-      req.session.userId = req.user._id;
+      req.session.userId = req.user.currentIdentity._id;
     }
     next();
   })

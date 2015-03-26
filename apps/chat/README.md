@@ -15,7 +15,7 @@ You need git to clone the sopro repository. You can get git from
 We also use a number of node.js tools to test sopro chat. You must have node.js and
 its package manager (npm) installed.  You can get them from [http://nodejs.org/](http://nodejs.org/).
 
-##### For windows 
+##### For windows
 You need to install:
   * .net framework 2 sdk
   * Microsoft visual studio 2005
@@ -24,7 +24,7 @@ You need to install:
 
 To run the acceptance tests, you need `cucumber` on your path: `npm install -g cucumber`
 
-SocietyPro Chat uses vertx, so you need to have [vertx](http://vertx.io/) installed. You can download it [here](http://vertx.io/downloads.html). 
+SocietyPro Chat uses vertx, so you need to have [vertx](http://vertx.io/) installed. You can download it [here](http://vertx.io/downloads.html).
 
 ### Clone sopro
 
@@ -32,8 +32,14 @@ Clone the sopro repository using [git][git]:
 
 ```
 git clone https://github.com/SocietyPro/sopro.git
+```
+
+CD to the chat application folder:
+
+```
 cd sopro/apps/chat/
 ```
+
 
 ### Install Dependencies
 
@@ -93,9 +99,12 @@ Now browse to the app at `http://localhost:8080/`.
 
 ```
 cfg/                   --> This folder contains configuration files
-web/                   --> This folder contains all the frontend logic and views
+couchdb/               --> couchdb specific views and init code. Also mocks
 tests/                 --> Unit, E2E, API and acceptance tests
+views/                 --> Templates for Express to render to browsers
+web/                   --> This folder contains all the frontend logic and views
 ```
+
 
 ## Testing
 
@@ -106,12 +115,11 @@ There are four kinds of tests included: Unit tests, API tests, GUI tests, and Ac
 The sopro chat app comes preconfigured with unit tests for the frontend and for the backend.
 
 #### Frontend
+Config: [`tests/unit/karma.conf.js`](https://github.com/SocietyPro/sopro/blob/master/apps/chat/tests/unit/karma.conf.js)
+Files: [`tests/unit/karma/`](https://github.com/SocietyPro/sopro/blob/master/apps/chat/tests/unit/karma)
 
 These are written in [Jasmine][jasmine], which we run with the [Karma Test Runner][karma]. We provide a Karma
 configuration file to run them.
-
-* the configuration is found at `tests/unit/karma.conf.js`
-* the unit tests are found next to the code they are testing and are named as `tests/unit/karma/*.js`.
 
 The easiest way to run the unit tests is to use the supplied npm script:
 
@@ -120,10 +128,10 @@ npm run unit
 ```
 
 ### API testing
+Config + Files: [`tests/api_client/collections/`](https://github.com/SocietyPro/sopro/blob/master/apps/chat/tests/api_client/collections)
 
-The SocietyPro chat comes with [Postman][postman] testing tool. Postman is an api testingo tool. [Newman][newman] takes care of running postman's tests. For this you only need to run:
-
-* the api tests are found in `tests/api_client/collections/`
+####Newman
+Tests are json and are run by [Newman][newman].
 
 Newman makes API requests to our web app and verifies that the application responds
 correctly. Make sure both node and vertx are running first:
@@ -139,15 +147,25 @@ Once you have ensured that the development web server hosting our application is
 npm run api
 ```
 
+####Postman
+You can use the Chrome app [Postman][postman] as a frontend to write and run the Newman tests.
+You have to pay for a license.
+
+You can make a [Chrome application shortcut](https://support.google.com/chrome/answer/95710?hl=en)
+to add Postman to your launcher/start menu/desktop.
+
+If the Express server is using any self signed SSL cert, tell Chrome to trust it:
+http://blog.getpostman.com/index.php/2014/01/28/using-self-signed-certificates-with-postman/
+
 
 ### End to end testing
+
+Config: [`tests/gui/protractor.conf.js`](https://github.com/SocietyPro/sopro/blob/master/apps/chat/tests/gui/protractor.conf.js)
+Files: [`tests/gui/specs/`](https://github.com/SocietyPro/sopro/blob/master/apps/chat/tests/gui/specs/)
 
 The SocietyPro chat app comes with end-to-end GUI tests, again written in [Jasmine][jasmine]. These tests
 are run with the [Protractor][protractor] End-to-End test runner.  It uses native events and has
 special features for Angular applications.
-
-* the configuration is found at `tests/gui/protractor.conf.js`
-* the end-to-end tests are found in `tests/gui/specs/`
 
 Protractor simulates interaction with our web app and verifies that the application responds
 correctly. Make sure both node and vertx are running first:
@@ -175,11 +193,12 @@ npm run gui
 
 ### Acceptance tests
 
+Config: [`tests/acceptance/protractor.conf.js`](https://github.com/SocietyPro/sopro/blob/master/apps/chat/tests/acceptance/protractor.conf.js)
+Files: [`tests/acceptance/features/`](https://github.com/SocietyPro/sopro/blob/master/apps/chat/tests/acceptance/features/)
+
 And finally, SocietyPro Chat app also comes with acceptance tests, for this we use [Cucumber][cucumber], the popular Behaviour-Driven Development tool.
 
-* the features are found at `tests/acceptance/features/`
-
-Cucumber also simulates interaction with our web app and verifies that the application responds
+Cucumber likewise simulates interaction with our web app and verifies that the application responds
 correctly. Make sure both node and vertx are running first:
 
 ```
@@ -202,13 +221,17 @@ to your repository and execute scripts such as building the app or running tests
 chat project has a Jenkins Server that biulds and runs all the tests. You can see the master pipeline [here](http://ci.societypro.org:8080/view/huevon_tests/) and the staging pipeline [here](http://ci.societypro.org:8080/view/sopro.staging/).
 
 ### Jenkins Configuration
+Each test has its own jenkins shell script that actually runs the tests. [Example](https://github.com/SocietyPro/sopro/blob/master/apps/chat/tests/acceptance/.jenkins.sh)
+
 In most cases the tests only need:
+
 ```
 chmod a+x ./tests/*/.jenkins.sh
 ```
 
-However, do note that the node binary must be 0.10 for both the default user and the sudo user.
-One way to set this version on sudo comes from Qua locus:
+Note! The node binary must be 0.10 for both the default user and the sudo user.  
+`nvm` works great for the local user, but we had problems setting the version of node for root user.  
+One way to solve this, thanks to Qua locus:
 ```
 # https://qualocus.wordpress.com/2014/04/19/how-i-installed-nvm-and-node-js-globally/
 sudo git clone https://github.com/creationix/nvm.git /opt/nvm-repo

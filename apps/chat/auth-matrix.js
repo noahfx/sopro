@@ -9,7 +9,7 @@ module.exports =  function(){
   acl.allow('user', '/', 'get');
   acl.allow('admin', '/admin', 'get');
   acl.addRoleParents('admin', 'user');
-  acl.addUserRoles('user-abc', 'user');
-  acl.addUserRoles('user-xyz', 'admin');
+  acl.addUserRoles('abc', 'user');
+  acl.addUserRoles('xyz', 'admin');
   return acl;
 }
