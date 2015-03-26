@@ -49,6 +49,7 @@
     "cucumber": "^0.4.7",
     "cucumber-junit": "^1.1.10",
     "glob": "^4.3.5",
+    "jasmine": "^2.2.1",
     "jasmine-core": "^2.2.0",
     "jasmine-reporters": "^2.0.5",
     "jasmine-spec-reporter": "^2.1.0",

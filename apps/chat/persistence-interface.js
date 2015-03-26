@@ -45,9 +45,6 @@ module.exports = function(){
       if(err){
         return callback(err);
       }
-      if(results.length > 1){
-        console.log('Read an object from multiple persistors. Returning the first one.')
-      }
       callback(null, results[0])
     });
   }
@@ -67,9 +64,6 @@ module.exports = function(){
       if(err){
         return callback(err);
       }
-      if(results.length > 1){
-        console.log('Read an object from multiple persistors. Returning the first one.')
-      }
       callback(null, results[0])
     })
   };
@@ -81,7 +75,7 @@ module.exports = function(){
       if(err){
         return callback(err);
       }
-      callback(null, results)
+      callback(null, results[0]);
     })
   };  
 
