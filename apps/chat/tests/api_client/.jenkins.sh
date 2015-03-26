@@ -14,7 +14,7 @@ cd ..
 sleep 10
 
 npm install
-sudo npm start &
+sudo npm run start -- $1 &
 
 sleep 5
 
