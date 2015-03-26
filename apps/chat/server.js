@@ -157,6 +157,12 @@ function dropPrivileges(){
 
 }
 
+// Handler to gracefully exit if the process is killed:
+process.on('SIGTERM', function(){
+  console.log('Gracefully exiting on SIGTERM');
+  process.exit();
+})
+
 // Helpful warning if socksjs is delayed:
 setTimeout(function(){
   if(flagConnected){return}
