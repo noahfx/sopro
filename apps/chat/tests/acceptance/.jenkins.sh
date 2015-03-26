@@ -15,6 +15,7 @@ sleep 10
 
 #For some reason this fails if it's not run first:
 npm install cucumber-junit
+npm install protractor-cucumber-junit
 npm install
 
 cd couchdb
