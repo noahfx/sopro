@@ -81,7 +81,8 @@ module.exports = function(){
       if(err){
         return callback(err);
       }
-      callback(null, results)
+      // Return only the results from the first adapter:
+      callback(null, results[0])
     })
   };  
 
