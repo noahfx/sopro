@@ -20,7 +20,7 @@ module.exports = function(){
   function authedForUsers(arg1, next){
     var shouldPass = !arg1;
     if(shouldPass){
-      var userid = 'user-abc';
+      var userid = 'abc';
     } else {
       var userid = 'nonexistent';
     }

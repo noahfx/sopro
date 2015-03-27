@@ -24,7 +24,7 @@ module.exports = function(app, eb, passport, acl, PI){
   app.all('*', requireSecure); 
   app.all('*', function(req, res, next){
     if(req.user && req.session){
-      req.session.userId = req.user._id;
+      req.session.userId = req.user.currentIdentity._id;
     }
     next();
   })
@@ -158,11 +158,20 @@ module.exports = function(app, eb, passport, acl, PI){
             error: "server error",
           })
         }
-        req.session.userId = user._id;
-        req.logIn(user, function(){
-          console.log('Logged in', req.user.username, req.method, req.session.userId)
-          next();
-        });
+        PI.read('abc', function(err, identity){
+          if(err){
+            console.log(err);
+            return res.status(500).json({
+              ok: false,
+              error: "server error",
+            })
+          }
+          req.session.userId = identity._id;
+          req.logIn(user, function(){
+            console.log('Logged in', req.user.username, req.method, req.session.userId)
+            next();
+          });  
+        })
       })
     }
   });

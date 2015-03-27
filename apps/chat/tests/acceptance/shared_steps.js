@@ -109,8 +109,10 @@ module.exports = {
       var self = this;
       protractorHelpers.changeIdentity(0)
       .then(function () {
-        var json = fs.readFileSync('couchdb/mocks/user1.json', {encoding:'utf8'});
-        self.authenticatedUserId = JSON.parse(json)._id;
+        var jsonUser = fs.readFileSync('couchdb/mocks/user1.json', {encoding:'utf8'});
+        var jsonIdentity = fs.readFileSync('couchdb/mocks/identity1.json', {encoding:'utf8'});
+        self.authenticatedUserId = JSON.parse(jsonUser)._id;
+        self.authenticatedIdentityId = JSON.parse(jsonIdentity)._id;
         next();
       },function (err) {
         console.log(err);
