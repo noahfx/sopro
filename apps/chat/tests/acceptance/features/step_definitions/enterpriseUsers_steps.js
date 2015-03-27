@@ -9,7 +9,7 @@ var enterpriseUsers_steps = module.exports = function() {
     S_STEPS.usingEE.fn)
 
   this.When(/^I launch the application$/, function (next) {
-    browser.get("/")
+    browser.get("/login")
     .then(function(err){
       if (err) {
         console.log(err);
