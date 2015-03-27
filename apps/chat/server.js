@@ -98,7 +98,7 @@ function startExpress(){
 
   console.log('Binding routes...')
   // The routing logic needs eventbus and passport:
-  require('./routes.js')(app, eventbus, passport, acl);
+  require('./routes.js')(app, eventbus, passport, acl, PI);
 
   // Start http server:
   app.listen(serverConfig.express.port, serverConfig.express.host, function(){
