@@ -25,6 +25,7 @@ module.exports = {
         if(err){
           next.fail(err);
         } else {
+          this.validAuthToken = validToken;
           next();
         }
       }
