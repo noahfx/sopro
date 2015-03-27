@@ -159,20 +159,11 @@ module.exports = function(app, eb, passport, acl, PI){
           })
         }
         var identityId = req.query['role'] || 'abc';
-        PI.read(identityId, function(err, identity){
-          if(err){
-            console.log(err);
-            return res.status(500).json({
-              ok: false,
-              error: "server error",
-            })
-          }
-          req.session.userId = identity._id;
-          req.logIn(user, function(){
-            console.log('Logged in', req.user.username, req.method, req.session.userId)
-            next();
-          });  
-        })
+        req.session.userId = identityId;
+        req.logIn(user, function(){
+          console.log('Logged in', req.user.username, req.method, req.session.userId)
+          next();
+        });
       })
     }
   });
@@ -262,7 +253,6 @@ module.exports = function(app, eb, passport, acl, PI){
 
 
   app.post('/api/channels.invite', function(req, res, next) {
-
     if (req.query['role'] == undefined) {
       return res.send(
         '{"ok":false, "error":"role_not_found"}'
