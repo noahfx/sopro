@@ -149,7 +149,30 @@ module.exports = function(app, eb, passport, acl){
       res.status(401).send('{"ok":false, "error":"not_authed"}');
     } else {
       req.authToken = token;
-      next();
+      PI.read('user-abc', function(err, user){
+        if(err){
+          console.log(err);
+          return res.status(500).json({
+            ok: false,
+            error: "server error",
+          })
+        }
+        var identityId = req.query['role'] || 'abc';
+        PI.read(identityId, function(err, identity){
+          if(err){
+            console.log(err);
+            return res.status(500).json({
+              ok: false,
+              error: "server error",
+            })
+          }
+          req.session.userId = identity._id;
+          req.logIn(user, function(){
+            console.log('Logged in', req.user.username, req.method, req.session.userId)
+            next();
+          });  
+        })
+      })
     }
   })
 
