@@ -11,7 +11,7 @@ module.exports = function(){
     ? '/'
     : '/api/denyauth');
 
-    acl.isAllowed(this.authenticatedUserId, this.object, this.action, function(err, ok){
+    acl.isAllowed(this.authenticatedIdentityId, this.object, this.action, function(err, ok){
       if(err){
         return next.fail('Authentication failure: '+err);
       }

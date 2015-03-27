@@ -7,6 +7,10 @@ var featureConfig;
 var express = require('express');
 var app = express();
 
+var PI = require('./persistence-interface.js')();
+var PICouch = require('./persistence-couchdb');
+PI.use(PICouch);
+
 
 app.sopro = {};
 app.sopro.servers = serverConfig;
@@ -152,6 +156,12 @@ function dropPrivileges(){
   }
 
 }
+
+// Handler to gracefully exit if the process is killed:
+process.on('SIGTERM', function(){
+  console.log('Gracefully exiting on SIGTERM');
+  process.exit();
+})
 
 // Helpful warning if socksjs is delayed:
 setTimeout(function(){
