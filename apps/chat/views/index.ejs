@@ -14,40 +14,40 @@
       <script type="text/javascript" src="web/bower_components/angular-aria/angular-aria.js"></script>
       <script type="text/javascript" src="web/bower_components/angular-animate/angular-animate.js"></script>
       <script type="text/javascript" src="web/bower_components/angular-material/angular-material.js"></script>
+      <script src="web/js/components/services/services.js"></script>
       <script src="web/js/components/global/global.js"></script>
       <script src="web/js/components/directives/directives.js"></script>
       <script src="web/js/components/controllers/mainController.js"></script>
       <script src="web/js/components/controllers/stageController.js"></script>
       <script src="web/js/app.js"></script>
   </head>
-  <body ng-controller="mainController" layout="column" layout-fill data-soproenv="<%= config.env %>">
-
+  <body ng-controller="mainController" layout="column" layout-fill data-soproenv="<%= config.env %>" data-currentuser="<%= currentUser %>">
     <md-toolbar layout="row">
       <span flex></span>
       <div 
-      id="role-selection" 
-      <% if (!features.ee.fixedUserIdentities) { %>
-        ng-click="showRoles=!showRoles" 
-      <% } %>
+      id="role-selection"
+      ng-click="showRoles=!showRoles" 
       layout="row" 
       layout-align="center center"
-      data-currentuser="<%= currentUser %>"
       >
         <img ng-src="data:image/png;base64,{{currentRole.avatar}}" width="36" height="36" alt="role-icon">
         <span class="roleLabel">{{currentRole.rolename}}</span>
-        <a href="/logout" class="roleLogout">Logout</a>
         <img src="web/images/role-arrow.png" width="10" height="5" alt="arrow-role"/>
       </div>
-      <% if (!features.ee.fixedUserIdentities) { %>
       <div class="sopro-role-panel md-whiteframe-z2" layout="column" ng-show="showRoles">
         <img class="sopro-arrow-role-panel" src="web/images/arrow-role-panel.png" alt="role-pannel-arrow">
+        <% if (!features.ee.fixedUserIdentities) { %>
         <span class="sopro-role-panel-title">ROLES</span>
         <div class="sopro-role-item" ng-class="{'sp-w-b':$last}" layout="row" layout-align="start center" ng-repeat="role in roles" ng-click="changeRole(role)">
           <img class="sopro-img-role-panel" ng-src="data:image/png;base64,{{role.avatar}}" width="35" height="35" alt="role-icon">
           <span class="sopro-role-name">{{role.rolename}}</span>
         </div>
+        <% } %>
+        <% if (permissions.getAdmin) { %>
+        <a href="/admin" id="adminPanelLink">Admin Panel</a>
+        <% } %>
+        <a href="/logout" class="roleLogout">Logout</a>
       </div>
-      <% } %>
     </md-toolbar>
     <div class="sopro-main-content" flex layout="row">
       <md-content id="sopro-collections-wrap">
