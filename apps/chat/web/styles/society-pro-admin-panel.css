@@ -1,0 +1,31 @@
+.adminTabs .remove-tab {
+  margin-bottom: 40px; }
+.adminTabs .demo-tab > div > div {
+  padding: 25px;
+  box-sizing: border-box; }
+.adminTabs .edit-form input {
+  width: 100%; }
+.adminTabs md-tabs {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12); }
+.adminTabs md-tab[disabled] {
+  opacity: 0.5; }
+.adminTabs label {
+  text-align: left; }
+.adminTabs .title {
+  padding-top: 8px;
+  padding-right: 8px;
+  text-align: left;
+  text-transform: uppercase;
+  margin-top: 24px; }
+.adminTabs [layout-align] > * {
+  margin-left: 8px; }
+.adminTabs form > [layout] > * {
+  margin-left: 8px; }
+.adminTabs form > [layout] > span {
+  padding-top: 2px; }
+.adminTabs .long > input {
+  width: 264px; }
+.adminTabs .md-button.add-tab {
+  margin-top: 20px;
+  max-height: 30px !important; }
+

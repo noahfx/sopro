@@ -118,7 +118,7 @@ module.exports = function(app, eb, passport, acl, PI){
   requireLogin,
   acl.middleware(),
   function(req, res, next){
-    next();
+    res.render('admin');
   });
 
   app.post('/login/password', passport.authenticate('local', {
@@ -134,6 +134,7 @@ module.exports = function(app, eb, passport, acl, PI){
 
   app.get('/logout', function(req, res, next){
     req.logOut();
+    req.session.userId = undefined;
     res.redirect('/');
   })
 
@@ -160,10 +161,14 @@ module.exports = function(app, eb, passport, acl, PI){
         }
         var identityId = req.query['role'] || 'abc';
         req.session.userId = identityId;
-        req.logIn(user, function(){
-          console.log('Logged in', req.user.username, req.method, req.session.userId)
+        if(!req.user){ // Don't override an existing user session
+          req.logIn(user, function(){
+            console.log('Logged in', req.user.username, req.method, req.session.userId)
+            next();
+          });
+        } else {
           next();
-        });
+        }
       })
     }
   });
@@ -315,6 +320,10 @@ module.exports = function(app, eb, passport, acl, PI){
   app.use(function(err, req, res, next){
     console.log('error for',req.originalUrl);
     console.log(err);
-    res.status(404).end()
+    if(err.errorCode == 403){
+      res.status(403).send('You do not have permission to do that.')
+    } else {
+      res.status(404).end()
+    }
   })
 }

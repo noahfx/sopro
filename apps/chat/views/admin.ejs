@@ -1,0 +1,31 @@
+<html ng-app="societyProChatApp2">
+<head>
+    <title>SocietyPro Chat Administration</title>
+
+    <link rel="stylesheet" type="text/css" href="web/bower_components/angular-material/angular-material.css">
+    <link rel="stylesheet" type="text/css" href="web/styles/society-pro-chat.css">
+    <link rel="stylesheet" type="text/css" href="web/styles/society-pro-admin-panel.css">
+
+    <script type="text/javascript" src="web/bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="web/bower_components/angular/angular.min.js"></script>
+    <script type="text/javascript" src="web/bower_components/angular-aria/angular-aria.js"></script>
+    <script type="text/javascript" src="web/bower_components/angular-animate/angular-animate.js"></script>
+    <script type="text/javascript" src="web/bower_components/angular-material/angular-material.js"></script>
+    <script src="web/js/components/controllers/adminController.js"></script>
+</head>
+<body layout="column" layout-fill data-soproenv="<%= config.env %>" ng-controller="adminController">
+  <md-toolbar layout="row">
+
+  </md-toolbar>
+  <md-tabs md-selected="selectedIndex" md-border-bottom class="adminTabs">
+    <md-tab ng-repeat="tab in tabs"
+            ng-disabled="tab.disabled"
+            label="{{tab.title}}">
+      <div class="demo-tab tab{{$index%4}}" style="padding: 25px; text-align: center;">
+        <div ng-include="tab.partial"></div>
+        <br/>
+      </div>
+    </md-tab>
+  </md-tabs>
+</body>
+</html>
