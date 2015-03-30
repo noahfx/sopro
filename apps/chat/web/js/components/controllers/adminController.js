@@ -2,9 +2,8 @@ var soproAdminControllers =
 angular.module('societyProChatApp2', ['ngMaterial', 'societyProChatApp.services'])
 .controller(
   'adminController',
-  ['$scope', '$http', '$rootScope', '$window', 'UserService',
-  function($scope,$http,$rootScope,$window, UserService) {
-    console.log('adminController');
+  ['$scope', '$http', '$rootScope', 'UserService',
+  function($scope,$http,$rootScope,UserService) {
     var tabs = [
       { title: 'Channels', partial: "web/partials/admin-channels.html"},
       { title: 'Users', partial: "web/partials/admin-users.html"},
@@ -12,30 +11,31 @@ angular.module('societyProChatApp2', ['ngMaterial', 'societyProChatApp.services'
       { title: 'Permissions', partial: "web/partials/admin-permissions.html"},
       { title: 'Configuration', partial: "web/partials/admin-configuration.html"},
     ];
-    var selected = null;
-    var previous = null;
+    $scope.selected = null;
+    $scope.previous = null;
     $scope.currentUser = UserService;
 
     $scope.tabs = tabs;
     $scope.selectedIndex = 1;
-    $scope.$watch('selectedIndex', function(current, old){
+    $scope.tabsStatus = function (current, old){
       console.log(current);
-      previous = selected;
-      selected = tabs[current];
+      $scope.previous = $scope.selected;
+      $scope.selected = $scope.tabs[current];
       if ( old && (old != current)){
-        console.debug('Goodbye ' + previous.title + '!');
+        console.debug('Goodbye ' + $scope.previous.title + '!');
       }
       if ( current ){
-        console.debug('Hello ' + selected.title + '!');
+        console.debug('Hello ' + $scope.selected.title + '!');
       }
-    });
+    }
+    $scope.$watch('selectedIndex', $scope.tabsStatus);
   }
   ]
 )
 .controller(
   'adminControllerUsers',
-  ['$scope','$http','$rootScope','$window',
-  function($scope,$http,$rootScope,$window) {
+  ['$scope','$http','$rootScope',
+  function($scope,$http,$rootScope) {
     console.log('adminControllerUsers');
     $scope.usersList = [];
     $scope.getCurrentUsersList = function(callback){
