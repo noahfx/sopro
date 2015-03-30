@@ -1,8 +1,5 @@
 var societyProChatControllers = 
 angular.module('societyProChatApp.controllers',['ngMaterial', 'ngAnimate', 'societyProChatApp.controller2'])
-.factory('UserService', function(){
-  return $('#role-selection').data('currentuser');
-})
 .controller('mainController',['$scope','$http','$rootScope','$window', 'UserService', function($scope,$http,$rootScope,$window,UserService) {
   
   
