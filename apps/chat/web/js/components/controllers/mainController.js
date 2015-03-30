@@ -5,6 +5,7 @@ angular.module('societyProChatApp.controllers',['ngMaterial', 'ngAnimate', 'soci
   
   var positionCommpanelScrollbar = function () {
     var $cp = $('#sopro-collections-wrap');
+    if (!$cp[0]) return;
     if ($cp[0].scrollHeight > $cp.innerHeight()) {
       $cp.perfectScrollbar();
       $cp.perfectScrollbar('update');
