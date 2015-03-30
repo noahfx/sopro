@@ -43,7 +43,9 @@
           <span class="sopro-role-name">{{role.rolename}}</span>
         </div>
         <% } %>
-        <a href="/admin">Admin Panel</a>
+        <% if (permissions.getAdmin) { %>
+        <a href="/admin" id="adminPanelLink">Admin Panel</a>
+        <% } %>
         <a href="/logout" class="roleLogout">Logout</a>
       </div>
     </md-toolbar>

@@ -47,7 +47,7 @@ var authentication_steps = module.exports = function() {
 
 
   this.Then(/^the session is authenticated against local Society Pro users$/, function (next) {
-    element(by.css('#role-selection'))
+    element(by.css('body'))
     .getAttribute('data-currentuser')
     .then(function(userJSON){
       var actualUser = JSON.parse(userJSON);

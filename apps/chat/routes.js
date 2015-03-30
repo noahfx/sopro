@@ -26,11 +26,25 @@ module.exports = function(app, eb, passport, acl, PI){
     if(req.user && req.session){
       req.session.userId = req.user.currentIdentity._id;
     }
-    if(req.user){
-      res.locals.currentUser = JSON.stringify(req.user)
-    }
     res.locals.features = app.sopro.features;
-    next();
+    if(req.user){
+      // Load permissions
+      res.locals.currentUser = JSON.stringify(req.user);
+      res.locals.permissions = res.locals.permissions || {};
+      acl.isAllowed(req.user.currentIdentity._id, '/admin', 'get', function(err, ok){
+        if(err){
+          return next('Authentication failure: '+err);
+        }
+        if(!ok){
+          res.locals.permissions.getAdmin = false;
+        } else {
+          res.locals.permissions.getAdmin = true;
+        }
+        next();
+      })
+    } else {
+      next();
+    }
   })
 
   /*
