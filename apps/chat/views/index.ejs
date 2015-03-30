@@ -21,8 +21,7 @@
       <script src="web/js/components/controllers/stageController.js"></script>
       <script src="web/js/app.js"></script>
   </head>
-  <body ng-controller="mainController" layout="column" layout-fill data-soproenv="<%= config.env %>">
-
+  <body ng-controller="mainController" layout="column" layout-fill data-soproenv="<%= config.env %>" data-currentuser="<%= currentUser %>">
     <md-toolbar layout="row">
       <span flex></span>
       <div 
@@ -30,7 +29,6 @@
       ng-click="showRoles=!showRoles" 
       layout="row" 
       layout-align="center center"
-      data-currentuser="<%= currentUser %>"
       >
         <img ng-src="data:image/png;base64,{{currentRole.avatar}}" width="36" height="36" alt="role-icon">
         <span class="roleLabel">{{currentRole.rolename}}</span>
