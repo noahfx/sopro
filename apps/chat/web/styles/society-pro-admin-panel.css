@@ -69,3 +69,7 @@ md-tabs {
   overflow: auto;
 }
 
+.user-item span{
+  text-align: left;
+}
+
