@@ -29,5 +29,37 @@ angular.module('societyProChatApp2', ['ngMaterial'])
     });
   }
   ]
-);
+)
+.controller(
+  'adminControllerUsers',
+  ['$scope','$http','$rootScope','$window',
+  function($scope,$http,$rootScope,$window) {
+    console.log('adminControllerUsers');
+    $scope.usersList = [];
+    $scope.getCurrentUsersList = function(callback){
+      callback(null, [{
+          username: 'louise',
+          realname: 'Louisiana',
+          email: 'louise@centralservices.io',
+        }, {
+          username: 'thomas',
+          realname: 'Thomas T',
+          email: 'thomas@centralservices.io',
+        }
+      ])
+    };
+
+    $scope.updateUsersList = function(){
+      $scope.getCurrentUsersList(function(err, users){
+        console.log('Setting users to ', users)
+        $scope.usersList = users;
+      })
+    };
+
+    $scope.updateUsersList();
+
+  }
+  ]
+
+)
 
