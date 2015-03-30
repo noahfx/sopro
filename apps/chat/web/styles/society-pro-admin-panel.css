@@ -55,3 +55,11 @@
   max-height: 30px !important; 
 }
 
+md-tabs {
+  overflow: hidden;
+}
+
+.md-tabs-content {
+  overflow: auto;
+}
+

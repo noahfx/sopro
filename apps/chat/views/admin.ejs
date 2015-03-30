@@ -19,8 +19,8 @@
       <img src="web/bower_components/material-design-icons/navigation/1x_web/ic_arrow_back_white_48dp.png">
     </a>
   </md-toolbar>
-  <div class="adminTabs">
-    <md-tabs md-selected="selectedIndex" md-border-bottom md-stretch-tabs>
+  <div class="adminTabs" flex layout="row">
+    <md-tabs md-selected="selectedIndex" md-border-bottom md-stretch-tabs flex>
       <md-tab ng-repeat="tab in tabs"
               ng-disabled="tab.disabled"
               label="{{tab.title}}">
