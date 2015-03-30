@@ -15,17 +15,22 @@
 </head>
 <body layout="column" layout-fill data-soproenv="<%= config.env %>" ng-controller="adminController">
   <md-toolbar layout="row">
-
+    <a href="/" title="Back to Chats">
+      <img src="web/bower_components/material-design-icons/navigation/1x_web/ic_arrow_back_white_48dp.png">
+    </a>
   </md-toolbar>
-  <md-tabs md-selected="selectedIndex" md-border-bottom class="adminTabs">
-    <md-tab ng-repeat="tab in tabs"
-            ng-disabled="tab.disabled"
-            label="{{tab.title}}">
-      <div class="demo-tab tab{{$index%4}}" style="padding: 25px; text-align: center;">
-        <div ng-include="tab.partial"></div>
-        <br/>
-      </div>
-    </md-tab>
-  </md-tabs>
+  <div class="adminTabs">
+    <md-tabs md-selected="selectedIndex" md-border-bottom md-stretch-tabs>
+      <md-tab ng-repeat="tab in tabs"
+              ng-disabled="tab.disabled"
+              label="{{tab.title}}">
+        <md-tab-label>{{tab.title}}</md-tab-label>
+        <div class="demo-tab tab{{$index%4}}" style="padding: 25px; text-align: center;">
+          <div ng-include="tab.partial"></div>
+          <br/>
+        </div>
+      </md-tab>
+    </md-tabs>
+  </div>
 </body>
 </html>

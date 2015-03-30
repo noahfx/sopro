@@ -1,5 +1,5 @@
 var soproAdminControllers = 
-angular.module('societyProChatApp2',[])
+angular.module('societyProChatApp2', ['ngMaterial'])
 .controller(
   'adminController',
   ['$scope','$http','$rootScope','$window',
@@ -8,6 +8,9 @@ angular.module('societyProChatApp2',[])
     var tabs = [
       { title: 'Channels', partial: "web/partials/admin-channels.html"},
       { title: 'Users', partial: "web/partials/admin-users.html"},
+      { title: 'Roles', partial: "web/partials/admin-users.html"},
+      { title: 'Permissions', partial: "web/partials/admin-users.html"},
+      { title: 'Configuration', partial: "web/partials/admin-users.html"},
     ];
     var selected = null;
     var previous = null;
