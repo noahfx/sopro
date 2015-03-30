@@ -26,6 +26,10 @@ module.exports = function(app, eb, passport, acl, PI){
     if(req.user && req.session){
       req.session.userId = req.user.currentIdentity._id;
     }
+    if(req.user){
+      res.locals.currentUser = JSON.stringify(req.user)
+    }
+    res.locals.features = app.sopro.features;
     next();
   })
 
@@ -109,8 +113,6 @@ module.exports = function(app, eb, passport, acl, PI){
   app.get('/',
   requireLogin,
   function(req, res){
-    res.locals.features = app.sopro.features;
-    res.locals.currentUser = JSON.stringify(req.user)
     res.render('index');
   })
 

@@ -14,7 +14,7 @@
     <script src="web/js/components/services/services.js"></script>
     <script src="web/js/components/controllers/adminController.js"></script>
 </head>
-<body layout="column" layout-fill data-soproenv="<%= config.env %>" ng-controller="adminController">
+<body layout="column" layout-fill data-soproenv="<%= config.env %>" data-currentuser="<%= currentUser %>" ng-controller="adminController">
   <md-toolbar layout="row">
     <a href="/" title="Back to Chats">
       <img src="web/bower_components/material-design-icons/navigation/1x_web/ic_arrow_back_white_48dp.png">

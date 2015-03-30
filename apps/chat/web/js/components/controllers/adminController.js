@@ -1,19 +1,21 @@
 var soproAdminControllers = 
-angular.module('societyProChatApp2', ['ngMaterial'])
+angular.module('societyProChatApp2', ['ngMaterial', 'societyProChatApp.services'])
 .controller(
   'adminController',
-  ['$scope','$http','$rootScope','$window',
-  function($scope,$http,$rootScope,$window) {
+  ['$scope', '$http', '$rootScope', '$window', 'UserService',
+  function($scope,$http,$rootScope,$window, UserService) {
     console.log('adminController');
     var tabs = [
       { title: 'Channels', partial: "web/partials/admin-channels.html"},
       { title: 'Users', partial: "web/partials/admin-users.html"},
-      { title: 'Roles', partial: "web/partials/admin-users.html"},
-      { title: 'Permissions', partial: "web/partials/admin-users.html"},
-      { title: 'Configuration', partial: "web/partials/admin-users.html"},
+      { title: 'Roles', partial: "web/partials/admin-roles.html"},
+      { title: 'Permissions', partial: "web/partials/admin-permissions.html"},
+      { title: 'Configuration', partial: "web/partials/admin-configuration.html"},
     ];
     var selected = null;
     var previous = null;
+    $scope.currentUser = UserService;
+
     $scope.tabs = tabs;
     $scope.selectedIndex = 1;
     $scope.$watch('selectedIndex', function(current, old){
@@ -37,21 +39,26 @@ angular.module('societyProChatApp2', ['ngMaterial'])
     console.log('adminControllerUsers');
     $scope.usersList = [];
     $scope.getCurrentUsersList = function(callback){
-      callback(null, [{
-          username: 'louise',
-          realname: 'Louisiana',
-          email: 'louise@centralservices.io',
-        }, {
-          username: 'thomas',
-          realname: 'Thomas T',
-          email: 'thomas@centralservices.io',
+      $http({
+        method: 'GET',
+        url: '/api/users',
+        headers: {
+          'token-auth': '12345'
+        },
+        params: {
+          role: $scope.currentUser.identities[0]._id
         }
-      ])
+      })
+      .success(function(data, status, headers, config){
+        callback(null, data.users);
+      })
+      .error(function(data, status, headers, config){
+        callback('API error', data);
+      })
     };
 
     $scope.updateUsersList = function(){
       $scope.getCurrentUsersList(function(err, users){
-        console.log('Setting users to ', users)
         $scope.usersList = users;
       })
     };

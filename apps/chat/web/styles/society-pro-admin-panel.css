@@ -6,13 +6,24 @@
   display: flex;
 }
 
+.adminTabs .admin-section > label,
+.adminTabs .admin-section > form > md-input-container,
+.adminTabs .admin-section > div > label,
+.adminTabs .admin-section > div > span {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.adminTabs .md-tab-content .md-input-container,
+
 .adminTabs .md-header-items .md-tab{
   -webkit-flex: 1;
   flex: 1;
 }
 
 .adminTabs .md-tab-content {
-  max-width: 800px;
+  max-width: 1000px;
   margin: auto;
 }
 
