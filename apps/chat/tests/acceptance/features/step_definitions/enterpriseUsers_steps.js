@@ -2,6 +2,7 @@ var CAM_MOCKS = require('../../../mock-data.js');
 var S_STEPS = require('../../shared_steps.js');
 var protractorHelpers = require('../../../protractorHelpers.js')(browser,element);
 var fs = require('fs');
+var assert = require('assert');
 
 var enterpriseUsers_steps = module.exports = function() {
 
@@ -24,7 +25,7 @@ var enterpriseUsers_steps = module.exports = function() {
     S_STEPS.iAuthenticate.fn);
 
   this.Then(/^the application should use the default role for my user$/, function (next) {
-    element(by.css("#role-selection")).getAttribute("data-currentuser")
+    element(by.css("body")).getAttribute("data-currentuser")
     .then(function (currentUserJSON) {
       var currentUser = JSON.parse(currentUserJSON);
       var expectedIdentity = JSON.parse(
@@ -53,13 +54,11 @@ var enterpriseUsers_steps = module.exports = function() {
   });
 
   this.Then(/^I should not see multiple roles listed$/, function (next) {
-    browser.element(by.css(".sopro-role-panel")).isPresent()
-    .then(function (isPresent) {
-      if(isPresent){
-        next.fail(new Error('Expected NOT to find .sopro-role-panel'));
-      } else {
-        next();
-      }
+    browser.element.all(by.css(".sopro-role-item"))
+    .count()
+    .then(function (count) {
+      assert(count === 0);
+      next();
     });
   });
 }
