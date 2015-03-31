@@ -1,20 +1,32 @@
 {
   "_id" : "_design/soprochat",
   "views" : {
-    "user_by_name" : {
+    "user_by_name_email" : {
       "map" : "function(doc){ if(doc.soproModel==='user'){ emit(doc.username, doc); emit(doc.email, doc); }}"
     },
-    "user_by_userid" : {
+    "user_by_whatever": {
+      "map" : "function(doc){if(doc.soproModel==='user'){for(prop in doc){if(doc.hasOwnProperty(prop)){emit([prop, doc[prop]], doc) } } } }"
+    },
+    "user_by__id" : {
       "map" : "function(doc){ if(doc.soproModel==='user'){ emit(doc._id, doc) }}"
     },
-    "identities_for_userid": {
+    "user_by_username" : {
+      "map" : "function(doc){ if(doc.soproModel==='user'){ emit(doc.username, doc) }}"
+    },
+    "user_by_email" : {
+      "map" : "function(doc){ if(doc.soproModel==='user'){ emit(doc.email, doc) }}"
+    },
+    "identities_by_for_userid": {
       "map" : "function(doc){ if(doc.soproModel==='identity'){ emit(doc.for_userid, doc) }}"
     },
-    "docs_by_model" : {
+    "docs_by_soproModel" : {
       "map" : "function(doc){ emit(doc.soproModel, doc) }"
     },
-    "pwdcreds_by_userid" : {
+    "pwdcreds_by_for_userid" : {
       "map" : "function(doc){ if(doc.soproModel==='pwdcred'){ emit(doc.for_userid, doc) }}"
+    },
+    "passwordResetToken_by_token" : {
+      "map" : "function(doc){ if(doc.soproModel==='passwordResetToken' && new Date().valueOf() < doc.expiryTimeMs){ emit(doc.token, doc) }}"
     }
   }
 }

@@ -20,7 +20,7 @@ couch.read = function(id, callback){
 }
 
 couch.readAll = function(model, callback) {
-  db.view('soprochat', 'docs_by_model', {key: model}, function(err, body){
+  db.view('soprochat', 'docs_by_soproModel', {key: model}, function(err, body){
     if(err){
       return callback(err)
     };
@@ -47,6 +47,20 @@ couch.destroy = function(data, callback){
   assert(data._id);
   assert(data._rev);
   db.destroy(data._id, data._rev, callback);
+}
+
+couch.find = function(model, key, value, callback){
+  var viewName = model+'_by_'+key;
+  db.view('soprochat', viewName, {key: value}, function(err, body){
+    console.log(err, body)
+    if(err){
+      return callback(err);
+    }
+    var data = body.rows.map(function(row){
+      return row.value;
+    })
+    callback(null, data);
+  })
 }
 
 module.exports = couch;

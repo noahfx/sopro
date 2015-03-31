@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html ng-app="confirmAccount">
+<head>
+    <title>SocietyPro Chat</title>
+
+    <link rel="stylesheet" type="text/css" href="/web/bower_components/angular-material/angular-material.css">
+    <link rel="stylesheet" type="text/css" href="/web/styles/society-pro-chat.css">
+
+    <script type="text/javascript" src="/web/bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="/web/bower_components/angular/angular.min.js"></script>
+    <script type="text/javascript" src="/web/bower_components/angular-aria/angular-aria.js"></script>
+    <script type="text/javascript" src="/web/bower_components/angular-animate/angular-animate.js"></script>
+    <script type="text/javascript" src="/web/bower_components/angular-material/angular-material.js"></script>
+    <script type="text/javascript">
+      var $p1;
+      var $p2;
+      $(document).ready(function(){
+        $p1 = $('input[name="password1"]');
+        $p2 = $('input[name="password2"]');
+        $matchHint = $('#matchHint');
+        console.log($p1);
+        $p1.on('keyup', validatePwd)
+        $p2.on('keyup', validatePwd)
+        function validatePwd(e){
+          console.log(e);
+          if($p1.val() !== $p2.val()){
+            $matchHint.show();
+          } else {
+            $matchHint.hide();
+          }
+        }
+      })
+    </script>
+    <script type="text/javascript">
+      angular.module('confirmAccount', ['ngMaterial'])
+    </script>
+
+</head>
+<body layout="column" layout-fill data-soproenv="<%= config.env %>">
+  <md-toolbar layout="row">
+
+  </md-toolbar>
+  <div class="sopro-main-content" flex layout="row">
+    <md-content flex layout="column" layout-wrap id="main-stage">
+      <p>Welcome to the haven of Captains of Society Pro, <%= currentUser.username %>!</p>
+      <p>Please set your password:</p>
+      <form action="/confirmAccount/done" method="POST">
+        <div layout="row">
+          <md-input-container>
+            <label> Password: </label>
+            <input type="password" name="password1"></input>
+          </md-input-container>
+          <md-input-container>
+            <label> Password again: </label>
+            <input type="password" name="password2"></input>
+          </md-input-container>
+        </div>
+        <span block hidden id="matchHint">Passwords do not match</span>
+        <input type="hidden" name="token" value="<%= token %>">
+        <input block type="submit" value="Submit"></input>
+      </form>
+    </md-content>
+  </div>
+</body>
+</html>

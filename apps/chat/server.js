@@ -1,9 +1,6 @@
 var fs = require('fs');
 var os = require('os');
 var argh = require('argh').argv;
-
-var serverConfig = require('./cfg/servers.js');
-var featureConfig;
 var express = require('express');
 var app = express();
 
@@ -11,9 +8,29 @@ var PI = require('./persistence-interface.js')();
 var PICouch = require('./persistence-couchdb');
 PI.use(PICouch);
 
+/*
+ * CONFIGURATION
+ */
+
+try{
+  fs.readFileSync('./cfg/locals.js', {encoding: 'utf8'});
+} catch(e){
+  if(e.code == 'ENOENT') {
+    var file = fs.readFileSync('./cfg/locals.example.js', {encoding: 'utf8'});
+    fs.writeFileSync('./cfg/locals.js', file, {encoding: 'utf8'});
+    console.log('Wrote example local config in cfg/locals.js. Set your keys there.');
+  }
+}
+
+var localConfig = require('./cfg/locals.js');
+var serverConfig = require('./cfg/servers.js');
+var featureConfig;
+
 
 app.sopro = {};
 app.sopro.servers = serverConfig;
+console.log(localConfig);
+app.sopro.local = localConfig;
 
 // Override env variable with --enterprise flag:
 if(argh.enterprise){
