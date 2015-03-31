@@ -23,12 +23,6 @@ body > md-toolbar {
 #role-selection .roleLogout{
  display: none;
 }
-#role-selection:hover .roleLabel{
-  display: none;
-}
-#role-selection:hover .roleLogout{
-  display: inline-block;
-}
 .sopro-role-panel{
   top: 50px;
   position: absolute;
@@ -294,4 +288,9 @@ sopro-subscribers-dropdown{
 .ps-scrollbar-y{
     background: rgba(205, 205, 208,1) !important;
     border: 1px rgba(255,255,255,1) solid;
+}
+
+a {
+  text-decoration: none;
+  text-align: center;
 }

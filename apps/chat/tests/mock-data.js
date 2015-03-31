@@ -98,5 +98,12 @@ module.exports = CAM_MOCKS = {
       "topic": "Fun stuff",
       "purpose": "just to have some fun",
     }
+  },
+  getUsersResponse: {
+    "ok":true,
+    "users": [
+      {"_id":"user-abc","_rev":"1-0ba2776c86039da5d47c80a0ca108175","soproModel":"user","roleids":["abc"],"username":"louise","realname":"Louise Adversity","email":"louise@centralservices.io"},
+      {"_id":"user-xyz","_rev":"1-9e7dfdd166b0e53f7a3f5bbdff28a78d","soproModel":"user","roleids":["xyz"],"username":"thomas","realname":"Thomas, the Tank Engine","email":"choochoooooooooo@centralservices.io"}
+    ]
   }
 }

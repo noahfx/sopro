@@ -1,0 +1,37 @@
+<md-content ng-controller="adminControllerUsers" id="adminUsers">
+  <div layout="column">
+    <div layout="row" class="admin-section">
+      <label flex="25">Create New User</label>
+      <form flex="75" ng-submit="onNewUserFormSubmit()" layout="row">
+        <md-input-container flex="33">
+          <label>User name</label>
+          <input type="text" name="username">
+        </md-input-container>
+        <md-input-container flex="33">
+          <label>Real name</label>
+          <input type="text" name="realname">
+        </md-input-container>
+        <md-input-container flex="33">
+          <label>Email</label>
+          <input type="text" name="email">
+        </md-input-container>
+      </form>
+    </div>
+    <div layout="row" class="admin-section">
+      <label flex="25">Users List</label>
+      <div flex="75" layout="row">
+          <label flex="33">User name</label>
+          <label flex="33">Real name</label>
+          <label flex="33">Email</label>
+      </div>
+    </div>
+    <div layout="row" class="admin-section" ng-repeat="user in usersList">
+      <label flex="25"></label>
+      <div flex="75"  layout="row" class="user-item">
+        <span flex="33" title="{{user.username}}">{{user.username}}</span>
+        <span flex="33" title="{{user.realname}}">{{user.realname}}</span>
+        <span flex="33" title="{{user.email}}">{{user.email}}</span>
+      </div>
+    </div>
+  </div>
+</md-content>
