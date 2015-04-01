@@ -134,6 +134,7 @@ angular.module('societyProChatApp.directives',[
     require:'^mainController',
     scope: {
       title: '@channelTitle',
+      userExpandable: '@userexpandable', // can the user add to the collection?
       icon: '@',
       repeater: '=',
     },

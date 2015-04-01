@@ -1,10 +1,9 @@
 <div class="channel-collection" layout="column">
-  <div class="sopro-collection-title" layout="row" layout-align="start center">
-    <img ng-src="{{icon}}" alt="channel-icon">
+  <div class="sopro-collection-title" layout="row" layout-align="space-between center" ng-mouseover="mouseOnCollectionTitle = true" ng-mouseleave="mouseOnCollectionTitle = false">
     <span>{{title}}</span>
+    <span class="channel-create-link" ng-if="userExpandable && mouseOnCollectionTitle" ng-click="createChannel()" role="button">+</span>
   </div>
   <ul>
-      <li layout="column" layout-align="center start" ng-click="createChannel()" ng-transclude></li>
       <li 
       class="channel-item" 
       ng-class="{'channel-separator':$last && repeater.length <= maxChannels}" 
@@ -13,7 +12,7 @@
       ng-click="openSubscribersOverflow($event, item, title)"
       layout="column" 
       layout-align="center start">
-       {{item.name}}
+       <span><img ng-src="{{icon}}" alt="channel-icon"> {{item.name}}</span>
       </li>
       <li
       ng-show="repeater.length > maxChannels"
@@ -25,4 +24,7 @@
         +{{repeater.length - maxChannels}} more...
       </li>
   </ul>
+</div>
+<div>
+  <div class="collections-divider" layout-align="start center"><hr /></div>
 </div>
