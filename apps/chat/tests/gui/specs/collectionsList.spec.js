@@ -74,11 +74,11 @@ describe('Collections list', function() {
           expect(first.getText()).toEqual('random');
         });
         it('has gray text', function(){
-          expect(first.getCssValue('color')).toEqual('rgba(85, 84, 89, 1)');
+          expect(first.getCssValue('color')).toEqual('rgba(175, 175, 175, 1)');
           //expect(first.getCssValue('background-color')).toEqual('rgba(255, 255, 255, 1)');
         });
         it('is the expected height', function(){
-          expect(first.getCssValue('height')).toEqual('32px');
+          expect(first.getCssValue('height')).toEqual('25px');
         });
         describe('on hover - ', function(){
           beforeEach(function(){
@@ -88,9 +88,9 @@ describe('Collections list', function() {
 
           })
 
-          it('has light gray text and gray background', function(){
-            expect(first.getCssValue('color')).toEqual('rgba(85, 84, 89, 1)');
-            expect(first.getCssValue('background-color')).toEqual('rgba(0, 0, 0, 0.0470588)');
+          it('has gray text and gray background', function(){
+            expect(first.getCssValue('color')).toEqual('rgba(175, 175, 175, 1)');
+            expect(first.getCssValue('background-color')).toEqual('rgba(50, 50, 50, 1)');
           });
         })
       })
