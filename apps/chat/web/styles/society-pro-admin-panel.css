@@ -1,0 +1,86 @@
+/* Admin tabs layout */
+.adminTabs .md-header-items{
+  width: 800px;
+  margin: auto;
+  display: -webkit-flex;
+  display: flex;
+}
+
+.adminTabs .admin-section > label,
+.adminTabs .admin-section > form > md-input-container,
+.adminTabs .admin-section > div > label,
+.adminTabs .admin-section > div > span {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.adminTabs .md-tab-content .md-input-container,
+
+.adminTabs .md-header-items .md-tab{
+  -webkit-flex: 1;
+  flex: 1;
+}
+
+.adminTabs .md-tab-content {
+  max-width: 1000px;
+  margin: auto;
+}
+
+/* Copied from angular demo: */
+.adminTabs .remove-tab {
+  margin-bottom: 40px; 
+}
+
+.adminTabs .demo-tab > div > div {
+  padding: 25px;
+  box-sizing: border-box; 
+}
+.adminTabs .edit-form input {
+  width: 100%; 
+}
+.adminTabs md-tabs {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12); 
+}
+.adminTabs md-tab[disabled] {
+  opacity: 0.5; 
+}
+.adminTabs label {
+  text-align: left; 
+}
+.adminTabs .title {
+  padding-top: 8px;
+  padding-right: 8px;
+  text-align: left;
+  text-transform: uppercase;
+  margin-top: 24px; 
+}
+.adminTabs [layout-align] > * {
+  margin-left: 8px; 
+}
+.adminTabs form > [layout] > * {
+  margin-left: 8px; 
+}
+.adminTabs form > [layout] > span {
+  padding-top: 2px; 
+}
+.adminTabs .long > input {
+  width: 264px; 
+}
+.adminTabs .md-button.add-tab {
+  margin-top: 20px;
+  max-height: 30px !important; 
+}
+
+md-tabs {
+  overflow: hidden;
+}
+
+.md-tabs-content {
+  overflow: auto;
+}
+
+.user-item span{
+  text-align: left;
+}
+
