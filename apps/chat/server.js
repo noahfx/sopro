@@ -104,7 +104,7 @@ function startExpress(){
   app.listen(serverConfig.express.port, serverConfig.express.host, function(){
     console.log('Listening on http://'+serverConfig.express.host+':'+serverConfig.express.port);
     flagHTTPStarted = true;
-    // dropPrivileges();
+    dropPrivileges();
   })
 
   // Load ssl credentials:
@@ -120,7 +120,7 @@ function startExpress(){
   .listen(serverConfig.express.sslPort, serverConfig.express.host, function(){
     console.log('Listening on https://'+serverConfig.express.host+':'+serverConfig.express.sslPort);
     flagHTTPSStarted = true;
-    // dropPrivileges();
+    dropPrivileges();
   })
 }
 

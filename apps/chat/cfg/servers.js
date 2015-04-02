@@ -3,7 +3,7 @@ module.exports = CAM_CONFIG_SERVERS = {
     host: 'localhost',
     port: 8080,
     sslEnabled: true,
-    sslPort: 8443,
+    sslPort: 443,
     sslOptions: {
       keyfile: 'cfg/ssl/192.168.10.206.key',
       certfile: 'cfg/ssl/192.168.10.206.crt',
