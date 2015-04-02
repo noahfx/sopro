@@ -165,6 +165,8 @@ function isDropdownVisible(arg1, arg2, arg3, next){
   var isNested = arg2 ? true : false;
   var isExpected = arg3 ? false : true;
 
+  browser.sleep(1000);
+
   // Identify which element is relevant:
   var css = findDropdownCSS(isSecond, isNested);
 
