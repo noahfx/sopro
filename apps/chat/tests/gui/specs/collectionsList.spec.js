@@ -83,10 +83,9 @@ describe('Collections list', function() {
         describe('on hover - ', function(){
           beforeEach(function(){
             browser.actions()
-            .mouseMove(browser.findElement(by.css('#collection-channels .channel-item')))
+            .mouseMove(first)
             .perform();
-
-          })
+          });
 
           it('has gray text and gray background', function(){
             expect(first.getCssValue('color')).toEqual('rgba(175, 175, 175, 1)');

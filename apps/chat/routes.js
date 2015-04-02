@@ -2,6 +2,9 @@ var fs = require('fs');
 
 module.exports = function(app, eb, passport, acl, PI){
 
+  var packageJSON = fs.readFileSync('./package.json', {encoding: 'utf8'});
+  app.sopro.package = JSON.parse(packageJSON);
+
   /*
    * HTTPS ROUTING
    */
@@ -27,6 +30,7 @@ module.exports = function(app, eb, passport, acl, PI){
       req.session.userId = req.user.currentIdentity._id;
     }
     res.locals.features = app.sopro.features;
+    res.locals.version = app.sopro.package.version;
     if(req.user){
       // Load permissions
       res.locals.currentUser = JSON.stringify(req.user);

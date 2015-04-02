@@ -6,7 +6,8 @@ describe("Main Stage",function  () {
   describe("Create a new channel", function () {
 
     var els = {
-      addChannelButton: element(by.css("#collection-channels-create")),
+      collectionTitleChannels: element(by.css('#collection-channels .sopro-collection-title')),
+      addChannelButtons: element.all(by.css(".channel-create-link")),
       createChannelCard: element(by.css("#card-create-channel")),
       createChannelCardX: element(by.css("#card-create-channel header .x-button")),
       createChannelCardHeader: element(by.css("#card-create-channel header .title")),
@@ -18,8 +19,12 @@ describe("Main Stage",function  () {
     };
 
     describe("Channel Creation Card", function () {
+      var addChannelButton = els.addChannelButtons.first();
       it("displays when you click Add Channel", function(){
-        els.addChannelButton.click();
+        browser.actions()
+            .mouseMove(els.collectionTitleChannels)
+            .perform();
+        addChannelButton.click();
         expect(els.createChannelCard.isDisplayed()).toBeTruthy();
       });
 

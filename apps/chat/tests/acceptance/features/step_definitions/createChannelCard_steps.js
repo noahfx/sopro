@@ -4,7 +4,11 @@ module.exports = function(){
   // Before configuring scenario steps, define a few functions that are used more than once:
 
 var clickAddChannelButton = function(next){
-  var addChannelButton = element(by.css('#collection-channels-create'));
+  var addChannelButton = element.all(by.css('.channel-create-link')).first();
+  var collectionTitleChannels = element(by.css('#collection-channels .sopro-collection-title'));
+  browser.actions()
+    .mouseMove(collectionTitleChannels)
+    .perform();
   addChannelButton.isDisplayed()
   .then(function(isDisplayed){
     if(!isDisplayed){

@@ -10,7 +10,7 @@ body > md-toolbar {
 
 /* --- Logo Section */
 #logo-loco {
-  background-color: black;
+  background-color: rgba(50,50,50,1);
   width: 231px;
   color: white;
 }
@@ -97,7 +97,7 @@ collection {
 }
 
 .channel-collection {
-  padding: 0px 15px;
+  padding: 6px 15px;
 }
 
 .sopro-collection-title{
@@ -118,10 +118,15 @@ collection {
 #sopro-collections-wrap ul li.channel-item:hover {
   background-color: rgba(50,50,50,1);
 }
+
 #sopro-collections-wrap .channel-item.poo-highlight-collection, {
 color: rgba(204, 204, 204, 1);
 }
 #sopro-collections-wrap ul li.channel-separator {
+}
+
+.channel-item-display {
+  width: 100%;
 }
 
 .collections-divider {
@@ -133,7 +138,7 @@ color: rgba(204, 204, 204, 1);
   height: 1px;
   color: rgba(131,131,131,0.5);
   background-color: rgba(131,131,131,0.5);
-  margin: 10px 0px;
+  margin: 0px;
 }
 
 #sopro-collections-wrap ul {
