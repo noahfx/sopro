@@ -8,7 +8,7 @@ module.exports = function(){
 function textCorrect(isSecond, isNested, text){
   var names = {
     p1: "CHANNELS",
-    p2: "PEERS",
+    p2: "MEMBERS",
     n1: CAM_MOCKS.getChannelsResponse2.channels[0].name.toUpperCase(),
     n2: CAM_MOCKS.getChannelsResponse2.channels[1].name.toUpperCase(),
   }
@@ -164,8 +164,6 @@ function isDropdownVisible(arg1, arg2, arg3, next){
   var isSecond = arg1 ? true : false;
   var isNested = arg2 ? true : false;
   var isExpected = arg3 ? false : true;
-
-  browser.sleep(1000);
 
   // Identify which element is relevant:
   var css = findDropdownCSS(isSecond, isNested);
