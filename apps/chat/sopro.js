@@ -6,19 +6,19 @@ var sesTransport = require('nodemailer-ses-transport');
 module.exports = function(app, PI){
   
   /*
+   *  SOPRO LIBRARY SETUP
+   */
+  var sopro = {};
+
+  /*
    *  EMAIL CONFIGURATION
    */
 
-  var mailer = nodemailer.createTransport(
+  sopro.mailer = nodemailer.createTransport(
     sesTransport(
       app.sopro.local.amazon.mailerSES
     )
   );
-
-  /*
-   *  SOPRO LIBRARY SETUP
-   */
-  var sopro = {};
 
   /*
    *  SOPRO CRYPTO SETUP
@@ -175,7 +175,7 @@ module.exports = function(app, PI){
           subject: 'Confirm your new Captains of Society Pro account',
           html: msg,
         }
-        mailer.sendMail(mailOptions, done);
+        sopro.mailer.sendMail(mailOptions, done);
       }
     ], function(err){
       if(err){
