@@ -114,12 +114,13 @@ function startExpress(){
   app.use(passport.session());
 
   console.log('Binding routes...')
-  // The routing logic needs eventbus and passport:
-  require('./routes.js')(app, eventbus, passport, acl, PI);
+  // The routing logic needs some dependencies:
+  var sopro = require('./sopro.js')(app, PI);
+  require('./routes.js')(app, eventbus, passport, acl, PI, sopro);
 
   // Start http server:
-  app.listen(serverConfig.express.port, serverConfig.express.host, function(){
-    console.log('Listening on http://'+serverConfig.express.host+':'+serverConfig.express.port);
+  app.listen(serverConfig.express.port, serverConfig.express.bindAddress, function(){
+    console.log('Listening on http://'+serverConfig.express.bindAddress+':'+serverConfig.express.port);
     flagHTTPStarted = true;
     dropPrivileges();
   })
@@ -134,8 +135,8 @@ function startExpress(){
     key: key,
     cert: cert
   }, app)
-  .listen(serverConfig.express.sslPort, serverConfig.express.host, function(){
-    console.log('Listening on https://'+serverConfig.express.host+':'+serverConfig.express.sslPort);
+  .listen(serverConfig.express.sslPort, serverConfig.express.bindAddress, function(){
+    console.log('Listening on https://'+serverConfig.express.bindAddress+':'+serverConfig.express.sslPort);
     flagHTTPSStarted = true;
     dropPrivileges();
   })
