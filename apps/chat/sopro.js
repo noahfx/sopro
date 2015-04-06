@@ -21,6 +21,51 @@ module.exports = function(app, PI){
   var sopro = {};
 
   /*
+   *  SOPRO CRYPTO SETUP
+   */
+  sopro.crypto = {};
+  sopro.crypto.createToken = function(callback){
+    crypto.randomBytes(32, function(err, buffer){
+      if(err){
+        return callback(err);
+      }
+      var token = buffer.toString('hex');
+      return callback(null, token);
+    })
+  }
+
+  sopro.crypto.hash = function(toHash, algorithm){
+    var sha256er = crypto.createHash(algorithm);
+    sha256er.update(toHash,'utf8');
+    return sha256er.digest('hex');
+  };
+
+  /*
+   *  VALIDATION FUNCTIONS
+   */
+  sopro.validate = {};
+
+  sopro.validate.username = function(username, callback){
+    if(username === undefined || username === ""){
+      return callback('No username')
+    }
+    if(typeof username !== "string"){
+      return callback('Username must be a string')
+    }
+    callback(null);
+  }
+
+  sopro.validate.email = function(email, callback){
+    if(email === undefined || email === ""){
+      return callback('validation: no email');
+    }
+    if(!email.match(/^[^@]+@[^@]+\.[^@]+$/)){
+      return callback('validation: bad email');
+    }
+    callback(null);
+  }
+
+  /*
    *  ROUTING FUNCTIONS
    */
   sopro.routes = {};
@@ -29,15 +74,12 @@ module.exports = function(app, PI){
     // Validate the posted data:
     async.waterfall([
       function(done){
-        if(!req.query['email']){
-          return done('validation: no email');
-        }
-        if(!req.query.email.match(/^[^@]+@[^@]+\.[^@]+$/)){
-          return done('validation: bad email');
-        }
-        if(!req.query['username']){
-          return done('validation: no username');
-        }
+        sopro.validate.username(req.query['username'], done)
+      },
+      function(done){
+        sopro.validate.email(req.query['email'], done)
+      },
+      function(done){
         var opts = {
           user: {
             soproModel: 'user',
@@ -55,7 +97,7 @@ module.exports = function(app, PI){
             return done(err)
           }
           if(data.length > 0){
-            return done('existing');
+            return done('existing: username');
           }
           done(null, opts);
         })
@@ -66,7 +108,7 @@ module.exports = function(app, PI){
             return done(err)
           }
           if(data.length > 0){
-            return done('existing');
+            return done('existing: email');
           }
           done(null, opts);
         })
@@ -96,29 +138,36 @@ module.exports = function(app, PI){
         })
       },
       function(opts, done){
-        crypto.randomBytes(32, function(err, buffer){
-          var now = new Date().valueOf();
-          opts.token = {
-            soproModel: 'passwordResetToken',
-            for_userid: opts.user._id,
-            token: buffer.toString('hex'),
-            creationTimeMs: now,
-            expiryTimeMs: now + app.sopro.features.pwdTokenExpiryMs,
-          };
-          PI.create('passwordResetToken', opts.token, function(err, result){
-            if(err){
-              return done(err);
-            }
-            opts.token = result;
-            done(null, opts)
-          })
-        })
+        sopro.crypto.createToken(function(err, token){
+          if(err){
+            return done(err);
+          }
+          opts.token = token;
+          done(null, opts);
+        });
       },
+      function(opts, done){
+        var now = new Date().valueOf();
+        opts.tokenObj = {
+          soproModel: 'passwordResetToken',
+          for_userid: opts.user._id,
+          token: opts.token,
+          creationTimeMs: now,
+          expiryTimeMs: now + app.sopro.features.pwdTokenExpiryMs,
+        };
+        PI.create('passwordResetToken', opts.tokenObj, function(err, result){
+          if(err){
+            return done(err);
+          }
+          opts.tokenObj = result;
+          done(null, opts)
+        })
+    },
       function(opts, done){
         // var html = "https://localhost/confirmUser/"+opts.token.token
         // SES.sendEmail(opts.user.email, html, done)
         var msg = '<p>Welcome to Captains of Society!</p>'
-        + '<a href="https://' + app.sopro.servers.express.hostname + '/confirmAccount/' + opts.token.token + '">'
+        + '<a href="https://' + app.sopro.servers.express.hostname + '/confirmAccount/' + opts.tokenObj.token + '">'
         + 'Click this link to activate your new account, <strong>' + opts.user.username + '</strong></a>'
         var mailOptions = {
           from: 'ahoy@captains.io',
@@ -130,9 +179,9 @@ module.exports = function(app, PI){
       }
     ], function(err){
       if(err){
-        if(err == 'validation'){
+        if(err.match(/^validation/i)){
           return res.status(400).json({ok: false, error: 'Validation error'})
-        } else if (err == 'existing'){
+        } else if(err.match(/^existing/i)){
           return res.status(400).json({ok: false, error: 'Username or email exists'})
         } else {
           console.log(err);
@@ -181,20 +230,18 @@ module.exports = function(app, PI){
       },
       function(opts, done){
         // Generate password salt:
-        crypto.randomBytes(32, function(err, buffer){
+        sopro.crypto.createToken(function(err, token){
           if(err){
             return done(err)
           };
-          opts.salt = buffer.toString('hex');
+          opts.salt = token;
           done(null, opts)
         })
       },
       function(opts, done){
         // Generate password hash:
         var toHash = opts.password1.concat(opts.salt);
-        var sha256er = crypto.createHash('sha256');
-        sha256er.update(toHash,'utf8');
-        opts.hash = sha256er.digest('hex');
+        opts.hash = sopro.crypto.hash(toHash, 'sha256')
         done(null, opts);
       },
       function(opts, done){
