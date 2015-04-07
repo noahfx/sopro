@@ -40,6 +40,24 @@ module.exports = function(app, PI){
     return sha256er.digest('hex');
   };
 
+  sopro.crypto.saveToken =  function(opts, done){
+    var now = new Date().valueOf();
+    opts.tokenObj = {
+      soproModel: 'passwordResetToken',
+      for_userid: opts.user._id,
+      token: opts.token,
+      creationTimeMs: now,
+      expiryTimeMs: now + app.sopro.features.pwdTokenExpiryMs,
+    };
+    PI.create('passwordResetToken', opts.tokenObj, function(err, result){
+      if(err){
+        return done(err);
+      }
+      opts.tokenObj = result;
+      done(null, opts)
+    })
+  };
+
   /*
    *  VALIDATION FUNCTIONS
    */
@@ -146,23 +164,8 @@ module.exports = function(app, PI){
           done(null, opts);
         });
       },
-      function(opts, done){
-        var now = new Date().valueOf();
-        opts.tokenObj = {
-          soproModel: 'passwordResetToken',
-          for_userid: opts.user._id,
-          token: opts.token,
-          creationTimeMs: now,
-          expiryTimeMs: now + app.sopro.features.pwdTokenExpiryMs,
-        };
-        PI.create('passwordResetToken', opts.tokenObj, function(err, result){
-          if(err){
-            return done(err);
-          }
-          opts.tokenObj = result;
-          done(null, opts)
-        })
-    },
+      sopro.crypto.saveToken
+      ,
       function(opts, done){
         // var html = "https://localhost/confirmUser/"+opts.token.token
         // SES.sendEmail(opts.user.email, html, done)

@@ -227,6 +227,8 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
           res.locals.currentUser = user;
           res.render('confirmAccount');
         })
+      } else {
+        res.end('{"ok":false, "error":"Wrong Token"}'); 
       }
     })
   })

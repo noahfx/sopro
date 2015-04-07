@@ -7,7 +7,7 @@
     <link rel="stylesheet" type="text/css" href="/web/styles/society-pro-chat.css">
 
     <script type="text/javascript" src="/web/bower_components/jquery/dist/jquery.min.js"></script>
-    <script src="/web/bower_components/angular/angular.min.js"></script>
+    <script type="text/javascript" src="/web/bower_components/angular/angular.min.js"></script>
     <script type="text/javascript" src="/web/bower_components/angular-aria/angular-aria.js"></script>
     <script type="text/javascript" src="/web/bower_components/angular-animate/angular-animate.js"></script>
     <script type="text/javascript" src="/web/bower_components/angular-material/angular-material.js"></script>
@@ -42,7 +42,7 @@
   </md-toolbar>
   <div class="sopro-main-content" flex layout="row">
     <md-content flex layout="column" layout-wrap id="main-stage">
-      <p>Welcome to the haven of Captains of Society Pro, <%= currentUser.username %>!</p>
+      <p>Welcome to the haven of Captains of Society Pro<% if (currentUser) { %>, <%= currentUser.username %><% } %>!</p>
       <p>Please set your password:</p>
       <form action="/confirmAccount/done" method="POST">
         <div layout="row">
