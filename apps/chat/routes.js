@@ -354,7 +354,7 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
     console.log('error for',req.originalUrl);
     console.log(err);
     if(err.errorCode == 403){
-      res.status(403).send('You do not have permission to do that.')
+      res.status(403).send({ok:false,error:'invalid_auth'})
     } else {
       res.status(404).end()
     }
