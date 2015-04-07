@@ -70,7 +70,6 @@ module.exports = function(app, PI){
    */
   sopro.routes = {};
   sopro.routes.createUser = function(req, res, next){
-    console.log(req.query);
     // Validate the posted data:
     async.waterfall([
       function(done){
@@ -179,6 +178,9 @@ module.exports = function(app, PI){
       }
     ], function(err){
       if(err){
+        if(err instanceof Error){
+          err = err.message
+        }
         if(err.match(/^validation/i)){
           return res.status(400).json({ok: false, error: 'Validation error'})
         } else if(err.match(/^existing/i)){

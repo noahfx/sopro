@@ -52,7 +52,6 @@ couch.destroy = function(data, callback){
 couch.find = function(model, key, value, callback){
   var viewName = model+'_by_'+key;
   db.view('soprochat', viewName, {key: value}, function(err, body){
-    console.log(err, body)
     if(err){
       return callback(err);
     }
