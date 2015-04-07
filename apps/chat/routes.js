@@ -316,7 +316,7 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
         user: user,
         channel: channel,
       }
-    }
+    };
     eb.send("user."+user+".invites.channels",JSON.stringify(params), function (reply) {
       res.send(reply);
     });

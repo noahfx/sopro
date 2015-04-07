@@ -87,10 +87,10 @@ module.exports = function(app, PI){
 
   sopro.validate.email = function(email, callback){
     if(email === undefined || email === ""){
-      return callback(false, 'validation: no email');
+      return callback(false, 'validation: No email');
     }
     if(!email.match(/^[^@]+@[^@]+\.[^@]+$/)){
-      return callback(false, 'validation: bad email');
+      return callback(false, 'validation: Bad email');
     }
     callback(true, null);
   }
@@ -185,8 +185,7 @@ module.exports = function(app, PI){
           done(null, opts);
         });
       },
-      sopro.crypto.saveToken
-      ,
+      sopro.crypto.saveToken,
       function(opts, done){
         // var html = "https://localhost/confirmUser/"+opts.token.token
         // SES.sendEmail(opts.user.email, html, done)
@@ -206,8 +205,9 @@ module.exports = function(app, PI){
         if(err instanceof Error){
           err = err.message
         }
+        console.log('Create user error:', err)
         if(err.match(/^validation/i)){
-          return res.status(400).json({ok: false, error: 'Validation error'})
+          return res.status(400).json({ok: false, error: err})
         } else if(err.match(/^existing/i)){
           return res.status(400).json({ok: false, error: 'Username or email exists'})
         } else {

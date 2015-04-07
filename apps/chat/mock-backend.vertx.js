@@ -60,6 +60,8 @@ backend.handlersMap = {
   'channel.info': getChannelInfo,
 };
 // For some reason we can't dynamically set property names above...
+backend.handlersMap['user.'+CAM_MOCKS.roleId1+'.invites.channels'] = inviteToChannel;
+backend.handlersMap['user.'+CAM_MOCKS.roleId2+'.invites.channels'] = inviteToChannel;
 backend.handlersMap['user.'+CAM_MOCKS.subscribedPeerId+'.invites.channels'] = inviteToChannel;
 backend.handlersMap['user.'+CAM_MOCKS.nonsubscribedPeerId+'.invites.channels'] = inviteToChannel;
 
