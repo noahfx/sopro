@@ -354,9 +354,9 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
     console.log('error for',req.originalUrl);
     console.log(err);
     if(err.errorCode == 403){
-      res.status(403).send('You do not have permission to do that.')
+      res.status(403).json({ok: false, error: 'You do not have permission to do that.'})
     } else {
-      res.status(404).end()
+      res.status(404).json({ok: false, error: 'Not found'})
     }
   })
 }
