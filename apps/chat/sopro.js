@@ -74,25 +74,25 @@ module.exports = function(app, PI){
 
   sopro.validate.username = function(username, callback){
     if(username === undefined || username === ""){
-      return callback('validation: Missing username', false)
+      return callback(false, 'validation: Missing username')
     }
     if(typeof username !== "string"){
-      return callback('validation: Username must be a string', false)
+      return callback(false, 'validation: Username must be a string')
     }
     if(username.match(/^\s*$/)){
-      return callback('validation: Whitespace-only username', false)
+      return callback(false, 'validation: Whitespace-only username')
     }
-    callback(null, true);
+    callback(true, null);
   }
 
   sopro.validate.email = function(email, callback){
     if(email === undefined || email === ""){
-      return callback('validation: no email', false);
+      return callback(false, 'validation: no email');
     }
     if(!email.match(/^[^@]+@[^@]+\.[^@]+$/)){
-      return callback('validation: bad email', false);
+      return callback(false, 'validation: bad email');
     }
-    callback(null, true);
+    callback(true, null);
   }
 
   /*
@@ -103,13 +103,19 @@ module.exports = function(app, PI){
     // Validate the posted data:
     async.waterfall([
       function(done){
-        sopro.validate.username(req.query['username'], function(err, valid){
-          done(err && valid)
+        sopro.validate.username(req.query['username'], function(valid, reason){
+          if(!valid){
+            return done(reason)
+          }
+          done(null)
         })
       },
       function(done){
-        sopro.validate.email(req.query['email'], function(err, valid){
-          done(err && valid)
+        sopro.validate.email(req.query['email'], function(valid, reason){
+          if(!valid){
+            return done(reason)
+          }
+          done(null)
         })
       },
       function(done){

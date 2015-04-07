@@ -74,29 +74,25 @@ describe('sopro.js', function(){
           expect(typeof sopro.validate.username).toBe('function');
         })
         it('fails on empty string', function(done){
-          sopro.validate.username('', function(err, valid){
-            expect(err).toBeTruthy();
+          sopro.validate.username('', function(valid, reason){
             expect(valid).toBeFalsy();
             done();
           })
         })
         it('fails on whitespace only names', function(done){
-          sopro.validate.username(' ', function(err, valid){
-            expect(err).toBeTruthy();
+          sopro.validate.username(' ', function(valid, reason){
             expect(valid).toBeFalsy();
             done();
           })
         })
         it('passes any other string', function(done){
-          sopro.validate.username('I♥SOPRO', function(err, valid){
-            expect(err).toBeFalsy();
+          sopro.validate.username('I♥SOPRO', function(valid, reason){
             expect(valid).toBeTruthy();
             done();
           })
         })
         it('fails any non-string', function(done){
-          sopro.validate.username({'♥':'SOPRO'}, function(err, valid){
-            expect(err).toBeTruthy();
+          sopro.validate.username({'♥':'SOPRO'}, function(valid, reason){
             expect(valid).toBeFalsy();
             done();
           })
@@ -108,38 +104,33 @@ describe('sopro.js', function(){
           expect(typeof sopro.validate.email).toBe('function');
         })
         it('fails on ♥@♦', function(done){
-          sopro.validate.email('♥@♦', function(err, valid){
-            expect(err).toBeTruthy();
+          sopro.validate.email('♥@♦', function(valid, reason){
             expect(valid).toBeFalsy();
             done();
           })
         })
 
         it('fails on ♥.♦.♠.♣', function(done){
-          sopro.validate.email('♥.♦.♠.♣', function(err, valid){
-            expect(err).toBeTruthy();
+          sopro.validate.email('♥.♦.♠.♣', function(valid, reason){
             expect(valid).toBeFalsy();
             done();
           })
-        })        
+        })
 
         it('succeeds on ♥@♦.♠', function(done){
-          sopro.validate.email('♥@♦.♠', function(err, valid){
-            expect(err).toBeFalsy();
+          sopro.validate.email('♥@♦.♠', function(valid, reason){
             expect(valid).toBeTruthy();
             done();
           })
         })
         it('succeeds on ♥@♦.♠.♣', function(done){
-          sopro.validate.email('♥@♦.♠.♣', function(err, valid){
-            expect(err).toBeFalsy();
+          sopro.validate.email('♥@♦.♠.♣', function(valid, reason){
             expect(valid).toBeTruthy();
             done();
           })
         })
         it('succeeds on ♥.♦@♠.♣', function(done){
-          sopro.validate.email('♥.♦@♠.♣', function(err, valid){
-            expect(err).toBeFalsy();
+          sopro.validate.email('♥.♦@♠.♣', function(valid, reason){
             expect(valid).toBeTruthy();
             done();
           })
@@ -224,7 +215,7 @@ describe('sopro.js', function(){
         })
       },
       function(done2){
-        PI.find('identities', 'for_userid', userid, function(err, identities){
+        PI.find('identity', 'for_userid', userid, function(err, identities){
           expect(err).toBeFalsy();
           expect(identities.length).toBe(1);
           PI.destroy(identities[0], function(err){
