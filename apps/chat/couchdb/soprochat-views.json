@@ -22,7 +22,7 @@
     "docs_by_soproModel" : {
       "map" : "function(doc){ emit(doc.soproModel, doc) }"
     },
-    "pwdcreds_by_for_userid" : {
+    "pwdcred_by_for_userid" : {
       "map" : "function(doc){ if(doc.soproModel==='pwdcred'){ emit(doc.for_userid, doc) }}"
     },
     "passwordResetToken_by_token" : {
