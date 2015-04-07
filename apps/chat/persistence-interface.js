@@ -89,9 +89,6 @@ module.exports = function(){
     async.mapSeries(PI.adapters, function(adapter, done){
       adapter.find(model, key, value, done);
     }, function(err, results){
-      console.log('PI.find');
-      console.log(err);
-      console.log(results);
       if(err){
         return callback(err);
       }

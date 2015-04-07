@@ -86,7 +86,7 @@ function checkAuthCouchdb(username, password, callback){
   }
 
   function checkHash(opts, next){
-    db.view('soprochat', 'pwdcreds_by_for_userid', {key: opts.user._id}, function(err, body){
+    db.view('soprochat', 'pwdcred_by_for_userid', {key: opts.user._id}, function(err, body){
       if(err){
         console.log(err);
         return next(err, false);
@@ -120,7 +120,7 @@ function checkAuthCouchdb(username, password, callback){
     if(opts.user === false){
       return next('Can\'t set identities without a user');
     }
-    db.view('soprochat', 'identities_by_for_userid', {key: opts.user._id}, function(err, body){
+    db.view('soprochat', 'identity_by_for_userid', {key: opts.user._id}, function(err, body){
       if(err){
         return next(err)
       };

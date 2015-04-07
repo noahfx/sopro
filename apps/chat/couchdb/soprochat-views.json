@@ -16,7 +16,7 @@
     "user_by_email" : {
       "map" : "function(doc){ if(doc.soproModel==='user'){ emit(doc.email, doc) }}"
     },
-    "identities_by_for_userid": {
+    "identity_by_for_userid": {
       "map" : "function(doc){ if(doc.soproModel==='identity'){ emit(doc.for_userid, doc) }}"
     },
     "docs_by_soproModel" : {
