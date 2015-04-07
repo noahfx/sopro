@@ -356,7 +356,7 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
     if(err.errorCode == 403){
       res.status(403).send({ok:false,error:'invalid_auth'})
     } else {
-      res.status(404).end()
+      res.status(404).json({ok: false, error: 'Not found'})
     }
   })
 }

@@ -1,3 +1,10 @@
+# 0.1.6 (2015-03-31)
+With the new SocietyPro Enterprise Edition we had add some new feature:
+* SocietyPro Authentication, remove roles from toolbar dropdown and SSL/TLS Certificate Use ([baf22d5](https://github.com/SocietyPro/sopro/commit/baf22d51cccb5fe0a76767c71fbefb74e532b9af)).
+* SocietyPro Authorization ([f8affd5](https://github.com/SocietyPro/sopro/commit/f8affd561442eb9668c1ba49bd4d86f0cb24e509)).
+* Persisting Users ([c0a8fe8](https://github.com/SocietyPro/sopro/commit/c0a8fe835d38079d3b964c79f9237752dd4048af)).
+* GET users via API ([6b2540a](https://github.com/SocietyPro/sopro/commit/6b2540a7ae2d1ff8b1869c35530c3cfdb03fef65)).
+
 # 0.1.5 (2015-03-18)
 Someone accidentally already pushed a 0.1.4 tag to git. So we can't use that one again.
 Git tag 0.1.5 now instead marks todays Feature:Dropdowns release.
