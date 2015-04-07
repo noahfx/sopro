@@ -35,9 +35,18 @@ module.exports = function(app, PI){
   }
 
   sopro.crypto.hash = function(toHash, algorithm){
+    if(typeof toHash === 'string'){
+      toHash = new Buffer(toHash, 'utf8');
+    }
+    try {
+      toHash instanceof Buffer
+    } catch(e){
+      throw new Error('toHash should be string or buffer')
+    }
     var sha256er = crypto.createHash(algorithm);
     sha256er.update(toHash,'utf8');
-    return sha256er.digest('hex');
+    var result = sha256er.digest('hex');
+    return result
   };
 
   /*
@@ -47,22 +56,25 @@ module.exports = function(app, PI){
 
   sopro.validate.username = function(username, callback){
     if(username === undefined || username === ""){
-      return callback('No username')
+      return callback('validation: Missing username', false)
     }
     if(typeof username !== "string"){
-      return callback('Username must be a string')
+      return callback('validation: Username must be a string', false)
     }
-    callback(null);
+    if(username.match(/^\s*$/)){
+      return callback('validation: Whitespace-only username', false)
+    }
+    callback(null, true);
   }
 
   sopro.validate.email = function(email, callback){
     if(email === undefined || email === ""){
-      return callback('validation: no email');
+      return callback('validation: no email', false);
     }
     if(!email.match(/^[^@]+@[^@]+\.[^@]+$/)){
-      return callback('validation: bad email');
+      return callback('validation: bad email', false);
     }
-    callback(null);
+    callback(null, true);
   }
 
   /*
@@ -73,10 +85,14 @@ module.exports = function(app, PI){
     // Validate the posted data:
     async.waterfall([
       function(done){
-        sopro.validate.username(req.query['username'], done)
+        sopro.validate.username(req.query['username'], function(err, valid){
+          done(err && valid)
+        })
       },
       function(done){
-        sopro.validate.email(req.query['email'], done)
+        sopro.validate.email(req.query['email'], function(err, valid){
+          done(err && valid)
+        })
       },
       function(done){
         var opts = {

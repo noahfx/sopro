@@ -34,59 +34,37 @@ describe('sopro.js', function(){
     expect(tryRequire).not.toThrow();
   })
 
-  afterAll(function(done){
-    var userid;
-    async.series([
-      function(done2){
-        PI.find('user', 'username', 'testUser', function(err, users){
-          expect(err).toBeFalsy();
-          expect(users.length).toBe(1);
-          userid = users[0]._id;
-          PI.destroy(users[0], function(err){
-            if(err){  console.log(err)  }
-            expect(err).toBeFalsy();
-            done2();
-          })
-        })
-      },
-      function(done2){
-        PI.find('passwordResetToken', 'token', token, function(err, tokens){
-          expect(err).toBeFalsy();
-          expect(tokens.length).toBe(1);
-          PI.destroy(tokens[0], function(err){
-            if(err){  console.log(err)  }
-            expect(err).toBeFalsy();
-            done2();
-          })
-        })
-      },
-      function(done2){
-        PI.find('identities', 'for_userid', userid, function(err, identities){
-          expect(err).toBeFalsy();
-          expect(identities.length).toBe(1);
-          PI.destroy(identities[0], function(err){
-            if(err){  console.log(err)  }
-            expect(err).toBeFalsy();
-            done2();
-          })
-        })
-      },
-    ], function(err){
-      expect(err).toBeFalsy();
-      done()
-    })
-  })
-
   describe('sopro', function(){
     describe('.crypto', function(){
       describe('.createToken', function(){
         it('is a function', function(){
           expect(typeof sopro.crypto.createToken).toBe('function');
         })
+
+        it('callsback with a string of 32 bytes of hex characters', function(done){
+          sopro.crypto.createToken(function(err, token){
+            expect(err).toBeFalsy();
+            expect(token).toMatch(/^[0-9a-f]{64,64}$/);
+            done();
+          });
+        })
       })
+
       describe('.hash', function(){
         it('is a function', function(){
           expect(typeof sopro.crypto.hash).toBe('function');
+        })
+
+        it('hashes a string with an algorithm and callsback', function(){
+          var hash = sopro.crypto.hash('a', 'sha256');
+          expect(hash).toBe("ca978112ca1bbdcafac231b39a23dc4da786eff8147c4e72b9807785afee48bb")
+        })
+
+        it('throws an error if invoked without an algorithm', function(){
+          function shouldThrow(){
+            var hash = sopro.crypto.hash('a');
+          }
+          expect(shouldThrow).toThrow();
         })
       })
     })
@@ -95,11 +73,76 @@ describe('sopro.js', function(){
         it('is a function', function(){
           expect(typeof sopro.validate.username).toBe('function');
         })
+        it('fails on empty string', function(done){
+          sopro.validate.username('', function(err, valid){
+            expect(err).toBeTruthy();
+            expect(valid).toBeFalsy();
+            done();
+          })
+        })
+        it('fails on whitespace only names', function(done){
+          sopro.validate.username(' ', function(err, valid){
+            expect(err).toBeTruthy();
+            expect(valid).toBeFalsy();
+            done();
+          })
+        })
+        it('passes any other string', function(done){
+          sopro.validate.username('I♥SOPRO', function(err, valid){
+            expect(err).toBeFalsy();
+            expect(valid).toBeTruthy();
+            done();
+          })
+        })
+        it('fails any non-string', function(done){
+          sopro.validate.username({'♥':'SOPRO'}, function(err, valid){
+            expect(err).toBeTruthy();
+            expect(valid).toBeFalsy();
+            done();
+          })
+        })
 
       })
       describe('.email', function(){
         it('is a function', function(){
           expect(typeof sopro.validate.email).toBe('function');
+        })
+        it('fails on ♥@♦', function(done){
+          sopro.validate.email('♥@♦', function(err, valid){
+            expect(err).toBeTruthy();
+            expect(valid).toBeFalsy();
+            done();
+          })
+        })
+
+        it('fails on ♥.♦.♠.♣', function(done){
+          sopro.validate.email('♥.♦.♠.♣', function(err, valid){
+            expect(err).toBeTruthy();
+            expect(valid).toBeFalsy();
+            done();
+          })
+        })        
+
+        it('succeeds on ♥@♦.♠', function(done){
+          sopro.validate.email('♥@♦.♠', function(err, valid){
+            expect(err).toBeFalsy();
+            expect(valid).toBeTruthy();
+            done();
+          })
+        })
+        it('succeeds on ♥@♦.♠.♣', function(done){
+          sopro.validate.email('♥@♦.♠.♣', function(err, valid){
+            expect(err).toBeFalsy();
+            expect(valid).toBeTruthy();
+            done();
+          })
+        })
+        it('succeeds on ♥.♦@♠.♣', function(done){
+          sopro.validate.email('♥.♦@♠.♣', function(err, valid){
+            expect(err).toBeFalsy();
+            expect(valid).toBeTruthy();
+            done();
+          })
         })
       })
     })
@@ -153,4 +196,48 @@ describe('sopro.js', function(){
       })
     })
   })
+
+  afterAll(function(done){
+    var userid;
+    async.series([
+      function(done2){
+        PI.find('user', 'username', 'testUser', function(err, users){
+          expect(err).toBeFalsy();
+          expect(users.length).toBe(1);
+          userid = users[0]._id;
+          PI.destroy(users[0], function(err){
+            if(err){  console.log(err)  }
+            expect(err).toBeFalsy();
+            done2();
+          })
+        })
+      },
+      function(done2){
+        PI.find('passwordResetToken', 'token', token, function(err, tokens){
+          expect(err).toBeFalsy();
+          expect(tokens.length).toBe(1);
+          PI.destroy(tokens[0], function(err){
+            if(err){  console.log(err)  }
+            expect(err).toBeFalsy();
+            done2();
+          })
+        })
+      },
+      function(done2){
+        PI.find('identities', 'for_userid', userid, function(err, identities){
+          expect(err).toBeFalsy();
+          expect(identities.length).toBe(1);
+          PI.destroy(identities[0], function(err){
+            if(err){  console.log(err)  }
+            expect(err).toBeFalsy();
+            done2();
+          })
+        })
+      },
+    ], function(err){
+      expect(err).toBeFalsy();
+      done()
+    })
+  })
+
 })
