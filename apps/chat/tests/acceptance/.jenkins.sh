@@ -13,9 +13,11 @@ sudo /etc/init.d/selenium start
 
 sleep 10
 
-#For some reason this fails if it's not run first:
-npm install cucumber-junit
-npm install protractor-cucumber-junit
+# install dependencies of protractor-cucumber-junit:
+cd lib/protractor-cucumber-junit
+npm install --production
+cd ../..
+
 npm install
 
 cd couchdb

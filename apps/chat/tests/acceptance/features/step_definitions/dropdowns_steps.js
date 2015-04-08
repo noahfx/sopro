@@ -8,7 +8,7 @@ module.exports = function(){
 function textCorrect(isSecond, isNested, text){
   var names = {
     p1: "CHANNELS",
-    p2: "PEERS",
+    p2: "MEMBERS",
     n1: CAM_MOCKS.getChannelsResponse2.channels[0].name.toUpperCase(),
     n2: CAM_MOCKS.getChannelsResponse2.channels[1].name.toUpperCase(),
   }
