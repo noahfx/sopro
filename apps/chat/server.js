@@ -57,6 +57,10 @@ app.sopro.features = featureConfig;
 // Serve static files matching /web/* from the ./web directory:
 app.use('/web', express.static(__dirname+'/web'));
 
+// Log non-static requests
+var logger = require('connect-logger');
+app.use(logger());
+
 // Parse header cookies into req.cookies on every request:
 var cookieParser = require('cookie-parser')
 app.use(cookieParser())

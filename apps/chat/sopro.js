@@ -14,6 +14,9 @@ module.exports = function(app, PI){
    *  EMAIL CONFIGURATION
    */
 
+  // If you are not using Amazon SES, you can edit this to use any SMTP server and credentials.
+  // See: https://github.com/andris9/Nodemailer/#use-the-default-smtp-transport
+
   sopro.mailer = nodemailer.createTransport(
     sesTransport(
       app.sopro.local.amazon.mailerSES
@@ -187,8 +190,6 @@ module.exports = function(app, PI){
       },
       sopro.crypto.saveToken,
       function(opts, done){
-        // var html = "https://localhost/confirmUser/"+opts.token.token
-        // SES.sendEmail(opts.user.email, html, done)
         var msg = '<p>Welcome to Captains of Society!</p>'
         + '<a href="https://' + app.sopro.servers.express.hostname + '/confirmAccount/' + opts.tokenObj.token + '">'
         + 'Click this link to activate your new account, <strong>' + opts.user.username + '</strong></a>'
@@ -221,17 +222,24 @@ module.exports = function(app, PI){
 
   sopro.routes.confirmUser = function(req, res, next){
     async.waterfall([
+      // Sanity checks for the passwords:
       function(done){
+        if(req.body['password1'] === ""
+         ||req.body['password1'] === undefined
+         ||req.body['password2'] === ""
+         ||req.body['password2'] === undefined
+         ||req.body['password1'] !== req.body['password2']
+        ){
+          return done('The passwords did not match.');
+        }
         var opts = {
           tokenString: req.body.token,
           password1: req.body.password1,
           password2: req.body.password2,
         };
-        if(opts.password1 !== opts.password2){
-          return res.status(400).send('The passwords did not match.');
-        }
         done(null, opts);
       },
+      // Look for the claimed token id in the database:
       function(opts, done){
         PI.find('passwordResetToken', 'token', opts.tokenString, function(err, results){
           if(err){
@@ -241,11 +249,30 @@ module.exports = function(app, PI){
             var userId = results[0].for_userid;
             opts.tokenObj = results[0];
             done(null, opts)
+          } else if(results.length === 0){
+            done('token not found');
           } else {
-            done('Found non-1 number of matching tokens');
+            done('too many passwordResetTokens found');
           }
         })
       },
+      // Look for any existing password credentials matching this token's userid:
+      function(opts, done){
+        PI.find('pwdcred', 'for_userid', opts.tokenObj.for_userid, function(err, results){
+          if(err){
+            return done(err);
+          }
+          if(results.length === 1){  // One existing password credentials
+            opts.oldPwdcred = results[0];
+            done(null, opts)
+          } else if(results.length === 0){
+            done(null, opts);
+          } else {
+            done('too many pwdcreds found');
+          }
+        })
+      },
+      // Load the user matching this id:
       function(opts, done){
         PI.read(opts.tokenObj.for_userid, function(err, user){
           if(err){
@@ -255,8 +282,8 @@ module.exports = function(app, PI){
           done(null, opts);
         })
       },
+      // Generate a password salt:
       function(opts, done){
-        // Generate password salt:
         sopro.crypto.createToken(function(err, token){
           if(err){
             return done(err)
@@ -265,14 +292,14 @@ module.exports = function(app, PI){
           done(null, opts)
         })
       },
+      // Calculate the hash of password+salt:
       function(opts, done){
-        // Generate password hash:
         var toHash = opts.password1.concat(opts.salt);
         opts.hash = sopro.crypto.hash(toHash, 'sha256')
         done(null, opts);
       },
+      // Save the new credentials object:
       function(opts, done){
-        // Save credentials object
         var creds = {
           soproModel: 'pwdcred',
           for_userid: opts.user._id,
@@ -285,15 +312,24 @@ module.exports = function(app, PI){
           done(null, opts);
         })
       },
+      // Remove the used one-time-use token:
       function(opts, done){
-        // Remove the used one-time-use token:
         PI.destroy(opts.tokenObj, function(err){
-          if(err){ return done(err) };
-          done(null, opts)
+          done(err, opts)
         })
       },
+      // Remove the old password credentials, if any:
       function(opts, done){
-        // Remove the pendingInitialPassword flag:
+        if(opts.oldPwdcred){
+          PI.destroy(opts.oldPwdcred, function(err){
+            done(err, opts);
+          });
+        } else {
+          done(null, opts);
+        }
+      },
+      // Remove the pendingInitialPassword flag on the user:
+      function(opts, done){
         delete opts.user.pendingInitialPassword;
         PI.update('user', opts.user, function(err, result){
           if(err){ return done(err) };
@@ -302,7 +338,9 @@ module.exports = function(app, PI){
           done(null, opts);
         })
       },
+      // Log in the user to Passport and additionally set a session variable for acl:
       function(opts, done){
+        req.session.userId = opts.user._id;
         req.logIn(opts.user, function(err){
           if(err){ return done(err) };
           res.locals.currentUser = opts.user;
@@ -310,7 +348,9 @@ module.exports = function(app, PI){
         });
       }
     ], function(err, result){
-      if(err){ return res.status(500).send(err) }
+      if(err){
+        return res.status(500).json({ok:false, error: err})
+      }
       res.redirect('/');
     })
 
