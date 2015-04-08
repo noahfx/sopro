@@ -85,5 +85,17 @@ module.exports = function(){
     }, callback)
   };
 
+  PI.find = function(model, key, value, callback){
+    async.mapSeries(PI.adapters, function(adapter, done){
+      adapter.find(model, key, value, done);
+    }, function(err, results){
+      if(err){
+        return callback(err);
+      }
+      // Return only the results from the first adapter:
+      callback(null, results[0])
+    })
+  }
+
   return PI;
 }
