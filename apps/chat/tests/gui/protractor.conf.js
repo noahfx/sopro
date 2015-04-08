@@ -23,12 +23,12 @@ exports.config = {
   onPrepare: function() {
     var jasmineReporters = require('jasmine-reporters');
     var jUnitXmlReporter = new jasmineReporters.JUnitXmlReporter({
-      savePath: "tests/gui/",
-      filePrefix: 'test-out',
+      savePath: "tests",
+      filePrefix: 'gui-out',
       consolidateAll: true,
     })
     jasmine.getEnv().addReporter(jUnitXmlReporter);
-    
+
     var SpecReporter = require('jasmine-spec-reporter');
     jasmine.getEnv().addReporter(new SpecReporter({
       displayStacktrace: false,

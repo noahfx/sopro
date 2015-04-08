@@ -30,15 +30,16 @@
     "prestart": "npm install",
     "start": "node server.js",
     "pretest": "npm install",
-    "test": "./node_modules/karma/bin/karma start ./tests/unit/karma.conf.js",
-    "unit": "./node_modules/karma/bin/karma start ./tests/unit/karma.conf.js  --single-run",
-    "api": "./node_modules/.bin/newman -k -c tests/api_client/collections/testCollection.json.postman_collection --testReportFile tests/api_client/test-out.xml",
+    "test": "./node_modules/karma/bin/karma start ./tests/unit/frontend/karma.conf.js",
+    "unit-frontend": "./node_modules/karma/bin/karma start ./tests/unit/frontend/karma.conf.js  --single-run",
+    "unit-backend": "node tests/unit/backend/executeJasmineTests.js",
+    "api": "./node_modules/.bin/newman -k -c tests/api_client/collections/testCollection.json.postman_collection --testReportFile tests/api-out.xml",
     "gui": "protractor tests/gui/protractor.conf.js",
     "preupdate-webdriver": "npm install",
     "update-webdriver": "webdriver-manager update",
     "pregui": "npm run update-webdriver",
     "acceptance": "protractor tests/acceptance/protractor.conf.js",
-    "cucumber-junit": "cat ./tests/acceptance/report.json | ./node_modules/.bin/cucumber-junit > tests/acceptance/test-out.xml"
+    "cucumber-junit": "cat ./tests/acceptance/report.json | ./node_modules/.bin/cucumber-junit > tests/acceptance-out.xml"
   },
   "main": "app.js",
   "repository": {
