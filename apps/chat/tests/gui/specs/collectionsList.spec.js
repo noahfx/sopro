@@ -75,7 +75,6 @@ describe('Collections list', function() {
         });
         it('has gray text', function(){
           expect(first.getCssValue('color')).toEqual('rgba(175, 175, 175, 1)');
-          //expect(first.getCssValue('background-color')).toEqual('rgba(255, 255, 255, 1)');
         });
         it('is the expected height', function(){
           expect(first.getCssValue('height')).toEqual('25px');
