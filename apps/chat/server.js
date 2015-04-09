@@ -17,8 +17,12 @@ try{
 } catch(e){
   if(e.code == 'ENOENT') {
     var file = fs.readFileSync('./cfg/locals.example.js', {encoding: 'utf8'});
+    console.log('cfg/locals.js not found. Cannot start.')
+    process.setgid(app.sopro.servers.express.runtimeGroup);
+    process.setuid(app.sopro.servers.express.runtimeUser);
     fs.writeFileSync('./cfg/locals.js', file, {encoding: 'utf8'});
-    console.log('Wrote example local config in cfg/locals.js. Set your keys there.');
+    console.log('Wrote example local config in cfg/locals.js. Edit and set your secrets there.');
+    process.exit();
   }
 }
 

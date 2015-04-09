@@ -108,29 +108,28 @@ function ensureDropdownIsVisible(arg1, arg2, next){
 
 function openDropdown(isSecond, isNested, next){
 //  var css = findPOOCSS(isSecond, isNested);
+  function delay(callback){
+    setTimeout(callback, 1000);
+  })
   if(!isSecond){
     if(!isNested){
       // open the first primary dropdown
       var css = findPOOCSS(false, false);
       element(by.css(css))
       .click()
-      .then(function(){
-        return next();
-      });
+      .then(delay(next))
     } else {
       // start by opening the first primary dropdown:
       var css = findPOOCSS(false, false);
       element(by.css(css))
       .click()
-      .then(function(){
+      .then(delay(function(){
         // continue by opening the first nested dropdown:
         var css = findPOOCSS(false, true);
         element(by.css(css))
         .click()
-        .then(function(){
-          return next();
-        });
-      });
+        .then(delay(next));
+      }));
     }
   } else {
     if(!isNested){
@@ -138,23 +137,19 @@ function openDropdown(isSecond, isNested, next){
       var css = findPOOCSS(true, false);
       element(by.css(css))
       .click()
-      .then(function(){
-        return next();
-      });
+      .then(delay(next));
     } else {
       // start by opening the second primary dropdown:
       var css = findPOOCSS(true, false);
       element(by.css(css))
       .click()
-      .then(function(){
+      .then(delay(function(){
         // continue by opening the second nested dropdown:
         var css = findPOOCSS(true, true);
         element(by.css(css))
         .click()
-        .then(function(){
-          return next();
-        });
-      });
+        .then(delay(next));
+      }));
     }
   }
 }
