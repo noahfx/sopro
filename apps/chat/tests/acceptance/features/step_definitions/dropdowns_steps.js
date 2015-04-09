@@ -110,7 +110,7 @@ function openDropdown(isSecond, isNested, next){
 //  var css = findPOOCSS(isSecond, isNested);
   function delay(callback){
     setTimeout(callback, 1000);
-  })
+  }
   if(!isSecond){
     if(!isNested){
       // open the first primary dropdown
