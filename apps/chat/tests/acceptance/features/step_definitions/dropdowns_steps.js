@@ -175,6 +175,7 @@ function isDropdownVisible(arg1, arg2, arg3, next){
     .then(function(count){
       if(count !== 0){
         element.all(by.css(css))
+        .get(0)
         .getText()
         .then(function(text){
           if(!textCorrect(isSecond, isNested, text)){
@@ -190,18 +191,16 @@ function isDropdownVisible(arg1, arg2, arg3, next){
     })
   } else {
     // Look for a title element that matches the expected name.
-    setTimeout(function(){
-      element.all(by.css(css))
-      .get(0)
-      .getText()
-      .then(function(text){
-        if(!textCorrect(isSecond, isNested, text)){
-          return next.fail(new Error('Did not find an expected dropdown'))
-        } else {
-          return next();
-        }
-      })
-    },5000);
+    element.all(by.css(css))
+    .get(0)
+    .getText()
+    .then(function(text){
+      if(!textCorrect(isSecond, isNested, text)){
+        return next.fail(new Error('Did not find an expected dropdown'))
+      } else {
+        return next();
+      }
+    })
     
   }
 }
