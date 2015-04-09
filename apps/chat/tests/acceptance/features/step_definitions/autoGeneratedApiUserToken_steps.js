@@ -1,4 +1,6 @@
 var CAM_MOCKS = require('../../../mock-data.js');
+var SSTEPS = require('../../shared_steps.js');
+
 module.exports = function(){
 /*
 	Scenario: automatically generating an API token
@@ -18,6 +20,7 @@ module.exports = function(){
     });
 	});
 	this.When(/^I create a new user$/, function (next) {
+		var self = this;
 		this.soproRequest('https://localhost/api/users',
       {
         method: "POST",
@@ -33,6 +36,7 @@ module.exports = function(){
       }
       var response = JSON.parse(body);
       if (response.ok) {
+      	self.user = response.user;
       	next();
       } else {
       	next.fail(new Error(response.error));
@@ -43,15 +47,18 @@ module.exports = function(){
 		var PI = require('../../../../persistence-interface.js')();
     var PICouch = require('../../../../persistence-couchdb');
     PI.use(PICouch);
-    PI.find("user","username",CAM_MOCKS.postUserRequest.username, function () {
+    PI.find("apiToken","for_identityid",this.user._id, function () {
     	if(err){
       	return next.fail(new Error(err));
       }
       if(results.length === 1){  // found this token
-        var userId = results[0]
-        // Pending
+        if (results[0].token) {
+        	next();
+        } else {
+        	next.fail(new Error("Token not found for that user"));
+        }
       } else {
-      	return next.fail(new Error("User not found"));
+      	return next.fail(new Error("Token not found for that user"));
       }
     });
 	});
@@ -59,30 +66,73 @@ module.exports = function(){
 /*
 	Scenario: viewing the API token via http
 */
-	this.Given(/^I have an authenticated session$/,function (next) { // Maybe change it to I started the chatlog application
-
-	});
+	this.Given(SSTEPS.appStarted.regex,
+    SSTEPS.appStarted.fn);
 
 	this.When(/^I go to the correct route$/,function (next) {
-
+		browser.driver.get("/token").then(function () {
+			next();
+		});
 	});
 
 	this.Then(/^I should see my API token$/,function (next) {
-
+		browser.driver.getPageSource()
+    .then(function(src){
+      var correct = !!src.match(/token-auth/);
+	    if (correct) {
+	      next();
+	    } else {
+	      next.fail(new Error("Authorization token not found"));
+	    }
+      next();
+    });
 	});
 
 /*
-	Scenario: transforming the token into a user
+	Scenario: transforming the token into an identity
 */
 	this.Given(/^I have a valid token associated with a user$/,function (next) {
-
+		var self = this;
+		SSTEPS.appStarted.fn(function () {
+			browser.driver.get("/token").then(function () {
+				element(by.css("#token-auth"))  // /token renders an <span id="token-auth">12345</span>
+				.getText()
+				.then(function (token) {
+					self.token = token;
+				}))
+			});
+		});
 	});
 
-	this.When(/^I make a request to the API with that token$/,function (next) {
-
+	this.When(/^I make a request to the API with that token$/,function (next) { // api/ping
+		var self = this;
+		this.soproRequest({
+			uri: "https//localhost/api/ping",
+			headers: {
+				'token-auth' : this.token
+			}
+		}, 
+		function(err, res, body){
+      if(err){
+        return next.fail(err)
+      }
+      var response = JSON.parse(body);
+      if (response.ok) {
+				self.user = response.user;
+      	next();
+      } else {
+      	next.fail(new Error(response.error))
+      }
+    });
 	});
 
 	this.Then(/^the server should use that user$/,function (next) {
-
+		var fs = require('fs');
+		var identity = fs.readFileSync("couchdb/mocks/identity1.json",{encoding:'utf8'});
+		if(this.user.rolename === identity.rolename) {
+			next();
+		} else {
+			next.fail(new Error("Wrong identity"));
+		}
 	});	
 }

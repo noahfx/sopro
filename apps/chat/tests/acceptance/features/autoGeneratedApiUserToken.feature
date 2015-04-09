@@ -9,7 +9,7 @@ Feature: Automatically Generated API User Token
     Then an API token should be automatically generated for that user
 
   Scenario: viewing the API token via http
-    Given I have an authenticated session
+    Given I have started the chatlog application
     When I go to the correct route
     Then I should see my API token
 

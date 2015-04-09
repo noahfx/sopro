@@ -27,6 +27,9 @@
     },
     "passwordResetToken_by_token" : {
       "map" : "function(doc){ if(doc.soproModel==='passwordResetToken' && new Date().valueOf() < doc.expiryTimeMs){ emit(doc.token, doc) }}"
+    },
+    "apiToken_by_for_identityid" : {
+      "map" : "function(doc){ if(doc.soproModel==='apiToken'){ emit(doc.for_identityid, doc) }}"
     }
   }
 }
