@@ -1,14 +1,18 @@
 var CAM_MOCKS = require('../../../mock-data.js');
 var SSTEPS = require('../../shared_steps.js');
 
+var PI = require('../../../../persistence-interface.js')();
+var PICouch = require('../../../../persistence-couchdb');
+PI.use(PICouch);
+
 module.exports = function(){
 /*
-	Scenario: automatically generating an API token
+  Scenario: automatically generating an API token
 */
-	this.Given(/^I am authorized to create new users$/, function (next) {
-  	var acl = require('../../../../auth-matrix.js')();
-  	var userid = "abc";
-    acl.isAllowed(userid, '/api/users', 'post', function(err, ok){
+  this.Given(/^I am authorized to create new users$/, function (next) {
+    var acl = require('../../../../auth-matrix.js')();
+    var identityid = "abc";
+    acl.isAllowed(identityid, '/api/users', 'post', function(err, ok){
       if(err){
         return next.fail('Authentication failure: '+err);
       }
@@ -18,10 +22,10 @@ module.exports = function(){
         next.fail('Authentication fail; expected success: '+err+'\n'+ok);
       }
     });
-	});
-	this.When(/^I create a new user$/, function (next) {
-		var self = this;
-		this.soproRequest('https://localhost/api/users',
+  });
+  this.When(/^I create a new user$/, function (next) {
+    var self = this;
+    this.soproRequest('https://localhost/api/users',
       {
         method: "POST",
         qs: {
@@ -30,109 +34,107 @@ module.exports = function(){
           email: CAM_MOCKS.postUserRequest.email,
         },
       },
-       function(err, res, body){
+      function(err, res, body){
+        if(err){
+          return next.fail(err)
+        }
+        var response = JSON.parse(body);
+        if (response.ok) {
+          self.user = response.user;
+          next();
+        } else {
+          next.fail(new Error(response.error));
+        }
+      }
+    )
+  });
+  this.Then(/^an API token should be automatically generated for that user$/, function (next) {
+    PI.find("apiToken", "for_identityid", this.user.identities[0]._id, function () {
       if(err){
-        return next.fail(err)
-      }
-      var response = JSON.parse(body);
-      if (response.ok) {
-      	self.user = response.user;
-      	next();
-      } else {
-      	next.fail(new Error(response.error));
-      }
-    })
-	});
-	this.Then(/^an API token should be automatically generated for that user$/, function (next) {
-		var PI = require('../../../../persistence-interface.js')();
-    var PICouch = require('../../../../persistence-couchdb');
-    PI.use(PICouch);
-    PI.find("apiToken","for_identityid",this.user._id, function () {
-    	if(err){
-      	return next.fail(new Error(err));
+        return next.fail(new Error(err));
       }
       if(results.length === 1){  // found this token
         if (results[0].token) {
-        	next();
+          next();
         } else {
-        	next.fail(new Error("Token not found for that user"));
+          next.fail(new Error("Token not found for that user"));
         }
       } else {
-      	return next.fail(new Error("Token not found for that user"));
+        return next.fail(new Error("Token not found for that user"));
       }
     });
-	});
+  });
 
 /*
-	Scenario: viewing the API token via http
+  Scenario: viewing the API token via http
 */
-	this.Given(SSTEPS.appStarted.regex,
+  this.Given(SSTEPS.appStarted.regex,
     SSTEPS.appStarted.fn);
 
-	this.When(/^I go to the correct route$/,function (next) {
-		browser.driver.get("/token").then(function () {
-			next();
-		});
-	});
-
-	this.Then(/^I should see my API token$/,function (next) {
-		browser.driver.getPageSource()
-    .then(function(src){
-      var correct = !!src.match(/token-auth/);
-	    if (correct) {
-	      next();
-	    } else {
-	      next.fail(new Error("Authorization token not found"));
-	    }
+  this.When(/^I go to the correct route$/,function (next) {
+    browser.driver.get("/apiToken").then(function () {
       next();
     });
-	});
+  });
+
+  this.Then(/^I should see my API token$/,function (next) {
+    browser.driver.getPageSource()
+    .then(function(src){
+      var correct = !!src.match(/apiToken/);
+      if (correct) {
+        next();
+      } else {
+        next.fail(new Error("Authorization token not found"));
+      }
+      next();
+    });
+  });
 
 /*
-	Scenario: transforming the token into an identity
+  Scenario: transforming the token into an identity
 */
-	this.Given(/^I have a valid token associated with a user$/,function (next) {
-		var self = this;
-		SSTEPS.appStarted.fn(function () {
-			browser.driver.get("/token").then(function () {
-				element(by.css("#token-auth"))  // /token renders an <span id="token-auth">12345</span>
-				.getText()
-				.then(function (token) {
-					self.token = token;
-				}))
-			});
-		});
-	});
+  this.Given(/^I have a valid token associated with a user$/,function (next) {
+    var self = this;
+    SSTEPS.appStarted.fn(function () {
+      browser.driver.get("/apiToken").then(function () {
+        browser.driver.getPageSource()
+        .then(function(src){
+          var response = JSON.parse(src);
+          assert(response.ok == true);
+          self.tokenObj = response.apiToken;
+          self.token = response.apiToken.token;
+          next();
+        })
+      });
+    });
+  });
 
-	this.When(/^I make a request to the API with that token$/,function (next) { // api/ping
-		var self = this;
-		this.soproRequest({
-			uri: "https//localhost/api/ping",
-			headers: {
-				'token-auth' : this.token
-			}
-		}, 
-		function(err, res, body){
+  this.When(/^I make a request to the API with that token$/,function (next) { // api/ping
+    var self = this;
+    this.soproRequest({
+      uri: "https//localhost/api/ping",
+      headers: {
+        'token-auth' : this.token
+      }
+    },
+    function(err, res, body){
       if(err){
         return next.fail(err)
       }
       var response = JSON.parse(body);
       if (response.ok) {
-				self.user = response.user;
-      	next();
+        self.user = response.user;
+        next();
       } else {
-      	next.fail(new Error(response.error))
+        next.fail(new Error(response.error))
       }
     });
-	});
+  });
 
-	this.Then(/^the server should use that user$/,function (next) {
-		var fs = require('fs');
-		var identity = fs.readFileSync("couchdb/mocks/identity1.json",{encoding:'utf8'});
-		if(this.user.rolename === identity.rolename) {
-			next();
-		} else {
-			next.fail(new Error("Wrong identity"));
-		}
-	});	
+  this.Then(/^the server should use that user$/,function (next) {
+    var fs = require('fs');
+    var identity = fs.readFileSync("couchdb/mocks/identity1.json",{encoding:'utf8'});
+    assert(this.user.rolename === identity.rolename, "Wrong identity");
+    next();
+  });
 }

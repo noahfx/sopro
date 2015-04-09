@@ -30,6 +30,9 @@
     },
     "apiToken_by_for_identityid" : {
       "map" : "function(doc){ if(doc.soproModel==='apiToken'){ emit(doc.for_identityid, doc) }}"
+    },
+    "apiToken_by_token" : {
+      "map" : "function(doc){ if(doc.soproModel==='apiToken'){ emit(doc.token, doc) }}"
     }
   }
 }

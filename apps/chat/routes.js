@@ -97,6 +97,27 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
    *  DEVELOPMENT ROUTES
    */
 
+  app.get('/token', requireLogin, function(req, res, next){
+    PI.find('apiToken', 'for_userid', req.user._id, function(err, results){
+      if(err){
+        console.log('Error finding an apiToken for', req.user._id)
+        return res.status(500).json({ok: false, error: 'server_error'});
+      }
+      if(results.length === 0){
+        console.log('Did not find an apiToken for', req.user._id)
+        return res.status(500).json({ok: false, error: 'server_error'});
+      }
+      if(results.length > 1){
+        console.log('Found more than one apiToken for', req.user._id)
+        return res.status(500).json({ok: false, error: 'server_error'});
+      }
+      var token = results[0];
+      res.status(200).json({
+        ok: true,
+        apiToken: token,
+      })
+    })
+  })
   // Danger, this route can change configs. Only use in development:
   if( app.get('env') === "development"){
     app.post('/api/dev/setconfig', function(req, res, next){
@@ -171,29 +192,53 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
   app.all('/api/*', function(req, res, next){
     var token = req.header('token-auth')
     if(token == undefined){
-      res.status(401).send('{"ok":false, "error":"not_authed"}');
+      res.status(401).json({ok:false, error:"not_authed"});
     } else {
       req.authToken = token;
-      PI.read('user-abc', function(err, user){
+      PI.find('apiToken', 'token', token, function(err, results){
         if(err){
           console.log(err);
-          return res.status(500).json({
-            ok: false,
-            error: "server error",
-          })
+          return res.status(500).json({ok: false, error: 'server_error'})
+        } else if( results.length === 0){
+          return res.status(401).json({ok: false, error: 'api_token_not_found'})
+        } else if( results.length > 1){
+          console.log('Found more than one api token matching', token);
+          return res.status(500).json({ok: false, error: 'server_error'})
         }
-        var identityId = req.query['role'] || 'abc';
-        req.session.userId = identityId;
-        if(!req.user){ // Don't override an existing user session
-          req.logIn(user, function(){
+        var tokenObj = results[0];
+        var identityId = tokenObj.for_identityid;
+        PI.read(identityId, function(err, identity){
+          if(err){
+            console.log('Identity', identityId, 'not found while trying to login token', token);
+            return res.status(500).json({ok: false, error: 'server_error'})
+          }
+          req.session.userId = identity._id;
+          PI.read(identity.for_userid, function(err, user){
+            if(err){
+              console.log('User', identity.for_userid, 'not found while trying to login identity', identity._id);
+              return res.status(500).json({ok: false, error: 'server_error'})
+            }
+            // We'll probably need the user available in subsequent routing functions.
+            // I don't know if we would run into problems with req.logIn(user) here.
+            // That makes Passport set session cookies.
+            // Just in case that unwanted session would cause problems, avoid req.logIn:
+            req.user = user;
             next();
-          });
-        } else {
-          next();
-        }
+          })
+        })
       })
     }
   });
+
+  // Construct ping route first to avoid applying acl:
+  app.all('/api/ping', function(req, res, next){
+    res.status(200).json({
+      ok: 'true',
+      method: req.method,
+      user: req.user,
+    })
+  })
+
   app.get('/api/*', acl.middleware());
   app.post('/api/*', acl.middleware());
   app.put('/api/*', acl.middleware());
