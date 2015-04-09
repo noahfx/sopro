@@ -33,7 +33,6 @@ var featureConfig;
 
 app.sopro = {};
 app.sopro.servers = serverConfig;
-console.log(localConfig);
 app.sopro.local = localConfig;
 
 // Override env variable with --enterprise flag:
