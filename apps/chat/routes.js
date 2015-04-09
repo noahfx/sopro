@@ -1,6 +1,10 @@
 var fs = require('fs');
+var async = require('async');
 
-module.exports = function(app, eb, passport, acl, PI){
+module.exports = function(app, eb, passport, acl, PI, sopro){
+
+  var packageJSON = fs.readFileSync('./package.json', {encoding: 'utf8'});
+  app.sopro.package = JSON.parse(packageJSON);
 
   /*
    * HTTPS ROUTING
@@ -21,12 +25,13 @@ module.exports = function(app, eb, passport, acl, PI){
     };
   }
 
-  app.all('*', requireSecure); 
+  app.all('*', requireSecure);
   app.all('*', function(req, res, next){
     if(req.user && req.session){
       req.session.userId = req.user.currentIdentity._id;
     }
     res.locals.features = app.sopro.features;
+    res.locals.version = app.sopro.package.version;
     if(req.user){
       // Load permissions
       res.locals.currentUser = JSON.stringify(req.user);
@@ -115,7 +120,6 @@ module.exports = function(app, eb, passport, acl, PI){
       // Set the value of the final property:
       var lastProperty = path[path.length-1];
       tmpObj[lastProperty] = value;
-      console.log(app.sopro);
       res.send(200);
     })
   }
@@ -149,8 +153,12 @@ module.exports = function(app, eb, passport, acl, PI){
   });
 
   app.get('/logout', function(req, res, next){
-    req.logOut();
-    req.session.userId = undefined;
+    if(req.user){
+      req.logOut();
+    }
+    if(req.session.userId){
+      req.session.userId = undefined;
+    }
     res.redirect('/');
   })
 
@@ -165,7 +173,6 @@ module.exports = function(app, eb, passport, acl, PI){
     if(token == undefined){
       res.status(401).send('{"ok":false, "error":"not_authed"}');
     } else {
-      console.log('Setting user based on token')
       req.authToken = token;
       PI.read('user-abc', function(err, user){
         if(err){
@@ -179,7 +186,6 @@ module.exports = function(app, eb, passport, acl, PI){
         req.session.userId = identityId;
         if(!req.user){ // Don't override an existing user session
           req.logIn(user, function(){
-            console.log('Logged in', req.user.username, req.method, req.session.userId)
             next();
           });
         } else {
@@ -196,22 +202,49 @@ module.exports = function(app, eb, passport, acl, PI){
   /*
    *  USERS API ROUTES
    */
-   app.get('/api/users',
-    function(req, res, next){
-      PI.readAll('user', function(err, users){
-        if(err){
-          console.log(err)
-          return res.status(500).json({
-            ok: false,
-            error: 'server error'
-          })
-        }
-        res.status(200).json({
-          ok: true,
-          users: users,
+  app.get('/api/users', function(req, res, next){
+    PI.readAll('user', function(err, users){
+      if(err){
+        console.log(err)
+        return res.status(500).json({
+          ok: false,
+          error: 'server error'
         })
+      }
+      res.status(200).json({
+        ok: true,
+        users: users,
       })
     })
+  })
+
+
+  app.post('/api/users', sopro.routes.createUser)
+
+  app.get('/confirmAccount/:token', function(req, res, next){
+    
+    var token = req.params.token;
+    PI.find('passwordResetToken', 'token', token, function(err, results){
+      if(err){ 
+        res.status(500).send(err) 
+      }
+      if(results.length === 1){  // found this token
+        var userId = results[0].for_userid;
+        PI.read(userId, function(err, user){
+          if(err){ 
+            res.status(500).send(err) 
+          }
+          res.locals.token = token;
+          res.locals.currentUser = user;
+          res.render('confirmAccount');
+        })
+      } else {
+        res.status(404).json({"ok":false, "error":"token not found"});
+      }
+    })
+  })
+  app.post('/confirmAccount/done', sopro.routes.confirmUser)
+
 
   /*
    *  CHANNELS API ROUTES
@@ -238,10 +271,8 @@ module.exports = function(app, eb, passport, acl, PI){
     });
   });
 
-  app.post('/api/channel', 
-    //acl.middleware(), 
+  app.post('/api/channel',
     function(req, res, next) {
-    console.log('Beginning of /api/channel')
     var role = req.query['role'];
     var name = req.query['name'];
     var topic = req.query['topic'];
@@ -266,7 +297,6 @@ module.exports = function(app, eb, passport, acl, PI){
         purpose: purpose
       }
     }
-    console.log('Attempting channel creation')
     eb.send("channel.create",JSON.stringify(params), function (reply) {
       res.send(reply);
     });
@@ -297,7 +327,7 @@ module.exports = function(app, eb, passport, acl, PI){
         user: user,
         channel: channel,
       }
-    }
+    };
     eb.send("user."+user+".invites.channels",JSON.stringify(params), function (reply) {
       res.send(reply);
     });
@@ -337,9 +367,9 @@ module.exports = function(app, eb, passport, acl, PI){
     console.log('error for',req.originalUrl);
     console.log(err);
     if(err.errorCode == 403){
-      res.status(403).send('You do not have permission to do that.')
+      res.status(403).send({ok:false,error:'invalid_auth'})
     } else {
-      res.status(404).end()
+      res.status(404).json({ok: false, error: 'Not found'})
     }
   })
 }

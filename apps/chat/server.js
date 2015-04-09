@@ -1,9 +1,6 @@
 var fs = require('fs');
 var os = require('os');
 var argh = require('argh').argv;
-
-var serverConfig = require('./cfg/servers.js');
-var featureConfig;
 var express = require('express');
 var app = express();
 
@@ -11,9 +8,32 @@ var PI = require('./persistence-interface.js')();
 var PICouch = require('./persistence-couchdb');
 PI.use(PICouch);
 
+/*
+ * CONFIGURATION
+ */
+
+try{
+  fs.readFileSync('./cfg/locals.js', {encoding: 'utf8'});
+} catch(e){
+  if(e.code == 'ENOENT') {
+    var file = fs.readFileSync('./cfg/locals.example.js', {encoding: 'utf8'});
+    console.log('cfg/locals.js not found. Cannot start.')
+    process.setgid(app.sopro.servers.express.runtimeGroup);
+    process.setuid(app.sopro.servers.express.runtimeUser);
+    fs.writeFileSync('./cfg/locals.js', file, {encoding: 'utf8'});
+    console.log('Wrote example local config in cfg/locals.js. Edit and set your secrets there.');
+    process.exit();
+  }
+}
+
+var localConfig = require('./cfg/locals.js');
+var serverConfig = require('./cfg/servers.js');
+var featureConfig;
+
 
 app.sopro = {};
 app.sopro.servers = serverConfig;
+app.sopro.local = localConfig;
 
 // Override env variable with --enterprise flag:
 if(argh.enterprise){
@@ -39,6 +59,10 @@ app.sopro.features = featureConfig;
 
 // Serve static files matching /web/* from the ./web directory:
 app.use('/web', express.static(__dirname+'/web'));
+
+// Log non-static requests
+var logger = require('connect-logger');
+app.use(logger());
 
 // Parse header cookies into req.cookies on every request:
 var cookieParser = require('cookie-parser')
@@ -97,12 +121,13 @@ function startExpress(){
   app.use(passport.session());
 
   console.log('Binding routes...')
-  // The routing logic needs eventbus and passport:
-  require('./routes.js')(app, eventbus, passport, acl, PI);
+  // The routing logic needs some dependencies:
+  var sopro = require('./sopro.js')(app, PI);
+  require('./routes.js')(app, eventbus, passport, acl, PI, sopro);
 
   // Start http server:
-  app.listen(serverConfig.express.port, serverConfig.express.host, function(){
-    console.log('Listening on http://'+serverConfig.express.host+':'+serverConfig.express.port);
+  app.listen(serverConfig.express.port, serverConfig.express.bindAddress, function(){
+    console.log('Listening on http://'+serverConfig.express.bindAddress+':'+serverConfig.express.port);
     flagHTTPStarted = true;
     dropPrivileges();
   })
@@ -117,8 +142,8 @@ function startExpress(){
     key: key,
     cert: cert
   }, app)
-  .listen(serverConfig.express.sslPort, serverConfig.express.host, function(){
-    console.log('Listening on https://'+serverConfig.express.host+':'+serverConfig.express.sslPort);
+  .listen(serverConfig.express.sslPort, serverConfig.express.bindAddress, function(){
+    console.log('Listening on https://'+serverConfig.express.bindAddress+':'+serverConfig.express.sslPort);
     flagHTTPSStarted = true;
     dropPrivileges();
   })

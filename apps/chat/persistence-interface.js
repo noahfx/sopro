@@ -45,9 +45,6 @@ module.exports = function(){
       if(err){
         return callback(err);
       }
-      if(results.length > 1){
-        console.log('Read an object from multiple persistors. Returning the first one.')
-      }
       callback(null, results[0])
     });
   }
@@ -67,9 +64,6 @@ module.exports = function(){
       if(err){
         return callback(err);
       }
-      if(results.length > 1){
-        console.log('Read an object from multiple persistors. Returning the first one.')
-      }
       callback(null, results[0])
     })
   };
@@ -81,8 +75,7 @@ module.exports = function(){
       if(err){
         return callback(err);
       }
-      // Return only the results from the first adapter:
-      callback(null, results[0])
+      callback(null, results[0]);
     })
   };  
 
@@ -91,6 +84,18 @@ module.exports = function(){
       adapter.destroy(data, done);
     }, callback)
   };
+
+  PI.find = function(model, key, value, callback){
+    async.mapSeries(PI.adapters, function(adapter, done){
+      adapter.find(model, key, value, done);
+    }, function(err, results){
+      if(err){
+        return callback(err);
+      }
+      // Return only the results from the first adapter:
+      callback(null, results[0])
+    })
+  }
 
   return PI;
 }

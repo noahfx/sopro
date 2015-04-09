@@ -42,8 +42,7 @@ function positionDropdown(dataCount, fromElement){
 
   var a0 = $cp.offset().top + 20;
   var a1 = $from.offset().top;
-  // var a2 = a0 + $cp.height() - 40;
-  var a2 = a0 + $cp.height();
+  var a2 = a0 + $cp.height() - 40;
 
   var pooYmid =
     $from.offset().top
@@ -134,6 +133,7 @@ angular.module('societyProChatApp.directives',[
     require:'^mainController',
     scope: {
       title: '@channelTitle',
+      userExpandable: '@userexpandable', // can the user add to the collection?
       icon: '@',
       repeater: '=',
     },

@@ -37,7 +37,7 @@ module.exports = function(app){
 }
 
 function userById(opts, callback){
-  db.view('soprochat', 'user_by_userid', {key: opts.id}, function(err, body){
+  db.view('soprochat', 'user_by__id', {key: opts.id}, function(err, body){
     if(err){
       return callback(err)
     };
@@ -45,7 +45,7 @@ function userById(opts, callback){
       return callback(new Error('Found more than one user object for id '+opts.id))
     };
     if(body.rows.length == 0){
-      return callback('not_found')
+      return callback('session_user_not_found')
     }
     opts.user = body.rows[0].value;
     callback(null, opts);
@@ -73,7 +73,7 @@ function checkAuthCouchdb(username, password, callback){
   })
 }
   function findUser(opts, next){
-    db.view('soprochat', 'user_by_name', {key: opts.username}, function(err, body){
+    db.view('soprochat', 'user_by_name_email', {key: opts.username}, function(err, body){
       if(err){
         return next(err);
       }
@@ -86,7 +86,7 @@ function checkAuthCouchdb(username, password, callback){
   }
 
   function checkHash(opts, next){
-    db.view('soprochat', 'pwdcreds_by_userid', {key: opts.user._id}, function(err, body){
+    db.view('soprochat', 'pwdcred_by_for_userid', {key: opts.user._id}, function(err, body){
       if(err){
         console.log(err);
         return next(err, false);
@@ -95,7 +95,7 @@ function checkAuthCouchdb(username, password, callback){
         return next('No credentials for userid '+opts.user._id);
       }
       if(body.rows.length > 1){
-        return next('multiple users found');
+        return next('multiple credentials found');
       }
       var doc = body.rows[0].value;
       var salt = doc.salt;
@@ -120,7 +120,7 @@ function checkAuthCouchdb(username, password, callback){
     if(opts.user === false){
       return next('Can\'t set identities without a user');
     }
-    db.view('soprochat', 'identities_for_userid', {key: opts.user._id}, function(err, body){
+    db.view('soprochat', 'identity_by_for_userid', {key: opts.user._id}, function(err, body){
       if(err){
         return next(err)
       };

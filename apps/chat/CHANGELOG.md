@@ -1,3 +1,9 @@
+# 0.1.7 (2015-04-9)
+Create and save users. Improve cucumber-junit. Amazon SES emails.
+Features:
+* Administration Panel Link ([b5bccfa](https://github.com/SocietyPro/sopro/commit/b5bccfaa816bc2163c8270104121349632f99215))
+* New user activation link and POST a user via API
+
 # 0.1.6 (2015-03-31)
 With the new SocietyPro Enterprise Edition we had add some new feature:
 * SocietyPro Authentication, remove roles from toolbar dropdown and SSL/TLS Certificate Use ([baf22d5](https://github.com/SocietyPro/sopro/commit/baf22d51cccb5fe0a76767c71fbefb74e532b9af)).
