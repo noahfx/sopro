@@ -201,7 +201,7 @@ function isDropdownVisible(arg1, arg2, arg3, next){
           return next();
         }
       })
-    },2000);
+    },5000);
     
   }
 }
