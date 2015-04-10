@@ -63,7 +63,6 @@ module.exports = function(){
             }
             next();
           });
-          next();
         } else {
           next.fail(new Error("Token not found for that user"));
         }
@@ -85,9 +84,7 @@ module.exports = function(){
     SSTEPS.appStarted.fn);
 
   this.When(/^I go to the correct route$/,function (next) {
-    console.log("1")
     browser.driver.get("https://localhost/token").then(function () {
-      console.log("2s")
       next();
     });
   });
@@ -101,7 +98,6 @@ module.exports = function(){
       } else {
         next.fail(new Error("Authorization token not found"));
       }
-      next();
     });
   });
 
@@ -112,15 +108,18 @@ module.exports = function(){
     var self = this;
     SSTEPS.appStarted.fn(function () {
       browser.driver.get("https://localhost/token").then(function () {
-        browser.driver.findElement(by.css("pre"))
+        browser.ignoreSynchronization = true;
+        browser.findElement(by.css("pre"))
         .getText()
-        .then(function(src){
-          var response = JSON.parse(src);
+        .then(function(t) {
+          //console.log(src.getText());
+          var response = JSON.parse(t);
           assert(response.ok == true);
           self.tokenObj = response.apiToken;
           self.token = response.apiToken.token;
+          browser.ignoreSynchronization = true;
           next();
-        })
+        });
       });
     });
   });
