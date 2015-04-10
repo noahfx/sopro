@@ -225,7 +225,7 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
       method: req.method,
       user: req.user,
     })
-  })
+  });
 
   app.get('/api/*', acl.middleware());
   app.post('/api/*', acl.middleware());

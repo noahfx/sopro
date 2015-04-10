@@ -13,10 +13,10 @@ var peersCollection_steps = module.exports = function(){
   this.Given(/^a specified role is( not)? a subscriber to a channel$/,
     roleIsSubscriber);
   function roleIsSubscriber(arg1, next) {
-    this.roleId =
+    this.token =
       (arg1 === undefined)
-      ? CAM_MOCKS.roleId1
-      : CAM_MOCKS.nonsubscribedRoleId;
+      ? "12345"
+      : "99999"
     next();
   }
 
@@ -37,8 +37,10 @@ var peersCollection_steps = module.exports = function(){
     var self = this;
     this.soproRequest("https://localhost/api/channels.invite", {
       method: "POST",
+      headers: {
+        "token-auth":this.token
+      },
       qs: {
-        role: this.roleId,
         channel: this.channel,
         user: this.peerId,
       },
