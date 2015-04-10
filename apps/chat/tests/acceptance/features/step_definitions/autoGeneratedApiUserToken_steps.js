@@ -41,6 +41,7 @@ module.exports = function(){
         var response = JSON.parse(body);
         if (response.ok) {
           self.user = response.user;
+          console.log(self.user);
           next();
         } else {
           next.fail(new Error(response.error));
@@ -49,12 +50,19 @@ module.exports = function(){
     )
   });
   this.Then(/^an API token should be automatically generated for that user$/, function (next) {
-    PI.find("apiToken", "for_identityid", this.user.identities[0]._id, function () {
+    var self = this;
+    PI.find("apiToken", "for_identityid", this.user.identities[0], function (err,results) {
       if(err){
         return next.fail(new Error(err));
       }
       if(results.length === 1){  // found this token
         if (results[0].token) {
+          PI.destroy(self.user,function(err,user){
+            if(err) {
+              return next.fail(new Error(err));
+            }
+            next();
+          });
           next();
         } else {
           next.fail(new Error("Token not found for that user"));
@@ -67,12 +75,19 @@ module.exports = function(){
 
 /*
   Scenario: viewing the API token via http
+
+  Given I have started the chatlog application
+    When I go to the correct route
+    Then I should see my API token
+
 */
   this.Given(SSTEPS.appStarted.regex,
     SSTEPS.appStarted.fn);
 
   this.When(/^I go to the correct route$/,function (next) {
-    browser.driver.get("/apiToken").then(function () {
+    console.log("1")
+    browser.driver.get("https://localhost/token").then(function () {
+      console.log("2s")
       next();
     });
   });
@@ -96,8 +111,9 @@ module.exports = function(){
   this.Given(/^I have a valid token associated with a user$/,function (next) {
     var self = this;
     SSTEPS.appStarted.fn(function () {
-      browser.driver.get("/apiToken").then(function () {
-        browser.driver.getPageSource()
+      browser.driver.get("https://localhost/token").then(function () {
+        element(by.css("pre"))
+        .getText()
         .then(function(src){
           var response = JSON.parse(src);
           assert(response.ok == true);
@@ -112,7 +128,7 @@ module.exports = function(){
   this.When(/^I make a request to the API with that token$/,function (next) { // api/ping
     var self = this;
     this.soproRequest({
-      uri: "https//localhost/api/ping",
+      uri: "https://localhost/api/ping",
       headers: {
         'token-auth' : this.token
       }
