@@ -11,13 +11,11 @@
 			"write": true,
 			"order": [
 				"df19c911-48ae-0615-6f05-13d20ec7c8f6",
-				"a1c45181-77ef-f91e-5fe2-43a54947f91e",
 				"530c3bb1-22e7-39ae-665e-c042c485040a",
 				"ae5d5b12-3db4-d466-38cd-b08546c6bda4",
 				"67f07d4c-bb40-17f8-5014-e7308ca7595c",
 				"b43a6581-1503-f537-6d69-fc941db16d8b",
 				"1be5b889-c88a-1a10-ca0c-2053cd40ba64",
-				"a76f7ef9-d30e-a6f2-220c-1716f8d25c95",
 				"ca7a75e4-37ac-1457-96b3-b882fd513190",
 				"f1917ff0-db95-3b38-fe79-7e4838f2c6ba",
 				"4f966d20-b9a5-00eb-da0d-3fd62df1b51e",
@@ -96,7 +94,7 @@
 		},
 		{
 			"id": "13877fd6-7753-1ad5-e65a-9e0db6f5c6c1",
-			"headers": "token-auth: 99999\n",
+			"headers": "token-auth: 12345\n",
 			"url": "https://localhost/api/channels.invite?role=foobar&user=qwerty&channel=C024BE91L",
 			"preRequestScript": "",
 			"pathVariables": {},
