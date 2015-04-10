@@ -86,17 +86,17 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
    */
 
   app.get('/token', requireLogin, function(req, res, next){
-    PI.find('apiToken', 'for_userid', req.user._id, function(err, results){
+    PI.find('apiToken', 'for_identityid', req.session.userId, function(err, results){
       if(err){
-        console.log('Error finding an apiToken for', req.user._id)
+        console.log('Error finding an apiToken for', req.session.userId)
         return res.status(500).json({ok: false, error: 'server_error'});
       }
       if(results.length === 0){
-        console.log('Did not find an apiToken for', req.user._id)
+        console.log('Did not find an apiToken for', req.session.userId)
         return res.status(500).json({ok: false, error: 'server_error'});
       }
       if(results.length > 1){
-        console.log('Found more than one apiToken for', req.user._id)
+        console.log('Found more than one apiToken for', req.session.userId)
         return res.status(500).json({ok: false, error: 'server_error'});
       }
       var token = results[0];
@@ -178,7 +178,7 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
   app.get('/api/denyauth', acl.middleware());
 
   app.all('/api/*', function(req, res, next){
-    var token = req.header('token-auth')
+    var token = req.header('token-auth');
     if(token == undefined){
       res.status(401).json({ok:false, error:"not_authed"});
     } else {

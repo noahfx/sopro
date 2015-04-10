@@ -94,7 +94,7 @@
 		},
 		{
 			"id": "13877fd6-7753-1ad5-e65a-9e0db6f5c6c1",
-			"headers": "token-auth: 12345\n",
+			"headers": "token-auth: 99999\n",
 			"url": "https://localhost/api/channels.invite?role=foobar&user=qwerty&channel=C024BE91L",
 			"preRequestScript": "",
 			"pathVariables": {},
