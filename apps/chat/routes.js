@@ -72,18 +72,6 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
     }
   }
 
-  function compareAuthedUserAndRole(req, res, next){
-    if (req.user){
-      if(req.user.userid === req.query['role']){
-        // The logged in user requested his own role
-        return next()
-      }
-      res.status(401).json({ok: false, error: "That is not your role"})
-    } else {
-      res.status(401).json({ok: false, error: "unauthorized"})
-    }
-  }
-
   /*
    *  REQUEST CONFIG MIDDLEWARES:
    */
@@ -200,7 +188,7 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
           console.log(err);
           return res.status(500).json({ok: false, error: 'server_error'})
         } else if( results.length === 0){
-          return res.status(401).json({ok: false, error: 'api_token_not_found'})
+          return res.status(401).json({ok: false, error: 'invalid_auth'})
         } else if( results.length > 1){
           console.log('Found more than one api token matching', token);
           return res.status(500).json({ok: false, error: 'server_error'})
@@ -297,19 +285,9 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
 
   app.get('/api/channels',
   function(req, res, next) {
-    var role = req.query['role'];
-    if (role == undefined) {
-      return res.end(
-        '{"ok":false, "error":"role_not_found"}'
-      );
-    }
-
     var params = {
-      requester: role,
-      token: req.authToken,
-      payload: {
-        role: role
-      }
+      requester: req.session.userId,
+      token: req.authToken
     }
     eb.send("get.channels",JSON.stringify(params), function (reply) {
       res.send(reply);
@@ -318,25 +296,19 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
 
   app.post('/api/channel',
     function(req, res, next) {
-    var role = req.query['role'];
     var name = req.query['name'];
     var topic = req.query['topic'];
     var purpose = req.query['purpose'];
-    if (role == undefined) {
-      return res.send(
-        '{"ok":false, "error":"role_not_found"}'
-      );
-    } else if(name == undefined){
+    if(name == undefined){
       return res.send(
         '{"ok":false, "error":"no_channel"}'
       );
     }
 
     var params = {
-      requester: role,
+      requester: req.session.userId,
       token: req.authToken,
       payload: {
-        role: role,
         name: name,
         topic: topic,
         purpose: purpose
@@ -349,11 +321,7 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
 
 
   app.post('/api/channels.invite', function(req, res, next) {
-    if (req.query['role'] == undefined) {
-      return res.send(
-        '{"ok":false, "error":"role_not_found"}'
-      );
-    } else if(req.query['user'] == undefined){
+    if(req.query['user'] == undefined){
       return res.send(
         '{"ok":false, "error":"user_not_found"}'
       );
@@ -363,10 +331,10 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
       );
     }
     var user = req.query['user'];
-    var role = req.query['role'];
+    var identity = req.session.userId;
     var channel = req.query['channel'];
     var params = {
-      requester: role,
+      requester: identity,
       token: req.authToken,
       payload: {
         user: user,
@@ -380,17 +348,11 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
 
   app.get('/api/channel.info', function(req, res, next) {
 
-    if (req.query['role'] == undefined) {
-      return res.send(
-        '{"ok":false, "error":"role_not_found"}'
-      );
-    } else if(req.query['channel'] == undefined){
-      return res.send(
-        '{"ok":false, "error":"channel_not_found"}'
-      );
+    if(req.query['channel'] == undefined){
+      return res.status(404).json({"ok":false, "error":"channel_not_found"});
     }
     var params = {
-        requester: req.query['role'],
+        requester: req.session.userId,
         token: req.authToken,
         payload: {
           channel: req.query['channel'],

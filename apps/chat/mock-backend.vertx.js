@@ -86,9 +86,9 @@ for(topic in backend.handlersMap){
 function getChannels(msg, callback) {
   var params = JSON.parse(msg);
   var channels = {ok: false, error: "role_not_found"};
-  if (params.payload.role == CAM_MOCKS.roleId1){
+  if (params.requester == CAM_MOCKS.roleId1){
     channels = CAM_MOCKS.getChannelsResponse1;
-  } else if (params.payload.role == CAM_MOCKS.roleId2) {
+  } else if (params.requester == CAM_MOCKS.roleId2) {
     channels = CAM_MOCKS.getChannelsResponse2;
   }
   callback(JSON.stringify(channels));
@@ -110,10 +110,10 @@ function postChannel(msg, callback) {
   var params = JSON.parse(msg);
   var response = CAM_MOCKS.postChannelResponse;
   response.channel.name = params.payload.name;
-  response.channel.creator = params.payload.role;
+  response.channel.creator = params.requester;
   response.channel.topic = params.payload.topic;
   response.channel.purpose = params.payload.purpose;
-  response.channel.members = [params.payload.role];
+  response.channel.members = [params.requester];
   callback(JSON.stringify(response));
 
   if (params.requester == CAM_MOCKS.roleId1){
