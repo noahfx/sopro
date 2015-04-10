@@ -43,7 +43,7 @@ module.exports = function(){
         return next.fail(new Error(err));
       }
       opts.token = token;
-      sopro.crypto.saveToken(opts, function (err, result) {
+      sopro.crypto.createAndSavePasswordResetToken(opts, function (err, result) {
         if (err) {
           return next.fail(new Error(err));
         }
