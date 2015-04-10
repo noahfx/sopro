@@ -1,5 +1,6 @@
 var CAM_MOCKS = require('../../../mock-data.js');
 var SSTEPS = require('../../shared_steps.js');
+var assert = require("assert");
 
 var PI = require('../../../../persistence-interface.js')();
 var PICouch = require('../../../../persistence-couchdb');
@@ -41,7 +42,6 @@ module.exports = function(){
         var response = JSON.parse(body);
         if (response.ok) {
           self.user = response.user;
-          console.log(self.user);
           next();
         } else {
           next.fail(new Error(response.error));
@@ -112,7 +112,7 @@ module.exports = function(){
     var self = this;
     SSTEPS.appStarted.fn(function () {
       browser.driver.get("https://localhost/token").then(function () {
-        element(by.css("pre"))
+        browser.driver.findElement(by.css("pre"))
         .getText()
         .then(function(src){
           var response = JSON.parse(src);
