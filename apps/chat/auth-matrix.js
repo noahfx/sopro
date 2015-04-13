@@ -1,16 +1,16 @@
 module.exports =  function(){
   var acl = require('acl');
   acl = new acl(new acl.memoryBackend());
-  acl.allow('user', '/', 'get');
-  acl.allow('user', '/api/users', ['get', 'post']);
-  acl.allow('user', '/api/channel', 'post');
-  acl.allow('user', '/api/channels', 'get');
-  acl.allow('user', '/api/channels.invite', ['get', 'post']);
-  acl.allow('user', '/api/channel.info', 'get');
+  acl.allow('identity', '/', 'get');
+  acl.allow('identity', '/api/users', ['get', 'post']);
+  acl.allow('identity', '/api/channel', 'post');
+  acl.allow('identity', '/api/channels', 'get');
+  acl.allow('identity', '/api/channels.invite', ['get', 'post']);
+  acl.allow('identity', '/api/channel.info', 'get');
   acl.allow('admin', '/admin', 'get');
-  acl.addRoleParents('admin', 'user');
-  acl.addUserRoles('abc', 'user');
-  acl.addUserRoles('foobar', 'user');
+  acl.addRoleParents('admin', 'identity');
+  acl.addUserRoles('abc', 'identity');
+  acl.addUserRoles('foobar', 'identity');
   acl.addUserRoles('xyz', 'admin');
   return acl;
 }

@@ -6,6 +6,10 @@ module.exports = function(){
 
   /*
    *  Scenario: valid activation link
+      Given I have a valid activation token
+      When I visit the confirm account page for that token
+      And I set a secure password
+      Then my password is created
    */
 
   this.Given(/^I have an? (in)?valid activation token$/, function (arg1, next) {
@@ -42,8 +46,8 @@ module.exports = function(){
       if(err){
         return next.fail(new Error(err));
       }
-      opts.token = token;
-      sopro.crypto.saveToken(opts, function (err, result) {
+      opts.passwordResetToken = token;
+      sopro.crypto.createAndSavePasswordResetToken(opts, function (err, result) {
         if (err) {
           return next.fail(new Error(err));
         }
@@ -55,7 +59,9 @@ module.exports = function(){
 
   this.When(/^I visit the confirm account page for that token$/,function (next) {
     var self = this;
-    browser.driver.get('https://' + this.app.sopro.servers.express.hostname + '/confirmAccount/' + this.tokenObj.token)
+    var uri = 'https://' + this.app.sopro.servers.express.hostname + '/confirmAccount/' + this.tokenObj.token
+    console.log(uri)
+    browser.driver.get(uri)
     .then(function () {
       browser.driver.getPageSource()
       .then(function(src){

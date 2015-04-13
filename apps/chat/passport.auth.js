@@ -24,6 +24,7 @@ module.exports = function(app){
         userById(opts, next)
       },
       setIdentities,
+      setToken,
     ], function(err, opts){
       if(err){
         console.log(err);
@@ -65,6 +66,7 @@ function checkAuthCouchdb(username, password, callback){
     findUser,
     checkHash,
     setIdentities,
+    setToken,
   ], function (err, opts){
     if(err){
       return callback(err, false);
@@ -135,5 +137,21 @@ function checkAuthCouchdb(username, password, callback){
       opts.user.currentIdentity = identities[0];
       next(null, opts)
     })
+  };
+//TODO feature Standard edition should have apiToken for all identities
+  function setToken(opts, next){
+    if(opts.user === false){
+      return next('Can\'t set token without a user');
+    }
+    db.view('soprochat', 'apiToken_by_for_identityid', {key: opts.user.currentIdentity._id}, function(err, body){
+      if(err){
+        return next(err)
+      };
+      if(body.rows.length == 0){
+        return next('no_token_for_user');
+      }
+      opts.user.apiToken = body.rows[0].value.token;
+      next(null, opts)
+    });
   };
 

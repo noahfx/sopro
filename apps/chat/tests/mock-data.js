@@ -93,7 +93,7 @@ module.exports = CAM_MOCKS = {
         {
           "id": "xyz",
           "name": "thomas"
-        },
+        }
       ],
       "topic": "Fun stuff",
       "purpose": "just to have some fun",
