@@ -18,17 +18,6 @@ describe('Collections list', function() {
   changeIdentity(0);
   var chat = new societyProChat();
 
-  it('has margin: 20px 16px', function(){
-    var top = chat.collectionChannelsContainer.get(0).getCssValue('margin-top');
-    var bottom = chat.collectionsContainer.getCssValue('padding-bottom');
-    var left = chat.channelsTitles.first().getCssValue('padding-left');
-    var right = chat.channelsTitles.first().getCssValue('padding-right');
-    expect(top).toBe('20px');
-    expect(bottom).toBe('20px');
-    expect(left).toBe('16px');
-    expect(right).toBe('16px');
-  })
-
   describe('Inline Channel Collections - ', function(){
     it('has a list of channel collections', function() {
       expect(chat.channelCollections.count()).toEqual(2);
@@ -43,16 +32,17 @@ describe('Collections list', function() {
         expect(title.isDisplayed()).toBeTruthy();
         expect(title.element(by.css('span')).getText()).toEqual('CHANNELS');
       });
-      it('has a squared-off cartoon speech bubble conversation icon', function(){
-        var title = chat.collectionTitleChannels;
-        var icon = title.element(by.css('img'));
-        expect(icon.isDisplayed()).toBeTruthy();
-        expect(icon.getAttribute('src')).toMatch(/icon-channels.png$/);
-      });
 
       it('has a Add Channel link', function(){
         expect(
-          element(by.css('#collection-channels .collection-create-link'))
+          element(by.css('.channel-create-link'))
+          .isPresent()
+        ).toBeFalsy();
+        browser.actions()
+            .mouseMove(chat.collectionTitleChannels)
+            .perform();
+        expect(
+          element(by.css('.channel-create-link'))
           .isDisplayed()
         ).toBeTruthy();
 
@@ -84,23 +74,21 @@ describe('Collections list', function() {
           expect(first.getText()).toEqual('random');
         });
         it('has gray text', function(){
-          expect(first.getCssValue('color')).toEqual('rgba(85, 84, 89, 1)');
-          //expect(first.getCssValue('background-color')).toEqual('rgba(255, 255, 255, 1)');
+          expect(first.getCssValue('color')).toEqual('rgba(175, 175, 175, 1)');
         });
         it('is the expected height', function(){
-          expect(first.getCssValue('height')).toEqual('32px');
+          expect(first.getCssValue('height')).toEqual('25px');
         });
         describe('on hover - ', function(){
           beforeEach(function(){
             browser.actions()
-            .mouseMove(browser.findElement(by.css('#collection-channels .channel-item')))
+            .mouseMove(first)
             .perform();
+          });
 
-          })
-
-          it('has light gray text and gray background', function(){
-            expect(first.getCssValue('color')).toEqual('rgba(85, 84, 89, 1)');
-            expect(first.getCssValue('background-color')).toEqual('rgba(0, 0, 0, 0.0470588)');
+          it('has gray text and gray background', function(){
+            expect(first.getCssValue('color')).toEqual('rgba(175, 175, 175, 1)');
+            expect(first.getCssValue('background-color')).toEqual('rgba(50, 50, 50, 1)');
           });
         })
       })

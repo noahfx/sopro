@@ -3,12 +3,6 @@ var S_STEPS = require('../../shared_steps.js');
 var SA_STEPS = require('../../sharedAPI_steps.js');
 var acl = require('../../../../auth-matrix.js')();
 var assert = require('assert');
-/*
-var PI = require('../../../../persistence-interface.js')();
-var PICouch = require('../../../../persistence-couchdb');
-PI.use(PICouch);
-*/
-
 
 module.exports = function(){
   /*
@@ -96,7 +90,6 @@ module.exports = function(){
               buffer += chunk.toString('utf8');
             });
             stream.once('end', function() {
-              //console.log(prefix + 'Parsed header: %s', inspect(Imap.parseHeader(buffer)));
               var header = Imap.parseHeader(buffer);
               var from = header.from[0]; 
               var subject = header.subject[0];

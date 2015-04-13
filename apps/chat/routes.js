@@ -3,6 +3,9 @@ var async = require('async');
 
 module.exports = function(app, eb, passport, acl, PI, sopro){
 
+  var packageJSON = fs.readFileSync('./package.json', {encoding: 'utf8'});
+  app.sopro.package = JSON.parse(packageJSON);
+
   /*
    * HTTPS ROUTING
    */
@@ -22,12 +25,13 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
     };
   }
 
-  app.all('*', requireSecure); 
+  app.all('*', requireSecure);
   app.all('*', function(req, res, next){
     if(req.user && req.session){
       req.session.userId = req.user.currentIdentity._id;
     }
     res.locals.features = app.sopro.features;
+    res.locals.version = app.sopro.package.version;
     if(req.user){
       // Load permissions
       res.locals.currentUser = JSON.stringify(req.user);
@@ -149,8 +153,12 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
   });
 
   app.get('/logout', function(req, res, next){
-    req.logOut();
-    req.session.userId = undefined;
+    if(req.user){
+      req.logOut();
+    }
+    if(req.session.userId){
+      req.session.userId = undefined;
+    }
     res.redirect('/');
   })
 
@@ -214,9 +222,12 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
   app.post('/api/users', sopro.routes.createUser)
 
   app.get('/confirmAccount/:token', function(req, res, next){
+    
     var token = req.params.token;
     PI.find('passwordResetToken', 'token', token, function(err, results){
-      if(err){ res.status(500).send(err) }
+      if(err){ 
+        res.status(500).send(err) 
+      }
       if(results.length === 1){  // found this token
         var userId = results[0].for_userid;
         PI.read(userId, function(err, user){
@@ -228,7 +239,7 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
           res.render('confirmAccount');
         })
       } else {
-        res.end('{"ok":false, "error":"Wrong Token"}'); 
+        res.status(404).json({"ok":false, "error":"token not found"});
       }
     })
   })

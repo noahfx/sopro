@@ -45,7 +45,7 @@ function userById(opts, callback){
       return callback(new Error('Found more than one user object for id '+opts.id))
     };
     if(body.rows.length == 0){
-      return callback('not_found')
+      return callback('session_user_not_found')
     }
     opts.user = body.rows[0].value;
     callback(null, opts);
@@ -95,7 +95,7 @@ function checkAuthCouchdb(username, password, callback){
         return next('No credentials for userid '+opts.user._id);
       }
       if(body.rows.length > 1){
-        return next('multiple users found');
+        return next('multiple credentials found');
       }
       var doc = body.rows[0].value;
       var salt = doc.salt;

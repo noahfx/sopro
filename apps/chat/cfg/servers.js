@@ -1,6 +1,5 @@
 module.exports = CAM_CONFIG_SERVERS = {
   express: {
-    //host: 'localhost',
     bindAddress: '0.0.0.0',
     hostname: 'localhost',
     port: 8080,
@@ -27,5 +26,5 @@ module.exports = CAM_CONFIG_SERVERS = {
     port: 3333,
     prefix: '/eventbus',
     eburl: 'http://localhost:3333/eventbus'
-  },
+  }
 }

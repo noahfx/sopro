@@ -17,8 +17,12 @@ try{
 } catch(e){
   if(e.code == 'ENOENT') {
     var file = fs.readFileSync('./cfg/locals.example.js', {encoding: 'utf8'});
+    console.log('cfg/locals.js not found. Cannot start.')
+    process.setgid(app.sopro.servers.express.runtimeGroup);
+    process.setuid(app.sopro.servers.express.runtimeUser);
     fs.writeFileSync('./cfg/locals.js', file, {encoding: 'utf8'});
-    console.log('Wrote example local config in cfg/locals.js. Set your keys there.');
+    console.log('Wrote example local config in cfg/locals.js. Edit and set your secrets there.');
+    process.exit();
   }
 }
 
@@ -29,7 +33,6 @@ var featureConfig;
 
 app.sopro = {};
 app.sopro.servers = serverConfig;
-console.log(localConfig);
 app.sopro.local = localConfig;
 
 // Override env variable with --enterprise flag:
@@ -56,6 +59,10 @@ app.sopro.features = featureConfig;
 
 // Serve static files matching /web/* from the ./web directory:
 app.use('/web', express.static(__dirname+'/web'));
+
+// Log non-static requests
+var logger = require('connect-logger');
+app.use(logger());
 
 // Parse header cookies into req.cookies on every request:
 var cookieParser = require('cookie-parser')

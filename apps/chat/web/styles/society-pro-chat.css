@@ -8,6 +8,21 @@ body > md-toolbar {
   background-color: #969696 !important;
 }
 
+/* --- Logo Section */
+#logo-loco {
+  background-color: rgba(50,50,50,1);
+  width: 231px;
+  color: white;
+}
+
+#logo-text {
+  font-size: 30px;
+}
+
+#version-text {
+  font-size: 10px;
+}
+
 /* --- Role Selection */
 #role-selection {
   margin: 0px 15px;
@@ -64,7 +79,6 @@ body > md-toolbar {
 
 /* MAIN CONTENT*/
 .sopro-main-content{
-  margin: 20px 16px;
   height: inherit;
   overflow: hidden;
 }
@@ -76,41 +90,57 @@ collection {
 
 /* Channel Collections */
 #sopro-collections-wrap{
-  background-color: white;
-  width: 188px;
-  padding: 20px 16px;
+  background-color: #3a3a3a;
+  width: 231px;
   margin: 0;
-  border-radius: 2px;
   position: relative;
 }
+
+.channel-collection {
+  padding: 6px 15px;
+}
+
 .sopro-collection-title{
   height: 32px;
   font-size: 13px;
-  padding: 0px 16px;
-  color: rgba(85, 84, 89, 1);
+  color: rgba(175, 175, 175, 1);
   font-weight: bold;
 }
 .sopro-collection-title > span{
-  margin: 5px;
   text-transform: uppercase;
 }
 #sopro-collections-wrap ul li {
-  height: 32px;
+  height: 25px;
   font-size: 15px;
-  padding-left: 40px;
-  margin-right: 20px;
-  color: rgba(85, 84, 89, 1);
+  color: rgba(175, 175, 175, 1);
   cursor: pointer !important;
 }
 #sopro-collections-wrap ul li.channel-item:hover {
-  background-color: rgba(0, 0, 0, 0.05);
+  background-color: rgba(50,50,50,1);
 }
+
 #sopro-collections-wrap .channel-item.poo-highlight-collection, {
 color: rgba(204, 204, 204, 1);
 }
 #sopro-collections-wrap ul li.channel-separator {
-  border-bottom: 1px solid rgba(131,131,131,0.5);
 }
+
+.channel-item-display {
+  width: 100%;
+}
+
+.collections-divider {
+  padding-right: 15px;
+}
+
+.collections-divider hr {
+  border: 0;
+  height: 1px;
+  color: rgba(131,131,131,0.5);
+  background-color: rgba(131,131,131,0.5);
+  margin: 0px;
+}
+
 #sopro-collections-wrap ul {
   list-style: none;
   margin: 0px;
@@ -125,7 +155,12 @@ color: rgba(204, 204, 204, 1);
   font-size: 11px;
 }
 
+.channel-create-link {
+  cursor: pointer;
+}
+
 #main-stage {
+  margin: 20px 16px;
   background-color: inherit;
 }
 

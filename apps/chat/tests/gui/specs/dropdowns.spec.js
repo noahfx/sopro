@@ -54,7 +54,7 @@ describe('Dropdowns', function(){
       browser.actions().
       mouseMove(els.collectionChannelsItems.get(0)).
       perform();
-      expect(els.collectionChannelsItems.get(0).getCssValue("background-color")).toEqual("rgba(0, 0, 0, 0.0470588)");
+      expect(els.collectionChannelsItems.get(0).getCssValue("background-color")).toEqual("rgba(50, 50, 50, 1)");
     })
   })
 

@@ -1,0 +1,65 @@
+{
+  "name": "protractor-cucumber-junit",
+  "version": "1.1.3",
+  "description": "Converts the JSON output of protractor cucumber framework to JUnitXML",
+  "bin": {
+    "cucumber-junit": "bin/cucumber-junit",
+    "cucumber-junit-enhance": "bin/cucumber-junit-enhance"
+  },
+  "scripts": {
+    "test": "ytestrunner --coverage"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sonyschan/protractor-cucumber-junit.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sonyschan/protractor-cucumber-junit/issues"
+  },
+  "keywords": [
+    "protractor",
+    "cucumber",
+    "junit"
+  ],
+  "engines": {
+    "node": "~0.10.20"
+  },
+  "author": {
+    "name": "Sonys Chan",
+    "email": "sonys.chan@gmail.com"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "xml": "~0.0.12"
+  },
+  "devDependencies": {
+    "ytestrunner": "~0.3.3",
+    "yuitest": "~0.7.9"
+  },
+  "homepage": "https://github.com/sonyschan/protractor-cucumber-junit",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "gitHead": "f1c880ffe53e135e0b775237334c7f66e7384ad7",
+  "_id": "protractor-cucumber-junit@1.1.3",
+  "_shasum": "2f33236d59f57930188623b88776f17a21e5528a",
+  "_from": "protractor-cucumber-junit@*",
+  "_npmVersion": "1.4.28",
+  "_npmUser": {
+    "name": "sonyschan",
+    "email": "sonys.chan@gmail.com"
+  },
+  "maintainers": [
+    {
+      "name": "sonyschan",
+      "email": "sonys.chan@gmail.com"
+    }
+  ],
+  "dist": {
+    "shasum": "2f33236d59f57930188623b88776f17a21e5528a",
+    "tarball": "http://registry.npmjs.org/protractor-cucumber-junit/-/protractor-cucumber-junit-1.1.3.tgz"
+  },
+  "_resolved": "https://registry.npmjs.org/protractor-cucumber-junit/-/protractor-cucumber-junit-1.1.3.tgz",
+  "readme": "ERROR: No README data found!"
+}
