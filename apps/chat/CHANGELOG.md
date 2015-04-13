@@ -1,3 +1,9 @@
+# 0.1.8 (2015-04-13)
+Feature: Automatically Generated API User Token
+During API user creation in POST /users we now create and save an apiToken object for the new user's identity.
+Add route /token: If a user has a logged in browser session, this route shows their API token
+Add route /api/ping: This sends a test response even if the request lacks a valid API token.
+
 # 0.1.7 (2015-04-9)
 Create and save users. Improve cucumber-junit. Amazon SES emails.
 Features:
@@ -5,7 +11,7 @@ Features:
 * New user activation link and POST a user via API
 
 # 0.1.6 (2015-03-31)
-With the new SocietyPro Enterprise Edition we had add some new feature:
+With the new SocietyPro Enterprise Edition we created new features:
 * SocietyPro Authentication, remove roles from toolbar dropdown and SSL/TLS Certificate Use ([baf22d5](https://github.com/SocietyPro/sopro/commit/baf22d51cccb5fe0a76767c71fbefb74e532b9af)).
 * SocietyPro Authorization ([f8affd5](https://github.com/SocietyPro/sopro/commit/f8affd561442eb9668c1ba49bd4d86f0cb24e509)).
 * Persisting Users ([c0a8fe8](https://github.com/SocietyPro/sopro/commit/c0a8fe835d38079d3b964c79f9237752dd4048af)).

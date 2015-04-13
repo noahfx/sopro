@@ -2,7 +2,7 @@ var CAM_MOCKS = require('../../../mock-data.js');
 var SSTEPS = require('../../shared_steps.js');
 var SA_STEPS = require('../../sharedAPI_steps.js');
 
-var peersCollection_steps = module.exports = function(){
+module.exports = function(){
 
   /*
    *  Scenario: sending channel invitations via API
@@ -15,8 +15,8 @@ var peersCollection_steps = module.exports = function(){
   function roleIsSubscriber(arg1, next) {
     this.token =
       (arg1 === undefined)
-      ? "12345"
-      : "99999"
+      ? "12345" // role should be channel subscriber
+      : "88888" // role should not be
     next();
   }
 
@@ -80,7 +80,7 @@ var peersCollection_steps = module.exports = function(){
   this.Given(SA_STEPS.haveValidAuthToken.regex,
     SA_STEPS.haveValidAuthToken.fn);
 
-  this.Given(/^a specified role is( not)? a subscriber to a channel$/,
+  this.Given(/^the identity owning that token is( not)? a subscriber to a channel$/,
     roleIsSubscriber);
 
   this.Given(/^I have a peer who is( not)? a channel subscriber$/, 
@@ -107,7 +107,7 @@ var peersCollection_steps = module.exports = function(){
   this.Given(SA_STEPS.haveValidAuthToken.regex,
     SA_STEPS.haveValidAuthToken.fn);
 
-  this.Given(/^a specified role is( not)? a subscriber to a channel$/,
+  this.Given(/^the identity owning that token is( not)? a subscriber to a channel$/,
     roleIsSubscriber);
 
   this.Given(/^I have a peer$/, function(next){

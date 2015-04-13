@@ -13,7 +13,7 @@ Feature: Automatically Generated API User Token
     When I go to the correct route
     Then I should see my API token
 
-  Scenario: transforming the token into a user
+  Scenario: transforming the token into an identity
     Given I have a valid token associated with a user
     When I make a request to the API with that token
     Then the server should use that user
