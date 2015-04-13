@@ -60,7 +60,6 @@ angular.module('societyProChatApp.controller2',['ngMaterial'])
       throw new Error('Missing title of channel');
       return;
     };
-    console.log($rootScope.token);
     $http({
       method: 'POST',
       url: '/api/channel',
@@ -68,6 +67,7 @@ angular.module('societyProChatApp.controller2',['ngMaterial'])
        'token-auth': $rootScope.token
       },
       params : {
+        role: $rootScope.currentRole.identityid,
         name: $scope.stageCards[i].creationTitle,
         purpose: $scope.stageCards[i].creationDesc
       }
