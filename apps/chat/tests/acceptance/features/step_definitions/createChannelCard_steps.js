@@ -1,26 +1,31 @@
 var CAM_MOCKS = require('../../../mock-data.js');
 var SSTEPS = require('../../shared_steps.js');
+var assert = require('assert');
 module.exports = function(){
   // Before configuring scenario steps, define a few functions that are used more than once:
 
 var clickAddChannelButton = function(next){
-  browser.actions()
-  .mouseMove(element(by.css('#collection-channels .sopro-collection-title')))
-  .perform();
-  setTimeout(function () {
-    element(by.css('#collection-channels > div.channel-collection > div > span.channel-create-link'))
-    .isDisplayed()
-    .then(function(isDisplayed){
-      if(!isDisplayed){
-        return next(new Error('Can\'t find the create new channel button'));
-      }
-      element(by.css('#collection-channels > div.channel-collection > div > span.channel-create-link'))
-      .click()
-      .then(function(){
-        next();
-      })
-    })
-  },3000);
+    console.log("Clicking..")
+    browser.actions()
+    .mouseMove(element(by.css('#collection-channels .sopro-collection-title')))
+    .perform()
+    .then(function () {
+      setTimeout(function () {
+        element(by.css('#collection-channels > div.channel-collection > div > span.channel-create-link'))
+        .isDisplayed()
+        .then(function(isDisplayed){
+          if(!isDisplayed){
+            return next(new Error('Can\'t find the create new channel button'));
+          }
+          element(by.css('#collection-channels > div.channel-collection > div > span.channel-create-link'))
+          .click()
+          .then(function(){
+            console.log("Cliked");
+            next();
+          })
+        })
+      },1000);
+    });
 }
 
 // /^I should( not)? see a( blank)? channel creation card$/
