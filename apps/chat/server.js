@@ -114,7 +114,7 @@ var flagHTTPStarted = false;
 var flagHTTPSStarted = false;
 function startExpress(){
   // Configure authentication logic:
-  console.log('Envoronment:', app.sopro.env);
+  console.log('Environment:', app.sopro.env);
   console.log('Configuring auth...');
   passport = require('./passport.auth.js')(app);
   app.use(passport.initialize());

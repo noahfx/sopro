@@ -4,21 +4,23 @@ module.exports = function(){
   // Before configuring scenario steps, define a few functions that are used more than once:
 
 var clickAddChannelButton = function(next){
-  var addChannelButton = element.all(by.css('.channel-create-link')).first();
   var collectionTitleChannels = element(by.css('#collection-channels .sopro-collection-title'));
   browser.actions()
     .mouseMove(collectionTitleChannels)
-    .perform();
-  addChannelButton.isDisplayed()
-  .then(function(isDisplayed){
-    if(!isDisplayed){
-      return next(new Error('Can\'t find the create new channel button'));
-    }
-    addChannelButton.click()
-    .then(function(){
-      next();
-    })
-  })
+    .perform()
+    .then(function () {
+      var addChannelButton = element.all(by.css('.channel-create-link')).first();
+      addChannelButton.isDisplayed()
+      .then(function(isDisplayed){
+        if(!isDisplayed){
+          return next(new Error('Can\'t find the create new channel button'));
+        }
+        addChannelButton.click()
+        .then(function(){
+          next();
+        })
+      })
+    });
 }
 
 // /^I should( not)? see a( blank)? channel creation card$/
