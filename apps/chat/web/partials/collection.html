@@ -1,7 +1,7 @@
 <div class="channel-collection" layout="column">
   <div class="sopro-collection-title" layout="row" layout-align="space-between center" ng-mouseover="mouseOnCollectionTitle = true" ng-mouseleave="mouseOnCollectionTitle = false">
     <span>{{title}}</span>
-    <span class="channel-create-link" ng-if="userExpandable && mouseOnCollectionTitle" ng-click="createChannel()" role="button">+</span>
+    <span class="channel-create-link" ng-show="userExpandable" ng-click="createChannel()" role="button">+</span>
   </div>
   <ul>
       <li 

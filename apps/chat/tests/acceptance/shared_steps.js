@@ -24,13 +24,22 @@ module.exports = {
       var roleIndex = (arg1 == undefined)? 0: 1;
       changeIdentity(roleIndex)
       .then(function(){
-        var channels = browser.element.all(by.css('#collection-channels .channel-item'));
-        channels.count()
-        .then(function (count) {
-          if (count >= 2) {
-            next();
+        element.all(by.css('#collection-channels > div.channel-collection > ul > li.sopro-config-collection-link.sopro-more-channels'))
+        .get(0)
+        .isDisplayed()
+        .then(function (isDisplayed) {
+          if (arg1) {
+            if (isDisplayed) {
+              next();  
+            } else {
+              next.fail(new Error("Less than three Channels displayed"));
+            }    
           } else {
-            next.fail(new Error("Less than two Channels displayed"));
+            if (isDisplayed) {
+              next.fail(new Error("More than two Channels displayed"));  
+            } else {
+              next();
+            }
           }
         })
       })
