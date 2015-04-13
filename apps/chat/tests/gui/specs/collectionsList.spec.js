@@ -36,7 +36,7 @@ describe('Collections list', function() {
       it('has a Add Channel link', function(){
         expect(
           element(by.css('.channel-create-link'))
-          .isPresent()
+          .isDisplayed()
         ).toBeFalsy();
         browser.actions()
             .mouseMove(chat.collectionTitleChannels)
