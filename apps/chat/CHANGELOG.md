@@ -1,5 +1,5 @@
 # 0.1.9 (2015-04-14)
-* `/api/ping` now tells you where to get an api token, if the `token-auth header`` was missing
+* `/api/ping` now tells you where to get an api token, if the `token-auth` header was missing
 * Now when a logged-out user requests a route which requires authentication, and successfully logs in,
   they are redirected to the route they originally requested, instead of `/`
 * `/tests` folder reorganized
@@ -7,9 +7,9 @@
 
 # 0.1.8 (2015-04-13)
 Feature: Automatically Generated API User Token
-* During API user creation in POST /users we now create and save an apiToken object for the new user's identity.
-* Add route /token: If a user has a logged in browser session, this route shows their API token
-* Add route /api/ping: This sends a test response even if the request lacks a valid API token.
+* During API user creation in `POST /users` we now create and save an apiToken object for the new user's identity.
+* Add route `GET /token`: If a user has a logged in browser session, this route shows their API token
+* Add route `/api/ping`: This sends a test response even if the request lacks a valid API token.
 
 # 0.1.7 (2015-04-9)
 Create and save users. Improve cucumber-junit. Amazon SES emails.
