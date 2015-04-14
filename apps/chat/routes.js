@@ -288,9 +288,14 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
       return res.status(400).json({ok: false, error: 'bad_request', message: 'PUT /api/users requires the JSON body to contain a _id property for the target user.'})
     }
     PI.read(updates._id, function(err, result){
+      console.log(result);
       if(err){
-        console.log(err);
-        return res.status(500).json({ok: false, error: 'server_error'});
+        if(err.error === 'not_found'){
+          return res.status(404).json({ok: false, error: 'not_found', message: 'User not found.'})
+        } else {
+          console.log(err);
+          return res.status(500).json({ok: false, error: 'server_error'});
+        }
       }
       if(result.soproModel !== 'user'){
         return res.status(404).json({ok: false, error: 'not_found', message: 'User not found.'})
