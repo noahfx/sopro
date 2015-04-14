@@ -30,7 +30,7 @@ sudo npm run start -- $1 > server.log &
 sleep 5
 
 # run protractor acceptance tests
-npm run acceptance
+npm run acceptance | tee tests/acceptance/cucumber-report.json
 
 # stop vertx
 pkill -n java
