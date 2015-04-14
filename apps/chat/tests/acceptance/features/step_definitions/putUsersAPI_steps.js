@@ -47,7 +47,7 @@ module.exports = function(){
     }
     this.soproRequest({
       uri: 'api/users',
-      method: 'POST',
+      method: 'PUT',
       json: true,
       body: body,
     }, function(err, res, body){

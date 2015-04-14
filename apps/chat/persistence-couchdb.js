@@ -39,7 +39,9 @@ couch.update = function(data, callback){
     if(err){
       return callback(err);
     };
-    callback(err, body);
+    data._id = body.id;
+    data._rev = body.rev;
+    callback(err, data);
   });
 };
 
