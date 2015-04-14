@@ -1,4 +1,4 @@
-var CAM_MOCKS = require('../../../mock-data.js');
+var CAM_MOCKS = require('../../../common/mock-data.js');
 var SSTEPS = require('../../shared_steps.js');
 var assert = require("assert");
 

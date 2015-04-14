@@ -1,3 +1,4 @@
+var path = require('path');
 module.exports = function(config){
   config.set({
 
@@ -12,8 +13,8 @@ module.exports = function(config){
       'bower_components/jquery/dist/jquery.min.js',
       'js/*.js',
       'js/components/**/*.js',
-      '../tests/unit/karma/*.js',
-      '../tests/mock-data.js',
+      '../tests/unit-frontend/spec/*.js',
+      '../tests/common/mock-data.js',
     ],
 
     autoWatch : true,
@@ -31,7 +32,7 @@ module.exports = function(config){
     reporters: ['progress','junit'],
     
     junitReporter : {
-      outputFile: './../tests/unit/karma-unit.xml',
+      outputFile: path.join(__dirname, '..', 'junit-unit-frontend.xml'),
       suite: ''
     },
     

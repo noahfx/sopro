@@ -1,5 +1,5 @@
-var CAM_MOCKS = require('../mock-data.js');
-var protractorHelpers = require('../protractorHelpers.js')(browser,element);
+var CAM_MOCKS = require('../common/mock-data.js');
+var protractorHelpers = require('../common/protractor-helpers.js')(browser,element);
 var changeIdentity = protractorHelpers.changeIdentity;
 var fs = require('fs');
 

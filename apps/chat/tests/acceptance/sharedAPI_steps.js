@@ -1,4 +1,4 @@
-var CAM_MOCKS = require('../mock-data.js');
+var CAM_MOCKS = require('../common/mock-data.js');
 
 module.exports = {
   haveValidAuthToken: {
