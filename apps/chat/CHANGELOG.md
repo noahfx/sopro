@@ -1,3 +1,7 @@
+# 0.1.10 (2015-04-14)
+* `PUT /api/users` route added, for modifying an existing user
+* Admin panel (`/admin`) now allows admins to create new users.
+
 # 0.1.9 (2015-04-14)
 * `/api/ping` now tells you where to get an api token, if the `token-auth` header was missing
 * Now when a logged-out user requests a route which requires authentication, and successfully logs in,

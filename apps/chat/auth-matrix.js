@@ -3,6 +3,7 @@ module.exports =  function(){
   acl = new acl(new acl.memoryBackend());
   acl.allow('identity', '/', 'get');
   acl.allow('identity', '/api/users', ['get', 'post', 'put']);
+  acl.allow('identity', '/api/users/', ['get', 'post', 'put']);
   acl.allow('identity', '/api/channel', 'post');
   acl.allow('identity', '/api/channels', 'get');
   acl.allow('identity', '/api/channels.invite', ['get', 'post']);
