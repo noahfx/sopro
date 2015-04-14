@@ -1,7 +1,7 @@
 {
-  "name": "chat",
+  "name": "sopro-chat",
   "private": true,
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "a SocietyPro application",
   "keywords": [],
   "dependencies": {
@@ -47,7 +47,14 @@
     "type": "git",
     "url": "git://github.com/SocietyPro/sopro.git"
   },
-  "author": "jimmymorales",
+  "author": "Central Services",
+  "contributors": [{
+    "name": "therealplato",
+    "email": "plato@centralservices.io"
+    }, {
+    "name": "jimmymorales",
+    "email": "jimmy@centralservices.io"
+  }],
   "license": "",
   "devDependencies": {
     "cucumber": "^0.4.7",
