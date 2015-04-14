@@ -6,7 +6,7 @@ var eb = vertx.eventBus;
  * MOCKS AND HELPER FUNCTIONS:
  */
 
-load('tests/mock-data.js');   // they load into CAM_MOCKS
+load('tests/common/mock-data.js');   // they load into CAM_MOCKS
 
 // authMiddleware is used to wrap each event bus handler function.
 // The returned wrapper function is suitable for use as an event bus handler.

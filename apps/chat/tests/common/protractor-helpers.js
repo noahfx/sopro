@@ -62,9 +62,9 @@ module.exports = function (browser, element) {
     browser.get("/").then(function () {
       element(by.css("body")).getAttribute('data-soproenv')
       .then(function (env) {
-        var configFile = '../cfg/features.standard.js';
+        var configFile = '../../cfg/features.standard.js';
         if (env == "enterprise" ) {
-          configFile = '../cfg/features.enterprise.js';
+          configFile = '../../cfg/features.enterprise.js';
         }
         var features = require(configFile);
         features.env = env;

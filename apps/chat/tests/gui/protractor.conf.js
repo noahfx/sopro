@@ -24,7 +24,7 @@ exports.config = {
     var jasmineReporters = require('jasmine-reporters');
     var jUnitXmlReporter = new jasmineReporters.JUnitXmlReporter({
       savePath: "tests",
-      filePrefix: 'gui-out',
+      filePrefix: 'junit-gui',
       consolidateAll: true,
     })
     jasmine.getEnv().addReporter(jUnitXmlReporter);

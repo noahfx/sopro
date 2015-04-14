@@ -1,4 +1,4 @@
-var CAM_MOCKS = require('../../../mock-data.js');
+var CAM_MOCKS = require('../../../common/mock-data.js');
 var SSTEPS = require('../../shared_steps.js');
 module.exports = function(){
   // Before configuring scenario steps, define a few functions that are used more than once:

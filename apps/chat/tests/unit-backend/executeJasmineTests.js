@@ -15,11 +15,12 @@ var reporters = require('jasmine-reporters');
 jasmine.loadConfigFile(path.join(__dirname, 'spec', 'support', 'jasmine.json'));
 
 var junitReporter = new reporters.JUnitXmlReporter({
-  savePath: path.join(__dirname, '..', '..'),
+  savePath: path.join(__dirname, '..'),
   consolidate: true,
   consolidateAll: true,
-  filePrefix: 'unit-backend-out',
+  filePrefix: 'junit-unit-backend',
 });
 
 jasmine.addReporter(junitReporter);
 jasmine.execute();
+console.log('Running tests...');

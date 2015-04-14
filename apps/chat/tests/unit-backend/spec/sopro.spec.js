@@ -5,19 +5,19 @@ var async = require('async');
 // Construct mock app object:
 var app = {
   sopro: {
-    local: require('../../../../cfg/locals.js'),
-    servers: require('../../../../cfg/servers.js'),
+    local: require('../../../cfg/locals.js'),
+    servers: require('../../../cfg/servers.js'),
     // Hardcode standard features for now:
-    features: require('../../../../cfg/features.standard.js'),
+    features: require('../../../cfg/features.standard.js'),
   }
 }
 
 // Load mocks:
-var CAM_MOCKS = require('../../../mock-data.js');
+var CAM_MOCKS = require('../../common/mock-data.js');
 
 // Load real persistence interface:
-var PI = require('../../../../persistence-interface')();
-var PICouch = require('../../../../persistence-couchdb');
+var PI = require('../../../persistence-interface')();
+var PICouch = require('../../../persistence-couchdb');
 
 PI.use(PICouch);
 
@@ -27,7 +27,7 @@ var token;
 describe('sopro.js', function(){
   beforeAll(function(){
     function tryRequire(){
-      sopro = require('../../../../sopro.js')(app, PI);
+      sopro = require('../../../sopro.js')(app, PI);
       expect(typeof sopro).toBe('object');
       expect(sopro.crypto).toBeDefined();
     }

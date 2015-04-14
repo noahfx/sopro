@@ -1,4 +1,4 @@
-var CAM_MOCKS = require('../../../mock-data.js');
+var CAM_MOCKS = require('../../../common/mock-data.js');
 var S_STEPS = require('../../shared_steps.js');
 var SA_STEPS = require('../../sharedAPI_steps.js');
 var acl = require('../../../../auth-matrix.js')();

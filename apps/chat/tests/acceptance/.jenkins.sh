@@ -9,7 +9,7 @@ sudo /etc/init.d/xvfb start
 sudo /etc/init.d/selenium start
 
 # lift the vertx app
-~/vert.x-2.1.5/bin/vertx run server.vertx.js &
+~/vert.x-2.1.5/bin/vertx run server.vertx.js
 
 sleep 10
 
@@ -24,11 +24,12 @@ cd couchdb
 node populate-couchdb-mocks.js
 cd ..
 
-sudo npm run start -- $1 &
+# Redirect stdout, but not stderr:
+sudo npm run start -- $1 > server.log
 
 sleep 5
 
-# run protractor GUI tests
+# run protractor acceptance tests
 npm run acceptance
 
 # stop vertx

@@ -1,6 +1,6 @@
-var CAM_MOCKS = require('../../../mock-data.js');
+var CAM_MOCKS = require('../../../common/mock-data.js');
 var S_STEPS = require('../../shared_steps.js');
-var protractorHelpers = require('../../../protractorHelpers.js')(browser,element);
+var protractorHelpers = require('../../../common/protractor-helpers.js')(browser,element);
 var fs = require('fs');
 var assert = require('assert');
 
