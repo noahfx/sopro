@@ -7,12 +7,14 @@ module.exports = function() {
   
   //zombie.localhost('localhost', 8080);
   this.World = function World(callback) {
-    var certfile = require('../../../../cfg/servers.js').express.sslOptions.certfile;
+    var servers = require('../../../../cfg/servers.js');
+    var certfile = servers.express.sslOptions.certfile;
     //this.browser = new zombie(); // this.browser will be available in step definitions
     this.soproRequest = request.defaults({
       headers: {
         'token-auth': CAM_MOCKS.validToken,
       },
+      baseUrl: servers.express.baseUrl,
       strictSSL: false,
       agentOptions: {
         ca: fs.readFileSync(certfile),
