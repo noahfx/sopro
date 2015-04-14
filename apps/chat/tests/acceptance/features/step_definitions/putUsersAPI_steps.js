@@ -17,12 +17,11 @@ module.exports = function(){
 
   this.Given(/^the authentication token is for an identity with the authorization to (GET|POST|PUT) (.*)$/,
   function(arg1, arg2, next){
-    if(!arg1 || !arg2){
-      return next.fail('Authorization endpoint regexes did not match')
+    if(arg1 === undefined || !arg2 === undefined){
+      return next.fail('Authorization endpoint not found')
     }
     var method = arg1;
     var route = arg2;
-    console.log(method, route);
     // Try whatever the current token is:
     acl.isAllowed(this.validAuthToken, route, method.toLowerCase(), function(err, ok){
       if(err){
