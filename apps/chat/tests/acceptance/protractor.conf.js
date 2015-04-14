@@ -14,6 +14,9 @@ exports.config = {
 
   framework: 'cucumber',
 
-  cucumberOpts: { format: 'pretty' }
+  cucumberOpts: { 
+    format: 'pretty',
+    require: 'jsonOutputHook.js'
+  }
 
 };
