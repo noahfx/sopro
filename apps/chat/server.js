@@ -20,8 +20,8 @@ try{
   if(e.code == 'ENOENT') {
     var file = fs.readFileSync('./cfg/locals.example.js', {encoding: 'utf8'});
     console.log('cfg/locals.js not found. Cannot start.')
-    process.setgid(serverConfig.servers.express.runtimeGroup);
-    process.setuid(serverConfig.servers.express.runtimeUser);
+    process.setgid(serverConfig.express.runtimeGroup);
+    process.setuid(serverConfig.express.runtimeUser);
     fs.writeFileSync('./cfg/locals.js', file, {encoding: 'utf8'});
     console.log('Wrote example local config in cfg/locals.js. Edit and set your secrets there.');
     process.exit();
