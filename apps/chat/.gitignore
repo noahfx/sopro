@@ -115,10 +115,10 @@ npm-debug.log
 nbproject
 .idea
 .node_history
-tests/unit/karma-unit.xml
-tests/unit/mocha-unit.xml
-tests/gui/test-out.xml
-tests/api_client/test-out.xml
-tests/acceptance/test-out.xml
+tests/junit-unit-frontend.xml
+tests/junit-unit-backend.xml
+tests/junit-gui.xml
+tests/junit-api.xml
+tests/junit-acceptance.xml
 tests/acceptance/report.json
 

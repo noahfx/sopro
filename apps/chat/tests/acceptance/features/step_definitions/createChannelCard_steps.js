@@ -1,24 +1,29 @@
-var CAM_MOCKS = require('../../../mock-data.js');
+var CAM_MOCKS = require('../../../common/mock-data.js');
 var SSTEPS = require('../../shared_steps.js');
+var assert = require('assert');
 module.exports = function(){
   // Before configuring scenario steps, define a few functions that are used more than once:
 
 var clickAddChannelButton = function(next){
-  var addChannelButton = element.all(by.css('.channel-create-link')).first();
-  var collectionTitleChannels = element(by.css('#collection-channels .sopro-collection-title'));
-  browser.actions()
-    .mouseMove(collectionTitleChannels)
-    .perform();
-  addChannelButton.isDisplayed()
-  .then(function(isDisplayed){
-    if(!isDisplayed){
-      return next(new Error('Can\'t find the create new channel button'));
-    }
-    addChannelButton.click()
-    .then(function(){
-      next();
-    })
-  })
+    browser.actions()
+    .mouseMove(element(by.css('#collection-channels .sopro-collection-title')))
+    .perform()
+    .then(function () {
+      setTimeout(function () {
+        element(by.css('#collection-channels > div.channel-collection > div > span.channel-create-link'))
+        .isDisplayed()
+        .then(function(isDisplayed){
+          if(!isDisplayed){
+            return next(new Error('Can\'t find the create new channel button'));
+          }
+          element(by.css('#collection-channels > div.channel-collection > div > span.channel-create-link'))
+          .click()
+          .then(function(){
+            next();
+          })
+        })
+      },1000);
+    });
 }
 
 // /^I should( not)? see a( blank)? channel creation card$/
@@ -96,13 +101,12 @@ function checkChannelCardPresence (arg1, next){
   : false;
 
   var channelCards = element.all(by.css('#main-stage .sopro-card.channel-card'))
-  channelCards
   .count()
   .then(function(count){
     if(count === 0){
       return next(new Error('Zero channel cards found after creation'))
     } else {
-      channelCards
+      element.all(by.css('#main-stage .sopro-card.channel-card'))
       .get(0)
       .element(by.css('header .title'))
       .getText()
@@ -134,8 +138,8 @@ function checkChannelCardPresence (arg1, next){
     checkChannelCreationCardPresence);
 
   this.Then(/^the card should be in the number 1 position on the main stage$/, function(next){
-    var firstCard = element(by.css('#main-stage #card-create-channel:first-child'));
-    firstCard.isDisplayed()
+    var firstCard = element(by.css('#main-stage #card-create-channel:first-child'))
+    .isDisplayed()
     .then(function(isDisplayed){
       if(!isDisplayed){
         return next(new Error('Channel creation card is not the first child of #main-stage.'));
@@ -171,13 +175,14 @@ function checkChannelCardPresence (arg1, next){
     ensureChannelCreationCard);
 
   this.When(/^I enter a name for the channel$/, function(next){
-    var nameInput = element(by.css("#card-create-channel .card-content .title"));
-    nameInput.isDisplayed()
+    var nameInput = element(by.css("#card-create-channel .card-content .title"))
+    .isDisplayed()
     .then(function(isDisplayed){
       if(!isDisplayed){
         next(new Error('Can\'t find the channel name input'))
       }
-      nameInput.sendKeys(CAM_MOCKS.newChannelName)
+      element(by.css("#card-create-channel .card-content .title"))
+      .sendKeys(CAM_MOCKS.newChannelName)
       .then(function(){
         next();
       })
@@ -185,15 +190,18 @@ function checkChannelCardPresence (arg1, next){
   });
 
   this.When(/^I click the "Create Channel" button$/, function(next){
-    var createButton = element(by.css("#card-create-channel .create-button"));
-    createButton.isDisplayed()
+    var self = this;
+    var createButton = element(by.css("#card-create-channel .create-button"))
+    .isDisplayed()
     .then(function(isDisplayed){
       if(!isDisplayed){
         next(new Error('Can\'t find the channel creation button'))
       }
-      createButton.click()
+      element(by.css("#card-create-channel .create-button")).click()
       .then(function(){
-        next();
+        setTimeout(function() {
+          next.call(self);
+        },1000);
       })
     });
   });
@@ -213,13 +221,13 @@ function checkChannelCardPresence (arg1, next){
     ensureChannelCreationCard);
 
   this.When(/^I click the "cancel" button$/, function(next){
-    var cancel = element(by.css('#card-create-channel .cancel-button'));
-    cancel.isDisplayed()
+    var cancel = element(by.css('#card-create-channel .cancel-button'))
+    .isDisplayed()
     .then(function(isDisplayed){
       if(!isDisplayed){
         return next(new Error('Cancel button not found on create channel card'))
       }
-      cancel.click()
+      element(by.css('#card-create-channel .cancel-button')).click()
       .then(function(){
         next();
       })
@@ -242,13 +250,13 @@ function checkChannelCardPresence (arg1, next){
     ensureChannelCreationCard);
 
   this.When(/^I click the "X" icon button$/, function(next){
-    var cancel = element(by.css('#card-create-channel .cancel-button'));
-    cancel.isDisplayed()
+    var cancel = element(by.css('#card-create-channel .cancel-button'))
+    .isDisplayed()
     .then(function(isDisplayed){
       if(!isDisplayed){
         return next(new Error('X button not found on create channel card'))
       }
-      cancel.click()
+      element(by.css('#card-create-channel .cancel-button')).click()
       .then(function(){
         next();
       })

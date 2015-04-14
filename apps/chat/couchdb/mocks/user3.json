@@ -1,0 +1,7 @@
+{
+  "_id": "user-999",
+  "soproModel":"user",
+  "roleids":["foobar"],
+  "username":"jhon",
+  "email":"t-1000@centralservices.io"
+}

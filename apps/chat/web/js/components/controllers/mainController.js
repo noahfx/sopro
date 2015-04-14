@@ -24,10 +24,10 @@ angular.module('societyProChatApp.controllers',['ngMaterial', 'ngAnimate', 'soci
     positionCommpanelScrollbar();
   });
 
-  $rootScope.token = "12345";
-
   $scope.currentUser = $rootScope.currentUser = UserService;   
   $scope.roles = $scope.currentUser.identities;
+  $rootScope.token = $scope.currentUser.apiToken;
+
   /*
     {
       "id": "abc",

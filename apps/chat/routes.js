@@ -59,6 +59,8 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
   // Verify that this request is for a logged in user:
   function requireLogin(req, res, next){
     if(!req.user){
+      // Save the URL they wanted:
+      req.session.bounceUrl = req.originalUrl;
       return res.redirect('/login');
     };
     next();
@@ -69,18 +71,6 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
     var sessionCookie = req.header('Cookie');
     if(sessionCookie === undefined){
       res.status(401).send()
-    }
-  }
-
-  function compareAuthedUserAndRole(req, res, next){
-    if (req.user){
-      if(req.user.userid === req.query['role']){
-        // The logged in user requested his own role
-        return next()
-      }
-      res.status(401).json({ok: false, error: "That is not your role"})
-    } else {
-      res.status(401).json({ok: false, error: "unauthorized"})
     }
   }
 
@@ -97,6 +87,27 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
    *  DEVELOPMENT ROUTES
    */
 
+  app.get('/token', requireLogin, function(req, res, next){
+    PI.find('apiToken', 'for_identityid', req.session.userId, function(err, results){
+      if(err){
+        console.log('Error finding an apiToken for', req.session.userId)
+        return res.status(500).json({ok: false, error: 'server_error'});
+      }
+      if(results.length === 0){
+        console.log('Did not find an apiToken for', req.session.userId)
+        return res.status(500).json({ok: false, error: 'server_error'});
+      }
+      if(results.length > 1){
+        console.log('Found more than one apiToken for', req.session.userId)
+        return res.status(500).json({ok: false, error: 'server_error'});
+      }
+      var token = results[0];
+      res.status(200).json({
+        ok: true,
+        apiToken: token,
+      })
+    })
+  })
   // Danger, this route can change configs. Only use in development:
   if( app.get('env') === "development"){
     app.post('/api/dev/setconfig', function(req, res, next){
@@ -142,15 +153,27 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
   });
 
   app.post('/login/password', passport.authenticate('local', {
-    successRedirect: '/',
-    failureRedirect: '/login'
+    successRedirect: '/login/success',
+    failureRedirect: '/login',
   }))
 
   app.get('/login', function(req, res, next) {
+    if(req.user){
+      return res.redirect('/');
+    }
     res.locals.features = app.sopro.features;
     res.locals.currentUser = JSON.stringify(req.user)
     res.render('login');
   });
+
+  app.get('/login/success/', function(req, res, next){
+    var dest = '/';
+    if(req.session.bounceUrl){
+      dest = req.session.bounceUrl;
+      delete req.session.bounceUrl;
+    }
+    res.redirect(dest);
+  })
 
   app.get('/logout', function(req, res, next){
     if(req.user){
@@ -168,32 +191,70 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
 
   app.get('/api/denyauth', acl.middleware());
 
+  // First ping handler, skip if request has a token
+  app.all('/api/ping', function(req, res, next){
+    if(req.headers['token-auth']){
+      return next()
+    }
+    res.status(200).json({
+      ok: 'true',
+      method: req.method,
+      user: null,
+      message: 'All API calls, except this one, must include a token-auth header set to your api token.',
+    })
+  });
+
   app.all('/api/*', function(req, res, next){
-    var token = req.header('token-auth')
+    var token = req.header('token-auth');
     if(token == undefined){
-      res.status(401).send('{"ok":false, "error":"not_authed"}');
+      var msg = 'You need a valid token-auth header. Find your token at https://'+ app.sopro.servers.hostname+'/token'
+      res.status(401).json({ok:false, error:'not_authed', message: msg});
     } else {
       req.authToken = token;
-      PI.read('user-abc', function(err, user){
+      PI.find('apiToken', 'token', token, function(err, results){
         if(err){
           console.log(err);
-          return res.status(500).json({
-            ok: false,
-            error: "server error",
-          })
+          return res.status(500).json({ok: false, error: 'server_error'})
+        } else if( results.length === 0){
+          return res.status(401).json({ok: false, error: 'invalid_auth'})
+        } else if( results.length > 1){
+          console.log('Found more than one api token matching', token);
+          return res.status(500).json({ok: false, error: 'server_error'})
         }
-        var identityId = req.query['role'] || 'abc';
-        req.session.userId = identityId;
-        if(!req.user){ // Don't override an existing user session
-          req.logIn(user, function(){
+        var tokenObj = results[0];
+        var identityId = tokenObj.for_identityid;
+        PI.read(identityId, function(err, identity){
+          if(err){
+            console.log('Identity', identityId, 'not found while trying to login token', token);
+            return res.status(500).json({ok: false, error: 'server_error'})
+          }
+          req.session.userId = identity._id;
+          PI.read(identity.for_userid, function(err, user){
+            if(err){
+              console.log('User', identity.for_userid, 'not found while trying to login identity', identity._id);
+              return res.status(500).json({ok: false, error: 'server_error'})
+            }
+            // We'll probably need the user available in subsequent routing functions.
+            // I don't know if we would run into problems with req.logIn(user) here.
+            // That makes Passport set session cookies.
+            // Just in case that unwanted session would cause problems, avoid req.logIn:
+            req.user = user;
             next();
-          });
-        } else {
-          next();
-        }
+          })
+        })
       })
     }
   });
+
+  // Second ping handler, if request had a token
+  app.all('/api/ping', function(req, res, next){
+    res.status(200).json({
+      ok: 'true',
+      method: req.method,
+      user: req.user,
+    })
+  });
+
   app.get('/api/*', acl.middleware());
   app.post('/api/*', acl.middleware());
   app.put('/api/*', acl.middleware());
@@ -252,19 +313,9 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
 
   app.get('/api/channels',
   function(req, res, next) {
-    var role = req.query['role'];
-    if (role == undefined) {
-      return res.end(
-        '{"ok":false, "error":"role_not_found"}'
-      );
-    }
-
     var params = {
-      requester: role,
-      token: req.authToken,
-      payload: {
-        role: role
-      }
+      requester: req.session.userId,
+      token: req.authToken
     }
     eb.send("get.channels",JSON.stringify(params), function (reply) {
       res.send(reply);
@@ -273,25 +324,19 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
 
   app.post('/api/channel',
     function(req, res, next) {
-    var role = req.query['role'];
     var name = req.query['name'];
     var topic = req.query['topic'];
     var purpose = req.query['purpose'];
-    if (role == undefined) {
-      return res.send(
-        '{"ok":false, "error":"role_not_found"}'
-      );
-    } else if(name == undefined){
+    if(name == undefined){
       return res.send(
         '{"ok":false, "error":"no_channel"}'
       );
     }
 
     var params = {
-      requester: role,
+      requester: req.session.userId,
       token: req.authToken,
       payload: {
-        role: role,
         name: name,
         topic: topic,
         purpose: purpose
@@ -304,11 +349,7 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
 
 
   app.post('/api/channels.invite', function(req, res, next) {
-    if (req.query['role'] == undefined) {
-      return res.send(
-        '{"ok":false, "error":"role_not_found"}'
-      );
-    } else if(req.query['user'] == undefined){
+    if(req.query['user'] == undefined){
       return res.send(
         '{"ok":false, "error":"user_not_found"}'
       );
@@ -318,10 +359,10 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
       );
     }
     var user = req.query['user'];
-    var role = req.query['role'];
+    var identity = req.session.userId;
     var channel = req.query['channel'];
     var params = {
-      requester: role,
+      requester: identity,
       token: req.authToken,
       payload: {
         user: user,
@@ -335,17 +376,11 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
 
   app.get('/api/channel.info', function(req, res, next) {
 
-    if (req.query['role'] == undefined) {
-      return res.send(
-        '{"ok":false, "error":"role_not_found"}'
-      );
-    } else if(req.query['channel'] == undefined){
-      return res.send(
-        '{"ok":false, "error":"channel_not_found"}'
-      );
+    if(req.query['channel'] == undefined){
+      return res.status(404).json({"ok":false, "error":"channel_not_found"});
     }
     var params = {
-        requester: req.query['role'],
+        requester: req.session.userId,
         token: req.authToken,
         payload: {
           channel: req.query['channel'],

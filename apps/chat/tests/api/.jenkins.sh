@@ -15,7 +15,8 @@ cd couchdb
 node populate-couchdb-mocks.js
 cd ..
 
-sudo npm run start -- $1 &
+# Redirect stdout, but not stderr:
+sudo npm run start -- $1 > server.log &
 
 sleep 5
 

@@ -1,5 +1,5 @@
-var CAM_MOCKS = require('../../mock-data.js');
-var changeIdentity = require('../../protractorHelpers.js')(browser,element).changeIdentity;
+var CAM_MOCKS = require('../../common/mock-data.js');
+var changeIdentity = require('../../common/protractor-helpers.js')(browser,element).changeIdentity;
 
 var Elements = function () {
   this.currentRole = element(by.css(".role-selection"));

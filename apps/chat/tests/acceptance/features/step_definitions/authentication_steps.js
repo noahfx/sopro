@@ -1,4 +1,4 @@
-var protractorHelpers = require('../../../protractorHelpers.js')(browser,element);
+var protractorHelpers = require('../../../common/protractor-helpers.js')(browser,element);
 var fs = require('fs');
 
 var authentication_steps = module.exports = function() {

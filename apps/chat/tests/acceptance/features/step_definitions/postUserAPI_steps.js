@@ -1,8 +1,11 @@
-var CAM_MOCKS = require('../../../mock-data.js');
+var CAM_MOCKS = require('../../../common/mock-data.js');
 var S_STEPS = require('../../shared_steps.js');
 var SA_STEPS = require('../../sharedAPI_steps.js');
 var acl = require('../../../../auth-matrix.js')();
 var assert = require('assert');
+var PI = require('../../../../persistence-interface.js')();
+var PICouch = require('../../../../persistence-couchdb');
+PI.use(PICouch);
 
 module.exports = function(){
   /*
@@ -119,7 +122,6 @@ module.exports = function(){
           if (!correctDate) {
             return next.fail(new Error("More than a minute elapse"));
           }
-          next();
         });
       });
     });
@@ -130,6 +132,12 @@ module.exports = function(){
     });
 
     imap.once('end', function() {
+      PI.destroy(self.response.user,function(err,user){
+        if(err) {
+          return next.fail(new Error(err));
+        }
+        next();
+      });
     });
 
     imap.connect();

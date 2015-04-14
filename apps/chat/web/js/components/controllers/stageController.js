@@ -59,7 +59,7 @@ angular.module('societyProChatApp.controller2',['ngMaterial'])
     if(!$scope.stageCards[i].creationTitle) {
       throw new Error('Missing title of channel');
       return;
-    }
+    };
     $http({
       method: 'POST',
       url: '/api/channel',

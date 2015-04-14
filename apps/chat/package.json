@@ -1,7 +1,7 @@
 {
-  "name": "chat",
+  "name": "sopro-chat",
   "private": true,
-  "version": "0.1.7",
+  "version": "0.1.9",
   "description": "a SocietyPro application",
   "keywords": [],
   "dependencies": {
@@ -31,22 +31,30 @@
     "prestart": "npm install",
     "start": "node server.js",
     "pretest": "npm install",
-    "test": "./node_modules/karma/bin/karma start ./tests/unit/karma.conf.js",
-    "unit": "./node_modules/karma/bin/karma start ./tests/unit/karma.conf.js  --single-run",
-    "api": "./node_modules/.bin/newman -k -c tests/api_client/collections/testCollection.json.postman_collection --testReportFile tests/api_client/test-out.xml",
+    "test": "./node_modules/karma/bin/karma start ./tests/unit/frontend/karma.conf.js",
+    "unit-frontend": "./node_modules/karma/bin/karma start ./tests/unit-frontend/karma.conf.js  --single-run",
+    "unit-backend": "node tests/unit-backend/executeJasmineTests.js",
+    "api": "./node_modules/.bin/newman -k -c tests/api/collections/testCollection.json.postman_collection --testReportFile tests/junit-api.xml",
     "gui": "protractor tests/gui/protractor.conf.js",
     "preupdate-webdriver": "npm install",
     "update-webdriver": "webdriver-manager update",
     "pregui": "npm run update-webdriver",
     "acceptance": "protractor tests/acceptance/protractor.conf.js",
-    "cucumber-junit": "cat ./tests/acceptance/report.json | ./lib/protractor-cucumber-junit/bin/cucumber-junit > tests/acceptance/test-out.xml"
+    "cucumber-junit": "cat ./tests/acceptance/report.json | ./lib/protractor-cucumber-junit/bin/cucumber-junit > tests/junit-acceptance.xml"
   },
   "main": "app.js",
   "repository": {
     "type": "git",
     "url": "git://github.com/SocietyPro/sopro.git"
   },
-  "author": "jimmymorales",
+  "author": "Central Services",
+  "contributors": [{
+    "name": "therealplato",
+    "email": "plato@centralservices.io"
+    }, {
+    "name": "jimmymorales",
+    "email": "jimmy@centralservices.io"
+  }],
   "license": "",
   "devDependencies": {
     "cucumber": "^0.4.7",
@@ -61,6 +69,7 @@
     "karma-junit-reporter": "^0.2.2",
     "karma-phantomjs-launcher": "^0.1.4",
     "newman": "^1.2.9",
-    "phantomjs": "^1.9.15"
+    "phantomjs": "^1.9.15",
+    "xml": "~0.0.12"
   }
 }

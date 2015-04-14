@@ -1,15 +1,33 @@
+# 0.1.9 (2015-04-14)
+* `/api/ping` now tells you where to get an api token, if the `token-auth` header was missing
+* Now when a logged-out user requests a route which requires authentication, and successfully logs in,
+  they are redirected to the route they originally requested, instead of `/`
+* `/tests` folder reorganized
+  ([b9bc370](https://github.com/SocietyPro/sopro/commit/b9bc370b9bc7dc4065969996ad181631dfcf52c6))
+
+# 0.1.8 (2015-04-13)
+Feature: Automatically Generated API User Token
+* During API user creation in `POST /users` we now create and save an apiToken object for the new user's identity.
+* Add route `GET /token`: If a user has a logged in browser session, this route shows their API token
+* Add route `/api/ping`: This sends a test response even if the request lacks a valid API token.
+
 # 0.1.7 (2015-04-9)
 Create and save users. Improve cucumber-junit. Amazon SES emails.
 Features:
-* Administration Panel Link ([b5bccfa](https://github.com/SocietyPro/sopro/commit/b5bccfaa816bc2163c8270104121349632f99215))
+* Administration Panel Link
+  ([b5bccfa](https://github.com/SocietyPro/sopro/commit/b5bccfaa816bc2163c8270104121349632f99215))
 * New user activation link and POST a user via API
 
 # 0.1.6 (2015-03-31)
-With the new SocietyPro Enterprise Edition we had add some new feature:
-* SocietyPro Authentication, remove roles from toolbar dropdown and SSL/TLS Certificate Use ([baf22d5](https://github.com/SocietyPro/sopro/commit/baf22d51cccb5fe0a76767c71fbefb74e532b9af)).
-* SocietyPro Authorization ([f8affd5](https://github.com/SocietyPro/sopro/commit/f8affd561442eb9668c1ba49bd4d86f0cb24e509)).
-* Persisting Users ([c0a8fe8](https://github.com/SocietyPro/sopro/commit/c0a8fe835d38079d3b964c79f9237752dd4048af)).
-* GET users via API ([6b2540a](https://github.com/SocietyPro/sopro/commit/6b2540a7ae2d1ff8b1869c35530c3cfdb03fef65)).
+With the new SocietyPro Enterprise Edition we created new features:
+* SocietyPro Authentication, remove roles from toolbar dropdown and SSL/TLS Certificate Use
+  ([baf22d5](https://github.com/SocietyPro/sopro/commit/baf22d51cccb5fe0a76767c71fbefb74e532b9af))
+* SocietyPro Authorization
+  ([f8affd5](https://github.com/SocietyPro/sopro/commit/f8affd561442eb9668c1ba49bd4d86f0cb24e509))
+* Persisting Users
+  ([c0a8fe8](https://github.com/SocietyPro/sopro/commit/c0a8fe835d38079d3b964c79f9237752dd4048af))
+* GET users via API
+  ([6b2540a](https://github.com/SocietyPro/sopro/commit/6b2540a7ae2d1ff8b1869c35530c3cfdb03fef65))
 
 # 0.1.5 (2015-03-18)
 Someone accidentally already pushed a 0.1.4 tag to git. So we can't use that one again.

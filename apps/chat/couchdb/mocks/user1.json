@@ -1,7 +1,7 @@
 {
   "_id":"user-abc",
   "soproModel":"user",
-  "roleids":["abc"],
+  "roleids":["abc","foobar"],
   "username":"louise",
   "realname":"Louise Adversity",
   "email":"louise@centralservices.io"

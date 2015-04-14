@@ -14,8 +14,8 @@ var memoryAdapter = {
   }
 };
 
-var PI = require('../../../../persistence-interface')();
-var PICouch = require('../../../../persistence-couchdb');
+var PI = require('../../../persistence-interface')();
+var PICouch = require('../../../persistence-couchdb');
 
 PI.use(PICouch);
 PI.use(memoryAdapter);
