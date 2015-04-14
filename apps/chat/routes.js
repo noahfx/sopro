@@ -177,6 +177,19 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
 
   app.get('/api/denyauth', acl.middleware());
 
+  // First ping handler, skip if request has a token
+  app.all('/api/ping', function(req, res, next){
+    if(req.headers['token-auth']){
+      return next()
+    }
+    res.status(200).json({
+      ok: 'true',
+      method: req.method,
+      user: null,
+      message: 'All API calls, except this one, must include a token-auth header set to your api token.',
+    })
+  });
+  
   app.all('/api/*', function(req, res, next){
     var token = req.header('token-auth');
     if(token == undefined){
@@ -218,7 +231,7 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
     }
   });
 
-  // Construct ping route first to avoid applying acl:
+  // Second ping handler, if request had a token
   app.all('/api/ping', function(req, res, next){
     res.status(200).json({
       ok: 'true',
