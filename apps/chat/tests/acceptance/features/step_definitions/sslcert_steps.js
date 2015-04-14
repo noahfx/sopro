@@ -35,7 +35,7 @@ module.exports = function(){
 
   this.Then(/^users will receive that certificate when connecting to Society Pro over https$/, function(next){
     var self = this;
-    this.soproRequest('https://localhost', function(err, res, body){
+    this.soproRequest('https://localhost:8443', function(err, res, body){
       if(err){
         next.fail(new Error(err));
       }
