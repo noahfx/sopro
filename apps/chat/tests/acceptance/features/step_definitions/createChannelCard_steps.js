@@ -5,7 +5,6 @@ module.exports = function(){
   // Before configuring scenario steps, define a few functions that are used more than once:
 
 var clickAddChannelButton = function(next){
-    console.log("Clicking..")
     browser.actions()
     .mouseMove(element(by.css('#collection-channels .sopro-collection-title')))
     .perform()
@@ -20,7 +19,6 @@ var clickAddChannelButton = function(next){
           element(by.css('#collection-channels > div.channel-collection > div > span.channel-create-link'))
           .click()
           .then(function(){
-            console.log("Cliked");
             next();
           })
         })

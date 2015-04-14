@@ -59,6 +59,8 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
   // Verify that this request is for a logged in user:
   function requireLogin(req, res, next){
     if(!req.user){
+      // Save the URL they wanted:
+      req.session.bounceUrl = req.originalUrl;
       return res.redirect('/login');
     };
     next();
@@ -151,15 +153,27 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
   });
 
   app.post('/login/password', passport.authenticate('local', {
-    successRedirect: '/',
-    failureRedirect: '/login'
+    successRedirect: '/login/success',
+    failureRedirect: '/login',
   }))
 
   app.get('/login', function(req, res, next) {
+    if(req.user){
+      return res.redirect('/');
+    }
     res.locals.features = app.sopro.features;
     res.locals.currentUser = JSON.stringify(req.user)
     res.render('login');
   });
+
+  app.get('/login/success/', function(req, res, next){
+    var dest = '/';
+    if(req.session.bounceUrl){
+      dest = req.session.bounceUrl;
+      delete req.session.bounceUrl;
+    }
+    res.redirect(dest);
+  })
 
   app.get('/logout', function(req, res, next){
     if(req.user){
@@ -189,11 +203,12 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
       message: 'All API calls, except this one, must include a token-auth header set to your api token.',
     })
   });
-  
+
   app.all('/api/*', function(req, res, next){
     var token = req.header('token-auth');
     if(token == undefined){
-      res.status(401).json({ok:false, error:"not_authed"});
+      var msg = 'You need a valid token-auth header. Find your token at https://'+ app.sopro.servers.hostname+'/token'
+      res.status(401).json({ok:false, error:'not_authed', message: msg});
     } else {
       req.authToken = token;
       PI.find('apiToken', 'token', token, function(err, results){

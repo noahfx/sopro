@@ -112,7 +112,6 @@ module.exports = function(){
         browser.findElement(by.css("pre"))
         .getText()
         .then(function(t) {
-          //console.log(src.getText());
           var response = JSON.parse(t);
           assert(response.ok == true);
           self.tokenObj = response.apiToken;
