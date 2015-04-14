@@ -18,8 +18,6 @@ module.exports = function(){
   this.When(/^I "save" the user$/, function(next){
     var self = this;
     PI.create('user', this.user, function(err, body){
-      console.log(err);
-      console.log(body);
       self.createdUser = body;
       next(err);
     })

@@ -301,7 +301,6 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
         result[prop] = updates[prop];
       }
       PI.update('user', result, function(err, result2){
-        console.log(err, result2);
         res.status(200).send({ok: true, user: result2});
       })
     })

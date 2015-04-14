@@ -35,7 +35,10 @@ module.exports = function(){
 
   this.Then(/^users will receive that certificate when connecting to Society Pro over https$/, function(next){
     var self = this;
-    this.soproRequest('https://localhost', function(err, res, body){
+    this.soproRequest({
+      baseUrl: undefined,
+      uri: 'https://'+serverConfig.express.hostname,
+    }, function(err, res, body){
       if(err){
         next.fail(new Error(err));
       }
@@ -64,7 +67,10 @@ module.exports = function(){
 
   this.When(/^I connect to the Society Pro server with http$/, function(next){
     var self = this;
-    this.soproRequest('http://localhost:8080', function(err, res, body){
+    this.soproRequest({
+      uri: 'http://'+serverConfig.express.hostname+':'+serverConfig.express.port,
+      baseUrl: undefined,
+    }, function(err, res, body){
       if(err){
         next.fail(new Error(err));
       }

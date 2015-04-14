@@ -41,7 +41,7 @@ module.exports = function(){
   this.When(/^I make the correct https PUT request with edited user data$/, function(next){
     var self = this;
     var body = {
-      _id: 'user-abc',
+      _id: 'user-to-be-edited',
       username: 'edited username',
       email: 'edited email',
     }
