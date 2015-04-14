@@ -46,14 +46,11 @@ var channelsList_steps = module.exports = function(){
   this.When(SSTEPS.roleChosen.regex, SSTEPS.roleChosen.fn);
 
   this.Then(/^the list of channels for that role should update automatically$/, function (next) {
-    var channelsRepeater =
-    element.all(by.css('#collection-channels .channel-item'));
-
-    channelsRepeater
+    element.all(by.css('#collection-channels .channel-item'))
     .isDisplayed()
     .then(function  (isDisplayed) {
       if (isDisplayed) {
-        channelsRepeater
+        element.all(by.css('#collection-channels .channel-item'))
         .get(0).getText()
         .then(function (text) {
           if (text == CAM_MOCKS.getChannelsResponse2.channels[0].name) {

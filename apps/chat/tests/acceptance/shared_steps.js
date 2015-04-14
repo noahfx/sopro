@@ -30,13 +30,13 @@ module.exports = {
         .then(function (isDisplayed) {
           if (arg1) {
             if (isDisplayed) {
-              next();  
+              next();
             } else {
               next.fail(new Error("Less than three Channels displayed"));
-            }    
+            }
           } else {
             if (isDisplayed) {
-              next.fail(new Error("More than two Channels displayed"));  
+              next.fail(new Error("More than two Channels displayed"));
             } else {
               next();
             }
@@ -65,7 +65,7 @@ module.exports = {
         }
       })
     }
-  },
+  },  
   roleChosen: {
     regex: /^I choose a( different)? role$/,
     fn: function (arg1, next) {
