@@ -14,6 +14,6 @@ exports.config = {
 
   framework: 'cucumber',
 
-  cucumberOpts: { format: 'json' }
+  cucumberOpts: { format: 'pretty' }
 
 };
