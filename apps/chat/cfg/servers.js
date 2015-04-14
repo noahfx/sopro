@@ -3,6 +3,7 @@ module.exports = CAM_CONFIG_SERVERS = {
     bindAddress: '0.0.0.0',
     hostname: 'localhost',
     port: 8080,
+    baseUrl: 'https://localhost/',
     sslEnabled: true,
     sslPort: 443,
     sslOptions: {

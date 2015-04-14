@@ -22,7 +22,7 @@
     "passport": "^0.2.1",
     "passport-local": "^1.0.0",
     "q": "^1.2.0",
-    "request": "^2.53.0",
+    "request": "^2.55.0",
     "vertx-eventbus-client": "0.0.4"
   },
   "scripts": {
@@ -48,13 +48,16 @@
     "url": "git://github.com/SocietyPro/sopro.git"
   },
   "author": "Central Services",
-  "contributors": [{
-    "name": "therealplato",
-    "email": "plato@centralservices.io"
-    }, {
-    "name": "jimmymorales",
-    "email": "jimmy@centralservices.io"
-  }],
+  "contributors": [
+    {
+      "name": "therealplato",
+      "email": "plato@centralservices.io"
+    },
+    {
+      "name": "jimmymorales",
+      "email": "jimmy@centralservices.io"
+    }
+  ],
   "license": "",
   "devDependencies": {
     "cucumber": "^0.4.7",

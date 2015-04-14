@@ -135,7 +135,6 @@ module.exports = function(){
   //Then I should see a failure message
 
   this.Then(/^I should see a failure message$/, function (next) {
-    console.log(this.pageSrc);
     var correct = !!this.pageSrc.match(/token not found/)
     if (correct) {
       next();

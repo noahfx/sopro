@@ -282,6 +282,30 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
 
   app.post('/api/users', sopro.routes.createUser)
 
+  app.put('/api/users', function(req, res, next){
+    var updates = req.body;
+    if(!updates._id){
+      return res.status(400).json({ok: false, error: 'bad_request', message: 'PUT /api/users requires the JSON body to contain a _id property for the target user.'})
+    }
+    PI.read(updates._id, function(err, result){
+      if(err){
+        console.log(err);
+        return res.status(500).json({ok: false, error: 'server_error'});
+      }
+      if(result.soproModel !== 'user'){
+        return res.status(404).json({ok: false, error: 'not_found', message: 'User not found.'})
+      }
+      // OK, we found a user matching that ID. Copy over all properties:
+      for(prop in updates){
+        if(!updates.hasOwnProperty(prop)){ continue; }
+        result[prop] = updates[prop];
+      }
+      PI.update('user', result, function(err, result2){
+        res.status(200).send({ok: true, user: result2});
+      })
+    })
+  })
+
   app.get('/confirmAccount/:token', function(req, res, next){
     
     var token = req.params.token;

@@ -14,8 +14,8 @@ var channelsAPI_steps = module.exports = function(){
   })
 
   this.Then(/^the response should contain a list of channels for that role$/, function (next) {
-    this.soproRequest("https://localhost/api/channels", {
-      //port: 8080,
+    this.soproRequest({
+      uri: "/api/channels",
       method: "GET",
       qs: {
         role: CAM_MOCKS.roleId1,
@@ -39,7 +39,8 @@ var channelsAPI_steps = module.exports = function(){
     var self = this;
     this.postChannels = {}
     var http = require('http');
-    this.soproRequest("https://localhost/api/channel", {
+    this.soproRequest({
+      uri: "/api/channel",
       method: "POST",
       qs: {
         role:CAM_MOCKS.roleId1,

@@ -33,8 +33,8 @@ module.exports = function(){
   this.When(/^I make the correct https POST request with a username and email address$/, function(next){
     var self = this;
     self.dateSent = new Date().getTime();
-    this.soproRequest('https://localhost/api/users',
-      {
+    this.soproRequest({
+        uri: '/api/users',
         method: "POST",
         qs: {
           username: CAM_MOCKS.postUserRequest.username,

@@ -48,7 +48,8 @@ module.exports = {
   roleHasPeers: {
     regex: /^a specific role has peers$/,
     fn: function (next) {
-      this.soproRequest('https://localhost/api/channels', {
+      this.soproRequest({
+        uri: '/api/channels',
         method: "GET",
         qs: {
           role: CAM_MOCKS.roleId1,
@@ -65,7 +66,7 @@ module.exports = {
         }
       })
     }
-  },  
+  },
   roleChosen: {
     regex: /^I choose a( different)? role$/,
     fn: function (arg1, next) {
