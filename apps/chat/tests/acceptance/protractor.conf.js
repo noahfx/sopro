@@ -2,8 +2,6 @@ exports.config = {
 
   seleniumAddress: 'http://localhost:4444/wd/hub',
   
-  resultJsonOutputFile: 'tests/acceptance/report.json',
-  
   specs: [
     'features/*.feature'
   ],
@@ -15,5 +13,7 @@ exports.config = {
   baseUrl: 'https://localhost/',
 
   framework: 'cucumber',
+
+  cucumberOpts: { format: 'json' }
 
 };
