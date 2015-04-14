@@ -33,7 +33,10 @@ module.exports = function(){
 
   function performAction(next){
     var self = this;
-    this.soproRequest('https://localhost'+self.object, {method: self.action}, function(err, res, body){
+    this.soproRequest({
+      uri: self.object,
+      method: self.action,
+    }, function(err, res, body){
       if(err){
         return next.fail(err);
       } else {

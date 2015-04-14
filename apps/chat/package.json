@@ -22,7 +22,7 @@
     "passport": "^0.2.1",
     "passport-local": "^1.0.0",
     "q": "^1.2.0",
-    "request": "^2.53.0",
+    "request": "^2.55.0",
     "vertx-eventbus-client": "0.0.4"
   },
   "scripts": {
@@ -34,7 +34,7 @@
     "test": "./node_modules/karma/bin/karma start ./tests/unit/frontend/karma.conf.js",
     "unit-frontend": "./node_modules/karma/bin/karma start ./tests/unit-frontend/karma.conf.js  --single-run",
     "unit-backend": "node tests/unit-backend/executeJasmineTests.js",
-    "api": "./node_modules/.bin/newman -k -c tests/api/collections/testCollection.json.postman_collection --testReportFile tests/junit-api.xml",
+    "api": "./node_modules/.bin/newman -k -c tests/api/collections/soproChat.json.postman_collection --testReportFile tests/junit-api.xml",
     "gui": "protractor tests/gui/protractor.conf.js",
     "preupdate-webdriver": "npm install",
     "update-webdriver": "webdriver-manager update",
@@ -48,13 +48,16 @@
     "url": "git://github.com/SocietyPro/sopro.git"
   },
   "author": "Central Services",
-  "contributors": [{
-    "name": "therealplato",
-    "email": "plato@centralservices.io"
-    }, {
-    "name": "jimmymorales",
-    "email": "jimmy@centralservices.io"
-  }],
+  "contributors": [
+    {
+      "name": "therealplato",
+      "email": "plato@centralservices.io"
+    },
+    {
+      "name": "jimmymorales",
+      "email": "jimmy@centralservices.io"
+    }
+  ],
   "license": "",
   "devDependencies": {
     "cucumber": "^0.4.7",

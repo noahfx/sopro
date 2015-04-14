@@ -50,7 +50,9 @@ module.exports = function(){
 
   this.When(/^I make the correct request via http GET$/, function(next){
     var self = this;
-    this.soproRequest('https://localhost/api/users', function(err, res, body){
+    this.soproRequest({
+      uri: '/api/users',
+    }, function(err, res, body){
       if(err){
         return next.fail(err)
       }
