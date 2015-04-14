@@ -1,6 +1,12 @@
+var glob = require('glob');
 // This script wipes out, recreates, and populates the 'mocks' database.
 var config = require('../cfg/servers.js').couchdb;
 
+// We need relative paths, so make sure we're in the right directory:
+var assert = require('assert');
+assert(process.cwd().match(/couchdb$/), 'Wrong directory! Invoke populate-couchdb-mocks from /apps/chat/couchdb')
+
+// Load persistence interface
 var PI = require('../persistence-interface.js')();
 var PICouch = require('../persistence-couchdb');
 PI.use(PICouch);
@@ -52,19 +58,15 @@ function populateDesignDocs(done){
 }
 
 function populateTestDb(callback){
-  var mockDocuments = [
-    './mocks/user1.json',
-    './mocks/user2.json',
-    './mocks/identity1.json',
-    './mocks/identity2.json',
-    './mocks/pwdcreds1.json',
-    './mocks/pwdcreds2.json',
-  ]
-
-  async.eachSeries(mockDocuments, function(path, done){
-    var json = fs.readFileSync(path);
-    var doc = JSON.parse(json);
-    PI.create(doc.soproModel, doc, done)
+  glob('mocks/*.json', {nonull: false}, function(err, files){
+    assert(!err);
+    console.log('Populating', files.length, 'mocks')
+    async.eachSeries(files, function(path, done){
+      var json = fs.readFileSync(path);
+      var doc = JSON.parse(json);
+      PI.create(doc.soproModel, doc, done)
+    })
   })
+
 
 }

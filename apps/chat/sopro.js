@@ -52,12 +52,12 @@ module.exports = function(app, PI){
     return result
   };
 
-  sopro.crypto.saveToken =  function(opts, done){
+  sopro.crypto.createAndSavePasswordResetToken =  function(opts, done){
     var now = new Date().valueOf();
     opts.tokenObj = {
       soproModel: 'passwordResetToken',
       for_userid: opts.user._id,
-      token: opts.token,
+      token: opts.passwordResetToken,
       creationTimeMs: now,
       expiryTimeMs: now + app.sopro.features.pwdTokenExpiryMs,
     };
@@ -103,7 +103,7 @@ module.exports = function(app, PI){
    */
   sopro.routes = {};
   sopro.routes.createUser = function(req, res, next){
-    // Validate the posted data:
+    // Validate username:
     async.waterfall([
       function(done){
         sopro.validate.username(req.query['username'], function(valid, reason){
@@ -113,6 +113,7 @@ module.exports = function(app, PI){
           done(null)
         })
       },
+      // Validate email:
       function(done){
         sopro.validate.email(req.query['email'], function(valid, reason){
           if(!valid){
@@ -121,6 +122,7 @@ module.exports = function(app, PI){
           done(null)
         })
       },
+      // Construct an options object:
       function(done){
         var opts = {
           user: {
@@ -133,6 +135,7 @@ module.exports = function(app, PI){
         }
         done(null, opts);
       },
+      // Look for an existing user matching that username:
       function(opts, done){
         PI.find('user', 'username', opts.user.username, function(err, data){
           if(err){
@@ -144,6 +147,7 @@ module.exports = function(app, PI){
           done(null, opts);
         })
       },
+      // Look for an existing user matching that email:
       function(opts, done){
         PI.find('user', 'email', opts.user.email, function(err, data){
           if(err){
@@ -155,6 +159,7 @@ module.exports = function(app, PI){
           done(null, opts);
         })
       },
+      // Create the new user object:
       function(opts, done){
         PI.create('user', opts.user, function(err, result){
           if(err){
@@ -164,6 +169,7 @@ module.exports = function(app, PI){
           done(null, opts);
         })
       },
+      // Create a new identity object for that user:
       function(opts, done){
         var identity = {
           soproModel: 'identity',
@@ -179,16 +185,39 @@ module.exports = function(app, PI){
           done(null, opts);
         })
       },
+      // Create a new apiToken object for that user's single identity:
+      function(opts, done){
+        sopro.crypto.createToken(function(err, token){
+          if(err){
+            return done(err)
+          }
+          var apiToken = {
+            soproModel: 'apiToken',
+            for_identityid: opts.identity._id,
+            token: token,
+          }
+          PI.create('apiToken', apiToken, function(err, result){
+            if(err){
+              return done(err);
+            }
+            opts.apiToken = result;
+            done(null, opts);
+          })
+        })
+      },
+      // Generate a one-time token, for the user to set a password:
       function(opts, done){
         sopro.crypto.createToken(function(err, token){
           if(err){
             return done(err);
           }
-          opts.token = token;
+          opts.passwordResetToken = token;
           done(null, opts);
         });
       },
-      sopro.crypto.saveToken,
+      // Save the passwordResetToken into the database:
+      sopro.crypto.createAndSavePasswordResetToken,
+      // Send a confirmation mail:
       function(opts, done){
         var msg = '<p>Welcome to Captains of Society!</p>'
         + '<a href="https://' + app.sopro.servers.express.hostname + '/confirmAccount/' + opts.tokenObj.token + '">'
@@ -199,12 +228,14 @@ module.exports = function(app, PI){
           subject: 'Confirm your new Captains of Society Pro account',
           html: msg,
         }
-        sopro.mailer.sendMail(mailOptions, done);
+        sopro.mailer.sendMail(mailOptions, function(err){
+          return done(err, opts);
+        });
       }
-    ], function(err){
+    ], function(err, opts){
       if(err){
         if(err instanceof Error){
-          err = err.message
+          err = err.message;
         }
         console.log('Create user error:', err)
         if(err.match(/^validation/i)){
@@ -216,7 +247,7 @@ module.exports = function(app, PI){
           return res.status(500).json({ok: false, error: err})
         }
       }
-      res.status(200).json({ok: true})
+      res.status(200).json({ok: true, user: opts.user})
     })
   };
 

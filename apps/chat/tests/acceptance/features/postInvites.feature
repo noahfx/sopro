@@ -5,14 +5,14 @@ Feature: POST channel invites via API
 
   Scenario: sending channel invitations via API
     Given I have a valid authentication token
-      And a specified role is a subscriber to a channel
+      And the identity owning that token is a subscriber to a channel
       And I have a peer who is not a channel subscriber
     When I make the correct POST request with that channels id, that peer's id, and role id
     Then a channel join invitation should be sent for that peer ID
 
   Scenario: channel invitations via API to subscribed peers
     Given I have a valid authentication token
-      And a specified role is a subscriber to a channel
+      And the identity owning that token is a subscriber to a channel
       And I have a peer who is a channel subscriber
     When I make the correct POST request with that channels id, that peer's id, and role id
     Then a channel join invitation should not be sent for that peer ID
@@ -20,7 +20,7 @@ Feature: POST channel invites via API
 
   Scenario: channel invitations via API to a channel not subscribed to
     Given I have a valid authentication token
-      And a specified role is not a subscriber to a channel
+      And the identity owning that token is not a subscriber to a channel
       And I have a peer
     When I make the correct POST request with that channels id, that peer's id, and role id
     Then a channel join invitation should not be sent for that peer ID
