@@ -279,7 +279,6 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
     })
   })
 
-
   app.post('/api/users', sopro.routes.createUser)
 
   app.put('/api/users', function(req, res, next){
@@ -374,6 +373,7 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
           name: name,
           topic: topic,
           purpose: purpose,
+          creator: req.session.userId
         };
         PI.create('channel', channel, function(err, result){
           if(err){
@@ -391,19 +391,6 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
         })
       }
     })
-
-    var params = {
-      requester: req.session.userId,
-      token: req.authToken,
-      payload: {
-        name: name,
-        topic: topic,
-        purpose: purpose
-      }
-    }
-    eb.send("channel.create",JSON.stringify(params), function (reply) {
-      res.send(reply);
-    });
   });
 
 

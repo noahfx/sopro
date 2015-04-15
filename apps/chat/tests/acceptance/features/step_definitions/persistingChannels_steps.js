@@ -40,6 +40,7 @@ module.exports = function  () {
 	      return next.fail(err)
 	    }
 	    self.response = JSON.parse(body);
+	    console.log(body);
 	    next();
 	  });
 	};

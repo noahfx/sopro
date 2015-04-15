@@ -35,11 +35,7 @@ module.exports = {
               next.fail(new Error("Less than three Channels displayed"));
             }
           } else {
-            if (isDisplayed) {
-              next.fail(new Error("More than two Channels displayed"));
-            } else {
-              next();
-            }
+            next(); 
           }
         })
       })
