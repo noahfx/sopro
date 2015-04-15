@@ -12,6 +12,7 @@
 			"order": [
 				"df19c911-48ae-0615-6f05-13d20ec7c8f6",
 				"530c3bb1-22e7-39ae-665e-c042c485040a",
+				"0f96f265-c9af-c5e1-c42a-fc7c9b3f3488",
 				"ae5d5b12-3db4-d466-38cd-b08546c6bda4",
 				"67f07d4c-bb40-17f8-5014-e7308ca7595c",
 				"b43a6581-1503-f537-6d69-fc941db16d8b",
@@ -32,10 +33,10 @@
 				"b7e1c59d-0a0c-cf86-d257-64797bdc7c2c"
 			],
 			"collection_name": "SoProAPI",
-			"collection_owner": "34602",
+			"collection_owner": "34603",
 			"collection_id": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
 			"collection": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
-			"owner": "34602"
+			"owner": "34603"
 		},
 		{
 			"id": "388cb6d5-dd14-a8e4-26ca-15437f760e8d",
@@ -58,16 +59,16 @@
 				"5dc2658f-d73d-4626-c38b-1b06766024af"
 			],
 			"collection_name": "SoProAPI",
-			"collection_owner": "34602",
+			"collection_owner": "34603",
 			"collection_id": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
 			"collection": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
-			"owner": "34602",
+			"owner": "34603",
 			"collectionId": "a55dc100-1b7e-793d-cdc6-b06e1be06aca"
 		}
 	],
 	"timestamp": 1427311861522,
 	"synced": false,
-	"owner": "34602",
+	"owner": "34603",
 	"sharedWithTeam": false,
 	"subscribed": false,
 	"remoteLink": "",
@@ -93,8 +94,28 @@
 			"collectionId": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
 			"responses": [],
 			"synced": false,
-			"owner": "34602",
+			"owner": "34603",
 			"folder": "388cb6d5-dd14-a8e4-26ca-15437f760e8d"
+		},
+		{
+			"id": "0f96f265-c9af-c5e1-c42a-fc7c9b3f3488",
+			"headers": "token-auth: 12345\n",
+			"url": "https://localhost/api/channel.info?name=CBGSD42F",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "GET",
+			"data": [],
+			"dataMode": "params",
+			"version": 2,
+			"tests": "var data = JSON.parse(responseBody);\nconsole.log(data);\ntests[\"Check ok field\"] = data.ok === false;\n\ntests[\"Error Message\"] = data.error === \"channel_not_found\";\n",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1429129096311,
+			"name": "GET channel info of non existing channel",
+			"description": "",
+			"collectionId": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
+			"responses": [],
+			"synced": false
 		},
 		{
 			"id": "13877fd6-7753-1ad5-e65a-9e0db6f5c6c1",
@@ -115,7 +136,7 @@
 			"collectionId": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
 			"responses": [],
 			"synced": false,
-			"owner": "34602",
+			"owner": "34603",
 			"folder": "26772e83-d8df-369d-a120-0ac6f1682da6"
 		},
 		{
@@ -137,7 +158,7 @@
 			"collectionId": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
 			"responses": [],
 			"synced": false,
-			"owner": "34602",
+			"owner": "34603",
 			"folder": "26772e83-d8df-369d-a120-0ac6f1682da6",
 			"write": true
 		},
@@ -160,7 +181,7 @@
 			"collectionId": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
 			"responses": [],
 			"synced": false,
-			"owner": "34602",
+			"owner": "34603",
 			"folder": "388cb6d5-dd14-a8e4-26ca-15437f760e8d"
 		},
 		{
@@ -182,7 +203,7 @@
 			"collectionId": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
 			"responses": [],
 			"synced": false,
-			"owner": "34602",
+			"owner": "34603",
 			"folder": "388cb6d5-dd14-a8e4-26ca-15437f760e8d"
 		},
 		{
@@ -204,7 +225,7 @@
 			"collectionId": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
 			"responses": [],
 			"synced": false,
-			"owner": "34602",
+			"owner": "34603",
 			"folder": "26772e83-d8df-369d-a120-0ac6f1682da6",
 			"write": true
 		},
@@ -218,18 +239,15 @@
 			"data": [],
 			"dataMode": "params",
 			"version": 2,
-			"tests": "var data = JSON.parse(responseBody);\nconsole.log(data);\ntests[\"Check ok field\"] = data.ok === false;\n\ntests[\"Error Message\"] = data.error === \"channel_not_found\";\n",
+			"tests": "var data = JSON.parse(responseBody);\nconsole.log(data);\ntests[\"Check ok field\"] = data.ok === false;\n\ntests[\"Error Message\"] = data.error === \"no_channel\";\n",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1426873048631,
+			"time": 1429128957619,
 			"name": "GET channel info without channel",
 			"description": "",
 			"collectionId": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
 			"responses": [],
-			"synced": false,
-			"owner": "34602",
-			"folder": "26772e83-d8df-369d-a120-0ac6f1682da6",
-			"write": true
+			"synced": false
 		},
 		{
 			"id": "579c85e3-b1a4-514d-2df5-d3a4d51c7441",
@@ -250,7 +268,7 @@
 			"collectionId": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
 			"responses": [],
 			"synced": false,
-			"owner": "34602",
+			"owner": "34603",
 			"folder": "388cb6d5-dd14-a8e4-26ca-15437f760e8d"
 		},
 		{
@@ -272,7 +290,7 @@
 			"collectionId": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
 			"responses": [],
 			"synced": false,
-			"owner": "34602",
+			"owner": "34603",
 			"folder": "388cb6d5-dd14-a8e4-26ca-15437f760e8d"
 		},
 		{
@@ -294,7 +312,9 @@
 			"collectionId": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
 			"responses": [],
 			"synced": false,
-			"rawModeData": "{\n    \"_id\": \"identity-user-to-be-edited\",\n    \"username\": \"edited-by-api-test\"\n}\n "
+			"rawModeData": "{\n    \"_id\": \"identity-user-to-be-edited\",\n    \"username\": \"edited-by-api-test\"\n}\n ",
+			"owner": "34603",
+			"folder": "388cb6d5-dd14-a8e4-26ca-15437f760e8d"
 		},
 		{
 			"id": "5f437778-3fc5-6584-c843-7ab7fbba27ae",
@@ -315,7 +335,7 @@
 			"collectionId": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
 			"responses": [],
 			"synced": false,
-			"owner": "34602",
+			"owner": "34603",
 			"folder": "26772e83-d8df-369d-a120-0ac6f1682da6"
 		},
 		{
@@ -337,7 +357,7 @@
 			"collectionId": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
 			"responses": [],
 			"synced": false,
-			"owner": "34602",
+			"owner": "34603",
 			"folder": "26772e83-d8df-369d-a120-0ac6f1682da6",
 			"write": true,
 			"isFromCollection": true,
@@ -362,7 +382,7 @@
 			"collectionId": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
 			"responses": [],
 			"synced": false,
-			"owner": "34602",
+			"owner": "34603",
 			"folder": "26772e83-d8df-369d-a120-0ac6f1682da6",
 			"write": true
 		},
@@ -385,7 +405,9 @@
 			"collectionId": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
 			"responses": [],
 			"synced": false,
-			"rawModeData": "{\n    \"username\": \"edited-by-api-test\"\n}\n "
+			"rawModeData": "{\n    \"username\": \"edited-by-api-test\"\n}\n ",
+			"owner": "34603",
+			"folder": "388cb6d5-dd14-a8e4-26ca-15437f760e8d"
 		},
 		{
 			"id": "71c60b8b-1707-d22f-3087-fdd55cdf27a7",
@@ -406,7 +428,7 @@
 			"collectionId": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
 			"responses": [],
 			"synced": false,
-			"owner": "34602",
+			"owner": "34603",
 			"folder": "26772e83-d8df-369d-a120-0ac6f1682da6",
 			"write": true
 		},
@@ -429,7 +451,7 @@
 			"collectionId": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
 			"responses": [],
 			"synced": false,
-			"owner": "34602",
+			"owner": "34603",
 			"folder": "26772e83-d8df-369d-a120-0ac6f1682da6",
 			"write": true
 		},
@@ -454,7 +476,7 @@
 			"helperAttributes": {},
 			"folder": "388cb6d5-dd14-a8e4-26ca-15437f760e8d",
 			"synced": false,
-			"owner": "34602"
+			"owner": "34603"
 		},
 		{
 			"id": "93534347-7b0a-acce-b65d-f980672b5b1e",
@@ -475,7 +497,7 @@
 			"collectionId": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
 			"responses": [],
 			"synced": false,
-			"owner": "34602",
+			"owner": "34603",
 			"folder": "26772e83-d8df-369d-a120-0ac6f1682da6",
 			"write": true
 		},
@@ -498,7 +520,9 @@
 			"collectionId": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
 			"responses": [],
 			"synced": false,
-			"rawModeData": "{\n    \"_id\": \"user-to-be-edited\",\n    \"username\": \"edited-by-api-test\"\n}\n "
+			"rawModeData": "{\n    \"_id\": \"user-to-be-edited\",\n    \"username\": \"edited-by-api-test\"\n}\n ",
+			"owner": "34603",
+			"folder": "388cb6d5-dd14-a8e4-26ca-15437f760e8d"
 		},
 		{
 			"id": "9eb21af7-4bcb-1aa5-a5c0-bfd492b1a2d4",
@@ -519,7 +543,7 @@
 			"collectionId": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
 			"responses": [],
 			"synced": false,
-			"owner": "34602",
+			"owner": "34603",
 			"folder": "388cb6d5-dd14-a8e4-26ca-15437f760e8d"
 		},
 		{
@@ -541,7 +565,7 @@
 			"collectionId": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
 			"responses": [],
 			"synced": false,
-			"owner": "34602",
+			"owner": "34603",
 			"folder": "26772e83-d8df-369d-a120-0ac6f1682da6",
 			"write": true
 		},
@@ -564,7 +588,7 @@
 			"collectionId": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
 			"responses": [],
 			"synced": false,
-			"owner": "34602",
+			"owner": "34603",
 			"folder": "26772e83-d8df-369d-a120-0ac6f1682da6",
 			"write": true
 		},
@@ -587,7 +611,7 @@
 			"collectionId": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
 			"responses": [],
 			"synced": false,
-			"owner": "34602",
+			"owner": "34603",
 			"folder": "26772e83-d8df-369d-a120-0ac6f1682da6",
 			"write": true
 		},
@@ -610,7 +634,7 @@
 			"collectionId": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
 			"responses": [],
 			"synced": false,
-			"owner": "34602",
+			"owner": "34603",
 			"folder": "26772e83-d8df-369d-a120-0ac6f1682da6",
 			"write": true
 		},
@@ -633,7 +657,7 @@
 			"collectionId": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
 			"responses": [],
 			"synced": false,
-			"owner": "34602",
+			"owner": "34603",
 			"folder": "26772e83-d8df-369d-a120-0ac6f1682da6",
 			"write": true
 		},
@@ -656,7 +680,7 @@
 			"collectionId": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
 			"responses": [],
 			"synced": false,
-			"owner": "34602",
+			"owner": "34603",
 			"folder": "26772e83-d8df-369d-a120-0ac6f1682da6",
 			"write": true
 		},
@@ -679,7 +703,7 @@
 			"collectionId": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
 			"responses": [],
 			"synced": false,
-			"owner": "34602",
+			"owner": "34603",
 			"folder": "26772e83-d8df-369d-a120-0ac6f1682da6",
 			"write": true
 		},
@@ -702,7 +726,7 @@
 			"collectionId": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
 			"responses": [],
 			"synced": false,
-			"owner": "34602",
+			"owner": "34603",
 			"folder": "26772e83-d8df-369d-a120-0ac6f1682da6",
 			"write": true
 		},
@@ -725,7 +749,9 @@
 			"collectionId": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
 			"responses": [],
 			"synced": false,
-			"rawModeData": "{\n    \"_id\": \"something-not-in-database\",\n    \"username\": \"edited-by-api-test\"\n}\n "
+			"rawModeData": "{\n    \"_id\": \"something-not-in-database\",\n    \"username\": \"edited-by-api-test\"\n}\n ",
+			"owner": "34603",
+			"folder": "388cb6d5-dd14-a8e4-26ca-15437f760e8d"
 		},
 		{
 			"id": "e6053f10-b828-2289-7f88-05f050363cd6",
@@ -746,7 +772,7 @@
 			"collectionId": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
 			"responses": [],
 			"synced": false,
-			"owner": "34602",
+			"owner": "34603",
 			"folder": "26772e83-d8df-369d-a120-0ac6f1682da6",
 			"write": true
 		},
@@ -769,7 +795,7 @@
 			"collectionId": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
 			"responses": [],
 			"synced": false,
-			"owner": "34602",
+			"owner": "34603",
 			"folder": "388cb6d5-dd14-a8e4-26ca-15437f760e8d"
 		},
 		{
@@ -791,7 +817,7 @@
 			"collectionId": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
 			"responses": [],
 			"synced": false,
-			"owner": "34602",
+			"owner": "34603",
 			"folder": "388cb6d5-dd14-a8e4-26ca-15437f760e8d"
 		},
 		{
@@ -813,7 +839,7 @@
 			"collectionId": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
 			"responses": [],
 			"synced": false,
-			"owner": "34602",
+			"owner": "34603",
 			"folder": "26772e83-d8df-369d-a120-0ac6f1682da6",
 			"write": true
 		}
