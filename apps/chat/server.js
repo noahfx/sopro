@@ -12,14 +12,16 @@ PI.use(PICouch);
  * CONFIGURATION
  */
 
+var serverConfig = require('./cfg/servers.js');
+
 try{
   fs.readFileSync('./cfg/locals.js', {encoding: 'utf8'});
 } catch(e){
   if(e.code == 'ENOENT') {
     var file = fs.readFileSync('./cfg/locals.example.js', {encoding: 'utf8'});
     console.log('cfg/locals.js not found. Cannot start.')
-    process.setgid(app.sopro.servers.express.runtimeGroup);
-    process.setuid(app.sopro.servers.express.runtimeUser);
+    process.setgid(serverConfig.express.runtimeGroup);
+    process.setuid(serverConfig.express.runtimeUser);
     fs.writeFileSync('./cfg/locals.js', file, {encoding: 'utf8'});
     console.log('Wrote example local config in cfg/locals.js. Edit and set your secrets there.');
     process.exit();
@@ -27,7 +29,6 @@ try{
 }
 
 var localConfig = require('./cfg/locals.js');
-var serverConfig = require('./cfg/servers.js');
 var featureConfig;
 
 
