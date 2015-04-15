@@ -57,6 +57,33 @@ angular.module('societyProChatApp2', ['ngMaterial', 'societyProChatApp.services'
       })
     };
 
+    $scope.onNewUserFormSubmit = function(e){
+      var str = $(e.target).serialize();
+      console.log(str);
+      var opts = {
+        method: 'POST',
+        headers: {
+          //'Content-Type': 'application/x-www-form-urlencoded',
+          'token-auth': '12345',
+        },
+        url: '/api/users?'+str,
+        // Todo:
+        // It's unconventional to pass data in a POST request URI.
+        // Decide whether to POST a query string like above, x-www-form-urlencoded body like below, or JSON body
+        //url: '/api/users/',
+        //data: str,
+      }
+
+      $http(opts)
+      .success(function(result){
+        if(!result.ok){
+          return console.log('Problem with posted user result:', result)
+        }
+        $scope.usersList.unshift(result.user);
+      })
+      .error(console.log)
+    }
+
     $scope.updateUsersList = function(){
       $scope.getCurrentUsersList(function(err, users){
         $scope.usersList = users;

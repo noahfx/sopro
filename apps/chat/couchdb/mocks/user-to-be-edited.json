@@ -1,0 +1,7 @@
+{
+  "_id": "user-to-be-edited",
+  "soproModel":"user",
+  "roleids":["identity-user-to-be-edited"],
+  "username":"original username",
+  "email":"original@email.com"
+}

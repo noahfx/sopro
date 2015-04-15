@@ -35,10 +35,11 @@ module.exports = function(){
   function sendChannelInvite(next) {
     this.channel = CAM_MOCKS.postChannelResponse.channel.id;
     var self = this;
-    this.soproRequest("https://localhost/api/channels.invite", {
+    this.soproRequest({
+      uri: "/api/channels.invite",
       method: "POST",
       headers: {
-        "token-auth":this.token
+        "token-auth": this.token
       },
       qs: {
         channel: this.channel,

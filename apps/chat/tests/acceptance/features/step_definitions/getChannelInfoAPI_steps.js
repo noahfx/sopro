@@ -23,9 +23,8 @@ var channelsList_steps = module.exports = function(){
 
   this.Then(/^the response should contain a list of peers that are subscribed to that channel$/, function (next) {
     this.soproRequest({
-      //port: 8080,
       method: "GET",
-      url: 'https://localhost/api/channel.info',
+      uri: '/api/channel.info',
       qs: {
         role: CAM_MOCKS.roleId1,
         channel: CAM_MOCKS.newChannelName,

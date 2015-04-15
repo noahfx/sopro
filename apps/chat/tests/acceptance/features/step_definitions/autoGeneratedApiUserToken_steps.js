@@ -26,8 +26,8 @@ module.exports = function(){
   });
   this.When(/^I create a new user$/, function (next) {
     var self = this;
-    this.soproRequest('https://localhost/api/users',
-      {
+    this.soproRequest({
+        uri: '/api/users',
         method: "POST",
         qs: {
           username: CAM_MOCKS.postUserRequest.username,
@@ -126,7 +126,7 @@ module.exports = function(){
   this.When(/^I make a request to the API with that token$/,function (next) { // api/ping
     var self = this;
     this.soproRequest({
-      uri: "https://localhost/api/ping",
+      uri: "/api/ping",
       headers: {
         'token-auth' : this.token
       }

@@ -120,5 +120,5 @@ tests/junit-unit-backend.xml
 tests/junit-gui.xml
 tests/junit-api.xml
 tests/junit-acceptance.xml
-tests/acceptance/report.json
+tests/acceptance/cucumber.json
 

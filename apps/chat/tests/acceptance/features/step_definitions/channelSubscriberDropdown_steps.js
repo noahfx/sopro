@@ -1,7 +1,10 @@
 var CAM_MOCKS = require('../../../common/mock-data.js');
-var SA_STEPS = require('../../sharedAPI_steps.js');
+var SSTEPS = require('../../shared_steps.js');
 
 var channelSubscriberDropdown_steps = module.exports = function(){
+
+  this.Given(SSTEPS.appStarted.regex, SSTEPS.appStarted.fn)
+  
   this.When(/^I select a channel from the list$/, function (next) {
     element.all(by.css("#collection-channels .channel-item")).get(0).click()
     .then(next);
