@@ -3,5 +3,6 @@
   "soproModel":"identity",
   "rolename": "Edited Users' Identity",
   "for_userid": "user-to-be-edited",
+  "channels": [],
   "avatar": ""
 }

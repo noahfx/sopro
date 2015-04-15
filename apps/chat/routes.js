@@ -339,56 +339,119 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
    *  CHANNELS API ROUTES
    */
 
-  app.get('/api/channels',
-  function(req, res, next) {
-    var params = {
-      requester: req.session.userId,
-      token: req.authToken
-    }
-    eb.send("get.channels",JSON.stringify(params), function (reply) {
-      res.send(reply);
-    });
+  app.get('/api/channels', function(req, res, next) {
+    sopro.channelsForIdentity(req.session.userId, function(err, channels){
+      if(err){
+        return res.status(500).send({
+          ok: false,
+          error: 'server_error'
+        })
+      }
+      res.status(200).send({
+        ok: true,
+        channels: channels,
+        peers: [],
+      })
+    })
   });
 
   app.post('/api/channel', function(req, res, next) {
-    var name = req.query['name'];
-    var topic = req.query['topic'];
-    var purpose = req.query['purpose'];
-    if(name == undefined){
-      return res.status(400).json({
-        ok: false,
-        error: 'no_channel'
-      });
-    }
-
-    PI.find('channel', 'name', name, function(err, results){
-      if(results.length > 0){
-        return res.status(400).json({
-          ok: false,
-          error: 'name_taken',
-        });
-      } else {
-        var channel = {
-          soproModel: 'channel',
-          name: name,
-          topic: topic,
-          purpose: purpose,
-          creator: req.session.userId
+    async.waterfall([
+      function(done){
+        var opts = {
+          name : req.query['name'],
+          topic : req.query['topic'],
+          purpose : req.query['purpose'],
         };
-        PI.create('channel', channel, function(err, result){
+        if(opts.name == undefined){
+          return done('no_channel');
+        }
+        done(null, opts);
+      },
+      // Look for an existing channel with this name:
+      function(opts, done){
+        PI.find('channel', 'name', opts.name, function(err, results){
           if(err){
-            console.log('create channel error:', err);
-            return res.status(500).json({
-              ok: false,
-              error: 'server_error',
-            });
+            console.log(err);
+            return done('server_error');
+          }
+          if(results.length > 0){
+            return done('name_taken');
           } else {
-            return res.status(200).json({
-              ok: true,
-              channel: result,
-            });
+            done(null, opts);
           }
         })
+      },
+      // Create the channel
+      function(opts, done){
+        opts.channel = {
+          soproModel: 'channel',
+          name: opts.name,
+          topic: opts.topic,
+          purpose: opts.purpose,
+          creator: req.session.userId
+        };
+        PI.create('channel', opts.channel, function(err, result){
+          if(err){
+            console.log('create channel error:', err);
+            return done('server_error');
+          } else {
+            opts.channel = result;
+            done()
+          }
+        })
+
+      },
+      // Load the current identity
+      function(opts, done){
+        PI.read(req.session.userId, function(err, result){
+          if(err){
+            console.log(err);
+            return done('server_error')
+          }
+          opts.identity = result;
+          done(null, opts);
+        });
+      },
+      // Add the channel to the identity's channels and save
+      function(opts, done){
+        opts.identity.channels.push(opts.channel._id);
+        PI.update('identity', opts.identity, function(err, result){
+          if(err){
+            console.log(err);
+            return done('server_error');
+          }
+          opts.identity = result;
+          done(null, opts);
+        });
+      },
+    ], function(err, result){
+      if(err){
+        var status = 500;
+        var msg;
+        switch(err){
+          case 'no_channel':
+            status = 400;
+            msg = 'Request was missing a `name` parameter';
+            break;
+          case 'server_error':
+            status = 500;
+            break;
+          case 'name_taken':
+            status = 400;
+            msg = 'A channel with that name already exists';
+            break;
+        }
+        return res.status(status).json({
+          ok: false,
+          error: err,
+          message: msg,
+        });
+      } else {
+        return res.status(200).json({
+          ok: true,
+          channel: result,
+        });
       }
     })
   });
