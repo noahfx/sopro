@@ -33,6 +33,9 @@
     },
     "apiToken_by_token" : {
       "map" : "function(doc){ if(doc.soproModel==='apiToken'){ emit(doc.token, doc) }}"
+    },
+    "channel_by_name" : {
+      "map" : "function(doc){ if(doc.soproModel==='channel'){ emit( doc.name, doc) }}"
     }
   }
 }

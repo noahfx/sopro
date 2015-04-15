@@ -351,16 +351,46 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
     });
   });
 
-  app.post('/api/channel',
-    function(req, res, next) {
+  app.post('/api/channel', function(req, res, next) {
     var name = req.query['name'];
     var topic = req.query['topic'];
     var purpose = req.query['purpose'];
     if(name == undefined){
-      return res.send(
-        '{"ok":false, "error":"no_channel"}'
-      );
+      return res.status(400).json({
+        ok: false,
+        error: 'no_channel'
+      });
     }
+
+    PI.find('channel', 'name', name, function(err, results){
+      if(results.length > 0){
+        return res.status(400).json({
+          ok: false,
+          error: 'name_taken',
+        });
+      } else {
+        var channel = {
+          soproModel: 'channel',
+          name: name,
+          topic: topic,
+          purpose: purpose,
+        };
+        PI.create('channel', channel, function(err, result){
+          if(err){
+            console.log('create channel error:', err);
+            return res.status(500).json({
+              ok: false,
+              error: 'server_error',
+            });
+          } else {
+            return res.status(200).json({
+              ok: true,
+              channel: result,
+            });
+          }
+        })
+      }
+    })
 
     var params = {
       requester: req.session.userId,
