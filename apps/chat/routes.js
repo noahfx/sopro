@@ -513,7 +513,10 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
       function(channel, done){
         PI.find('identity', 'channel', channelId, function(err, results){
           var memberIds = results.map(function(result){
-            return result._id;
+            return {
+              id: result._id,
+              name: result.name,
+            };
           })
           channel.members = results;
           done(err, channel);

@@ -43,8 +43,7 @@ var channelsAPI_steps = module.exports = function(){
       uri: "/api/channel",
       method: "POST",
       qs: {
-        role:CAM_MOCKS.roleId1,
-        name: "fun",
+        name: "acceptance-post-channel-steps",
       },
     }, function (err, res, body) {
       if(err){

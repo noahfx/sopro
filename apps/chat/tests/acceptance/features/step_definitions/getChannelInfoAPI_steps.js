@@ -27,7 +27,7 @@ var channelsList_steps = module.exports = function(){
       uri: '/api/channel.info',
       qs: {
         role: CAM_MOCKS.roleId1,
-        channel: CAM_MOCKS.newChannelName,
+        channel: 'channel-general',
       },
     }, function onResponse(err, res, body) {
       if(err){

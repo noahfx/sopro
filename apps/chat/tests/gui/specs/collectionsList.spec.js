@@ -74,8 +74,8 @@ describe('Collections list', function() {
 
       describe('the first channel - ', function(){
         var first = chat.collectionChannelsItems.first();
-        it('has text "random"', function(){
-          expect(first.getText()).toEqual('random');
+        it('displays a channel name', function(){
+          expect(first.getText()).not.toEqual("");
         });
         it('has gray text', function(){
           expect(first.getCssValue('color')).toEqual('rgba(175, 175, 175, 1)');
@@ -85,9 +85,13 @@ describe('Collections list', function() {
         });
         describe('on hover - ', function(){
           beforeEach(function(){
-            browser.actions()
-            .mouseMove(first)
-            .perform();
+            element.all(by.css('#collection-channels .channel-item'))
+            .first()
+            .then(function(first){
+              browser.actions()
+              .mouseMove(first)
+              .perform();
+            })
           });
 
           it('has gray text and gray background', function(){

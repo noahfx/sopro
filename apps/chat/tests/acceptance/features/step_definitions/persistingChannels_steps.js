@@ -22,8 +22,11 @@ module.exports = function  () {
 	  });
 	};
 
-	function channelExits(arg1, next) {
-		this.newChannel = (arg1)? "pending_channel_feature" : CAM_MOCKS.newChannelName; 
+	function channelExists(arg1, next) {
+    var shouldExist = 
+      arg1 ? false : true;
+
+		this.newChannel = (shouldExist)? "channel-general": "pending_channel_feature";
 		next();
 	};
 
@@ -40,7 +43,6 @@ module.exports = function  () {
 	      return next.fail(err)
 	    }
 	    self.response = JSON.parse(body);
-	    console.log(body);
 	    next();
 	  });
 	};
@@ -48,9 +50,9 @@ module.exports = function  () {
 	function persistedChannel(arg1, next) {
 		var self = this;
 		if (arg1) {
-			assert(!this.response.ok);
+			assert(!this.response.ok, 'Response was ok; expected failure on duplicate channel');
 		} else {
-			assert(this.response.ok);
+			assert(this.response.ok, 'Response was not ok, expected success on new channel');
 		}
 		PI.find("channel","name", this.newChannel, function(err, results){
 			if(err) {
@@ -59,7 +61,7 @@ module.exports = function  () {
 			assert(results.length == 1,results.length + " channels found for this new channel: " + self.newChannel);
 			assert(results[0].name == self.newChannel, "Different Channel name found");
 			PI.destroy(results[0], next);
-		});  		
+		});
 	}
 
 
@@ -73,7 +75,7 @@ module.exports = function  () {
   this.Given(/^I am authorized to create a channel$/, authorizedToCreateChannel);
 
   // And a given channel name does not exist
-  this.Given(/^a given channel name does (not )?exist$/, channelExits);
+  this.Given(/^a given channel name does (not )?exist$/, channelExists);
 
   // When I POST that channel name
   this.When(/^I POST that channel name$/, postChannel);
@@ -91,7 +93,7 @@ module.exports = function  () {
   this.Given(/^I am authorized to create a channel$/, authorizedToCreateChannel);
 
   // And a given channel name does not exist
-  this.Given(/^a given channel name does (not )?exist$/, channelExits);
+  this.Given(/^a given channel name does (not )?exist$/, channelExists);
 
   // When I POST that channel name
   this.When(/^I POST that channel name$/, postChannel);
