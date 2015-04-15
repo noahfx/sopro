@@ -78,7 +78,7 @@
 		{
 			"id": "0641a8bf-bdca-f738-be46-2a17943bdeee",
 			"headers": "",
-			"url": "https://localhost/api/users?username=societyProTest&realname=SoPro I AM&email=societyprotest@gmail.com",
+			"url": "{{baseurl}}/api/users?username=societyProTest&realname=SoPro I AM&email=societyprotest@gmail.com",
 			"preRequestScript": "",
 			"pathVariables": {},
 			"method": "POST",
@@ -100,7 +100,7 @@
 		{
 			"id": "0f96f265-c9af-c5e1-c42a-fc7c9b3f3488",
 			"headers": "token-auth: 12345\n",
-			"url": "https://localhost/api/channel.info?name=CBGSD42F",
+			"url": "{{baseurl}}/api/channel.info?name=CBGSD42F",
 			"preRequestScript": "",
 			"pathVariables": {},
 			"method": "GET",
@@ -120,7 +120,7 @@
 		{
 			"id": "13877fd6-7753-1ad5-e65a-9e0db6f5c6c1",
 			"headers": "token-auth: 88888\n",
-			"url": "https://localhost/api/channels.invite?role=foobar&user=qwerty&channel=C024BE91L",
+			"url": "{{baseurl}}/api/channels.invite?role=foobar&user=qwerty&channel=C024BE91L",
 			"preRequestScript": "",
 			"pathVariables": {},
 			"method": "POST",
@@ -142,7 +142,7 @@
 		{
 			"id": "1be5b889-c88a-1a10-ca0c-2053cd40ba64",
 			"headers": "",
-			"url": "https://localhost/api/channels.invite?role=abc&user=qwerty&channel=C024BE91L",
+			"url": "{{baseurl}}/api/channels.invite?role=abc&user=qwerty&channel=C024BE91L",
 			"preRequestScript": "",
 			"pathVariables": {},
 			"method": "POST",
@@ -165,7 +165,7 @@
 		{
 			"id": "2c028976-60cf-58c3-906c-aed3f865897e",
 			"headers": "token-auth: 12345\n",
-			"url": "https://localhost/api/users?username=societyProTest&realname=SoPro I AM&email=societyprotest@gmail.com",
+			"url": "{{baseurl}}/api/users?username=societyProTest&realname=SoPro I AM&email=societyprotest@gmail.com",
 			"preRequestScript": "",
 			"pathVariables": {},
 			"method": "POST",
@@ -187,7 +187,7 @@
 		{
 			"id": "3d623b12-5e9f-3292-c0c4-7a21b536c2cd",
 			"headers": "token-auth: 12345\n",
-			"url": "https://localhost/api/users?username=societyProTest&realname=SoPro I AM&email=societyprotest2@gmail.com",
+			"url": "{{baseurl}}/api/users?username=societyProTest&realname=SoPro I AM&email=societyprotest2@gmail.com",
 			"preRequestScript": "",
 			"pathVariables": {},
 			"method": "POST",
@@ -209,7 +209,7 @@
 		{
 			"id": "4f966d20-b9a5-00eb-da0d-3fd62df1b51e",
 			"headers": "token-auth: 12345678\n",
-			"url": "https://localhost/api/channels.invite?role=abc&user=qwerty&channel=C024BE91L",
+			"url": "{{baseurl}}/api/channels.invite?role=abc&user=qwerty&channel=C024BE91L",
 			"preRequestScript": "",
 			"pathVariables": {},
 			"method": "POST",
@@ -232,7 +232,7 @@
 		{
 			"id": "530c3bb1-22e7-39ae-665e-c042c485040a",
 			"headers": "token-auth: 12345\n",
-			"url": "https://localhost/api/channel.info?role=abc",
+			"url": "{{baseurl}}/api/channel.info?role=abc",
 			"preRequestScript": "",
 			"pathVariables": {},
 			"method": "GET",
@@ -252,7 +252,7 @@
 		{
 			"id": "579c85e3-b1a4-514d-2df5-d3a4d51c7441",
 			"headers": "token-auth: 12345\n",
-			"url": "https://localhost/api/users?realname=SoPro I AM&email=societyprotest2@gmail.com",
+			"url": "{{baseurl}}/api/users?realname=SoPro I AM&email=societyprotest2@gmail.com",
 			"preRequestScript": "",
 			"pathVariables": {},
 			"method": "POST",
@@ -274,7 +274,7 @@
 		{
 			"id": "5d966101-0e2d-8006-aa7a-bfa45f5ee31d",
 			"headers": "token-auth: 12345\n",
-			"url": "https://localhost/api/users?username=societyProTest&realname=SoPro I AM&email=societyprotest2gmail.com",
+			"url": "{{baseurl}}/api/users?username=societyProTest&realname=SoPro I AM&email=societyprotest2gmail.com",
 			"preRequestScript": "",
 			"pathVariables": {},
 			"method": "POST",
@@ -296,7 +296,7 @@
 		{
 			"id": "5dc2658f-d73d-4626-c38b-1b06766024af",
 			"headers": "token-auth: 12345\nContent-Type: application/json\n",
-			"url": "https://localhost/api/users",
+			"url": "{{baseurl}}/api/users",
 			"preRequestScript": "",
 			"pathVariables": {},
 			"method": "PUT",
@@ -319,7 +319,7 @@
 		{
 			"id": "5f437778-3fc5-6584-c843-7ab7fbba27ae",
 			"headers": "token-auth: 12345\n",
-			"url": "https://localhost/api/channels.invite?role=abc&user=abc&channel=C024BE91L",
+			"url": "{{baseurl}}/api/channels.invite?role=abc&user=abc&channel=C024BE91L",
 			"preRequestScript": "",
 			"pathVariables": {},
 			"method": "POST",
@@ -341,7 +341,7 @@
 		{
 			"id": "67f07d4c-bb40-17f8-5014-e7308ca7595c",
 			"headers": "token-auth: 12345\n",
-			"url": "https://localhost/api/channel.info?role=abc&channel=C024BE91L",
+			"url": "{{baseurl}}/api/channel.info?role=abc&channel=C024BE91L",
 			"preRequestScript": "",
 			"pathVariables": {},
 			"method": "GET",
@@ -366,7 +366,7 @@
 		{
 			"id": "6e23155d-ba43-60aa-384a-8664267462d1",
 			"headers": "",
-			"url": "https://localhost/api/channel?role=abc&name=fun",
+			"url": "{{baseurl}}/api/channel?role=abc&name=fun",
 			"preRequestScript": "",
 			"pathVariables": {},
 			"method": "POST",
@@ -389,7 +389,7 @@
 		{
 			"id": "6f7e82e3-6e36-4336-c386-ba11cf18bf80",
 			"headers": "token-auth: 12345\nContent-Type: application/json\n",
-			"url": "https://localhost/api/users",
+			"url": "{{baseurl}}/api/users",
 			"preRequestScript": "",
 			"pathVariables": {},
 			"method": "PUT",
@@ -412,7 +412,7 @@
 		{
 			"id": "71c60b8b-1707-d22f-3087-fdd55cdf27a7",
 			"headers": "token-auth: 123456789\n",
-			"url": "https://localhost/api/channels?role=qwerty",
+			"url": "{{baseurl}}/api/channels?role=qwerty",
 			"preRequestScript": "",
 			"pathVariables": {},
 			"method": "GET",
@@ -435,7 +435,7 @@
 		{
 			"id": "77467d25-04b6-eca2-fae7-3a5b3a21103c",
 			"headers": "token-auth: 123456789\n",
-			"url": "https://localhost/api/channels?role=abc",
+			"url": "{{baseurl}}/api/channels?role=abc",
 			"preRequestScript": "",
 			"pathVariables": {},
 			"method": "GET",
@@ -458,7 +458,7 @@
 		{
 			"id": "7915cc63-05d9-1179-999a-20fab1aef5d6",
 			"headers": "token-auth: 12345\n",
-			"url": "https://localhost/api/users",
+			"url": "{{baseurl}}/api/users",
 			"pathVariables": {},
 			"preRequestScript": "",
 			"method": "GET",
@@ -481,7 +481,7 @@
 		{
 			"id": "93534347-7b0a-acce-b65d-f980672b5b1e",
 			"headers": "",
-			"url": "https://localhost/api/channels?role=abc",
+			"url": "{{baseurl}}/api/channels?role=abc",
 			"preRequestScript": "",
 			"pathVariables": {},
 			"method": "GET",
@@ -504,7 +504,7 @@
 		{
 			"id": "9920bfbb-ae7a-892b-e27a-d2287b7ebdf5",
 			"headers": "token-auth: 12345\nContent-Type: application/json\n",
-			"url": "https://localhost/api/users",
+			"url": "{{baseurl}}/api/users",
 			"preRequestScript": "",
 			"pathVariables": {},
 			"method": "PUT",
@@ -527,7 +527,7 @@
 		{
 			"id": "9eb21af7-4bcb-1aa5-a5c0-bfd492b1a2d4",
 			"headers": "token-auth: 12345\n",
-			"url": "https://localhost/api/users?username=societyProTest&realname=SoPro I AM",
+			"url": "{{baseurl}}/api/users?username=societyProTest&realname=SoPro I AM",
 			"preRequestScript": "",
 			"pathVariables": {},
 			"method": "POST",
@@ -549,7 +549,7 @@
 		{
 			"id": "a662654b-3600-4fde-143f-030b564cdd7e",
 			"headers": "token-auth: 123456789\n",
-			"url": "https://localhost/api/channel?role=abc&name=fun",
+			"url": "{{baseurl}}/api/channel?role=abc&name=fun",
 			"preRequestScript": "",
 			"pathVariables": {},
 			"method": "POST",
@@ -572,7 +572,7 @@
 		{
 			"id": "ae5d5b12-3db4-d466-38cd-b08546c6bda4",
 			"headers": "token-auth: 12345678\n",
-			"url": "https://localhost/api/channel.info?role=abc&channel=C024BE91L",
+			"url": "{{baseurl}}/api/channel.info?role=abc&channel=C024BE91L",
 			"preRequestScript": "",
 			"pathVariables": {},
 			"method": "GET",
@@ -595,7 +595,7 @@
 		{
 			"id": "b43a6581-1503-f537-6d69-fc941db16d8b",
 			"headers": "token-auth: 12345\n",
-			"url": "https://localhost/api/channels.invite?role=abc&user=qwerty&channel=C024BE91L",
+			"url": "{{baseurl}}/api/channels.invite?role=abc&user=qwerty&channel=C024BE91L",
 			"preRequestScript": "",
 			"pathVariables": {},
 			"method": "POST",
@@ -618,7 +618,7 @@
 		{
 			"id": "b7e1c59d-0a0c-cf86-d257-64797bdc7c2c",
 			"headers": "token-auth: 12345\n",
-			"url": "https://localhost/api/channel?role=abc",
+			"url": "{{baseurl}}/api/channel?role=abc",
 			"preRequestScript": "",
 			"pathVariables": {},
 			"method": "POST",
@@ -641,7 +641,7 @@
 		{
 			"id": "be0514e2-f963-4048-938c-bfd760f9f5c5",
 			"headers": "token-auth: 12345\n",
-			"url": "https://localhost/api/channels?role=abc",
+			"url": "{{baseurl}}/api/channels?role=abc",
 			"preRequestScript": "",
 			"pathVariables": {},
 			"method": "GET",
@@ -664,7 +664,7 @@
 		{
 			"id": "ca7a75e4-37ac-1457-96b3-b882fd513190",
 			"headers": "token-auth: 12345\n",
-			"url": "https://localhost/api/channels.invite?role=abc&channel=C024BE91L",
+			"url": "{{baseurl}}/api/channels.invite?role=abc&channel=C024BE91L",
 			"preRequestScript": "",
 			"pathVariables": {},
 			"method": "POST",
@@ -687,7 +687,7 @@
 		{
 			"id": "cd4fdcda-ba27-e384-0dee-4edc0e5dafa8",
 			"headers": "token-auth: 12345\n",
-			"url": "https://localhost/api/channel?role=abc&name=fun",
+			"url": "{{baseurl}}/api/channel?role=abc&name=fun",
 			"preRequestScript": "",
 			"pathVariables": {},
 			"method": "POST",
@@ -710,7 +710,7 @@
 		{
 			"id": "df19c911-48ae-0615-6f05-13d20ec7c8f6",
 			"headers": "",
-			"url": "https://localhost/api/channel.info?role=abc&channel=C024BE91L",
+			"url": "{{baseurl}}/api/channel.info?role=abc&channel=C024BE91L",
 			"preRequestScript": "",
 			"pathVariables": {},
 			"method": "GET",
@@ -733,7 +733,7 @@
 		{
 			"id": "e58a9f02-1e02-9c9b-b4db-c32fe9f32e1c",
 			"headers": "token-auth: 12345\nContent-Type: application/json\n",
-			"url": "https://localhost/api/users",
+			"url": "{{baseurl}}/api/users",
 			"preRequestScript": "",
 			"pathVariables": {},
 			"method": "PUT",
@@ -756,7 +756,7 @@
 		{
 			"id": "e6053f10-b828-2289-7f88-05f050363cd6",
 			"headers": "token-auth: 12345\n",
-			"url": "https://localhost/api/channels.invite?role=abc&user=uiop&channel=C024BE91L",
+			"url": "{{baseurl}}/api/channels.invite?role=abc&user=uiop&channel=C024BE91L",
 			"preRequestScript": "",
 			"pathVariables": {},
 			"method": "POST",
@@ -779,7 +779,7 @@
 		{
 			"id": "e713b5b4-8aea-de89-3b15-5e3fc9534d97",
 			"headers": "",
-			"url": "https://localhost/api/users",
+			"url": "{{baseurl}}/api/users",
 			"preRequestScript": "",
 			"pathVariables": {},
 			"method": "GET",
@@ -801,7 +801,7 @@
 		{
 			"id": "efbe2581-a563-2cdb-559a-f08341d6101f",
 			"headers": "token-auth: 12345\n",
-			"url": "https://localhost/api/users?username=societyProTest2&realname=SoPro I AM&email=societyprotest@gmail.com",
+			"url": "{{baseurl}}/api/users?username=societyProTest2&realname=SoPro I AM&email=societyprotest@gmail.com",
 			"preRequestScript": "",
 			"pathVariables": {},
 			"method": "POST",
@@ -823,7 +823,7 @@
 		{
 			"id": "f1917ff0-db95-3b38-fe79-7e4838f2c6ba",
 			"headers": "token-auth: 12345\n",
-			"url": "https://localhost/api/channels.invite?role=abc&user=qwerty",
+			"url": "{{baseurl}}/api/channels.invite?role=abc&user=qwerty",
 			"preRequestScript": "",
 			"pathVariables": {},
 			"method": "POST",

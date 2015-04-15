@@ -410,7 +410,7 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
             return done('server_error');
           } else {
             opts.channel = result;
-            done()
+            done(null, opts)
           }
         })
 
@@ -497,22 +497,51 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
   });
 
   app.get('/api/channel.info', function(req, res, next) {
-
-    if(req.query['channel'] == undefined){
-      return res.status(404).json({"ok":false, "error":"channel_not_found"});
-    }
-    var params = {
-        requester: req.session.userId,
-        token: req.authToken,
-        payload: {
-          channel: req.query['channel'],
+    var channelId = req.query['channel'];
+    async.waterfall([
+      function(done){
+        if(channelId === undefined){
+          return done('no_channel');
         }
-      };
-    eb.send("channel.info",JSON.stringify(params),
-      function(reply) {
-        res.send(reply);
+        PI.read(channelId, function(err, channel){
+          if(err && err.error === 'not_found'){
+            return done('channel_not_found');
+          }
+          done(err, channel);
+        })
+      },
+      function(channel, done){
+        PI.find('identity', 'channel', channelId, function(err, results){
+          channel.members = results;
+          done(err, channel);
+        })
       }
-    );
+    ], function(err, channel){
+      var status = 500;
+      var msg = undefined;
+      var ok = false;
+      if (err && err === 'no_channel'){
+        status = 400;
+        msg = 'You  must supply a channel id as `channel` query parameter';
+      } else if (err && err === 'channel_not_found'){
+        status = 404;
+      } else if(err){
+        console.log(err);
+        status = 500;
+        err = 'server_error';
+      } else {
+        status = 200;
+        err = undefined;
+        ok = true;
+      };
+
+      return res.status(status).json({
+        ok:false,
+        error: err,
+        message: msg,
+        channel: channel,
+      });
+    })
   });
 
   /*

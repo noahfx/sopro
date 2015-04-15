@@ -34,7 +34,7 @@
     "test": "./node_modules/karma/bin/karma start ./tests/unit/frontend/karma.conf.js",
     "unit-frontend": "./node_modules/karma/bin/karma start ./tests/unit-frontend/karma.conf.js  --single-run",
     "unit-backend": "node tests/unit-backend/executeJasmineTests.js",
-    "api": "./node_modules/.bin/newman -k -c tests/api/collections/soproChat.json.postman_collection --testReportFile tests/junit-api.xml",
+    "api": "./node_modules/.bin/newman -k -c tests/api/collections/soproChat.json.postman_collection -e tests/api/localhost.postman_environment --testReportFile tests/junit-api.xml",
     "gui": "protractor tests/gui/protractor.conf.js",
     "preupdate-webdriver": "npm install",
     "update-webdriver": "webdriver-manager update",
