@@ -512,6 +512,9 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
       },
       function(channel, done){
         PI.find('identity', 'channel', channelId, function(err, results){
+          var memberIds = results.map(function(result){
+            return result._id;
+          })
           channel.members = results;
           done(err, channel);
         })
@@ -536,7 +539,7 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
       };
 
       return res.status(status).json({
-        ok:false,
+        ok: ok,
         error: err,
         message: msg,
         channel: channel,
