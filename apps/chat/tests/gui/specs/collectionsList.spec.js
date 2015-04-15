@@ -38,9 +38,13 @@ describe('Collections list', function() {
           element(by.css('.channel-create-link'))
           .isDisplayed()
         ).toBeFalsy();
+
         browser.actions()
-            .mouseMove(chat.collectionTitleChannels)
-            .perform();
+        .mouseMove(
+          element(by.css('#collection-channels .sopro-collection-title'))
+        )
+        .perform();
+
         expect(
           element(by.css('.channel-create-link'))
           .isDisplayed()

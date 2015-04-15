@@ -21,9 +21,13 @@ describe("Main Stage",function  () {
     describe("Channel Creation Card", function () {
       var addChannelButton = els.addChannelButtons.first();
       it("displays when you click Add Channel", function(){
+
         browser.actions()
-            .mouseMove(els.collectionTitleChannels)
-            .perform();
+        .mouseMove(
+          element(by.css('#collection-channels .sopro-collection-title'))
+        )
+        .perform();
+
         addChannelButton.click();
         expect(els.createChannelCard.isDisplayed()).toBeTruthy();
       });
