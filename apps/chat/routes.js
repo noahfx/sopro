@@ -347,10 +347,23 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
           error: 'server_error'
         })
       }
+      var peers = [];
+
+      // Pending getting the peers, using mocks for now
+      var CAM_MOCKS = require('./tests/common/mock-data.js');
+      if (req.session.userId == CAM_MOCKS.roleId1){
+        peers = CAM_MOCKS.getChannelsResponse1.peers;
+      } else if (req.session.userId == CAM_MOCKS.roleId2) {
+        peers = CAM_MOCKS.getChannelsResponse2.peers;
+      } else {
+        peers = CAM_MOCKS.getChannelsResponse2.peers;
+      }
+      ///
+
       res.status(200).send({
         ok: true,
         channels: channels,
-        peers: [],
+        peers: peers,
       })
     })
   });
