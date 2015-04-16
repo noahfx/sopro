@@ -37,11 +37,11 @@ module.exports = CAM_MOCKS = {
       },
       {
         "id": "C024BE91L",
-        "name": "huevon"
+        "name": "general"
       },
       {
         "id": "C024BE91L",
-        "name": "general"
+        "name": "huevon"
       }
     ],
     "peers": [

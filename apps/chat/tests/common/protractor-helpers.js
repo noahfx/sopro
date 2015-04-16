@@ -1,13 +1,25 @@
 module.exports = function (browser, element) {
   var Q = require('q');
   var fs = require('fs');
+  var request = require('request');
   var login = {}
   login.changeIdentity = changeIdentity;
-  login.getFeaturesConfig = getFeaturesConfig; 
+  login.changeIdentity2 = changeIdentity2;
+  login.getFeaturesConfig = getFeaturesConfig;
+
+  function changeIdentity2 (username) {
+    var defer = Q.defer();
+    browser.get("/")
+    .then(function(){
+      
+    });
+    return defer.promise;
+  }
 
   function changeIdentity (i) {
     var user1 = fs.readFileSync("couchdb/mocks/user1.json", 'utf8');
     var user2 = fs.readFileSync("couchdb/mocks/user2.json", 'utf8');
+    var user3 = fs.readFileSync("couchdb/mocks/user3.json", 'utf8');
     var defer = Q.defer();
     browser.get("/")
     .then(function(){
@@ -25,7 +37,12 @@ module.exports = function (browser, element) {
           browser.getCurrentUrl()
           .then(function (url) {
             var fillForm = function () {
-              var user = (i == 0)? user1 : user2;
+              var user = user1;
+              switch (i) {
+                case 1: user = user2
+                        break;
+                case 2: user = user3;
+              }
               var d = "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b";
               var u = JSON.parse(user);
               element(by.css('#main-stage > form > label:nth-child(1) > input[type="text"]'))

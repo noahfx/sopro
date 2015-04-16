@@ -43,6 +43,7 @@ angular.module('societyProChatApp.controllers',['ngMaterial', 'ngAnimate', 'soci
   */
 
   $scope.channels = [];
+  $scope.myChannels = [];
   $scope.peers = [];
   $rootScope.currentRole = {};
   $scope.showCollectionsOverflow = null;
@@ -91,6 +92,16 @@ angular.module('societyProChatApp.controllers',['ngMaterial', 'ngAnimate', 'soci
 
   });
 
+  $scope.getMyChannels = function (channels) {
+    var myChannels = [];
+    for (var i = 0; i < channels.length; i++) {
+      if (channels[i].is_member) {
+        myChannels.push(channels[i]);
+      }
+    };
+    return myChannels;
+  }
+
   $scope.changeRole = function (role) {
       $rootScope.currentRole = role;
 
@@ -109,6 +120,7 @@ angular.module('societyProChatApp.controllers',['ngMaterial', 'ngAnimate', 'soci
           // when the response is available
           //console.log(data);
           $scope.channels = data.channels;
+          $scope.myChannels = $scope.getMyChannels($scope.channels);
           $scope.peers = data.peers;
           setTimeout(function () {
             positionCommpanelScrollbar();

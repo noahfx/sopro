@@ -19,6 +19,9 @@
     "identity_by_for_userid": {
       "map" : "function(doc){ if(doc.soproModel==='identity'){ emit(doc.for_userid, doc) }}"
     },
+    "identity_by_channel" : {
+      "map" : "function(doc){ if(doc.soproModel==='identity'){for(var i=0; i<doc.channels.length; i++){emit( doc.channels[i], doc) } }}"
+    },
     "docs_by_soproModel" : {
       "map" : "function(doc){ emit(doc.soproModel, doc) }"
     },
@@ -33,6 +36,9 @@
     },
     "apiToken_by_token" : {
       "map" : "function(doc){ if(doc.soproModel==='apiToken'){ emit(doc.token, doc) }}"
+    },
+    "channel_by_name" : {
+      "map" : "function(doc){ if(doc.soproModel==='channel'){ emit( doc.name, doc) }}"
     }
   }
 }

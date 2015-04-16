@@ -279,7 +279,6 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
     })
   })
 
-
   app.post('/api/users', sopro.routes.createUser)
 
   app.put('/api/users', function(req, res, next){
@@ -340,40 +339,134 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
    *  CHANNELS API ROUTES
    */
 
-  app.get('/api/channels',
-  function(req, res, next) {
-    var params = {
-      requester: req.session.userId,
-      token: req.authToken
-    }
-    eb.send("get.channels",JSON.stringify(params), function (reply) {
-      res.send(reply);
-    });
+  app.get('/api/channels', function(req, res, next) {
+    sopro.channelsForIdentity(req.session.userId, function(err, channels){
+      if(err){
+        return res.status(500).send({
+          ok: false,
+          error: 'server_error'
+        })
+      }
+      var peers = [];
+
+      // Pending getting the peers, using mocks for now
+      var CAM_MOCKS = require('./tests/common/mock-data.js');
+      if (req.session.userId == CAM_MOCKS.roleId1){
+        peers = CAM_MOCKS.getChannelsResponse1.peers;
+      } else if (req.session.userId == CAM_MOCKS.roleId2) {
+        peers = CAM_MOCKS.getChannelsResponse2.peers;
+      } else {
+        peers = CAM_MOCKS.getChannelsResponse2.peers;
+      }
+      ///
+
+      res.status(200).send({
+        ok: true,
+        channels: channels,
+        peers: peers,
+      })
+    })
   });
 
-  app.post('/api/channel',
-    function(req, res, next) {
-    var name = req.query['name'];
-    var topic = req.query['topic'];
-    var purpose = req.query['purpose'];
-    if(name == undefined){
-      return res.send(
-        '{"ok":false, "error":"no_channel"}'
-      );
-    }
+  app.post('/api/channel', function(req, res, next) {
+    async.waterfall([
+      function(done){
+        var opts = {
+          name : req.query['name'],
+          topic : req.query['topic'],
+          purpose : req.query['purpose'],
+        };
+        if(opts.name == undefined){
+          return done('no_channel');
+        }
+        done(null, opts);
+      },
+      // Look for an existing channel with this name:
+      function(opts, done){
+        PI.find('channel', 'name', opts.name, function(err, results){
+          if(err){
+            console.log(err);
+            return done('server_error');
+          }
+          if(results.length > 0){
+            return done('name_taken');
+          } else {
+            done(null, opts);
+          }
+        })
+      },
+      // Create the channel
+      function(opts, done){
+        opts.channel = {
+          soproModel: 'channel',
+          name: opts.name,
+          topic: opts.topic,
+          purpose: opts.purpose,
+          creator: req.session.userId
+        };
+        PI.create('channel', opts.channel, function(err, result){
+          if(err){
+            console.log('create channel error:', err);
+            return done('server_error');
+          } else {
+            opts.channel = result;
+            done(null, opts)
+          }
+        })
 
-    var params = {
-      requester: req.session.userId,
-      token: req.authToken,
-      payload: {
-        name: name,
-        topic: topic,
-        purpose: purpose
+      },
+      // Load the current identity
+      function(opts, done){
+        PI.read(req.session.userId, function(err, result){
+          if(err){
+            console.log(err);
+            return done('server_error')
+          }
+          opts.identity = result;
+          done(null, opts);
+        });
+      },
+      // Add the channel to the identity's channels and save
+      function(opts, done){
+        opts.identity.channels.push(opts.channel._id);
+        PI.update('identity', opts.identity, function(err, result){
+          if(err){
+            console.log(err);
+            return done('server_error');
+          }
+          opts.identity = result;
+          done(null, opts);
+        });
+      },
+    ], function(err, result){
+      if(err){
+        var status = 500;
+        var msg;
+        switch(err){
+          case 'no_channel':
+            status = 400;
+            msg = 'Request was missing a `name` parameter';
+            break;
+          case 'server_error':
+            status = 500;
+            break;
+          case 'name_taken':
+            status = 400;
+            msg = 'A channel with that name already exists';
+            break;
+        }
+        return res.status(status).json({
+          ok: false,
+          error: err,
+          message: msg,
+        });
+      } else {
+        return res.status(200).json({
+          ok: true,
+          channel: result.channel,
+        });
       }
-    }
-    eb.send("channel.create",JSON.stringify(params), function (reply) {
-      res.send(reply);
-    });
+    })
   });
 
 
@@ -404,22 +497,57 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
   });
 
   app.get('/api/channel.info', function(req, res, next) {
-
-    if(req.query['channel'] == undefined){
-      return res.status(404).json({"ok":false, "error":"channel_not_found"});
-    }
-    var params = {
-        requester: req.session.userId,
-        token: req.authToken,
-        payload: {
-          channel: req.query['channel'],
+    var channelId = req.query['channel'];
+    async.waterfall([
+      function(done){
+        if(channelId === undefined){
+          return done('no_channel');
         }
-      };
-    eb.send("channel.info",JSON.stringify(params),
-      function(reply) {
-        res.send(reply);
+        PI.read(channelId, function(err, channel){
+          if(err && err.error === 'not_found'){
+            return done('channel_not_found');
+          }
+          done(err, channel);
+        })
+      },
+      function(channel, done){
+        PI.find('identity', 'channel', channelId, function(err, results){
+          var memberIds = results.map(function(result){
+            return {
+              id: result._id,
+              name: result.name,
+            };
+          })
+          channel.members = results;
+          done(err, channel);
+        })
       }
-    );
+    ], function(err, channel){
+      var status = 500;
+      var msg = undefined;
+      var ok = false;
+      if (err && err === 'no_channel'){
+        status = 400;
+        msg = 'You  must supply a channel id as `channel` query parameter';
+      } else if (err && err === 'channel_not_found'){
+        status = 404;
+      } else if(err){
+        console.log(err);
+        status = 500;
+        err = 'server_error';
+      } else {
+        status = 200;
+        err = undefined;
+        ok = true;
+      };
+
+      return res.status(status).json({
+        ok: ok,
+        error: err,
+        message: msg,
+        channel: channel,
+      });
+    })
   });
 
   /*

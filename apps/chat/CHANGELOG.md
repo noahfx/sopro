@@ -1,3 +1,6 @@
+# 0.1.11 (2015-04-15)
+* Finally we got persisted channels!
+
 # 0.1.10 (2015-04-15)
 * `PUT /api/users` route added, for modifying an existing user
 * Admin panel (`/admin`) now allows admins to create new users

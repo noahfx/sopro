@@ -1,5 +1,7 @@
 var CAM_MOCKS = require('../../../common/mock-data.js');
 var SSTEPS = require('../../shared_steps.js');
+var protractorHelpers = require('../../../common/protractor-helpers.js')(browser,element);
+var changeIdentity = protractorHelpers.changeIdentity;
 var assert = require('assert');
 module.exports = function(){
   // Before configuring scenario steps, define a few functions that are used more than once:
@@ -11,16 +13,9 @@ var clickAddChannelButton = function(next){
     .then(function () {
       setTimeout(function () {
         element(by.css('#collection-channels > div.channel-collection > div > span.channel-create-link'))
-        .isDisplayed()
-        .then(function(isDisplayed){
-          if(!isDisplayed){
-            return next(new Error('Can\'t find the create new channel button'));
-          }
-          element(by.css('#collection-channels > div.channel-collection > div > span.channel-create-link'))
-          .click()
-          .then(function(){
-            next();
-          })
+        .click()
+        .then(function(){
+          next();
         })
       },1000);
     });
@@ -126,7 +121,15 @@ function checkChannelCardPresence (arg1, next){
  * Scenario:
  * opening the channel creation card
  */
-  this.Given(SSTEPS.appStarted.regex, SSTEPS.appStarted.fn);
+  this.Given(/^I am using the chatlog application as foobar$/, function (next) {
+    browser.get('/')
+    .then(function () {
+      changeIdentity(2)
+      .then(function(){
+        next();
+      });
+    });
+  });
 
   this.Given(SSTEPS.viewingListOfChannels.regex, SSTEPS.viewingListOfChannels.fn);
 
