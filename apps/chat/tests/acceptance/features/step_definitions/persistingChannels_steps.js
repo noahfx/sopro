@@ -26,7 +26,7 @@ module.exports = function  () {
     var shouldExist = 
       arg1 ? false : true;
 
-		this.newChannel = (shouldExist)? "channel-general": "pending_channel_feature";
+		this.newChannel = (shouldExist)? "general": "pending_channel_feature";
 		next();
 	};
 
@@ -43,12 +43,14 @@ module.exports = function  () {
 	      return next.fail(err)
 	    }
 	    self.response = JSON.parse(body);
+	    console.log(self.newChannel);
 	    next();
 	  });
 	};
 
 	function persistedChannel(arg1, next) {
 		var self = this;
+		console.log(this.response);
 		if (arg1) {
 			assert(!this.response.ok, 'Response was ok; expected failure on duplicate channel');
 		} else {

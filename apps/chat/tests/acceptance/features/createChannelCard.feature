@@ -4,14 +4,12 @@ Feature: Create a new channel card
   So that I can include multiple peers in a conversation
 
   Scenario: opening the channel creation card
-    Given I have started the chatlog application
-      And I am viewing a list of channels
+    Given I am using the chatlog application as foobar
     When I select "+ Add Channel"
     Then I should see a channel creation card
       And the card should be in the number 1 position on the main stage
 
   Scenario: closing open create/add cards when "+ add a channel" is clicked
-    Given I am viewing a list of channels
       And there is an open "create channel" card on the main stage
     When I select "+ Add Channel"
     Then I should see a blank channel creation card

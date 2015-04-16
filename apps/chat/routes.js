@@ -463,7 +463,7 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
       } else {
         return res.status(200).json({
           ok: true,
-          channel: result,
+          channel: result.channel,
         });
       }
     })
