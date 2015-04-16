@@ -85,13 +85,11 @@ describe('Collections list', function() {
         });
         describe('on hover - ', function(){
           beforeEach(function(){
-            element.all(by.css('#collection-channels .channel-item'))
-            .first()
-            .then(function(first){
-              browser.actions()
-              .mouseMove(first)
-              .perform();
-            })
+            browser.actions()
+            .mouseMove(
+              element.all(by.css('#collection-channels .channel-item')).first()
+            )
+            .perform();
           });
 
           it('has gray text and gray background', function(){

@@ -10,9 +10,10 @@
       ng-repeat="item in repeater" 
       ng-if="showItem(item, $index)" 
       ng-click="openSubscribersOverflow($event, item, title)"
-      layout="column" 
-      layout-align="center start">
-       <span class="channel-item-display"><img ng-src="{{icon}}" alt="channel-icon"> {{item.name}}</span>
+      layout="row" 
+      layout-align="start center">
+       <img ng-src="{{icon}}" alt="channel-icon">
+       <span class="channel-item-display"> {{item.name}}</span>
       </li>
       <li
       ng-show="repeater.length > maxChannels"
