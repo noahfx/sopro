@@ -11,13 +11,15 @@ var channelSubscriberDropdown_steps = module.exports = function(){
   });
 
   this.Then(/^I should see a list of channel subscribers$/, function (next) {
-    element(by.css("sopro-subscribers-dropdown")).isDisplayed()
-    .then(function(isDisplayed) {
-      if (isDisplayed) {
-        next();
-      } else {
-        next.fail(new Error("Subscribers Dropdown is not being displayed"));
-      }
-    });
+    setTimeout(function () {
+      element(by.css("sopro-subscribers-dropdown")).isDisplayed()
+      .then(function(isDisplayed) {
+        if (isDisplayed) {
+          next();
+        } else {
+          next.fail(new Error("Subscribers Dropdown is not being displayed"));
+        }
+      });
+    }, 1000);
   });
 }

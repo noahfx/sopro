@@ -13,10 +13,17 @@ var clickAddChannelButton = function(next){
     .then(function () {
       setTimeout(function () {
         element(by.css('#collection-channels > div.channel-collection > div > span.channel-create-link'))
-        .click()
-        .then(function(){
-          next();
-        })
+        .isDisplayed()
+        .then(function(isDisplayed){
+          if(!isDisplayed){
+            return next(new Error('Can\'t find the create new channel button'));
+          }
+          element(by.css('#collection-channels > div.channel-collection > div > span.channel-create-link'))
+          .click()
+          .then(function(){
+            next();
+          })
+        });
       },1000);
     });
 }
