@@ -24,7 +24,7 @@ module.exports = function(){
       var self = this;
       self.postMsgIdentityId = "abc";
       self.postMsgToken = "12345";
-      acl.isAllowed(self.postMsgIdentityId, '/api/chat.postMessage', 'post', function(err, ok){
+      acl.isAllowed(self.postMsgIdentityId, '/api/postMessage', 'post', function(err, ok){
         if(err){
           return next.fail('Authentication failure: '+err);
         }
@@ -37,10 +37,10 @@ module.exports = function(){
     }
   );
 
-  this.When(/^I make the correct https POST request to \/api\/postMessage with a message and a channel name$/, function(next){
+  this.When(/^I make the correct POST request to \/api\/postMessage with a message and a channel name$/, function(next){
     var self = this;
     this.dateSent = new Date().getTime();
-    this.msgChannel = 'channel-general';
+    this.msgChannel = 'channel-random';
     this.msgString = 'Hello from postMessageAPI_steps.js!';
     this.soproRequest({
       uri: '/api/postMessage',
@@ -51,20 +51,21 @@ module.exports = function(){
       },
       body: {
         channel: self.msgChannel,
-        text: self.msgString,
+        text: self.msgString
       },
     },
     function(err, res, body){
       if(err){
         return next.fail(err)
       }
-      self.response = JSON.parse(body);
+      self.response = body;
       setTimeout(next,10000);
     })
   });
 
   this.Then(/^the message should be persisted$/, function(next){
     var self = this;
+    console.log(this.response);
     assert(this.response.ok);
     PI.read(this.response.message._id, function(err, msg){
       assert(!err, 'error reading newly created message id')
