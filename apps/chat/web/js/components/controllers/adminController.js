@@ -80,6 +80,7 @@ angular.module('societyProChatApp2', ['ngMaterial', 'societyProChatApp.services'
           return console.log('Problem with posted user result:', result)
         }
         $scope.usersList.unshift(result.user);
+        $('#adminUsers form input').val('');
       })
       .error(console.log)
     }
