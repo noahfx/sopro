@@ -39,6 +39,20 @@
 			"owner": "34602"
 		},
 		{
+			"id": "addea813-99ff-13cf-4750-89d3fe4818da",
+			"name": "MessagesAPI",
+			"description": "",
+			"write": true,
+			"order": [
+				"ffdd7716-75d8-d393-3b95-923b07be6fdf"
+			],
+			"collection_name": "SoProAPI",
+			"collection_owner": "34602",
+			"collection_id": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
+			"collection": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
+			"owner": "34602"
+		},
+		{
 			"id": "388cb6d5-dd14-a8e4-26ca-15437f760e8d",
 			"name": "UserAPI",
 			"description": "",
@@ -115,7 +129,9 @@
 			"description": "",
 			"collectionId": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
 			"responses": [],
-			"synced": false
+			"synced": false,
+			"owner": "34602",
+			"folder": "26772e83-d8df-369d-a120-0ac6f1682da6"
 		},
 		{
 			"id": "13877fd6-7753-1ad5-e65a-9e0db6f5c6c1",
@@ -358,7 +374,9 @@
 			"description": "",
 			"collectionId": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
 			"responses": [],
-			"synced": false
+			"synced": false,
+			"owner": "34602",
+			"folder": "26772e83-d8df-369d-a120-0ac6f1682da6"
 		},
 		{
 			"id": "6e23155d-ba43-60aa-384a-8664267462d1",
@@ -839,6 +857,29 @@
 			"owner": "34602",
 			"folder": "26772e83-d8df-369d-a120-0ac6f1682da6",
 			"write": true
+		},
+		{
+			"id": "ffdd7716-75d8-d393-3b95-923b07be6fdf",
+			"headers": "token-auth: 12345\nContent-Type: application/json\n",
+			"url": "{{baseurl}}/api/postMessage",
+			"pathVariables": {},
+			"preRequestScript": "",
+			"method": "POST",
+			"collectionId": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
+			"data": [],
+			"dataMode": "raw",
+			"name": "postMessage",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1429282838439,
+			"version": 2,
+			"responses": [],
+			"tests": "var data = JSON.parse(responseBody);\nconsole.log(data);\ntests[\"Check ok field\"] = data.ok === true;\n",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"folder": "addea813-99ff-13cf-4750-89d3fe4818da",
+			"synced": false,
+			"rawModeData": "{\n    \"channel\": \"channel-general\",\n    \"message\": \"hello from api test postMessage\"\n}"
 		}
 	]
 }

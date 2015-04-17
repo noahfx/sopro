@@ -558,8 +558,9 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
   app.use(function(err, req, res, next){
     console.log('error for',req.originalUrl);
     console.log(err);
+    var msg = 'This API token is not authorized to '+req.method+' '+req.originalUrl;
     if(err.errorCode == 403){
-      res.status(403).send({ok:false,error:'invalid_auth'})
+      res.status(403).send({ok:false, error:'insufficient_permissions', message: msg})
     } else {
       res.status(404).json({ok: false, error: 'Not found'})
     }
