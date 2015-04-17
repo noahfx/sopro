@@ -1,3 +1,6 @@
+# 0.1.12 (2015-04-17)
+* POST message via API: `/api/postMessage`
+
 # 0.1.11 (2015-04-17)
 * Finally we got persisted channels!
 * `GET /api/channels`, `GET /api/channel.info`, `POST /api/channel` now store
