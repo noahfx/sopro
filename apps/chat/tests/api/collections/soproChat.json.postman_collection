@@ -938,13 +938,13 @@
 			"tests": "var data = JSON.parse(responseBody);\nconsole.log(data);\ntests[\"Status code\"] = responseCode.code === 400;\n\ntests[\"Check ok field\"] = data.ok === false;\n\ntests[\"Check err message\"] = data.error === \"invalid_request\"\n",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1429286866927,
+			"time": 1429287523748,
 			"name": "postMessage without text",
 			"description": "",
 			"collectionId": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
 			"responses": [],
 			"synced": false,
-			"rawModeData": "{\n    \"channel\": \"channel-general\",\n}"
+			"rawModeData": "{\n    \"channel\": \"channel-general\"\n}"
 		},
 		{
 			"id": "ffdd7716-75d8-d393-3b95-923b07be6fdf",
@@ -959,13 +959,13 @@
 			"tests": "var data = JSON.parse(responseBody);\nconsole.log(data);\ntests[\"Check ok field\"] = data.ok === true;\n",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1429286650048,
+			"time": 1429287590975,
 			"name": "postMessage",
 			"description": "",
 			"collectionId": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
 			"responses": [],
 			"synced": false,
-			"rawModeData": "{\n    \"channel\": \"channel-general\",\n    \"message\": \"hello from api test postMessage\"\n}"
+			"rawModeData": "{\n    \"channel\": \"channel-general\",\n    \"text\": \"hello from api test postMessage\"\n}"
 		}
 	]
 }
