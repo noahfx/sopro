@@ -19,11 +19,11 @@ module.exports = function(){
   this.Given(SA_STEPS.haveValidAuthToken.regex,
     SA_STEPS.haveValidAuthToken.fn);
 
-  this.Given(/^the authentication token is for an identity with the authorization to create new messages$/,
-    var self = this;
-    self.postMsgIdentityId = "abc";
-    self.postMsgToken = "12345";
+  this.Given(/^I have an authentication token for an identity with the authorization to create new messages$/,
     function (next){
+      var self = this;
+      self.postMsgIdentityId = "abc";
+      self.postMsgToken = "12345";
       acl.isAllowed(self.postMsgIdentityId, '/api/chat.postMessage', 'post', function(err, ok){
         if(err){
           return next.fail('Authentication failure: '+err);

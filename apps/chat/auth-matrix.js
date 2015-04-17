@@ -8,6 +8,7 @@ module.exports =  function(){
   acl.allow('identity', '/api/channels', 'get');
   acl.allow('identity', '/api/channels.invite', ['get', 'post']);
   acl.allow('identity', '/api/channel.info', 'get');
+  acl.allow('identity', '/api/postMessage', 'post');
   acl.allow('admin', '/admin', 'get');
   acl.addRoleParents('admin', 'identity');
   acl.addUserRoles('abc', 'identity');
