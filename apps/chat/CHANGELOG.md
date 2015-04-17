@@ -1,5 +1,7 @@
-# 0.1.11 (2015-04-15)
+# 0.1.11 (2015-04-17)
 * Finally we got persisted channels!
+* `GET /api/channels`, `GET /api/channel.info`, `POST /api/channel` now store
+  real data in the persistence backend instead of using mock data.
 
 # 0.1.10 (2015-04-15)
 * `PUT /api/users` route added, for modifying an existing user
