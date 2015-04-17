@@ -392,8 +392,7 @@ module.exports = function(app, PI){
         delete opts.user.pendingInitialPassword;
         PI.update('user', opts.user, function(err, result){
           if(err){ return done(err) };
-          opts.user._id = result.id;
-          opts.user._rev = result.rev;
+          opts.user = result;
           done(null, opts);
         })
       },
