@@ -33,10 +33,28 @@
 				"b7e1c59d-0a0c-cf86-d257-64797bdc7c2c"
 			],
 			"collection_name": "SoProAPI",
-			"collection_owner": "34602",
+			"collection_owner": "34603",
 			"collection_id": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
 			"collection": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
-			"owner": "34602"
+			"owner": "34603"
+		},
+		{
+			"id": "addea813-99ff-13cf-4750-89d3fe4818da",
+			"name": "MessagesAPI",
+			"description": "",
+			"write": true,
+			"order": [
+				"ffdd7716-75d8-d393-3b95-923b07be6fdf",
+				"0b3e0963-1da2-0a31-cf35-8993882b6a53",
+				"fb2c361b-e6b4-683a-e464-97a43f4d6ace",
+				"d6d74c8e-f41f-7461-cad7-126603a2e0ac",
+				"e52dcaa8-433c-8389-0d5d-5026d8012c7a"
+			],
+			"collection_name": "SoProAPI",
+			"collection_owner": "34603",
+			"collection_id": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
+			"collection": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
+			"owner": "34603"
 		},
 		{
 			"id": "388cb6d5-dd14-a8e4-26ca-15437f760e8d",
@@ -59,16 +77,16 @@
 				"5dc2658f-d73d-4626-c38b-1b06766024af"
 			],
 			"collection_name": "SoProAPI",
-			"collection_owner": "34602",
+			"collection_owner": "34603",
 			"collection_id": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
 			"collection": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
-			"owner": "34602",
+			"owner": "34603",
 			"collectionId": "a55dc100-1b7e-793d-cdc6-b06e1be06aca"
 		}
 	],
 	"timestamp": 1427311861522,
 	"synced": false,
-	"owner": "34602",
+	"owner": "34603",
 	"sharedWithTeam": false,
 	"subscribed": false,
 	"remoteLink": "",
@@ -94,8 +112,29 @@
 			"collectionId": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
 			"responses": [],
 			"synced": false,
-			"owner": "34602",
+			"owner": "34603",
 			"folder": "388cb6d5-dd14-a8e4-26ca-15437f760e8d"
+		},
+		{
+			"id": "0b3e0963-1da2-0a31-cf35-8993882b6a53",
+			"headers": "token-auth: 12345\nContent-Type: application/json\n",
+			"url": "{{baseurl}}/api/postMessage",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"version": 2,
+			"tests": "var data = JSON.parse(responseBody);\nconsole.log(data);\ntests[\"Status code\"] = responseCode.code === 400;\n\ntests[\"Check ok field\"] = data.ok === false;\n\ntests[\"Check err message\"] = data.error === \"invalid_request\"\n",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1429286874234,
+			"name": "postMessage without channel",
+			"description": "",
+			"collectionId": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
+			"responses": [],
+			"synced": false,
+			"rawModeData": "{\n    \"text\": \"hello from api test postMessage\"\n}"
 		},
 		{
 			"id": "0f96f265-c9af-c5e1-c42a-fc7c9b3f3488",
@@ -115,7 +154,9 @@
 			"description": "",
 			"collectionId": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
 			"responses": [],
-			"synced": false
+			"synced": false,
+			"owner": "34603",
+			"folder": "26772e83-d8df-369d-a120-0ac6f1682da6"
 		},
 		{
 			"id": "13877fd6-7753-1ad5-e65a-9e0db6f5c6c1",
@@ -136,7 +177,7 @@
 			"collectionId": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
 			"responses": [],
 			"synced": false,
-			"owner": "34602",
+			"owner": "34603",
 			"folder": "26772e83-d8df-369d-a120-0ac6f1682da6"
 		},
 		{
@@ -158,7 +199,7 @@
 			"collectionId": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
 			"responses": [],
 			"synced": false,
-			"owner": "34602",
+			"owner": "34603",
 			"folder": "26772e83-d8df-369d-a120-0ac6f1682da6",
 			"write": true
 		},
@@ -181,7 +222,7 @@
 			"collectionId": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
 			"responses": [],
 			"synced": false,
-			"owner": "34602",
+			"owner": "34603",
 			"folder": "388cb6d5-dd14-a8e4-26ca-15437f760e8d"
 		},
 		{
@@ -203,7 +244,7 @@
 			"collectionId": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
 			"responses": [],
 			"synced": false,
-			"owner": "34602",
+			"owner": "34603",
 			"folder": "388cb6d5-dd14-a8e4-26ca-15437f760e8d"
 		},
 		{
@@ -225,7 +266,7 @@
 			"collectionId": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
 			"responses": [],
 			"synced": false,
-			"owner": "34602",
+			"owner": "34603",
 			"folder": "26772e83-d8df-369d-a120-0ac6f1682da6",
 			"write": true
 		},
@@ -248,7 +289,7 @@
 			"collectionId": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
 			"responses": [],
 			"synced": false,
-			"owner": "34602",
+			"owner": "34603",
 			"folder": "26772e83-d8df-369d-a120-0ac6f1682da6"
 		},
 		{
@@ -270,7 +311,7 @@
 			"collectionId": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
 			"responses": [],
 			"synced": false,
-			"owner": "34602",
+			"owner": "34603",
 			"folder": "388cb6d5-dd14-a8e4-26ca-15437f760e8d"
 		},
 		{
@@ -292,7 +333,7 @@
 			"collectionId": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
 			"responses": [],
 			"synced": false,
-			"owner": "34602",
+			"owner": "34603",
 			"folder": "388cb6d5-dd14-a8e4-26ca-15437f760e8d"
 		},
 		{
@@ -315,7 +356,7 @@
 			"responses": [],
 			"synced": false,
 			"rawModeData": "{\n    \"_id\": \"identity-user-to-be-edited\",\n    \"username\": \"edited-by-api-test\"\n}\n ",
-			"owner": "34602",
+			"owner": "34603",
 			"folder": "388cb6d5-dd14-a8e4-26ca-15437f760e8d"
 		},
 		{
@@ -337,7 +378,7 @@
 			"collectionId": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
 			"responses": [],
 			"synced": false,
-			"owner": "34602",
+			"owner": "34603",
 			"folder": "26772e83-d8df-369d-a120-0ac6f1682da6"
 		},
 		{
@@ -358,7 +399,9 @@
 			"description": "",
 			"collectionId": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
 			"responses": [],
-			"synced": false
+			"synced": false,
+			"owner": "34603",
+			"folder": "26772e83-d8df-369d-a120-0ac6f1682da6"
 		},
 		{
 			"id": "6e23155d-ba43-60aa-384a-8664267462d1",
@@ -379,7 +422,7 @@
 			"collectionId": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
 			"responses": [],
 			"synced": false,
-			"owner": "34602",
+			"owner": "34603",
 			"folder": "26772e83-d8df-369d-a120-0ac6f1682da6",
 			"write": true
 		},
@@ -403,7 +446,7 @@
 			"responses": [],
 			"synced": false,
 			"rawModeData": "{\n    \"username\": \"edited-by-api-test\"\n}\n ",
-			"owner": "34602",
+			"owner": "34603",
 			"folder": "388cb6d5-dd14-a8e4-26ca-15437f760e8d"
 		},
 		{
@@ -425,7 +468,7 @@
 			"collectionId": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
 			"responses": [],
 			"synced": false,
-			"owner": "34602",
+			"owner": "34603",
 			"folder": "26772e83-d8df-369d-a120-0ac6f1682da6",
 			"write": true
 		},
@@ -448,7 +491,7 @@
 			"collectionId": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
 			"responses": [],
 			"synced": false,
-			"owner": "34602",
+			"owner": "34603",
 			"folder": "26772e83-d8df-369d-a120-0ac6f1682da6",
 			"write": true
 		},
@@ -473,7 +516,7 @@
 			"helperAttributes": {},
 			"folder": "388cb6d5-dd14-a8e4-26ca-15437f760e8d",
 			"synced": false,
-			"owner": "34602"
+			"owner": "34603"
 		},
 		{
 			"id": "93534347-7b0a-acce-b65d-f980672b5b1e",
@@ -494,7 +537,7 @@
 			"collectionId": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
 			"responses": [],
 			"synced": false,
-			"owner": "34602",
+			"owner": "34603",
 			"folder": "26772e83-d8df-369d-a120-0ac6f1682da6",
 			"write": true
 		},
@@ -518,7 +561,7 @@
 			"responses": [],
 			"synced": false,
 			"rawModeData": "{\n    \"_id\": \"user-to-be-edited\",\n    \"username\": \"edited-by-api-test\"\n}\n ",
-			"owner": "34602",
+			"owner": "34603",
 			"folder": "388cb6d5-dd14-a8e4-26ca-15437f760e8d"
 		},
 		{
@@ -540,7 +583,7 @@
 			"collectionId": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
 			"responses": [],
 			"synced": false,
-			"owner": "34602",
+			"owner": "34603",
 			"folder": "388cb6d5-dd14-a8e4-26ca-15437f760e8d"
 		},
 		{
@@ -562,7 +605,7 @@
 			"collectionId": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
 			"responses": [],
 			"synced": false,
-			"owner": "34602",
+			"owner": "34603",
 			"folder": "26772e83-d8df-369d-a120-0ac6f1682da6",
 			"write": true
 		},
@@ -585,7 +628,7 @@
 			"collectionId": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
 			"responses": [],
 			"synced": false,
-			"owner": "34602",
+			"owner": "34603",
 			"folder": "26772e83-d8df-369d-a120-0ac6f1682da6",
 			"write": true
 		},
@@ -608,7 +651,7 @@
 			"collectionId": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
 			"responses": [],
 			"synced": false,
-			"owner": "34602",
+			"owner": "34603",
 			"folder": "26772e83-d8df-369d-a120-0ac6f1682da6",
 			"write": true
 		},
@@ -631,7 +674,7 @@
 			"collectionId": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
 			"responses": [],
 			"synced": false,
-			"owner": "34602",
+			"owner": "34603",
 			"folder": "26772e83-d8df-369d-a120-0ac6f1682da6",
 			"write": true
 		},
@@ -654,7 +697,7 @@
 			"collectionId": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
 			"responses": [],
 			"synced": false,
-			"owner": "34602",
+			"owner": "34603",
 			"folder": "26772e83-d8df-369d-a120-0ac6f1682da6",
 			"write": true
 		},
@@ -677,7 +720,7 @@
 			"collectionId": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
 			"responses": [],
 			"synced": false,
-			"owner": "34602",
+			"owner": "34603",
 			"folder": "26772e83-d8df-369d-a120-0ac6f1682da6",
 			"write": true
 		},
@@ -700,9 +743,30 @@
 			"collectionId": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
 			"responses": [],
 			"synced": false,
-			"owner": "34602",
+			"owner": "34603",
 			"folder": "26772e83-d8df-369d-a120-0ac6f1682da6",
 			"write": true
+		},
+		{
+			"id": "d6d74c8e-f41f-7461-cad7-126603a2e0ac",
+			"headers": "token-auth: 12345\nContent-Type: application/json\n",
+			"url": "{{baseurl}}/api/postMessage",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"version": 2,
+			"tests": "var data = JSON.parse(responseBody);\nconsole.log(data);\ntests[\"Status code\"] = responseCode.code === 404;\n\ntests[\"Check ok field\"] = data.ok === false;\n\ntests[\"Check err message\"] = data.error === \"not_found\"\n",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1429286902473,
+			"name": "postMessage to a non existing channel",
+			"description": "",
+			"collectionId": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
+			"responses": [],
+			"synced": false,
+			"rawModeData": "{\n    \"channel\": \"channel-unknown\",\n    \"text\": \"hello from api test postMessage\"\n}"
 		},
 		{
 			"id": "df19c911-48ae-0615-6f05-13d20ec7c8f6",
@@ -723,9 +787,30 @@
 			"collectionId": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
 			"responses": [],
 			"synced": false,
-			"owner": "34602",
+			"owner": "34603",
 			"folder": "26772e83-d8df-369d-a120-0ac6f1682da6",
 			"write": true
+		},
+		{
+			"id": "e52dcaa8-433c-8389-0d5d-5026d8012c7a",
+			"headers": "token-auth: 12345\nContent-Type: application/json\n",
+			"url": "{{baseurl}}/api/postMessage",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"version": 2,
+			"tests": "var data = JSON.parse(responseBody);\nconsole.log(data);\ntests[\"Status code\"] = responseCode.code === 403;\n\ntests[\"Check ok field\"] = data.ok === false;\n\ntests[\"Check err message\"] = data.error === \"not_in_channel\"\n",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1429286955411,
+			"name": "postMessage to a channel i am not member of",
+			"description": "",
+			"collectionId": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
+			"responses": [],
+			"synced": false,
+			"rawModeData": "{\n    \"channel\": \"channel-developers\",\n    \"text\": \"hello from api test postMessage\"\n}"
 		},
 		{
 			"id": "e58a9f02-1e02-9c9b-b4db-c32fe9f32e1c",
@@ -747,7 +832,7 @@
 			"responses": [],
 			"synced": false,
 			"rawModeData": "{\n    \"_id\": \"something-not-in-database\",\n    \"username\": \"edited-by-api-test\"\n}\n ",
-			"owner": "34602",
+			"owner": "34603",
 			"folder": "388cb6d5-dd14-a8e4-26ca-15437f760e8d"
 		},
 		{
@@ -769,7 +854,7 @@
 			"collectionId": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
 			"responses": [],
 			"synced": false,
-			"owner": "34602",
+			"owner": "34603",
 			"folder": "26772e83-d8df-369d-a120-0ac6f1682da6",
 			"write": true
 		},
@@ -792,7 +877,7 @@
 			"collectionId": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
 			"responses": [],
 			"synced": false,
-			"owner": "34602",
+			"owner": "34603",
 			"folder": "388cb6d5-dd14-a8e4-26ca-15437f760e8d"
 		},
 		{
@@ -814,7 +899,7 @@
 			"collectionId": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
 			"responses": [],
 			"synced": false,
-			"owner": "34602",
+			"owner": "34603",
 			"folder": "388cb6d5-dd14-a8e4-26ca-15437f760e8d"
 		},
 		{
@@ -836,9 +921,51 @@
 			"collectionId": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
 			"responses": [],
 			"synced": false,
-			"owner": "34602",
+			"owner": "34603",
 			"folder": "26772e83-d8df-369d-a120-0ac6f1682da6",
 			"write": true
+		},
+		{
+			"id": "fb2c361b-e6b4-683a-e464-97a43f4d6ace",
+			"headers": "token-auth: 12345\nContent-Type: application/json\n",
+			"url": "{{baseurl}}/api/postMessage",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"version": 2,
+			"tests": "var data = JSON.parse(responseBody);\nconsole.log(data);\ntests[\"Status code\"] = responseCode.code === 400;\n\ntests[\"Check ok field\"] = data.ok === false;\n\ntests[\"Check err message\"] = data.error === \"invalid_request\"\n",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1429287523748,
+			"name": "postMessage without text",
+			"description": "",
+			"collectionId": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
+			"responses": [],
+			"synced": false,
+			"rawModeData": "{\n    \"channel\": \"channel-general\"\n}"
+		},
+		{
+			"id": "ffdd7716-75d8-d393-3b95-923b07be6fdf",
+			"headers": "token-auth: 12345\nContent-Type: application/json\n",
+			"url": "{{baseurl}}/api/postMessage",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"version": 2,
+			"tests": "var data = JSON.parse(responseBody);\nconsole.log(data);\ntests[\"Check ok field\"] = data.ok === true;\n",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1429287590975,
+			"name": "postMessage",
+			"description": "",
+			"collectionId": "a55dc100-1b7e-793d-cdc6-b06e1be06aca",
+			"responses": [],
+			"synced": false,
+			"rawModeData": "{\n    \"channel\": \"channel-general\",\n    \"text\": \"hello from api test postMessage\"\n}"
 		}
 	]
 }
