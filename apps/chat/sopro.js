@@ -99,6 +99,34 @@ module.exports = function(app, PI){
   }
 
   /*
+   *  API HELPER FUNCTIONS
+   */
+
+  sopro.channelsForIdentity = function(identityId, callback){
+    PI.read(identityId, function(err, identity){
+      if(err){
+        return callback(err);
+      }
+
+      PI.readAll('channel', function(err, channels){
+        if(err){
+          return callback(err);
+        }
+        var results = channels.map(function(channel){
+          channel.is_member =
+            identity.channels.indexOf(channel._id) === -1
+            ? false
+            : true;
+          return channel;
+        })
+        callback(err, results)
+      })
+
+    })
+  };
+
+
+  /*
    *  ROUTING FUNCTIONS
    */
   sopro.routes = {};
@@ -364,8 +392,7 @@ module.exports = function(app, PI){
         delete opts.user.pendingInitialPassword;
         PI.update('user', opts.user, function(err, result){
           if(err){ return done(err) };
-          opts.user._id = result.id;
-          opts.user._rev = result.rev;
+          opts.user = result;
           done(null, opts);
         })
       },

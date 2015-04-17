@@ -1,7 +1,8 @@
 {
   "_id": "identity-user-to-be-edited",
   "soproModel":"identity",
-  "rolename": "Edited Users' Identity",
+  "name": "Edited Users' Identity",
   "for_userid": "user-to-be-edited",
+  "channels": [],
   "avatar": ""
 }

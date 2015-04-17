@@ -127,6 +127,9 @@ color: rgba(204, 204, 204, 1);
 
 .channel-item-display {
   width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .collections-divider {
@@ -321,6 +324,9 @@ sopro-subscribers-dropdown{
 .sopro-dropdown-title p{
     font-size: 10px;
     margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 

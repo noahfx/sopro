@@ -17,9 +17,6 @@ var channelsAPI_steps = module.exports = function(){
     this.soproRequest({
       uri: "/api/channels",
       method: "GET",
-      qs: {
-        role: CAM_MOCKS.roleId1,
-      },
     }, function (err, res, body) {
       if(err){
         return next.fail(new Error(err));
@@ -42,9 +39,11 @@ var channelsAPI_steps = module.exports = function(){
     this.soproRequest({
       uri: "/api/channel",
       method: "POST",
+      headers: {
+        "token-auth": "88888"
+      },
       qs: {
-        role:CAM_MOCKS.roleId1,
-        name: "fun",
+        name: "acceptance-post-channel-steps",
       },
     }, function (err, res, body) {
       if(err){
@@ -59,8 +58,9 @@ var channelsAPI_steps = module.exports = function(){
   this.Then(/^a channel should be created for the role specified$/, function (next) {
   // Write code here that turns the phrase above into concrete actions
     var response = this.postChannelsResponse;
+    console.log(response);
     if (response.ok && response.channel != undefined) {
-      if (response.channel.creator == CAM_MOCKS.roleId1) {
+      if (response.channel.creator == "foobar") {
         next();
       } else {
         next.fail(new Error("No channel created for role"));
@@ -76,7 +76,7 @@ var channelsAPI_steps = module.exports = function(){
 
   this.Then(/^the specified role should be subscribed to the channel$/, function (next) {
     var response = this.response;
-    if (response.channel.members[0] === CAM_MOCKS.roleId1) {
+    if (response.channel.members[0] === "foobar") {   
       next();
     } else {
       next.fail(new Error("Role not subscribed"));

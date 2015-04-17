@@ -16,7 +16,7 @@ function filterOnlyChannelClicks($rootScope, $event, item, title) {
       // todo: rename to "open the channel subscribers" or simmilar
       fromElement: $event.target,
       title: item.name,
-      id: item.id,
+      id: item._id,
     });
   }
 };
@@ -140,6 +140,13 @@ angular.module('societyProChatApp.directives',[
     controller: function ($rootScope, $scope, maxChannels) {
       $scope.maxChannels = maxChannels;
       $scope.showOverflow = false;
+
+      $scope.showItem = function (item, $index) {
+        if (item.soproModel == 'channel') {
+          return item.is_member && $index < maxChannels;
+        }
+        return $index < maxChannels;
+      }
 
       $scope.createChannel = function () {
         $rootScope.$broadcast("createChannelClicked");

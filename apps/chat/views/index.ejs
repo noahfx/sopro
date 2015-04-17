@@ -35,7 +35,7 @@
       layout-align="center center"
       >
         <img ng-src="data:image/png;base64,{{currentRole.avatar}}" width="36" height="36" alt="role-icon">
-        <span class="roleLabel">{{currentRole.rolename}}</span>
+        <span class="roleLabel">{{currentRole.name}}</span>
         <img src="web/images/role-arrow.png" width="10" height="5" alt="arrow-role"/>
       </div>
       <div class="sopro-role-panel md-whiteframe-z2" layout="column" ng-show="showRoles">
@@ -44,7 +44,7 @@
         <span class="sopro-role-panel-title">ROLES</span>
         <div class="sopro-role-item" ng-class="{'sp-w-b':$last}" layout="row" layout-align="start center" ng-repeat="role in roles" ng-click="changeRole(role)">
           <img class="sopro-img-role-panel" ng-src="data:image/png;base64,{{role.avatar}}" width="35" height="35" alt="role-icon">
-          <span class="sopro-role-name">{{role.rolename}}</span>
+          <span class="sopro-role-name">{{role.name}}</span>
         </div>
         <% } %>
         <% if (permissions.getAdmin) { %>
@@ -55,7 +55,7 @@
     </md-toolbar>
     <div class="sopro-main-content" flex layout="row">
       <md-content id="sopro-collections-wrap">
-        <collection id="collection-channels" channel-title="CHANNELS" userexpandable="true" icon="web/images/icon-channels-lines.png" repeater="channels">
+        <collection id="collection-channels" channel-title="CHANNELS" userexpandable="true" icon="web/images/icon-channels-lines.png" repeater="myChannels">
         </collection>
         <collection id="collection-peers" channel-title="MEMBERS" icon="web/images/icon-peers-circle.png" repeater="peers">
           <span id="collection-peers-create" class="collection-create-link">+ Add Peer</span>
