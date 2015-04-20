@@ -10,8 +10,7 @@ Feature: GET messages via API
     Then the response should contain a list of chat messages from that channel
 
   Scenario: messages and metadata via API GET
-    Given I have a valid authentication token
-      And I have an auth token with read permissions for a channel
-    When I make the correct GET request to the API with the channel name and the auth token and a metadata flag
+    Given I have a valid authentication token for GET /api/channels.history
+    When I make the correct GET request to the API with that channel name and the auth token and a metadata flag
     Then the response should contain a list of chat messages from that channel
       And the response should contain a metadata object for that channel

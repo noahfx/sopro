@@ -1,3 +1,5 @@
+var assert = require('assert');
+
 module.exports = function(){
   /*
   Scenario: messages via API GET
@@ -13,6 +15,7 @@ module.exports = function(){
 
   this.Given(/^my identity is a member of a given channel$/, function(next){
     this.channel = 'channel-random';
+      next();
   });
 
   this.When(/^I make the correct GET request to the API with that channel name and the auth token$/, function(next){
