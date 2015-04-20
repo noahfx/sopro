@@ -9,7 +9,7 @@ module.exports = function(){
     Then the response should contain a list of chat messages from that channel
   */
   this.Given(/^I have a valid authentication token for GET \/api\/channels.history$/, function(next){
-    this.authToken = 'abc';
+    this.authToken = '12345';
     next();
   });
 

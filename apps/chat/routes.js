@@ -279,6 +279,7 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
     })
   })
 
+
   app.post('/api/users', sopro.routes.createUser)
 
   app.put('/api/users', function(req, res, next){
@@ -555,6 +556,25 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
    *  MESSAGES API ROUTES
    */
 
+  app.get('/api/channel.history', function(req, res, next){
+      var metadataFlag = !!req.query["metadata"];
+      var channelId = req.body.channel;
+
+      PI.find("message", "channelid", channelId, function(err, results){
+	  if(err){
+              console.log(err)
+              return res.status(500).json({
+		  ok: false,
+		  error: 'server error'
+              })
+	  }
+	  res.status(200).json({
+              ok: true,
+              messages: results,
+	  });
+      } );
+  })
+
   app.post('/api/postMessage', function(req, res, next){
     async.waterfall([
       // Construct opts object:
@@ -620,6 +640,7 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
           done(null, opts);
         })
       },
+
       // Craft and save a message object for that channel:
       function(opts, done){
         var data = {
