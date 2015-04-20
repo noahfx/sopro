@@ -233,6 +233,9 @@ angular.module('societyProChatApp.directives',[
         console.log(data);  
         $scope.dropdownTitle = data.title;
         $scope.fromElement = data.fromElement;
+        if (!$($scope.fromElement).hasClass("channel-item")) {
+          $scope.fromElement = $scope.fromElement.parentElement;
+        }
         $($scope.fromElement).addClass('poo-highlight-subscriber');
         $http({
           method: 'GET',
