@@ -82,7 +82,7 @@ angular.module('societyProChatApp.controller2',['ngMaterial'])
         hideCreationCard();
         showChannelCard({type:"channel", template:"web/partials/channel-card.html", title: creationTitle, description: creationDesc});
         // Remove the channel creation card to the stage:
-        $scope.channels.push(data.channel);
+        $scope.changeRole($rootScope.currentRole);
       })
       .error(function(data, status, headers, config) {
         // called asynchronously if an error occurs

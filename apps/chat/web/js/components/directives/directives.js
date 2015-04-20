@@ -174,7 +174,7 @@ angular.module('societyProChatApp.directives',[
     restrict: 'E',
     transclude: true,
     scope: {},
-    controller: function ($rootScope, $scope, $element, $animate, $window) {
+    controller: function ($rootScope, $scope, $element, $animate, $window, $timeout) {
 
       $scope.openSubscribersOverflow = function(e, item, title){
         filterOnlyChannelClicks($rootScope, e, item, title);
@@ -196,9 +196,9 @@ angular.module('societyProChatApp.directives',[
         $scope.fromElement = data.fromElement;
         $($scope.fromElement).addClass('poo-highlight-collection');
         var positions = positionDropdown(data.repeater.length, $scope.fromElement);
-        setTimeout(function () {
+        $timeout(function () {
           drawDropdown($animate, $element, positions, 2);
-        },100);
+        });
       });
 
       $scope.$on('collections.overflow.close', function (){
@@ -213,13 +213,13 @@ angular.module('societyProChatApp.directives',[
     restrict: 'E',
     transclude: true,
     scope: {},
-    controller: function ($rootScope, $scope, $element, $http, $animate, $window) {
+    controller: function ($rootScope, $scope, $element, $http, $animate, $window, $timeout) {
 
       $scope.$on('collections.overflow.close', function(){
         console.log('Subscribers dropdown closing after hearing collections dropdown closing.');
 
         $rootScope.$broadcast('subscribers.overflow.close')
-      })
+      });
 
       var win = angular.element($window);
       win.bind("resize",function(e){
@@ -251,8 +251,10 @@ angular.module('societyProChatApp.directives',[
           console.log(data);
           if (data.ok) {
             $scope.repeater = data.channel.members;
-            var positions = positionDropdown(data.channel.members.length, $scope.fromElement);
-            drawDropdown($animate, $element, positions, 1);
+            $timeout(function(){
+              var positions = positionDropdown(data.channel.members.length, $scope.fromElement);
+              drawDropdown($animate, $element, positions, 1);
+            });
           }
         })
         .error(function(data, status, headers, config) {
