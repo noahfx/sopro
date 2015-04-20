@@ -562,7 +562,7 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
       function(done){
         if(req.query['channel'] === undefined
         || req.query['channel'] === "") {
-          return done([400, 'invalid_request', 'channel field is required in json body'])
+          return done([400, 'invalid_request', 'channel field is required in query string'])
         } else {
           return done(null, {
             channel: req.query['channel']
