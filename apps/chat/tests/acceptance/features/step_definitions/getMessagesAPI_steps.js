@@ -9,10 +9,12 @@ module.exports = function(){
   this.Given(/^I have a valid authentication token for GET \/api\/channels.history$/, function(next){
     this.authToken = 'abc';
     next();
-  }
+  });
+
   this.Given(/^my identity is a member of a given channel$/, function(next){
     this.channel = 'channel-random';
-  }
+  });
+
   this.When(/^I make the correct GET request to the API with that channel name and the auth token$/, function(next){
     var self = this;
     this.soproRequest({
@@ -31,7 +33,7 @@ module.exports = function(){
       self.body = body;
       next();
     })
-  }
+  });
 
   this.Then(/^the response should contain a list of chat messages from that channel$/, function(next){
     var self = this;
@@ -39,7 +41,7 @@ module.exports = function(){
     assert(self.body.ok, 'body.ok was not truthy')
     assert(self.body.messages.length > 0, 'channel had no messages');
     next();
-  })
+  });
 
   /*
   Scenario: messages and metadata via API GET
@@ -70,14 +72,14 @@ module.exports = function(){
       self.body = body;
       next();
     })
-  }
+  });
 
   this.Then(/^the response should contain a list of chat messages from that channel$/, function(next){
     var self = this;
     assert(self.body.ok, 'body.ok was not truthy')
     assert(self.body.messages.length > 0, 'channel had no messages');
     next();
-  })
+  });
 
   this.Then(/^the response should contain a metadata object for that channel$/, function(next){
     var self = this;
@@ -85,6 +87,6 @@ module.exports = function(){
     assert(typeof self.body.metadata === 'object', 'body.metadata was not an object');
     assert(self.body.metadata.name === self.channel);
     next();
-  })
+  });
 
 }
