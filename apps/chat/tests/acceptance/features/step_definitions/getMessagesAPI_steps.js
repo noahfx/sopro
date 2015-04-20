@@ -86,9 +86,12 @@ module.exports = function(){
 
   this.Then(/^the response should contain a metadata object for that channel$/, function(next){
     var self = this;
-    assert(self.body.metadata !== undefined, 'body.metadata was undefined');
-    assert(typeof self.body.metadata === 'object', 'body.metadata was not an object');
-    assert(self.body.metadata.name === self.channel);
+    assert(self.body.channel !== undefined, 'body.channel was undefined');
+    assert(typeof self.body.channel === 'object', 'body.channel was not an object');
+      console.log(self.body)
+      assert((self.body.channel.name === self.channel)
+	     || (self.body.channel._id === self.channel)
+      ,'provided channel matches neither id nor name');
     next();
   });
 

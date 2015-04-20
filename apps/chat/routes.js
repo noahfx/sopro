@@ -557,22 +557,66 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
    */
 
   app.get('/api/channel.history', function(req, res, next){
-      var metadataFlag = !!req.query["metadata"];
-      var channelId = req.body.channel;
 
-      PI.find("message", "channelid", channelId, function(err, results){
-	  if(err){
-              console.log(err)
-              return res.status(500).json({
-		  ok: false,
-		  error: 'server error'
-              })
-	  }
-	  res.status(200).json({
-              ok: true,
-              messages: results,
+      /***/
+    async.waterfall([
+      // Construct opts object:
+      function(done){
+
+	
+        if(req.query['channel'] === undefined
+          || req.query['channel'] === "")
+
+        {
+          return done([400, 'invalid_request', 'channel field is required in json body'])
+        } else {
+          return done(null, {
+              channel: req.query['channel']
+          });
+        }
+      },
+      // Look for the channel by name and id:
+      function(opts, done){
+        // Try by ID:
+	  sopro.helpers.channelByNameOrId(opts.channel, function(err, channel){
+	      if (err){
+		  return done(err);
+	      }
+	      opts.channelObj = channel;
+	      done(null, opts);
 	  });
-      } );
+      },
+      // Check if the current identity is a member of that channel
+      function(opts, done){
+	  PI.find("message", "channelid", opts.channelObj._id, function(err, results){
+	      if(err){
+		  console.log(err)
+		  return done([500, 'server error']);
+	      }
+	      opts.messages = results;
+	      done(null, opts);
+	  } );
+
+      }
+      // Craft and save a message object for that channel:
+    ], function(err, opts){
+      if(err){
+        return res.status(err[0]).json({
+          ok: false,
+          error: err[1],
+          message: err[2],
+        })
+      } else {
+        return res.status(200).json({
+	    ok: true,
+            messages : opts.messages,
+	    channel : opts.channelObj
+        })
+      }
+    })
+      /**/
+
+
   })
 
   app.post('/api/postMessage', function(req, res, next){
