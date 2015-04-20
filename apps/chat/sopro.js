@@ -141,7 +141,7 @@ module.exports = function(app, PI){
                 return done([500, 'server_error']);
               }
               if(channels.length === 0){
-                return done([404, 'not_found', 'No matching channel was not found on the server'])
+                return done([404, 'not_found'])
               }
               if(channels.length > 1){
                 console.log('Unexpectedly found multiple channels for',
