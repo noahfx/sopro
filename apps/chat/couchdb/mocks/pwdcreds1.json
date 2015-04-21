@@ -1,4 +1,5 @@
 {
+  "_id": "pwdcred-1",
   "soproModel":"pwdcred",
   "for_userid":"user-abc",
   "salt":"aaaa",
