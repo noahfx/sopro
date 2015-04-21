@@ -72,8 +72,6 @@ angular.module('societyProChatApp.controller2',
       }
       return card.channel.name == data.channel.name;
     });
-    console.log(result);
-    console.log(data);
     if (result.length !== 0) {
       return;
     }
@@ -139,7 +137,6 @@ angular.module('societyProChatApp.controller2',
       .success(function(data, status, headers, config) {
         // this callback will be called asynchronously
         // when the response is available
-        console.log(data);
         if (data.ok) {
           // Add the new channel card to the stage:
           var creationTitle = $scope.stageCards[i].creationTitle;
