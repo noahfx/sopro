@@ -112,6 +112,9 @@ describe("societyProChat Controllers", function() {
       rootscope.currentRole = {identityid: 'abc'};
       // Click the Create button on the first card:
       scope.createClicked(0);
+      scope.changeRole = function () {
+        return scope.channels.push(CAM_MOCKS.postChannelResponse.channel);
+      };  
       httpBackend.flush();
       var channelsLength2 = scope.channels.length;
 
