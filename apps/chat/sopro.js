@@ -127,8 +127,42 @@ module.exports = function(app, PI){
 
 
   /*
+   *  HELPER FUNCTIONS
+   */
+
+    sopro.helpers = {}
+    sopro.helpers.channelByNameOrId = function(nameOrId, done){
+	        // Try by ID:
+        PI.read(nameOrId, function(err, channel){
+          if(err && err.error === 'not_found'){
+            // Try by name:
+            PI.find('channel', 'name', nameOrId, function(err, channels){
+              if(err){
+                return done([500, 'server_error']);
+              }
+              if(channels.length === 0){
+                return done([404, 'not_found'])
+              }
+              if(channels.length > 1){
+                console.log('Unexpectedly found multiple channels for',
+			    nameOrId,'naively assuming the first one');
+              }
+              return done(null, channels[0]);
+            })
+          } else if(err){
+            console.log(err);
+            return done([500, 'server_error']);
+          } else {
+            return done(null, channel);
+          }
+        })
+    }
+
+  /*
    *  ROUTING FUNCTIONS
    */
+
+  
   sopro.routes = {};
   sopro.routes.createUser = function(req, res, next){
     // Validate username:

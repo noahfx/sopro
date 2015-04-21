@@ -33,8 +33,11 @@ couch.readAll = function(model, callback) {
 };
 
 couch.update = function(data, callback){
-  assert(data._id);
-  assert(data._rev);
+  if(data._id === undefined){
+    return callback('Cannot update couch data without _id property')
+  } else if(data._rev === undefined){
+    return callback('Cannot update couch data without _rev property')
+  }
   db.insert(data, data._id, function(err, body){
     if(err){
       return callback(err);
