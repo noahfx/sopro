@@ -7,8 +7,8 @@ Society Pro's **vision** is...
    to provide a private and secure space to meet, trade, work, and play.
 
 ...technically:  
-   federated networks of peers that follow agreed-upon protocols;
-   high level APIs for messaging, crypto, digital assets, smart contracts, reputation;
+   federated networks of peers that follow agreed-upon protocols;  
+   high level APIs for messaging, crypto, digital assets, smart contracts, reputation;  
    where users *self-own* their data and cryptographic identities.
 
 ...physically:  
@@ -16,8 +16,9 @@ Society Pro's **vision** is...
    a tool for *companies* to incorporate, communicate, and execute;  
    a tool for *cities* to run elections, coordinate an emergency response, or automate public transit payments
 
+---
 
-As of 0.1.12, the **reality** of Society Pro is...
+Society Pro's **reality** (as of [0.1.12](https://github.com/SocietyPro/sopro/tree/0.1.12)) is...  
 ...a non-federated, multi-user, material design chat program WIP
 
 Developers
