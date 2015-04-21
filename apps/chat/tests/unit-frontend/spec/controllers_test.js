@@ -120,10 +120,9 @@ describe("societyProChat Controllers", function() {
 
 
       // See if the first card is now a channel history card:
-      expect(scope.stageCards[0]).toEqual(
+      expect(scope.stageCards[0].channel).toEqual(
         jasmine.objectContaining({
-          type: "channel",
-          title: "karmachannel",
+          name: "karmachannel"
         })
       );
       expect(scope.stageCards[0]).not.toEqual(

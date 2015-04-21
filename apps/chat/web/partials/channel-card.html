@@ -1,8 +1,14 @@
-<md-card flex layout="column" class="sopro-card channel-card">
+<md-card flex layout="column" class="sopro-card channel-card" ng-controller="historyCardController">
   <header layout="row" layout-align="start center">
-    <span class="title">{{card.title}}</span>
+    <span class="title">{{card.channel.name}}</span>
     <span flex></span>
+    <span class="x-button" ng-click="cancelClicked($index)"><img src="web/images/icon-close.png"/></span>
   </header>
   <md-content flex layout="column" class="card-content">
+    <ul >
+      <li ng-repeat="message in messages"> {{message.text}} </li>
+    </ul>
   </md-content>
+  <footer>
+  </footer>
  </md-card>

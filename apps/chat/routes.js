@@ -7,9 +7,10 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
   app.sopro.package = JSON.parse(packageJSON);
 
   /*
-   * HTTPS ROUTING
+   * MIDDLEWARE FUNCTIONS
    */
 
+  // Verify the request is https and redirect otherwise:
   function requireSecure(req, res, next){
     if(!req.secure){
       var port = +app.sopro.servers.express.sslPort || 443;
@@ -24,37 +25,6 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
       next();
     };
   }
-
-  app.all('*', requireSecure);
-  app.all('*', function(req, res, next){
-    if(req.user && req.session){
-      req.session.userId = req.user.currentIdentity._id;
-    }
-    res.locals.features = app.sopro.features;
-    res.locals.version = app.sopro.package.version;
-    if(req.user){
-      // Load permissions
-      res.locals.currentUser = JSON.stringify(req.user);
-      res.locals.permissions = res.locals.permissions || {};
-      acl.isAllowed(req.user.currentIdentity._id, '/admin', 'get', function(err, ok){
-        if(err){
-          return next('Authentication failure: '+err);
-        }
-        if(!ok){
-          res.locals.permissions.getAdmin = false;
-        } else {
-          res.locals.permissions.getAdmin = true;
-        }
-        next();
-      })
-    } else {
-      next();
-    }
-  })
-
-  /*
-   * HTTP REQUEST AUTHENTICATION
-   */
 
   // Verify that this request is for a logged in user:
   function requireLogin(req, res, next){
@@ -78,10 +48,33 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
    *  REQUEST CONFIG MIDDLEWARES:
    */
 
-   app.all('*', function(req, res, next){
-     res.locals.config = app.sopro;
-     next();
-   })
+  app.all('*', requireSecure);
+  app.all('*', function(req, res, next){
+    if(req.user && req.session){
+      req.session.userId = req.user.currentIdentity._id;
+    }
+    res.locals.features = app.sopro.features;
+    res.locals.version = app.sopro.package.version;
+    res.locals.config = app.sopro;
+    if(req.user){
+      // Load permissions
+      res.locals.currentUser = JSON.stringify(req.user);
+      res.locals.permissions = res.locals.permissions || {};
+      acl.isAllowed(req.user.currentIdentity._id, '/admin', 'get', function(err, ok){
+        if(err){
+          return next('Authentication failure: '+err);
+        }
+        if(!ok){
+          res.locals.permissions.getAdmin = false;
+        } else {
+          res.locals.permissions.getAdmin = true;
+        }
+        next();
+      })
+    } else {
+      next();
+    }
+  })
 
   /*
    *  DEVELOPMENT ROUTES

@@ -1,3 +1,6 @@
+# 0.1.13 (2015-04-21)
+* GET messages via API: `/api/channel.history`
+
 # 0.1.12 (2015-04-17)
 * POST message via API: `/api/postMessage`
 
