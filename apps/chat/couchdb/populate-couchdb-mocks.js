@@ -93,7 +93,6 @@ function populateTestDb(callback){
     async.eachSeries(files, function(path, done){
       var json = fs.readFileSync(path);
       var mock = JSON.parse(json);
-      //PI.create(doc.soproModel, doc, done)
       PI.read(mock._id, function(err, doc){
         if(err){
           if(err.error === 'not_found'){
