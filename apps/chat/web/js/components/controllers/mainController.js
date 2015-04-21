@@ -1,6 +1,6 @@
 var societyProChatControllers =
 angular.module('societyProChatApp.controllers',
-  ['ngMaterial', 'ngAnimate', 'societyProChatApp.controller2']
+  ['ngMaterial', 'ngAnimate', 'societyProChatApp.controller2','societyProChatApp.cardController']
 )
 .controller('mainController',
 ['$scope', '$http', '$rootScope', '$window', 'UserService',

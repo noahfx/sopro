@@ -46,15 +46,6 @@ angular.module('societyProChatApp.controller2',
       showChannelCard(card);
       return $scope.expandCard(0);
     }
-
-    // Test what the first card is:
-    var createCardsPresent = $scope.stageCards[0].creationCard;
-
-    if(!createCardsPresent){
-      if ($scope.stageCards[0].size === 100) {
-        $scope.minimizeCard();
-      }
-    }
     showChannelCard(card);
   }
   $scope.$on("openChannelHistoryClicked", $scope.handleChannelHistoryClicked);
@@ -80,6 +71,17 @@ angular.module('societyProChatApp.controller2',
     if (result.length !== 0) {
       return;
     }
+    // Test what the first card is:
+    if ($scope.stageCards[0]) {
+      var createCardsPresent = $scope.stageCards[0].creationCard;
+
+      if(!createCardsPresent){
+        if ($scope.stageCards[0].size === 100) {
+          $scope.minimizeCard();
+        }
+      }
+    }
+
     if ($scope.stageCards[0] && $scope.stageCards[0].creationCard) {
       $scope.stageCards.splice(1,0,data);
     } else {
