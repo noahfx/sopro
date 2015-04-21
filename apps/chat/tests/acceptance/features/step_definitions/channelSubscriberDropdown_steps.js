@@ -6,7 +6,10 @@ var channelSubscriberDropdown_steps = module.exports = function(){
   this.Given(SSTEPS.appStarted.regex, SSTEPS.appStarted.fn)
   
   this.When(/^I select a channel from the list$/, function (next) {
-    element.all(by.css("#collection-channels .channel-item")).get(0).click()
+    browser
+    .actions()
+    .doubleClick(element.all(by.css("#collection-channels .channel-item")).get(0))
+    .perform()
     .then(next);
   });
 
