@@ -12,7 +12,7 @@ sleep 10
 npm install
 
 cd couchdb
-node populate-couchdb-mocks.js
+node populate-couchdb-mocks.js --wipe
 cd ..
 
 # Redirect stdout, but not stderr:
