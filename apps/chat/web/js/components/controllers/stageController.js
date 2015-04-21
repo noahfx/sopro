@@ -65,7 +65,13 @@ angular.module('societyProChatApp.controller2',
   }
 
   function showChannelCard(data){
-    var result = $.grep($scope.stageCards, function(e){ return e.channel.name == data.channel.name; });
+    // Look through the existing cards for an already present card:
+    var result = $.grep($scope.stageCards, function(card){
+      if(card.creationCard){
+        return false;
+      }
+      return card.channel.name == data.channel.name;
+    });
     console.log(result);
     console.log(data);
     if (result.length !== 0) {
