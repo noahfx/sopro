@@ -46,6 +46,7 @@ angular.module('societyProChatApp.controller2',['ngMaterial'])
       channel: data.channel,
       size: 50
    }
+   var expand = false;
     if($scope.stageCards.length === 0){
       showChannelCard(card);
       return $scope.expandCard(0);
@@ -55,7 +56,11 @@ angular.module('societyProChatApp.controller2',['ngMaterial'])
     var createCardsPresent = $scope.stageCards[0].creationCard;
 
     if(createCardsPresent){
-      hideCreationCard();
+      if ($scope.stageCards.length === 1) {
+        hideCreationCard(); 
+        showChannelCard(card);
+        return $scope.expandCard(0);
+      }
     } else {
       if ($scope.stageCards[0].size === 100) {
         $scope.minimizeCard();
@@ -87,9 +92,7 @@ angular.module('societyProChatApp.controller2',['ngMaterial'])
     $scope.stageCards = [extendedCard];
     //console.log($scope.stageCards)
     $scope.stageCards[0].size = 100;
-    $timeout( function () {
-      $(".sopro-card").css("max-height","none");
-    });
+    $(".sopro-card").css("max-height","none");
   }
 
   $scope.minimizeCard = function () {
