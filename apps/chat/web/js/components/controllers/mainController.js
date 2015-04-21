@@ -4,9 +4,7 @@ angular.module('societyProChatApp.controllers',
 )
 .controller('mainController',
 ['$scope', '$http', '$rootScope', '$window', 'UserService',
-  function($scope,$http,$rootScope,$window,UserService) {
-
-
+  function($scope, $http, $rootScope, $window, UserService) {
   var positionCommpanelScrollbar = function () {
     var $cp = $('#sopro-collections-wrap');
     if (!$cp[0]) return;
