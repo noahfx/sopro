@@ -4,7 +4,7 @@ angular.module('societyProChatApp.cardController',
 .controller('historyCardController',
 ['$scope', '$http', '$rootScope', '$timeout',
   function($scope, $http, $rootScope, $timeout) {
-    $scope.messages = ["a", "b", "c"];
+    $scope.messages = [];
     $http({
         method: 'GET',
         url: '/api/channel.history',
@@ -12,7 +12,7 @@ angular.module('societyProChatApp.cardController',
          'token-auth': $rootScope.token
         },
         params : {
-	  channel : "general"
+	  channel : $scope.card.channel._id
         }
       })
         .success(function(data, status, headers, config) {
