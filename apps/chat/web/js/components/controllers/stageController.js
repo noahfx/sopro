@@ -1,6 +1,10 @@
-var stageController = 
-angular.module('societyProChatApp.controller2',['ngMaterial'])
-.controller('stageController', ['$scope', '$http', '$rootScope', '$timeout',function($scope,$http,$rootScope, $timeout) {
+var stageController =
+angular.module('societyProChatApp.controller2',
+  ['ngMaterial']
+)
+.controller('stageController', 
+['$scope', '$http', '$rootScope', '$timeout',
+  function($scope,$http,$rootScope, $timeout) {
   $scope.stageCards = [];
   $scope.tmpStageCards = [];
   $scope.lastExpanded;

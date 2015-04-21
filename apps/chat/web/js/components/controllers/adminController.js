@@ -1,9 +1,10 @@
 var soproAdminControllers = 
-angular.module('societyProChatApp2', ['ngMaterial', 'societyProChatApp.services'])
-.controller(
-  'adminController',
-  ['$scope', '$http', '$rootScope', 'UserService',
-  function($scope,$http,$rootScope,UserService) {
+angular.module('societyProChatApp2',
+  ['ngMaterial', 'societyProChatApp.services']
+)
+.controller('adminController',
+['$scope', '$http', '$rootScope', 'UserService',
+  function($scope, $http, $rootScope, UserService) {
     var tabs = [
       { title: 'Channels', partial: "web/partials/admin-channels.html"},
       { title: 'Users', partial: "web/partials/admin-users.html"},
