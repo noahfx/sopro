@@ -22,18 +22,9 @@ angular.module('societyProChatApp.controller2',['ngMaterial'])
 
     // If there's an existing create channel card, toggle it off and on again:
     if(createCardsPresent){
-      if(createChannelPresent){
-        // Toggle off the existing channel creation card.
-        hideCreationCard();
-        showCreateChannelCard();
-      } else {
-        // Replace the other creation card with the channel creation card.
-        hideCreationCard();
-        showCreateChannelCard();
-      }
-    } else {
-      showCreateChannelCard();
-    }
+      hideCreationCard();
+    }  
+    showCreateChannelCard();
 
   };
   $scope.$on("createChannelClicked", $scope.handleCreateChannelClicked);
@@ -45,8 +36,8 @@ angular.module('societyProChatApp.controller2',['ngMaterial'])
       template:"web/partials/channel-card.html", 
       channel: data.channel,
       size: 50
-   }
-   var expand = false;
+    }
+
     if($scope.stageCards.length === 0){
       showChannelCard(card);
       return $scope.expandCard(0);
@@ -55,13 +46,7 @@ angular.module('societyProChatApp.controller2',['ngMaterial'])
     // Test what the first card is:
     var createCardsPresent = $scope.stageCards[0].creationCard;
 
-    if(createCardsPresent){
-      if ($scope.stageCards.length === 1) {
-        hideCreationCard(); 
-        showChannelCard(card);
-        return $scope.expandCard(0);
-      }
-    } else {
+    if(!createCardsPresent){
       if ($scope.stageCards[0].size === 100) {
         $scope.minimizeCard();
       }
@@ -73,6 +58,9 @@ angular.module('societyProChatApp.controller2',['ngMaterial'])
   function hideCreationCard(){
     // Remove the first card from the stage.
     $scope.stageCards.shift();
+    if ($scope.stageCards.length === 1) {
+      $scope.expandCard(0);    
+    }
   }
 
   function showCreateChannelCard(){
@@ -82,7 +70,17 @@ angular.module('societyProChatApp.controller2',['ngMaterial'])
   }
 
   function showChannelCard(data){
-    $scope.stageCards.unshift(data);
+    var result = $.grep($scope.stageCards, function(e){ return e.channel.name == data.channel.name; });
+    console.log(result);
+    console.log(data);
+    if (result.length !== 0) {
+      return;
+    }
+    if ($scope.stageCards[0] && $scope.stageCards[0].creationCard) {
+      $scope.stageCards.splice(1,0,data);
+    } else {
+      $scope.stageCards.unshift(data); 
+    }
   }
 
   $scope.expandCard = function (index) {
@@ -92,15 +90,20 @@ angular.module('societyProChatApp.controller2',['ngMaterial'])
     $scope.stageCards = [extendedCard];
     //console.log($scope.stageCards)
     $scope.stageCards[0].size = 100;
-    $(".sopro-card").css("max-height","none");
+    $timeout(function() {
+      $(".sopro-card").css("max-height","none");
+    }, 100);
   }
 
   $scope.minimizeCard = function () {
     angular.copy($scope.tmpStageCards, $scope.stageCards);
   }
 
-  $scope.cancelClicked = function(){
-    hideCreationCard();
+  $scope.cancelClicked = function(index){
+    $scope.stageCards.splice(index,1);
+    if ($scope.stageCards.length === 1 && !$scope.stageCards[0].creationCard) {
+      $scope.expandCard(0);    
+    }
   }
 
   $scope.createClicked = function(i){
