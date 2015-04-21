@@ -233,10 +233,10 @@ angular.module('societyProChatApp.directives',[
         console.log(data);  
         $scope.dropdownTitle = data.title;
         $scope.fromElement = data.fromElement;
-        $($scope.fromElement).addClass('poo-highlight-subscriber');
+        $($scope.fromElement.parentElement).addClass('poo-highlight-subscriber');
         $http({
           method: 'GET',
-          url: '/api/channel.info',
+          url: baseUrl + '/api/channel.info',
           headers: {
            'token-auth': $rootScope.token
           },

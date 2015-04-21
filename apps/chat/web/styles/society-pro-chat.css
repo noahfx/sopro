@@ -5,7 +5,10 @@ body {
 /*  TOOLBAR  */
 
 body > md-toolbar {
-  background-color: #969696 !important;
+  background-color: #ffffff !important;
+  -webkit-box-shadow: none !important;
+  -moz-box-shadow:    none !important;
+  box-shadow:         none !important;
 }
 
 /* --- Logo Section */
@@ -13,17 +16,50 @@ body > md-toolbar {
   background-color: rgba(50,50,50,1);
   width: 231px;
   color: white;
+  padding-left: 15px;
 }
 
 #logo-text {
-  font-size: 30px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+#trigger-arrow {
+  text-align: right;
 }
 
 #version-text {
   font-size: 10px;
 }
 
+
 /* --- Role Selection */
+
+#member-name {
+  color: #999999;
+  padding-left: 15px;
+}
+
+#member-name strong {
+  color: #555459;
+  font-weight: bold;
+  margin-right: 3px;
+}
+
+
+#search-input {
+  width: 300px;
+  border: 1px solid #e7e7e7;
+  height: 30px;
+  line-height: 30px;
+  padding: 0 15px 0 30px;
+  color: #959595;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  background: url(../images/search-icon.png) no-repeat 10px center;
+}
+
 #role-selection {
   margin: 0px 15px;
   cursor: pointer;
@@ -32,6 +68,15 @@ body > md-toolbar {
   margin: 5px;
   font-size: 13px;
 }
+
+#role-selection > img {
+  margin: 5px;
+  font-size: 13px;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+}
+
 #role-selection .roleLabel{
   display: inline-block;
 }
@@ -41,18 +86,48 @@ body > md-toolbar {
 .sopro-role-panel{
   top: 50px;
   position: absolute;
-  right: -10px;
+  right: 0;
   background: #ffffff;
-  width: 228px;
+  width: 190px;
   height: auto;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
   border-radius: 4px;
-  border: 1px solid #cdcdcd;
+  border: 1px solid #dadada;
   margin: 15px 10px 0 0;
   float: right;
-  padding: 20px 0px 10px 0px;
+  padding: 10px 0px 10px 0px;
 }
+
+.sopro-role-panel a {
+  font-size: 15px; 
+  color: #555459;
+  height: 30px;
+  line-height: 30px;
+  text-align: left;
+  padding-left: 30px;
+}
+
+.sopro-role-panel a:hover {
+  background: #f2f2f5;
+}
+
+#hamburguer {
+  width: 30px;
+  height: 30px;
+  background-image: url(../images/hamburguer.png);
+  background-repeat: no-repeat;
+  background-position: center center;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+}
+
+#hamburguer:hover {
+  background-color: #cccccc;
+}
+
+
 .sopro-arrow-role-panel{
   position: fixed;
 }
@@ -97,11 +172,12 @@ collection {
 }
 
 .channel-collection {
-  padding: 6px 15px;
+  padding: 10px 15px 10px 0
 }
 
 .sopro-collection-title{
   height: 32px;
+  padding-left: 15px;
   font-size: 13px;
   color: rgba(175, 175, 175, 1);
   font-weight: bold;
@@ -111,12 +187,25 @@ collection {
 }
 #sopro-collections-wrap ul li {
   height: 25px;
+  line-height: 25px;
+  padding-left: 15px;
+  padding-right: 15px;
   font-size: 15px;
   color: rgba(175, 175, 175, 1);
   cursor: pointer !important;
 }
 #sopro-collections-wrap ul li.channel-item:hover {
   background-color: rgba(50,50,50,1);
+  -webkit-border-top-right-radius: 2px;
+  -webkit-border-bottom-right-radius: 2px;
+  -moz-border-radius-topright: 2px;
+  -moz-border-radius-bottomright: 2px;
+  border-top-right-radius: 2px;
+  border-bottom-right-radius: 2px;
+}
+
+#sopro-collections-wrap ul li img {
+  margin-right: 5px;
 }
 
 #sopro-collections-wrap .channel-item.poo-highlight-collection, {
@@ -130,6 +219,7 @@ color: rgba(204, 204, 204, 1);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  text-transform: lowercase;
 }
 
 .collections-divider {
@@ -140,7 +230,7 @@ color: rgba(204, 204, 204, 1);
   border: 0;
   height: 1px;
   color: rgba(131,131,131,0.5);
-  background-color: rgba(131,131,131,0.5);
+  background-color: #454444;
   margin: 0px;
 }
 
@@ -159,11 +249,12 @@ color: rgba(204, 204, 204, 1);
 }
 
 .channel-collection .sopro-collection-title .channel-create-link {
-  display: none;
+  font-size: 18px;
+  font-weight: normal;
 }
 
 .channel-collection .sopro-collection-title:hover .channel-create-link {
-  display: inline;
+  color: #ffffff;
 }
 
 .channel-create-link {
@@ -274,8 +365,8 @@ sopro-subscribers-dropdown{
 }
 
 .poo-highlight-collection, .poo-highlight-subscriber {
-  background-color: rgba(131, 131, 131, 1) !important;
-  color: rgba(255,255,255,0.8) !important;
+  background-color: #4c9689 !important;
+  color: #ffffff !important;
 }
 
 

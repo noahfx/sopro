@@ -62,7 +62,7 @@ angular.module('societyProChatApp.controller2',['ngMaterial'])
     };
     $http({
       method: 'POST',
-      url: '/api/channel',
+      url: baseUrl + '/api/channel',
       headers: {
        'token-auth': $rootScope.token
       },

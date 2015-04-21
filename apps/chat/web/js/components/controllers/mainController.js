@@ -1,3 +1,4 @@
+var baseUrl = 'https://demo.captains.io';
 var societyProChatControllers = 
 angular.module('societyProChatApp.controllers',['ngMaterial', 'ngAnimate', 'societyProChatApp.controller2'])
 .controller('mainController',['$scope','$http','$rootScope','$window', 'UserService', function($scope,$http,$rootScope,$window,UserService) {
@@ -107,7 +108,7 @@ angular.module('societyProChatApp.controllers',['ngMaterial', 'ngAnimate', 'soci
 
       $http({
         method: 'GET',
-        url: '/api/channels',
+        url: baseUrl + '/api/channels',
         headers: {
          'token-auth': $rootScope.token
         },

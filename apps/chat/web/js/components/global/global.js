@@ -3,4 +3,4 @@
 angular.module('societyProChatApp.global', [
 ])
 
-.value('maxChannels', 2);
+.value('maxChannels', 10);
