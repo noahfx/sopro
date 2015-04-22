@@ -634,6 +634,7 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
             channel: req.body.channel,
             text: req.body.text,
             authorid: req.session.userId,
+            tsMs: new Date().valueOf(),
           });
         }
       },
@@ -687,11 +688,18 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
 
       // Craft and save a message object for that channel:
       function(opts, done){
+        // Convert ms timestamp to s timestamp:
+        var tsS = opts.tsMs / 1000;
+        // Cast to string:
+        tsS = String(tsS);
+        // Strip any decimals after the first 3:
+        tsS = tsS.replace(/^(\d+\.\d\d\d)\d+$/, "$1");
         var data = {
           soproModel: 'message',
           channelid: opts.channelObj._id,
           authorid: opts.authorid,
           text: opts.text,
+          ts: tsS,
         }
         PI.create('channel', data, function(err, result){
           if(err){
