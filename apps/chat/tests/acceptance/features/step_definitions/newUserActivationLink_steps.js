@@ -112,6 +112,7 @@ module.exports = function(){
       .sendKeys(self.passwordConfirm);
         browser.ignoreSynchronization = true;
       next();
+      browser.ignoreSynchronization = false;
     });
   });
 
