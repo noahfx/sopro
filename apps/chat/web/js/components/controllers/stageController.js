@@ -7,9 +7,15 @@ angular.module('societyProChatApp.controller2',
   function($scope,$http,$rootScope, $timeout) {
   $scope.stageCards = [];
   $scope.tmpStageCards = [];
-  $scope.lastExpanded;
+  $scope.lastExpanded = -1;
   $scope.creationTitle = "";
   $scope.card = {};
+  $scope.creationCard = {
+    show: false,
+    template:"web/partials/creation-card.html", 
+    size:33
+  };
+  $scope.expandedCard = {};
 
   $scope.handleCreateChannelClicked = function($event) {
     // If there are no cards, add a create channel card:
@@ -26,7 +32,7 @@ angular.module('societyProChatApp.controller2',
 
     // If there's an existing create channel card, toggle it off and on again:
     if(createCardsPresent){
-      hideCreationCard();
+      $scope.hideCreationCard();
     }  
     showCreateChannelCard();
 
@@ -39,58 +45,63 @@ angular.module('societyProChatApp.controller2',
       type:"channel", 
       template:"web/partials/channel-card.html", 
       channel: data.channel,
-      size: 50
+      size: 100,
+      show: true
     }
 
-    if($scope.stageCards.length === 0){
+    /*if($scope.stageCards.length === 0){
       showChannelCard(card);
       return $scope.expandCard(0);
-    }
+    }*/
+
     showChannelCard(card);
   }
   $scope.$on("openChannelHistoryClicked", $scope.handleChannelHistoryClicked);
 
-  function hideCreationCard(){
-    // Remove the first card from the stage.
-    $scope.stageCards.shift();
-    if ($scope.stageCards.length === 1) {
-      $scope.expandCard(0);    
+  //$scope.$watch('stageCards', function () { $scope.expandedCard = $scope.stageCards[0]; });
+
+  $scope.hideCreationCard = function (){
+    $scope.creationCard.show = false;
+    if ($scope.stageCards.length !== 0) {
+      $scope.stageCards[0].size = 100;
     }
   }
 
   function showCreateChannelCard(){
-    $scope.stageCards.unshift(
-      {creationCard:true, type:"channel", template:"web/partials/creation-card.html", size:50}
-    );
+    $scope.creationCard.show = true;
+    if ($scope.stageCards.length !== 0) {
+      $scope.stageCards[0].size = 66;
+    }
   }
 
   function showChannelCard(data){
+    if ($scope.creationCard.show) {
+      data.size = 66;
+    }
+
+    if ($scope.stageCards.length == 0) {
+      return $scope.stageCards.push(data);
+    }
+
+    $scope.indexToShow = -1;
     // Look through the existing cards for an already present card:
-    var result = $.grep($scope.stageCards, function(card){
-      if(card.creationCard){
-        return false;
+    var result = $.grep($scope.stageCards, function(card, index){
+      if (card.channel.name == data.channel.name) {
+        $scope.safeApply( function () {
+          $scope.indexToShow = index;
+        });
       }
+
       return card.channel.name == data.channel.name;
     });
-    if (result.length !== 0) {
+
+    if ($scope.indexToShow !== -1) {
+      var cardRemovedTmp = $scope.stageCards.splice($scope.indexToShow,1);
+      $scope.stageCards.unshift(cardRemovedTmp[0]);
       return;
     }
-    // Test what the first card is:
-    if ($scope.stageCards[0]) {
-      var createCardsPresent = $scope.stageCards[0].creationCard;
 
-      if(!createCardsPresent){
-        if ($scope.stageCards[0].size === 100) {
-          $scope.minimizeCard();
-        }
-      }
-    }
-
-    if ($scope.stageCards[0] && $scope.stageCards[0].creationCard) {
-      $scope.stageCards.splice(1,0,data);
-    } else {
-      $scope.stageCards.unshift(data); 
-    }
+    $scope.stageCards.unshift(data);
   }
 
   $scope.expandCard = function (index) {
@@ -110,18 +121,10 @@ angular.module('societyProChatApp.controller2',
   }
 
   $scope.cancelClicked = function(index){
-    $scope.stageCards.splice(index,1);
-    if ($scope.stageCards.length === 1 && !$scope.stageCards[0].creationCard) {
-      $scope.expandCard(0);    
-    }
+    $scope.stageCards.shift();
   }
 
-  $scope.createClicked = function(i){
-    if(i !== 0){throw new Error('Attempted to create a card from non-0 index');};
-    if(!$scope.stageCards[i].creationTitle) {
-      throw new Error('Missing title of channel');
-      return;
-    };
+  $scope.createClicked = function(){
     $http({
       method: 'POST',
       url: '/api/channel',
@@ -129,9 +132,8 @@ angular.module('societyProChatApp.controller2',
        'token-auth': $rootScope.token
       },
       params : {
-        role: $rootScope.currentRole.identityid,
-        name: $scope.stageCards[i].creationTitle,
-        purpose: $scope.stageCards[i].creationDesc
+        name: $scope.creationCard.creationTitle,
+        purpose: $scope.creationCard.creationDesc
       }
     })
       .success(function(data, status, headers, config) {
@@ -139,18 +141,16 @@ angular.module('societyProChatApp.controller2',
         // when the response is available
         if (data.ok) {
           // Add the new channel card to the stage:
-          var creationTitle = $scope.stageCards[i].creationTitle;
-          var creationDesc = $scope.stageCards[i].creationDesc;
-          hideCreationCard();
+          $scope.hideCreationCard();
           showChannelCard({
             type:"channel", 
             template:"web/partials/channel-card.html", 
             channel: data.channel,
-            size: 50
+            size: 100
           });
           // Remove the channel creation card to the stage:
-          $rootScope.channels.push(data.channel);
-          $rootScope.myChannels.push(data.channel);
+          $scope.$parent.channels.push(data.channel);
+          $scope.$parent.myChannels.push(data.channel);
         } else {
           throw new Error(data.error);
         }
@@ -161,4 +161,15 @@ angular.module('societyProChatApp.controller2',
         console.log(data);
       });
   };
+
+  $scope.safeApply = function(fn) {
+    var phase = this.$root.$$phase;
+    if(phase == '$apply' || phase == '$digest') {
+      if(fn && (typeof(fn) === 'function')) {
+        fn();
+      }
+    } else {
+      this.$apply(fn);
+    }
+  };  
 }]);

@@ -177,7 +177,7 @@ color: rgba(204, 204, 204, 1);
 
 /*   Sopro Cards */
 .sopro-card {
-  max-height: 270px;
+  /*max-height: 270px;*/
   min-height: 270px;
   margin: 0px 8px 8px 8px;
   background-color: white;
@@ -351,4 +351,8 @@ a {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+
+.creation-card {
+  max-height: 270px; 
 }

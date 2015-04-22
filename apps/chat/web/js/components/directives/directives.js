@@ -308,4 +308,14 @@ angular.module('societyProChatApp.directives',[
       });
     }
   };
-}]);
+}])
+.directive('scrollToLast', function () {
+  return {
+    restrict: 'A',
+    link: function (scope, element, attr) {
+      if (scope.$last === true) {
+        element[0].scrollIntoView();
+      }
+    }
+  }
+});

@@ -50,14 +50,33 @@ describe('persistence-interface', function() {
   });
 
   it('throws an error if the model type is undefined', function() {
-    var userData = {username: 'testModelErrorUser', identities: ['abc']};
+    var userData = {
+      username: 'testModelErrorUser',
+      identities: ['abc']
+    };
     spyCreate();
-    var modelType = 'undefined';
+    var modelType = undefined;
     expect(function(){PI.create(modelType, userData, errorCallback);}).toThrow(new Error('Trying to ensure an undefined model'));
     expect(PICouch.create).not.toHaveBeenCalled();
   });
 
-  it('applies the model type to soproModel', function(done) {
+  it('throws an error if the model type doesnt match data.soproModel', function() {
+    var userData = {
+      soproModel: 'channel',
+      username: 'testWrongUser',
+      identities: ['abc']
+    };
+    spyCreate();
+    var modelType = 'user';
+    expect(function(){
+      PI.create(modelType, userData, errorCallback);
+    }).toThrow(
+      new Error('Expected and actual model did not match')
+    );
+    expect(PICouch.create).not.toHaveBeenCalled();
+  });
+
+  it('applies the model type to undefined soproModel', function(done) {
     var userData = {username: 'testModelUser', identities: ['abc']};
     spyCreate();
     PI.create('user', userData, function (err, returnData) {

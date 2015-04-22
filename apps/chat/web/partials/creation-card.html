@@ -2,16 +2,16 @@
   <header layout="row" layout-align="start center">
     <span class="title" >Create a channel</span>
     <span flex></span>
-    <span class="x-button" ng-click="cancelClicked($index)"><img src="web/images/icon-close.png"/></span>
+    <span class="x-button" ng-click="hideCreationCard()"><img src="web/images/icon-close.png"/></span>
   </header>
   <md-content flex layout="column" class="card-content">
     <input type="text" class="title" placeholder="Channel Title"
-           ng-model="stageCards[$index].creationTitle">
-    <textarea placeholder="Channel Description" ng-model="stageCards[$index].creationDesc" class="channel-description"></textarea>
+           ng-model="creationCard.creationTitle">
+    <textarea placeholder="Channel Description" ng-model="creationCard.creationDesc" class="channel-description"></textarea>
   </md-content>
   <footer layout="row" layout-align="start center">
     <span flex></span>
     <md-button class="cancel-button" ng-click="cancelClicked()">CANCEL</md-button>
-    <md-button class="create-button" ng-click="createClicked($index)">CREATE</md-button>
+    <md-button class="create-button" ng-click="createClicked()">CREATE</md-button>
   </footer>
  </md-card>
