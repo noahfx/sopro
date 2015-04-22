@@ -60,6 +60,7 @@ module.exports = function(){
   this.When(/^I visit the confirm account page for that token$/,function (next) {
     var self = this;
     var uri = 'https://' + this.app.sopro.servers.express.hostname + '/confirmAccount/' + this.tokenObj.token
+    console.log(uri);
     browser.driver.get(uri)
     .then(function () {
       browser.driver.getPageSource()
