@@ -146,7 +146,10 @@ angular.module('societyProChatApp.controller2',
             size: 50
           });
           // Remove the channel creation card to the stage:
-          $scope.changeRole($rootScope.currentRole);
+          $scope.$parent.channels.push(data.channel);
+          $scope.$parent.myChannels.push(data.channel);
+        } else {
+          throw new Error(data.error);
         }
       })
       .error(function(data, status, headers, config) {
