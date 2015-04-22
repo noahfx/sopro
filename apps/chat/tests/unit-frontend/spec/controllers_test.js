@@ -97,22 +97,17 @@ describe("societyProChat Controllers", function() {
 
     it("creates a channel when Create is clicked", function(){
       // Configure the stage in preparation to click Create:
-      httpBackend.expect('POST', '/api/channel?name=karmachannel&role=abc')
+      httpBackend.expect('POST', '/api/channel?name=karmachannel')
         .respond(CAM_MOCKS.postChannelResponse);
       var controller = createController('stageController');
-      scope.channels =[];
-      scope.currentRole = {
-        id: CAM_MOCKS.roleId1,
-      };
-      scope.stageCards.push({creationTitle: "karmachannel"});
-
+      
       rootscope.channels = [];
       rootscope.myChannels = [];
       
-      var channelsLength1 = rootscope.channels.length;
-      // The stage controller doesn't know about $rootScope.currentRole.id
+      scope.creationCard.creationTitle = "karmachannel";
 
-      rootscope.currentRole = {identityid: 'abc'};
+      var channelsLength1 = rootscope.channels.length;
+
       // Click the Create button on the first card:
       scope.createClicked(0); 
       httpBackend.flush();

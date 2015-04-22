@@ -701,7 +701,7 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
           text: opts.text,
           ts: tsS,
         }
-        PI.create('channel', data, function(err, result){
+        PI.create('message', data, function(err, result){
           if(err){
             console.log(err);
             return done([500, 'server_error']);

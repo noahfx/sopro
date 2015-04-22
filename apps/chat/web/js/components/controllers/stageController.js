@@ -124,12 +124,7 @@ angular.module('societyProChatApp.controller2',
     $scope.stageCards.shift();
   }
 
-  $scope.createClicked = function(i){
-    if(i !== 0){throw new Error('Attempted to create a card from non-0 index');};
-    if(!$scope.stageCards[i].creationTitle) {
-      throw new Error('Missing title of channel');
-      return;
-    };
+  $scope.createClicked = function(){
     $http({
       method: 'POST',
       url: '/api/channel',
@@ -137,9 +132,8 @@ angular.module('societyProChatApp.controller2',
        'token-auth': $rootScope.token
       },
       params : {
-        role: $rootScope.currentRole.identityid,
-        name: $scope.stageCards[i].creationTitle,
-        purpose: $scope.stageCards[i].creationDesc
+        name: $scope.creationCard.creationTitle,
+        purpose: $scope.creationCard.creationDesc
       }
     })
       .success(function(data, status, headers, config) {
@@ -147,8 +141,6 @@ angular.module('societyProChatApp.controller2',
         // when the response is available
         if (data.ok) {
           // Add the new channel card to the stage:
-          var creationTitle = $scope.stageCards[i].creationTitle;
-          var creationDesc = $scope.stageCards[i].creationDesc;
           $scope.hideCreationCard();
           showChannelCard({
             type:"channel", 
