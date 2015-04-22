@@ -4,6 +4,7 @@ angular.module('societyProChatApp.cardController',
 .controller('historyCardController',
 ['$scope', '$http', '$rootScope', '$timeout',
   function($scope, $http, $rootScope, $timeout) {
+    //$scope.card = $scope.stageCards[0];
     $scope.messages = [];
     $scope.sortByTs = function (message){
       var result = +message.ts;
