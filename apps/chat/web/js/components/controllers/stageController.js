@@ -13,7 +13,9 @@ angular.module('societyProChatApp.controller2',
   $scope.creationCard = {
     show: false,
     template:"web/partials/creation-card.html", 
-    size:33
+    size:33,
+    creationTitle: "",
+    creationDesc: "",
   };
   $scope.expandedCard = {};
 
@@ -121,7 +123,9 @@ angular.module('societyProChatApp.controller2',
   }
 
   $scope.cancelClicked = function(index){
-    $scope.stageCards.shift();
+    $scope.creationCard.creationTitle = "";
+    $scope.creationCard.creationDesc = "";
+    $scope.hideCreationCard();
   }
 
   $scope.createClicked = function(){

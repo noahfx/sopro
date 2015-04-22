@@ -9,11 +9,11 @@ module.exports = function () {
 		element.all(by.css("#collection-channels > div.channel-collection > ul > li"))
 		.get(0)
 		.click()
-		.then(function(){setTimeout(next,500)});
+		.then(function(){setTimeout(next,1500)});
 	});
 
 	this.Then(/^I should see the channel history displayed on the main stage$/, function (next) {
-		element.all(by.css("#main-stage > ng-include > md-card"))
+		element.all(by.css("#main-stage .channel-card"))
 		.count()
 		.then(function (count) {
 			console.log(count);

@@ -7,25 +7,42 @@ module.exports = function(){
   // Before configuring scenario steps, define a few functions that are used more than once:
 
 var clickAddChannelButton = function(next){
+  browser.actions()
+  .mouseMove(
+    element(by.css('#collection-channels .sopro-collection-title'))
+  )
+  .perform();
+
+/*
+  browser.driver.wait(protractor.until.elementIsVisible(
+    element(by.css('#collection-channels .channel-create-link'))
+  ));
+*/
+
+  element(by.css('#collection-channels .channel-create-link'))
+  .then(function(el){
+    el.click();
+    next();
+  })
+
+  /*
+  .then(function(){
+  })
     browser.actions()
     .mouseMove(element(by.css('#collection-channels .sopro-collection-title')))
     .perform()
     .then(function () {
-      setTimeout(function () {
+      //setTimeout(function () {
         element(by.css('#collection-channels > div.channel-collection > div > span.channel-create-link'))
         .isDisplayed()
         .then(function(isDisplayed){
           if(!isDisplayed){
             return next(new Error('Can\'t find the create new channel button'));
           }
-          element(by.css('#collection-channels > div.channel-collection > div > span.channel-create-link'))
-          .click()
-          .then(function(){
-            next();
-          })
         });
-      },1000);
+      //},1500);
     });
+  */
 }
 
 // /^I should( not)? see a( blank)? channel creation card$/
@@ -40,22 +57,12 @@ function checkChannelCreationCardPresence (arg1, arg2, next) {
   ? false
   : true;
 
-  var cardFound = undefined;
-
-  element.all(by.css('#card-create-channel'))
-  .count()
-  .then(function(length){
-    if(length === 0){
-      cardFound = false;
-    } else if(length === 1){
-      cardFound = true;
-    } else {
-      return next(new Error('Found more than one channel creation card'));
-    }
-
-    if(cardFound === cardExpected){
-      // Don't check the title if it's not expected:
-      if(cardExpected){
+  if(cardExpected){
+    element(by.css('#card-create-channel'))
+    .isDisplayed()
+    .then(function(isDisplayed){
+      assert(isDisplayed, 'Did not find an expected channel creation card');
+      if(blankExpected){
         element(by.css('#card-create-channel input.title'))
         .getText()
         .then(function(text){
@@ -66,30 +73,34 @@ function checkChannelCreationCardPresence (arg1, arg2, next) {
           }
           return next();
         })
-      } else { // No card? No problem!
+      } else {
         return next();
       }
-    } else { // Expected and actual didn't match
-      if(!cardExpected){
-        return next(new Error('Found an unexpected channel creation card'));
-      } else {
-        return next(new Error('Did not find an expected channel creation card'));
-      }
-    }
-  })
+    })
+  } else {
+    element(by.css('#card-create-channel'))
+    .isDisplayed()
+    .then(function(isDisplayed){
+      assert(!isDisplayed, 'Found an unexpected channel creation card');
+      next();
+    })
+  }
 }
 
 
 function ensureChannelCreationCard(next){
-  element.all(
-    by.css('#main-stage #card-create-channel')
-  )
-  .count()
-  .then(function(count){
-    if(count === 0){
-      clickAddChannelButton(next)
-    } else if (count > 1){
-      next(new Error('More than one creation cards found on main stage.'))
+  element(by.css('#main-stage #card-create-channel'))
+  .isDisplayed()
+  .then(function(isDisplayed){
+    if(!isDisplayed){
+      clickAddChannelButton(function(){
+        element(by.css('#main-stage #card-create-channel'))
+        .isDisplayed()
+        .then(function(isDisplayed){
+          assert(isDisplayed, 'Channel creation card not visible after clicking add channel button.')
+          next();
+        })
+      })
     } else {
       next();
     }
@@ -231,13 +242,14 @@ function checkChannelCardPresence (arg1, next){
     ensureChannelCreationCard);
 
   this.When(/^I click the "cancel" button$/, function(next){
-    var cancel = element(by.css('#card-create-channel .cancel-button'))
+    element(by.css('#card-create-channel .cancel-button'))
     .isDisplayed()
     .then(function(isDisplayed){
       if(!isDisplayed){
         return next(new Error('Cancel button not found on create channel card'))
       }
-      element(by.css('#card-create-channel .cancel-button')).click()
+      element(by.css('#card-create-channel .cancel-button'))
+      .click()
       .then(function(){
         next();
       })
@@ -260,13 +272,14 @@ function checkChannelCardPresence (arg1, next){
     ensureChannelCreationCard);
 
   this.When(/^I click the "X" icon button$/, function(next){
-    var cancel = element(by.css('#card-create-channel .cancel-button'))
+    var cancel = element(by.css('#card-create-channel .x-button'))
     .isDisplayed()
     .then(function(isDisplayed){
       if(!isDisplayed){
         return next(new Error('X button not found on create channel card'))
       }
-      element(by.css('#card-create-channel .cancel-button')).click()
+      element(by.css('#card-create-channel .x-button'))
+      .click()
       .then(function(){
         next();
       })

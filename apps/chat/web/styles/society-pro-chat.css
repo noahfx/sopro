@@ -159,11 +159,11 @@ color: rgba(204, 204, 204, 1);
 }
 
 .channel-collection .sopro-collection-title .channel-create-link {
-  display: none;
+  visibility: hidden;
 }
 
 .channel-collection .sopro-collection-title:hover .channel-create-link {
-  display: inline;
+  visibility: visible;
 }
 
 .channel-create-link {
