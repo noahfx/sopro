@@ -65,6 +65,58 @@ describe("societyProChat Controllers", function() {
     });
   })
 
+
+  describe('card controller', function(){
+		var controller;
+    beforeEach(function(){
+			scope.card = {
+				channel : {_id : "unit_test_channel"}
+				};
+			controller = createController('historyCardController');
+      httpBackend.expect('GET', '/api/channel.history?channel=unit_test_channel')
+					.respond(CAM_MOCKS.channelHistoryResponse);
+			httpBackend.flush();
+    })
+    afterEach(function() {
+        httpBackend.verifyNoOutstandingExpectation();
+        httpBackend.verifyNoOutstandingRequest();
+    });
+
+    it("has an array of messages", function () {
+
+      expect(scope.messages).not.toBeUndefined();
+      expect(Object.prototype.toString.call(scope.messages)).toEqual('[object Array]');
+    });
+
+
+    it("loads messages", function () {
+
+      expect(scope.messages).not.toBeUndefined();
+      expect(Object.prototype.toString.call(scope.messages)).toEqual('[object Array]');
+		  expect(scope.messages[0].text).toBe("New");
+		  expect(scope.messages[1].text).toBe("Old");
+    });
+
+			describe("Sort Function", function(){
+					var mockMessage;
+				it("exists", function () {
+				mockMessage = CAM_MOCKS.channelHistoryResponse.messages[0];
+					expect(scope.sortByTs).not.toBeUndefined();
+					expect(typeof scope.sortByTs).toEqual('function');
+    });
+			it("returns a Number timestamp from a message", function(){
+				var result = scope.sortByTs(mockMessage);
+			  expect(result).toBe(Number(mockMessage.ts));
+			});
+		it("throws an exception for a timestamp that can not be cast to Number", function(){
+				function badSort(){
+		scope.sortByTs({ts : undefined});
+			};
+			expect(badSort).toThrow();
+				});
+			});
+			});
+
   describe('stage controller', function(){
     beforeEach(function (){
     });
@@ -139,4 +191,4 @@ describe("societyProChat Controllers", function() {
     })
 
   });
-});
+	});
