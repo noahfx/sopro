@@ -20,3 +20,9 @@ Feature: New user activation link
     Given I have an invalid activation token
     When I visit the confirm account page for that token
     Then I should see a failure message
+
+  Scenario: mismatched passwords
+    Given I have an valid activation token
+    When I visit the confirm account page for that token
+      And I set mismatched passwords
+    Then I should not be able to submit the form

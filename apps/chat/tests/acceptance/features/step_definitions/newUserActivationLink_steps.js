@@ -59,7 +59,7 @@ module.exports = function(){
 
   this.When(/^I visit the confirm account page for that token$/,function (next) {
     var self = this;
-    var uri = 'https://' + this.app.sopro.servers.express.hostname + '/confirmAccount/' + this.tokenObj.token
+    var uri = this.app.sopro.servers.express.baseUrl + '/confirmAccount/' + this.tokenObj.token
     browser.driver.get(uri)
     .then(function () {
       browser.driver.getPageSource()
@@ -85,12 +85,33 @@ module.exports = function(){
       pwd2
       .sendKeys(self.password);
         browser.ignoreSynchronization = true;
+
       element(by.css('input[type="submit"]'))
       .click()
       .then(function(){
         next();
         browser.ignoreSynchronization = false;
       });
+    });
+  });
+
+  this.When(/^I set mismatched passwords$/, function (next) {
+    var self = this;
+    self.password = "password";
+    self.passwordConfirm = "pa55word";
+    var pwd1 = element(by.css("input[name=password1]"));
+    var pwd2 = element(by.css("input[name=password2]"));
+
+    element(by.css("input[name=password1]"))
+    .isDisplayed()
+    .then(function (isDisplayed) {
+      assert(isDisplayed);
+      pwd1
+      .sendKeys(self.password);
+      pwd2
+      .sendKeys(self.passwordConfirm);
+        browser.ignoreSynchronization = true;
+      next();
     });
   });
 
@@ -152,4 +173,16 @@ module.exports = function(){
   //Given I have an invalid activation link
   //When I visit the confirm account page
   //Then I should see a failure message
+
+  this.Then(/^I should not be able to submit the form$/, function (next) {
+    element(by.css('input[type="submit"]'))
+    .getAttribute('disabled')
+    .then(function (attr) {
+      if (attr == false) {
+        next.fail(new Error('Expected submit button to be disabled'));
+      } else {
+        next();
+      }
+    });
+  });
 }
