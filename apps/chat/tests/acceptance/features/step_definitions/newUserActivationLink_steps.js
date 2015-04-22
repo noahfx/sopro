@@ -85,13 +85,13 @@ module.exports = function(){
       .sendKeys(self.password);
       pwd2
       .sendKeys(self.password);
-        browser.ignoreSynchronization = true;
+       // browser.ignoreSynchronization = true;
 
       element(by.css('input[type="submit"]'))
       .click()
       .then(function(){
         next();
-        browser.ignoreSynchronization = false;
+        //browser.ignoreSynchronization = false;
       });
     });
   });
@@ -111,9 +111,9 @@ module.exports = function(){
       .sendKeys(self.password);
       pwd2
       .sendKeys(self.passwordConfirm);
-        browser.ignoreSynchronization = true;
+        //browser.ignoreSynchronization = true;
       next();
-      browser.ignoreSynchronization = false;
+      //browser.ignoreSynchronization = false;
     });
   });
 
