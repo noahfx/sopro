@@ -27,10 +27,10 @@ angular.module('societyProChatApp.cardController',
       // this callback will be called asynchronously
       // when the response is available
       //console.log(data);
-  	  if (!data.ok){
-  	    return console.log(data);
-  	  }
-  	  $scope.messages = data.messages;
+      if (!data.ok){
+        return console.log(data);
+      }
+      $scope.messages = data.messages;
     })
     .error(function(data, status, headers, config) {
       console.log(status, data);
