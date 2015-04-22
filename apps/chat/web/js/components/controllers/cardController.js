@@ -5,6 +5,14 @@ angular.module('societyProChatApp.cardController',
 ['$scope', '$http', '$rootScope', '$timeout',
   function($scope, $http, $rootScope, $timeout) {
     $scope.messages = [];
+    $scope.sortByTs = function (message){
+      var result = +message.ts;
+      if (isNaN(result)){
+        throw new Error("Message timestamp can not be converted to number");
+      }
+      return +message.ts;
+    };
+
     $http({
         method: 'GET',
         url: '/api/channel.history',
@@ -12,7 +20,7 @@ angular.module('societyProChatApp.cardController',
          'token-auth': $rootScope.token
         },
         params : {
-	  channel : $scope.card.channel._id
+        channel : $scope.card.channel._id
         }
       })
         .success(function(data, status, headers, config) {

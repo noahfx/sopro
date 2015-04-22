@@ -6,7 +6,7 @@
   </header>
   <md-content flex layout="column" class="card-content">
     <ul >
-      <li ng-repeat="message in messages"> {{message.text}} </li>
+      <li ng-repeat="message in messages | orderBy:sortByTs"> {{message.text}} </li>
     </ul>
   </md-content>
   <footer>
