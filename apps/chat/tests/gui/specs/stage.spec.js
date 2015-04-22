@@ -94,7 +94,7 @@ describe("Main Stage",function  () {
         els.createChannelCardTitle.sendKeys(CAM_MOCKS.newChannelName);
         els.createChannelCardCreate.click();
         expect(els.channelHistoryCards.count()).toBe(1);
-        expect(els.createChannelCard.isPresent()).toBeFalsy();
+        expect(els.createChannelCard.isDisplayed()).toBeFalsy();
       });
       it("has the correct title", function(){
         expect(
