@@ -60,7 +60,6 @@ module.exports = function(){
   this.When(/^I visit the confirm account page for that token$/,function (next) {
     var self = this;
     var uri = 'https://' + this.app.sopro.servers.express.hostname + '/confirmAccount/' + this.tokenObj.token
-    console.log(uri);
     browser.driver.get(uri)
     .then(function () {
       browser.driver.getPageSource()
@@ -85,13 +84,11 @@ module.exports = function(){
       .sendKeys(self.password);
       pwd2
       .sendKeys(self.password);
-       // browser.ignoreSynchronization = true;
 
       element(by.css('input[type="submit"]'))
       .click()
       .then(function(){
         next();
-        //browser.ignoreSynchronization = false;
       });
     });
   });
@@ -111,9 +108,7 @@ module.exports = function(){
       .sendKeys(self.password);
       pwd2
       .sendKeys(self.passwordConfirm);
-        //browser.ignoreSynchronization = true;
       next();
-      //browser.ignoreSynchronization = false;
     });
   });
 
