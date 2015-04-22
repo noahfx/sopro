@@ -106,17 +106,17 @@ describe("societyProChat Controllers", function() {
       };
       scope.stageCards.push({creationTitle: "karmachannel"});
 
-      var channelsLength1 = scope.channels.length;
+      rootscope.channels = [];
+      rootscope.myChannels = [];
+      
+      var channelsLength1 = rootscope.channels.length;
       // The stage controller doesn't know about $rootScope.currentRole.id
 
       rootscope.currentRole = {identityid: 'abc'};
       // Click the Create button on the first card:
-      scope.createClicked(0);
-      scope.changeRole = function () {
-        return scope.channels.push(CAM_MOCKS.postChannelResponse.channel);
-      };  
+      scope.createClicked(0); 
       httpBackend.flush();
-      var channelsLength2 = scope.channels.length;
+      var channelsLength2 = rootscope.channels.length;
 
 
       // See if the first card is now a channel history card:
@@ -132,7 +132,7 @@ describe("societyProChat Controllers", function() {
       );
 
       // See if the new channel is in the channels array:
-      expect(scope.channels[0]).toEqual(
+      expect(rootscope.channels[0]).toEqual(
         jasmine.objectContaining(CAM_MOCKS.postChannelResponse.channel)
       );
 
