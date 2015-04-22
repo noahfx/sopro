@@ -3,5 +3,6 @@
   "soproModel": "message",
   "channelid": "channel-random",
   "authorid": "abc",
-  "text": "A mock message"
+  "text": "A mock message",
+  "ts": "946684800"
 }
