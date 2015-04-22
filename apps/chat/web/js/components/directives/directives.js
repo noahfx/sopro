@@ -284,6 +284,8 @@ angular.module('societyProChatApp.directives',[
     templateUrl: 'web/partials/dropdown.html'
   };
 })
+// Thanks @Rob:
+// http://stackoverflow.com/a/20445344/1380669
 .directive('sglclick', ['$parse', function($parse) {
   return {
     restrict: 'A',

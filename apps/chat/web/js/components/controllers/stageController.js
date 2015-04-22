@@ -65,9 +65,13 @@ angular.module('societyProChatApp.controller2',
   }
 
   function showChannelCard(data){
-    var result = $.grep($scope.stageCards, function(e){ return e.channel.name == data.channel.name; });
-    console.log(result);
-    console.log(data);
+    // Look through the existing cards for an already present card:
+    var result = $.grep($scope.stageCards, function(card){
+      if(card.creationCard){
+        return false;
+      }
+      return card.channel.name == data.channel.name;
+    });
     if (result.length !== 0) {
       return;
     }
@@ -133,7 +137,6 @@ angular.module('societyProChatApp.controller2',
       .success(function(data, status, headers, config) {
         // this callback will be called asynchronously
         // when the response is available
-        console.log(data);
         if (data.ok) {
           // Add the new channel card to the stage:
           var creationTitle = $scope.stageCards[i].creationTitle;
