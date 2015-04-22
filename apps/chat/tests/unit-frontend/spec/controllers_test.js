@@ -101,8 +101,8 @@ describe("societyProChat Controllers", function() {
         .respond(CAM_MOCKS.postChannelResponse);
       var controller = createController('stageController');
       
-      rootscope.channels = [];
-      rootscope.myChannels = [];
+      scope.$parent.channels = [];
+      scope.$parent.myChannels = [];
       
       scope.creationCard.creationTitle = "karmachannel";
 
