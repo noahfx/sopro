@@ -7,9 +7,10 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
   app.sopro.package = JSON.parse(packageJSON);
 
   /*
-   * HTTPS ROUTING
+   * MIDDLEWARE FUNCTIONS
    */
 
+  // Verify the request is https and redirect otherwise:
   function requireSecure(req, res, next){
     if(!req.secure){
       var port = +app.sopro.servers.express.sslPort || 443;
@@ -25,6 +26,20 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
     };
   }
 
+  // Verify that this request is for a logged in user:
+  function requireLogin(req, res, next){
+    if(!req.user){
+      // Save the URL they wanted:
+      req.session.bounceUrl = req.originalUrl;
+      return res.redirect('/login');
+    };
+    next();
+  }
+
+  /*
+   *  REQUEST CONFIG MIDDLEWARES:
+   */
+
   app.all('*', requireSecure);
   app.all('*', function(req, res, next){
     if(req.user && req.session){
@@ -32,6 +47,7 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
     }
     res.locals.features = app.sopro.features;
     res.locals.version = app.sopro.package.version;
+    res.locals.config = app.sopro;
     if(req.user){
       // Load permissions
       res.locals.currentUser = JSON.stringify(req.user);
@@ -51,37 +67,6 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
       next();
     }
   })
-
-  /*
-   * HTTP REQUEST AUTHENTICATION
-   */
-
-  // Verify that this request is for a logged in user:
-  function requireLogin(req, res, next){
-    if(!req.user){
-      // Save the URL they wanted:
-      req.session.bounceUrl = req.originalUrl;
-      return res.redirect('/login');
-    };
-    next();
-  }
-
-
-  function ensureAuthed(req, res, next){
-    var sessionCookie = req.header('Cookie');
-    if(sessionCookie === undefined){
-      res.status(401).send()
-    }
-  }
-
-  /*
-   *  REQUEST CONFIG MIDDLEWARES:
-   */
-
-   app.all('*', function(req, res, next){
-     res.locals.config = app.sopro;
-     next();
-   })
 
   /*
    *  DEVELOPMENT ROUTES
@@ -641,6 +626,7 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
             channel: req.body.channel,
             text: req.body.text,
             authorid: req.session.userId,
+            tsMs: new Date().valueOf(),
           });
         }
       },
@@ -694,13 +680,20 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
 
       // Craft and save a message object for that channel:
       function(opts, done){
+        // Convert ms timestamp to s timestamp:
+        var tsS = opts.tsMs / 1000;
+        // Cast to string:
+        tsS = String(tsS);
+        // Strip any decimals after the first 3:
+        tsS = tsS.replace(/^(\d+\.\d\d\d)\d+$/, "$1");
         var data = {
           soproModel: 'message',
           channelid: opts.channelObj._id,
           authorid: opts.authorid,
           text: opts.text,
+          ts: tsS,
         }
-        PI.create('channel', data, function(err, result){
+        PI.create('message', data, function(err, result){
           if(err){
             console.log(err);
             return done([500, 'server_error']);

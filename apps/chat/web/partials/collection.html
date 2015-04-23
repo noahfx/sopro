@@ -5,11 +5,12 @@
   </div>
   <ul>
       <li 
-      class="channel-item" 
+      class="channel-item noselect" 
       ng-class="{'channel-separator':$last && repeater.length <= maxChannels}" 
       ng-repeat="item in repeater" 
-      ng-if="showItem(item, $index)" 
-      ng-click="openSubscribersOverflow($event, item, title)"
+      ng-if="showItem(item, $index)"
+      sglclick="openChannelHistory($event, item)"
+      ng-dblclick="openSubscribersOverflow($event, item, title)"
       layout="row" 
       layout-align="start center">
        <img ng-src="{{icon}}" alt="channel-icon">

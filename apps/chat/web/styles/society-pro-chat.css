@@ -159,11 +159,13 @@ color: rgba(204, 204, 204, 1);
 }
 
 .channel-collection .sopro-collection-title .channel-create-link {
-  display: none;
+  opacity: 0.1;
+  transition: opacity 0.3s linear;
 }
 
 .channel-collection .sopro-collection-title:hover .channel-create-link {
-  display: inline;
+  opacity: 1;
+  transition: opacity 0.1s linear;
 }
 
 .channel-create-link {
@@ -177,7 +179,7 @@ color: rgba(204, 204, 204, 1);
 
 /*   Sopro Cards */
 .sopro-card {
-  max-height: 270px;
+  /*max-height: 270px;*/
   min-height: 270px;
   margin: 0px 8px 8px 8px;
   background-color: white;
@@ -342,4 +344,17 @@ sopro-subscribers-dropdown{
 a {
   text-decoration: none;
   text-align: center;
+}
+
+.noselect {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.creation-card {
+  max-height: 270px; 
 }

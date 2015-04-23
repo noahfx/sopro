@@ -3,6 +3,12 @@ Feature: New user activation link
   I want to receive an activation link when my user is created
   So that I can securely set a password on my user account
 
+  Scenario: mismatched passwords
+    Given I have an valid activation token
+    When I visit the confirm account page for that token
+      And I set mismatched passwords
+    Then I should not be able to submit the form
+
   Scenario: valid activation link
     Given I have a valid activation token
     When I visit the confirm account page for that token

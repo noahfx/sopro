@@ -33,29 +33,39 @@ describe('Collections list', function() {
         expect(title.element(by.css('span')).getText()).toEqual('CHANNELS');
       });
 
-      it('has a Add Channel link', function(){
-        expect(
-          element(by.css('.channel-create-link'))
-          .isDisplayed()
-        ).toBeFalsy();
+      describe('Add Channel link', function(){
+        it('exists', function(){
+          expect(
+            element(by.css('.channel-create-link'))
+            .isDisplayed()
+          ).toBeTruthy();
+        });
 
-        browser.actions()
-        .mouseMove(
-          element(by.css('#collection-channels .sopro-collection-title'))
-        )
-        .perform();
+        it('has low opacity without hover', function(){
+          expect(
+            element(by.css('.channel-create-link'))
+            .getCssValue('opacity')
+          ).toMatch(/^0\.1/);
+          // .toBe('0.1') doesn't work due to the transition: "Expected '0.100000001490116' to be '0.1'."
+        });
 
-        expect(
-          element(by.css('.channel-create-link'))
-          .isDisplayed()
-        ).toBeTruthy();
+        it('has high opacity after hover', function(done){
+          browser.actions()
+          .mouseMove(
+            element(by.css('#collection-channels .sopro-collection-title'))
+          )
+          .perform();
 
-      });
-
-      it('contains a list of channels', function(){
-        expect(chat.collectionChannelsItems.count()).toBeGreaterThan(0);
-      });
-
+          // Wait for the opacity to fade in:
+          setTimeout(function(){
+            expect(
+              element(by.css('.channel-create-link'))
+              .getCssValue('opacity')
+            ).toBe('1');
+            done();
+          }, 1100)
+        });
+      })
 
       it('has a "+X more..." button if there are more channels than the limit', function () {
         changeIdentity(1);

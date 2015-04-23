@@ -1,8 +1,50 @@
+var CAM_MOCKS = require('../../common/mock-data.js');
 var changeIdentity = require('../../common/protractor-helpers.js')(browser,element).changeIdentity;
 
 describe("Main Stage",function  () {
   browser.get('/');
   changeIdentity(0);
+  describe("Open an existing channel", function(){
+    it("finds the 'random' channel", function(){
+      expect(
+        element.all(by.css('#collection-channels .channel-item'))
+        .get(1)
+        .getText()
+      ).toMatch(/random/i)
+    })
+
+    it("opens a history card when you single click the POO", function(done){
+      element.all(by.css('#collection-channels .channel-item'))
+      .get(1)
+      .click();
+      setTimeout(function(){
+        expect(
+          element.all(by.css('#main-stage .channel-card'))
+          .count()
+        ).toBe(1);
+        done();
+      }, 2000)
+    })
+
+    it("contains a list of messages", function(){
+      expect(
+        element.all(by.css('#main-stage .channel-card md-content li'))
+        .count(0)
+      ).toBeGreaterThan(0);
+    })
+
+    it("closes when you click the X", function(){
+      element.all(by.css('#main-stage > ng-include > md-card > header > span.x-button'))
+      .get(0)
+      .click();
+
+      expect(
+        element.all(by.css('#main-stage .channel-card'))
+        .count()
+      ).toBe(0);
+    })
+  })
+
   describe("Create a new channel", function () {
 
     var els = {
@@ -52,7 +94,7 @@ describe("Main Stage",function  () {
         els.createChannelCardTitle.sendKeys(CAM_MOCKS.newChannelName);
         els.createChannelCardCreate.click();
         expect(els.channelHistoryCards.count()).toBe(1);
-        expect(els.createChannelCard.isPresent()).toBeFalsy();
+        expect(els.createChannelCard.isDisplayed()).toBeFalsy();
       });
       it("has the correct title", function(){
         expect(

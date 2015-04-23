@@ -152,6 +152,14 @@ angular.module('societyProChatApp.directives',[
         $rootScope.$broadcast("createChannelClicked");
       };
 
+      $scope.openChannelHistory = function ($event, channel) {
+        var data = {
+          e:$event,
+          channel: channel
+        }
+        $rootScope.$broadcast("openChannelHistoryClicked",data);
+      };
+
       $scope.openCollectionsOverflow = function ($event) {
         $rootScope.$broadcast("POO.click.collections", {
           fromElement: $event.target,
@@ -233,6 +241,9 @@ angular.module('societyProChatApp.directives',[
         console.log(data);  
         $scope.dropdownTitle = data.title;
         $scope.fromElement = data.fromElement;
+        if (!$($scope.fromElement).hasClass("channel-item")) {
+          $scope.fromElement = $scope.fromElement.parentElement;
+        }
         $($scope.fromElement).addClass('poo-highlight-subscriber');
         $http({
           method: 'GET',
@@ -272,4 +283,39 @@ angular.module('societyProChatApp.directives',[
     },
     templateUrl: 'web/partials/dropdown.html'
   };
+})
+// Thanks @Rob:
+// http://stackoverflow.com/a/20445344/1380669
+.directive('sglclick', ['$parse', function($parse) {
+  return {
+    restrict: 'A',
+    link: function(scope, element, attr) {
+      var fn = $parse(attr['sglclick']);
+      var delay = 300, clicks = 0, timer = null;
+      element.on('click', function (event) {
+        clicks++;  //count clicks
+        if(clicks === 1) {
+          timer = setTimeout(function() {
+            scope.$apply(function () {
+              fn(scope, { $event: event });
+            }); 
+            clicks = 0;             //after action performed, reset counter
+          }, delay);
+          } else {
+            clearTimeout(timer);    //prevent single-click action
+            clicks = 0;             //after action performed, reset counter
+          }
+      });
+    }
+  };
+}])
+.directive('scrollToLast', function () {
+  return {
+    restrict: 'A',
+    link: function (scope, element, attr) {
+      if (scope.$last === true) {
+        element[0].scrollIntoView();
+      }
+    }
+  }
 });

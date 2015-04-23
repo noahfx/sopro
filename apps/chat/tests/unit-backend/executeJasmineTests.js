@@ -22,5 +22,14 @@ var junitReporter = new reporters.JUnitXmlReporter({
 });
 
 jasmine.addReporter(junitReporter);
-jasmine.execute();
+
+
+var terminalReporter = new reporters.TerminalReporter({
+  verbosity: 2,
+  color: true,
+  showStack: true
+})
+jasmine.addReporter(terminalReporter);
+
 console.log('Running tests...');
+jasmine.execute();
