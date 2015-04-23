@@ -1,3 +1,8 @@
+# 0.1.14 (2015-04-23)
+* Open the Channel History for a channel
+* Display new messages last
+* Scroll to most recent message when channel history loads
+
 # 0.1.13 (2015-04-21)
 * GET messages via API: `/api/channel.history`
 
