@@ -1,8 +1,140 @@
 var baseUrl = 'https://demo.captains.io';
 var societyProChatControllers = 
-angular.module('societyProChatApp.controllers',['ngMaterial', 'ngAnimate', 'societyProChatApp.controller2'])
+angular.module('societyProChatApp.controllers',['ngMaterial', 'ngAnimate', 'societyProChatApp.controller2','emoji'])
 .controller('mainController',['$scope','$http','$rootScope','$window', 'UserService', function($scope,$http,$rootScope,$window,UserService) {
   
+  $scope.privateChannels = [{
+    name: "chapines",
+    showBallon: true
+  },
+  {
+    name: "cs-offtopic"
+  },
+  {
+    name: "huevon"
+  },
+  {
+    name: "people-interns"
+  },
+  {
+    name: "cs-offtopic"
+  },
+  {
+    name: "huevon",
+    showBallon: true
+  },
+  {
+    name: "people-interns"
+  },
+  ]
+  
+  $scope.decks = [{
+    name: "chapines"
+  },
+  {
+    name: "cs-offtopic"
+  },
+  {
+    name: "huevon"
+  },
+  {
+    name: "people-interns"
+  }
+  ]
+  
+    
+  $scope.favorites = [{
+    name: "chapines"
+  },
+  {
+    name: "cs-offtopic"
+  },
+  {
+    name: "huevon"
+  },
+  {
+    name: "people-interns"
+  }
+  ]
+  
+  //JQUERY --------------------------------------------------------------
+    /* Emoticon Dropdown */
+    $('.emoticon-trigger').click(function() {
+        $('.dropdown-emoticon').toggle('fast');
+    });
+    
+    /* Input Dropdown */
+    $('.options-trigger').click(function() {
+        $('.dropdown-options').toggle('fast');
+    });
+    
+    /* Textarea Autoresize */ 
+    $('#message-input').autosize({append: false, callback: function () {
+        var lastMessage = $('.messages-container ng-include').last()[0];
+        if (lastMessage) 
+            lastMessage.scrollIntoView();
+    }});    
+
+    /* Textarea Send */
+    $('#message-input').keydown(function(e) {
+        if (event.keyCode == 13 && !event.shiftKey && $(".mentions>ul").css("display") == "none") {
+            var message = $(this).val().trim();
+            //SocietyPro.sendMessage(message);
+            if (message) {
+                    $scope.sendMessage(message);    
+                }
+            $(this).val('');    
+            $(this).autosize({append: false}).trigger('autosize.resize');
+            e.preventDefault();
+        }
+    });
+    
+    /* Textarea Autocomplete */
+    $('textarea').textcomplete([
+        { 
+            match: /\B:([\-+\w]*)$/,
+            search: function (term, callback) {
+                callback($.map(emojies, function (emoji) {
+                    return emoji.indexOf(term) === 0 ? emoji : null;
+                }));
+            },
+            template: function (value) {
+                return '<img src="web/bower_components/angular-emoji-filter/res/emoji/emoji_' + value + '.png"></img>' + value;
+            },
+            replace: function (value) {
+                return ':' + value + ': ';
+            },
+            index: 1
+        },
+        {
+        mentions: ['jon','jimmy','hiro','tomas','cesar','jorge','voodoo','salme','plato'],
+        match: /\B@(\w*)$/,
+        search: function (term, callback) {
+            callback($.map(this.mentions, function (mention) {
+                return mention.indexOf(term) === 0 ? mention : null;
+            }));
+        },
+        template: function (value) {
+            return '<img src="avatars/avatar1.png"></img>' + value + '<span class="offline"></span>';
+        },
+        replace: function (mention) {
+            return '@' + mention + ' ';
+        },
+        index: 1
+    }
+    ],{
+        appendTo: $('.mentions')
+    });
+   
+   
+    $('html').click(function() {
+        $('.dropdown-options, .dropdown-emoticon').hide()
+    });
+
+    $('.options-trigger, .emoticon-trigger, .dropdown-emoticon').click(function(event) {
+        event.stopPropagation();
+    });
+    
   
   var positionCommpanelScrollbar = function () {
     var $cp = $('#sopro-collections-wrap');
@@ -24,6 +156,89 @@ angular.module('societyProChatApp.controllers',['ngMaterial', 'ngAnimate', 'soci
   win.bind("resize",function(e){
     positionCommpanelScrollbar();
   });
+  
+  $scope.messageHistory = {
+    "messages": [
+        {
+            "text": "hello :thumbsup:",
+            "ts": "1415283588154",
+            "type": "message",
+            "user": "jon@xmpp.cambrian.org"
+        },
+        {
+            "text": "the random channel :kissing::kissing::kissing::kissing::kissing::kissing::kissing::kissing::kissing::kissing::kissing::kissing::kissing::kissing::kissing::kissing::kissing::kissing::kissing::kissing::kissing::kissing::kissing: :: works",
+            "ts": "1415283616231",
+            "type": "message",
+            "user": "jon@xmpp.cambrian.org"
+        },
+        {
+            "text": "the #general :wink: doesn't for me",
+            "ts": "1415283624407",
+            "type": "message",
+            "user": "jon@xmpp.cambrian.org"
+        },
+        {
+            "text": "why would my text :wink: :two_men_holding_hands: not even appear in the chat log?",
+            "ts": "1415283688951",
+            "type": "message",
+            "user": "jon@xmpp.cambrian.org"
+        },
+        {
+            "text": "after your chat log picture story, do you think it best to get the core functionality working in #channels and private groups?",
+            "ts": "1415283739491",
+            "type": "message",
+            "user": "jon@xmpp.cambrian.org"
+        },
+        {
+            "text": "Rafa cannot use private groups",
+            "ts": "1415283784047",
+            "type": "message",
+            "user": "jon@xmpp.cambrian.org"
+        },
+        {
+            "text": "in general they are too buggy to use",
+            "ts": "1415283806563",
+            "type": "message",
+            "user": "jon@xmpp.cambrian.org"
+        },
+        {
+            "text": "seems we should fix the core functionality of groups and channels asap",
+            "ts": "1415283820828",
+            "type": "message",
+            "user": "jon@xmpp.cambrian.org"
+        },
+        {
+            "text": "so we can all start using this",
+            "ts": "1415283826273",
+            "type": "message",
+            "user": "jon@xmpp.cambrian.org"
+        },
+        {
+            "text": "ok we will reprioritize the sprint when you come in. this will be after the picture chat log story is done.",
+            "ts": "1415283891809",
+            "type": "message",
+            "user": "jon@xmpp.cambrian.org"
+        },
+        {
+            "text": "Hello, this message was sent from http://download.cambrian.org/tests/websocket.htm via web sockets!",
+            "ts": "1417457485152",
+            "type": "message",
+            "user": "me"
+        },
+        {
+            "text": "ola k ase?",
+            "ts": "1417543725519",
+            "type": "message",
+            "user": "jimmy5750910@xmpp.cambrian.org"
+        },
+        {
+            "text": "jaja nombre solo probando con cesar el envio de mensajes en sopro",
+            "ts": "1417543853607",
+            "type": "message",
+            "user": "jimmy5750910@xmpp.cambrian.org"
+        }
+    ]
+  }
 
   $scope.currentUser = $rootScope.currentUser = UserService;   
   $scope.roles = $scope.currentUser.identities;
@@ -152,4 +367,25 @@ angular.module('societyProChatApp.controllers',['ngMaterial', 'ngAnimate', 'soci
 
 
 
+}])
+.controller("emoticonsCtrl",['$scope', 'emoticons', function ($scope,emoticons) {
+    $scope.emoticonTab = 0;
+    $scope.currentEmoticon = "grinning";
+    $scope.arrayEmoticons1 = emoticons.arrayEmoticons1;
+    $scope.arrayEmoticons2 = emoticons.arrayEmoticons2;
+    $scope.arrayEmoticons3 = emoticons.arrayEmoticons3;
+    $scope.arrayEmoticons4 = emoticons.arrayEmoticons4;
+    $scope.arrayEmoticons5 = emoticons.arrayEmoticons5;
+    $scope.arrayEmoticons6 = emoticons.arrayEmoticons6;
+
+    $scope.change = function (i) {
+        var edit = document.getElementById('message-input');
+        edit.focus();
+        edit.value =edit.value + ":" + i + ":";
+    };
+
+    $scope.hover = function (i) {
+        $scope.currentEmoticon = i;
+    };
+    
 }]);
