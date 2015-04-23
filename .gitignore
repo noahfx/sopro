@@ -4,3 +4,4 @@ Makefile
 Makefile.in
 Makefile.am
 *.o
+.c9
