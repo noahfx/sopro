@@ -1,4 +1,5 @@
 var SSTEPS = require('../../shared_steps.js');
+var assert = require('assert');
 
 module.exports = function () {
 
@@ -44,7 +45,7 @@ module.exports = function () {
     .then(next);
   });
 
-  this.When(/^I press enter$/, function() {
+  this.When(/^I press enter$/, function(next) {
     element(by.css(".channel-card .channel-card-input"))
     .sendKeys(protractor.Key.ENTER)
     .then(next);
@@ -52,12 +53,15 @@ module.exports = function () {
 
   this.Then(/^the message should be sent via the API$/, function (next) {
     var self = this;
-    element.all(by.css("#main-stage > ng-include > md-card > md-content > ul > li"))
-    .last()
-    .getText()
-    .then( function (lastMessageText) {
-      assert(lastMessageText === self.messageSent);
-      next();
-    });
+    setTimeout(function(){
+      element.all(by.css("#main-stage > ng-include > md-card > md-content > ul > li"))
+      .last()
+      .getText()
+      .then( function (lastMessageText) {
+        assert(lastMessageText === self.messageSent,
+          'Did not find the expected message at the end of the message history');
+        next();
+      });
+    }, 2000);
   });
 }
