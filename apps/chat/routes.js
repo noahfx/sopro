@@ -36,14 +36,6 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
     next();
   }
 
-
-  function ensureAuthed(req, res, next){
-    var sessionCookie = req.header('Cookie');
-    if(sessionCookie === undefined){
-      res.status(401).send()
-    }
-  }
-
   /*
    *  REQUEST CONFIG MIDDLEWARES:
    */
