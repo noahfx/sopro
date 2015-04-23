@@ -318,4 +318,18 @@ angular.module('societyProChatApp.directives',[
       }
     }
   }
+})
+// Thanks EpokK! http://stackoverflow.com/a/17472118/1380669
+.directive('ngEnter', function () {
+    return function (scope, element, attrs) {
+        element.bind("keydown keypress", function (event) {
+            if(event.which === 13) {
+                scope.$apply(function (){
+                    scope.$eval(attrs.ngEnter);
+                });
+
+                event.preventDefault();
+            }
+        });
+    };
 });
