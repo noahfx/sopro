@@ -150,7 +150,7 @@ describe("societyProChat Controllers", function() {
 
     it("creates a channel when Create is clicked", function(){
       // Configure the stage in preparation to click Create:
-      httpBackend.expect('POST', '/api/channel?name=karmachannel')
+      httpBackend.expect('POST', /\/api\/channel\?.*(name=karmachannel)/)
         .respond(CAM_MOCKS.postChannelResponse);
       var controller = createController('stageController');
 
