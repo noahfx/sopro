@@ -123,12 +123,13 @@ describe("societyProChat Controllers", function() {
       });
 
       it("calls updateMessagesHistory when the post request succeed", function(){
+        scope.currentInput = "Hello";
         spyOn(scope, "updateMessagesHistory");
-        httpBackend.expect('POST', '/api/postMessage')
+        httpBackend.expect('POST', '/api/postMessage?channel='+scope.card.channel._id+'&text='+scope.currentInput)
         .respond(CAM_MOCKS.postMessageResponse);
         scope.sendCurrentInput();
         httpBackend.flush();
-        expect(foo.updateMessagesHistory).toHaveBeenCalled();
+        expect(scope.updateMessagesHistory).toHaveBeenCalled();
       });
     });
 
