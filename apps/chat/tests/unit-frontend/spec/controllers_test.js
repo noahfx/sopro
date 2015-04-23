@@ -1,5 +1,3 @@
-'use strict';
-
 it('found the mocks', function(){
   expect(CAM_MOCKS.validToken).toEqual('12345');
 })
@@ -95,6 +93,43 @@ describe("societyProChat Controllers", function() {
       expect(Object.prototype.toString.call(scope.messages)).toEqual('[object Array]');
       expect(scope.messages[0].text).toBe("New");
       expect(scope.messages[1].text).toBe("Old");
+    });
+
+    describe("updateMessagesHistory function", function(){
+      it("exists", function() {
+        expect(Object.prototype.toString.call(scope.updateMessagesHistory)).toEqual('[object Function]');
+      });
+
+      it("updates the messages when a new message arrives", function(){
+        var newMessageObj = {
+          _id: "newMessageId",
+          ts : '1939400',
+          text : "New"
+        }
+        scope.updateMessagesHistory(newMessageObj);
+        expect(scope.messages[scope.messages.length-1]._id).toEqual(newMessageObj._id);
+      });
+
+      it("doesn't updates the messages when it receives an old message", function () {
+        expect(scope.messages[scope.messages.length-1]._id).toEqual(CAM_MOCKS.channelHistoryResponse.messages[1]._id);
+        scope.updateMessagesHistory(CAM_MOCKS.channelHistoryResponse.messages[0]);
+        expect(scope.messages[scope.messages.length-1]._id).toEqual(CAM_MOCKS.channelHistoryResponse.messages[1]._id);
+      });
+    });
+
+    describe("sendCurrentInput function", function (){
+      it("exists", function() {
+        expect(Object.prototype.toString.call(scope.sendCurrentInput)).toEqual('[object Function]');
+      });
+
+      it("calls updateMessagesHistory when the post request succeed", function(){
+        spyOn(scope, "updateMessagesHistory");
+        httpBackend.expect('POST', '/api/postMessage')
+        .respond(CAM_MOCKS.postMessageResponse);
+        scope.sendCurrentInput();
+        httpBackend.flush();
+        expect(foo.updateMessagesHistory).toHaveBeenCalled();
+      });
     });
 
     describe("Sort Function", function(){
