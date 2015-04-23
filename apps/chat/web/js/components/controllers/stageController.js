@@ -147,12 +147,12 @@ angular.module('societyProChatApp.controller2',
           // Add the new channel card to the stage:
           $scope.hideCreationCard();
           showChannelCard({
-            type:"channel", 
-            template:"web/partials/channel-card.html", 
+            type:"channel",
+            template:"web/partials/channel-card.html",
             channel: data.channel,
             size: 100
           });
-          // Remove the channel creation card to the stage:
+          // Remove the channel creation card from the stage:
           $scope.$parent.channels.push(data.channel);
           $scope.$parent.myChannels.push(data.channel);
         } else {

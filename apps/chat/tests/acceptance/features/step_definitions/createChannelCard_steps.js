@@ -13,36 +13,11 @@ var clickAddChannelButton = function(next){
   )
   .perform();
 
-/*
-  browser.driver.wait(protractor.until.elementIsVisible(
-    element(by.css('#collection-channels .channel-create-link'))
-  ));
-*/
-
   element(by.css('#collection-channels .channel-create-link'))
   .then(function(el){
     el.click();
     next();
   })
-
-  /*
-  .then(function(){
-  })
-    browser.actions()
-    .mouseMove(element(by.css('#collection-channels .sopro-collection-title')))
-    .perform()
-    .then(function () {
-      //setTimeout(function () {
-        element(by.css('#collection-channels > div.channel-collection > div > span.channel-create-link'))
-        .isDisplayed()
-        .then(function(isDisplayed){
-          if(!isDisplayed){
-            return next(new Error('Can\'t find the create new channel button'));
-          }
-        });
-      //},1500);
-    });
-  */
 }
 
 // /^I should( not)? see a( blank)? channel creation card$/
