@@ -34,7 +34,7 @@ describe("Main Stage",function  () {
     })
 
     it("closes when you click the X", function(){
-      element.all(by.css('#main-stage .channel-card .x-button'))
+      element.all(by.css('#main-stage > ng-include > md-card > header > span.x-button'))
       .get(0)
       .click();
 

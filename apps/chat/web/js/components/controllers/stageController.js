@@ -63,6 +63,8 @@ angular.module('societyProChatApp.controller2',
   //$scope.$watch('stageCards', function () { $scope.expandedCard = $scope.stageCards[0]; });
 
   $scope.hideCreationCard = function (){
+    $scope.creationCard.creationTitle = "";
+    $scope.creationCard.creationDesc = "";
     $scope.creationCard.show = false;
     if ($scope.stageCards.length !== 0) {
       $scope.stageCards[0].size = 100;
@@ -123,9 +125,7 @@ angular.module('societyProChatApp.controller2',
   }
 
   $scope.cancelClicked = function(index){
-    $scope.creationCard.creationTitle = "";
-    $scope.creationCard.creationDesc = "";
-    $scope.hideCreationCard();
+    $scope.stageCards.shift();
   }
 
   $scope.createClicked = function(){
