@@ -7,11 +7,23 @@
   <md-content flex layout="column" class="card-content">
     <ul >
       <li
-        ng-repeat="message in messages track by $index | orderBy:sortByTs"
+        ng-repeat="message in messages | orderBy:sortByTs"
         scroll-to-last
       > {{message.text}} </li>
     </ul>
   </md-content>
-  <footer>
+  <footer layout="row">
+      <input
+        flex
+        type="text"
+        class="channel-card-input"
+        placeholder="Message..."
+        ng-model="currentInput"
+        ng-keypress="handleCardInputKeypress($event)"
+      />
+    <!--
+    <md-input-container>
+    </md-input-container>
+    -->
   </footer>
  </md-card>
