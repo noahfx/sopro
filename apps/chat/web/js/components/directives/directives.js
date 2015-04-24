@@ -177,7 +177,7 @@ angular.module('societyProChatApp.directives',[
     templateUrl: 'web/partials/collection.html'
   };
 })
-.directive('soproCollectionsDropdown', function(){
+      .directive('soproCollectionsDropdown', function(){
   return {
     restrict: 'E',
     transclude: true,
@@ -216,7 +216,7 @@ angular.module('societyProChatApp.directives',[
     templateUrl: 'web/partials/dropdown.html'
   };
 })
-.directive('soproSubscribersDropdown', function(){
+.directive('soproSubscribersDropdown', ['UserNames', function(UserNames){
   return {
     restrict: 'E',
     transclude: true,
@@ -261,6 +261,9 @@ angular.module('societyProChatApp.directives',[
           // when the response is available
           console.log(data);
           if (data.ok) {
+            data.channel.members.forEach(function(member){
+              UserNames.add(member._id, member.name);
+            });
             $scope.repeater = data.channel.members;
             $timeout(function(){
               var positions = positionDropdown(data.channel.members.length, $scope.fromElement);
@@ -283,7 +286,7 @@ angular.module('societyProChatApp.directives',[
     },
     templateUrl: 'web/partials/dropdown.html'
   };
-})
+      }])
 // Thanks @Rob:
 // http://stackoverflow.com/a/20445344/1380669
 .directive('sglclick', ['$parse', function($parse) {

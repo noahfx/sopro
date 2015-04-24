@@ -2,8 +2,8 @@ angular.module('societyProChatApp.cardController',
   ['ngMaterial']
 )
 .controller('historyCardController',
-['$scope', '$http', '$rootScope', '$timeout',
-  function($scope, $http, $rootScope, $timeout) {
+['$scope', '$http', '$rootScope', '$timeout', 'UserNames',
+  function($scope, $http, $rootScope, $timeout, UserNames) {
     $scope.messages = [];
     $scope.currentInput = "";
 
@@ -17,6 +17,7 @@ angular.module('societyProChatApp.cardController',
 
     $scope.updateMessagesHistory = function (messageObj){
       //TODO: Improve search of existing message when we have sort server side
+      messageObj.authorName = UserNames.byId(messageObj.authorid);
       messageLen = $scope.messages.length;
       for (var i = messageLen - 1; i >= 0; i--){
         if (messageObj._id === $scope.messages[i]._id){
@@ -74,7 +75,10 @@ angular.module('societyProChatApp.cardController',
       if (!data.ok){
         return console.log(data);
       }
-      $scope.messages = data.messages;
+      $scope.messages = data.messages.map(function(message){
+        message.authorName = UserNames.byId(message.authorid);
+        return message;
+      });
     })
     .error(function(data, status, headers, config) {
       console.log(status, data);
