@@ -96,7 +96,7 @@ collection {
   position: relative;
 }
 
-.channel-collection {
+.sopro-collection {
   padding: 6px 15px;
 }
 
@@ -158,12 +158,12 @@ color: rgba(204, 204, 204, 1);
   font-size: 11px;
 }
 
-.channel-collection .sopro-collection-title .channel-create-link {
+.sopro-collection .sopro-collection-title .channel-create-link {
   opacity: 0.1;
   transition: opacity 0.3s linear;
 }
 
-.channel-collection .sopro-collection-title:hover .channel-create-link {
+.sopro-collection .sopro-collection-title:hover .channel-create-link {
   opacity: 1;
   transition: opacity 0.1s linear;
 }

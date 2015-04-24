@@ -137,6 +137,11 @@ angular.module('societyProChatApp.directives',[
       icon: '@',
       repeater: '=',
     },
+    // Dynamically load different partials. Thanks @AndreKaurin! http://stackoverflow.com/a/23999356/1380669
+    templateUrl: function(element, attrs){
+      return attrs.soproTemplateUrl;
+    },
+    //templateUrl: 'web/partials/collection.html',
     controller: function ($rootScope, $scope, maxChannels) {
       $scope.maxChannels = maxChannels;
       $scope.showOverflow = false;
@@ -160,6 +165,14 @@ angular.module('societyProChatApp.directives',[
         $rootScope.$broadcast("openChannelHistoryClicked",data);
       };
 
+      $scope.openPeerHistory = function ($event, peer) {
+        var data = {
+          e:$event,
+          channel: channel
+        }
+        $rootScope.$broadcast("openChannelHistoryClicked",data);
+      };
+
       $scope.openCollectionsOverflow = function ($event) {
         $rootScope.$broadcast("POO.click.collections", {
           fromElement: $event.target,
@@ -174,7 +187,6 @@ angular.module('societyProChatApp.directives',[
         filterOnlyChannelClicks($rootScope, $event, item, title);
       }
     },
-    templateUrl: 'web/partials/collection.html'
   };
 })
 .directive('soproCollectionsDropdown', function(){

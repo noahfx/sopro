@@ -58,6 +58,7 @@ angular.module('societyProChatApp.controller2',
 
     showChannelCard(card);
   }
+
   $scope.$on("openChannelHistoryClicked", $scope.handleChannelHistoryClicked);
 
   //$scope.$watch('stageCards', function () { $scope.expandedCard = $scope.stageCards[0]; });

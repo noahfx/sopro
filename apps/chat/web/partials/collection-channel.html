@@ -1,0 +1,32 @@
+<div class="sopro-collection" layout="column">
+  <div class="sopro-collection-title" layout="row" layout-align="space-between center">
+    <span>{{title}}</span>
+    <span class="channel-create-link" ng-show="userExpandable" ng-click="createChannel()" role="button">+</span>
+  </div>
+  <ul>
+      <li 
+      class="channel-item noselect" 
+      ng-class="{'channel-separator':$last && repeater.length <= maxChannels}" 
+      ng-repeat="item in repeater" 
+      ng-if="showItem(item, $index)"
+      sglclick="openChannelHistory($event, item)"
+      ng-dblclick="openSubscribersOverflow($event, item, title)"
+      layout="row" 
+      layout-align="start center">
+       <img ng-src="{{icon}}" alt="channel-icon">
+       <span class="channel-item-display"> {{item.name}}</span>
+      </li>
+      <li
+      ng-show="repeater.length > maxChannels"
+      class="sopro-config-collection-link sopro-more-channels"
+      ng-class="{'channel-separator':repeater.length > maxChannels}"
+      layout="column"
+      layout-align="center start"
+      ng-click="openCollectionsOverflow($event)">
+        +{{repeater.length - maxChannels}} more...
+      </li>
+  </ul>
+</div>
+<div>
+  <div class="collections-divider" layout-align="start center"><hr /></div>
+</div>
