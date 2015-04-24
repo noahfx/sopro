@@ -129,6 +129,9 @@ var societyProChatControllers =
           $scope.channels = data.channels;
           $scope.myChannels = $scope.getMyChannels($scope.channels);
           $scope.peers = data.peers;
+          if ($scope.myChannels.length !== 0){
+            $rootScope.$broadcast('openChannelHistoryClicked',{channel: $scope.myChannels[0]}); 
+          }
           setTimeout(function () {
             positionCommpanelScrollbar();
           }, 50);

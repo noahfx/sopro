@@ -55,13 +55,11 @@ angular.module('societyProChatApp.controller2',
       showChannelCard(card);
       return $scope.expandCard(0);
     }*/
-
+    console.log(data);
     showChannelCard(card);
   }
   $scope.$on("openChannelHistoryClicked", $scope.handleChannelHistoryClicked);
-
-  //$scope.$watch('stageCards', function () { $scope.expandedCard = $scope.stageCards[0]; });
-
+  
   $scope.hideCreationCard = function (){
     $scope.creationCard.creationTitle = "";
     $scope.creationCard.creationDesc = "";
@@ -83,7 +81,9 @@ angular.module('societyProChatApp.controller2',
       data.size = 66;
     }
 
-    if ($scope.stageCards.length == 0) {
+    $scope.stageCards[0] = data;
+
+    /*if ($scope.stageCards.length == 0) {
       return $scope.stageCards.push(data);
     }
 
@@ -105,7 +105,7 @@ angular.module('societyProChatApp.controller2',
       return;
     }
 
-    $scope.stageCards.unshift(data);
+    $scope.stageCards.unshift(data);*/
   }
 
   $scope.expandCard = function (index) {
