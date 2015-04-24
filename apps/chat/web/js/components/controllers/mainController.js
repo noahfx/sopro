@@ -98,6 +98,11 @@ var societyProChatControllers =
 
   });
 
+  $scope.$on("openChannelHistoryClicked", function () {
+    $scope.showCollectionsOverflow = false;
+    $scope.showSubscribersOverflow = false;
+  });
+
   $scope.getMyChannels = function (channels) {
     var myChannels = [];
     for (var i = 0; i < channels.length; i++) {

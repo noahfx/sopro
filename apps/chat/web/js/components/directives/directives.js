@@ -157,9 +157,6 @@ angular.module('societyProChatApp.directives',[
       };
 
       $scope.openChannelHistory = function ($event, channel) {
-        if (channel.soproModel !== 'channel') {
-          return;
-        }
         var data = {
           e:$event,
           channel: channel
@@ -168,9 +165,10 @@ angular.module('societyProChatApp.directives',[
       };
 
       $scope.openPeerHistory = function ($event, peer) {
+        return;
         var data = {
           e:$event,
-          channel: channel
+          channel: peer
         }
         $rootScope.$broadcast("openChannelHistoryClicked",data);
       };
@@ -211,6 +209,16 @@ angular.module('societyProChatApp.directives',[
         }
       });
 
+      $scope.openChannelHistory = function ($event, channel) {
+        if (channel.soproModel !== 'channel') {
+          return;
+        }
+        var data = {
+          e:$event,
+          channel: channel
+        }
+        $rootScope.$broadcast("openChannelHistoryClicked",data);
+      };
 
       $scope.$on("POO.click.collections", function ($event, data) {
         $scope.repeater = data.repeater;
