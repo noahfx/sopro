@@ -57,7 +57,6 @@ var societyProChatControllers =
   $scope.showSubscribersOverflow = null;
 
   $(document).mousedown(function (e) {
-    console.log('mouseup listener');
 
     var container1 = $("sopro-collections-dropdown");
     var container2 = $("sopro-subscribers-dropdown");

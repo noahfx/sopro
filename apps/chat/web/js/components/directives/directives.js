@@ -10,7 +10,6 @@ function safeApply($scope, fn) {
 };
 
 function filterOnlyChannelClicks($rootScope, $event, item, title) {
-  console.log('Subscriber dropdown POO clicked')
   if(title === "CHANNELS"){
     $rootScope.$broadcast("POO.click.subscribers", {
       // todo: rename to "open the channel subscribers" or simmilar
@@ -153,6 +152,9 @@ angular.module('societyProChatApp.directives',[
       };
 
       $scope.openChannelHistory = function ($event, channel) {
+        if (channel.soproModel !== 'channel') {
+          return;
+        }
         var data = {
           e:$event,
           channel: channel
@@ -224,7 +226,6 @@ angular.module('societyProChatApp.directives',[
     controller: function ($rootScope, $scope, $element, $http, $animate, $window, $timeout) {
 
       $scope.$on('collections.overflow.close', function(){
-        console.log('Subscribers dropdown closing after hearing collections dropdown closing.');
 
         $rootScope.$broadcast('subscribers.overflow.close')
       });
@@ -237,8 +238,7 @@ angular.module('societyProChatApp.directives',[
         }
       });
 
-      $scope.$on('POO.click.subscribers', function($event, data){
-        console.log(data);  
+      $scope.$on('POO.click.subscribers', function($event, data){ 
         $scope.dropdownTitle = data.title;
         $scope.fromElement = data.fromElement;
         if (!$($scope.fromElement).hasClass("channel-item")) {
@@ -259,7 +259,6 @@ angular.module('societyProChatApp.directives',[
         .success(function(data, status, headers, config) {
           // this callback will be called asynchronously
           // when the response is available
-          console.log(data);
           if (data.ok) {
             $scope.repeater = data.channel.members;
             $timeout(function(){
