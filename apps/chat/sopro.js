@@ -247,6 +247,16 @@ module.exports = function(app, PI){
           done(null, opts);
         })
       },
+      // Update the user object with the new identity:
+      function(opts, done){
+        PI.update('user', opts.user, function(err, result){
+          if(err){
+            return done(err);
+          }
+          opts.user = result;
+          done(null, opts);
+        })
+      },
       // Create a new apiToken object for that user's single identity:
       function(opts, done){
         sopro.crypto.createToken(function(err, token){

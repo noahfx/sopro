@@ -1,4 +1,4 @@
-<div class="channel-collection" layout="column">
+<div class="sopro-collection" layout="column">
   <div class="sopro-collection-title" layout="row" layout-align="space-between center">
     <span>{{title}}</span>
     <span class="channel-create-link" ng-show="userExpandable" ng-click="createChannel()" role="button">+</span>
@@ -9,10 +9,13 @@
       ng-class="{'channel-separator':$last && repeater.length <= maxChannels}" 
       ng-repeat="item in repeater" 
       ng-if="showItem(item, $index)"
-      sglclick="openChannelHistory($event, item)"
-      ng-dblclick="openSubscribersOverflow($event, item, title)"
+      sglclick="openPeerHistory($event, item)"
       layout="row" 
       layout-align="start center">
+      
+      <!--
+      ng-dblclick="openSubscribersOverflow($event, item, title)"
+      -->
        <img ng-src="{{icon}}" alt="channel-icon">
        <span class="channel-item-display"> {{item.name}}</span>
       </li>

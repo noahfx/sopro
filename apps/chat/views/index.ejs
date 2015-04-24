@@ -55,17 +55,49 @@
     </md-toolbar>
     <div class="sopro-main-content" flex layout="row">
       <md-content id="sopro-collections-wrap">
-        <collection id="collection-channels" channel-title="CHANNELS" userexpandable="true" icon="web/images/icon-channels-lines.png" repeater="myChannels">
+        <collection
+          id="collection-channels"
+          channel-title="CHANNELS"
+          userexpandable="true"
+          icon="web/images/icon-channels-lines.png"
+          repeater="myChannels"
+          sopro-template-url="web/partials/collection-channel.html"
+        >
         </collection>
-        <collection id="collection-peers" channel-title="MEMBERS" icon="web/images/icon-peers-circle.png" repeater="peers">
+        <collection
+          id="collection-peers"
+          channel-title="MEMBERS"
+          icon="web/images/icon-peers-circle.png"
+          repeater="peers"
+          sopro-template-url="web/partials/collection-peer.html"
+        >
           <span id="collection-peers-create" class="collection-create-link">+ Add Peer</span>
         </collection>
       </md-content>
-      <sopro-collections-dropdown ng-show="showCollectionsOverflow" class="md-whiteframe-z2"></sopro-collections-dropdown>
-      <sopro-subscribers-dropdown ng-show="showSubscribersOverflow" class="md-whiteframe-z2"></sopro-subscribers-dropdown>
+      <sopro-collections-dropdown
+        ng-show="showCollectionsOverflow"
+        class="md-whiteframe-z2"
+      ></sopro-collections-dropdown>
+      <sopro-subscribers-dropdown
+        ng-show="showSubscribersOverflow"
+        class="md-whiteframe-z2"
+      ></sopro-subscribers-dropdown>
       <md-content flex layout="row" layout-wrap id="main-stage" ng-controller="stageController">
-        <ng-include layout="column" flex="{{card.size}}" flex-md="100" ng-repeat="card in stageCards" src="card.template" ng-if="$first"></ng-include>
-        <ng-include layout="column" flex="{{creationCard.size}}" flex-md="100" src="creationCard.template" ng-show="creationCard.show"></ng-include>
+        <ng-include
+          layout="column"
+          flex="{{card.size}}"
+          flex-md="100"
+          ng-repeat="card in stageCards"
+          src="card.template"
+          ng-if="$first"
+        ></ng-include>
+        <ng-include
+          layout="column"
+          flex="{{creationCard.size}}"
+          flex-md="100"
+          src="creationCard.template"
+          ng-show="creationCard.show"
+        ></ng-include>
       </md-content>
     </div>
   </body>
