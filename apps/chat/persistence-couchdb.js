@@ -67,4 +67,16 @@ couch.find = function(model, key, value, callback){
   })
 }
 
+couch.view = function(viewName, options, callback){
+  db.view('soprochat', viewName, options, function(err, body){
+    if(err){
+      return callback(err);
+    }
+    var data = body.rows.map(function(row){
+      return row.value;
+    })
+    callback(null, data);
+  })
+}
+
 module.exports = couch;

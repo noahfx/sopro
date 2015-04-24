@@ -611,6 +611,33 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
     })
   })
 
+  app.get('/api/im.history', function(req, res, next){
+    var receiverId = req.query['receiverId'];
+    if(receiverId === undefined || receiverId === ""){
+      return res.status(400).send({
+        ok: false,
+        error: 'bad_request',
+        message: 'receiverId query string parameter required',
+      })
+    }
+    app.sopro.PICouch.view('direct_messages', {
+      key: [req.session.userId, receiverId]
+    }, function(err, messages){
+      if(err){
+        console.log(err);
+        return res.status(500).send({
+          ok: false,
+          error: 'server_error',
+        })
+      }
+      return res.status(200).send({
+        ok: true,
+        messages: messages,
+      })
+    })
+
+  })
+
   app.post('/api/postMessage', function(req, res, next){
     async.waterfall([
       // Construct opts object:
@@ -625,13 +652,28 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
           return done(null, {
             channel: req.body.channel,
             text: req.body.text,
-            authorid: req.session.userId,
+            authorId: req.session.userId,
             tsMs: new Date().valueOf(),
           });
         }
       },
+      // See if it's a DM or Chat:
+      function(opts, done){
+        var type = "chat";
+        if(/^@/.test(opts.channel)){
+          type = "dm";
+          // Strip the @ character:
+          opts.receiverId = opts.channel.replace(/^@(.*)$/, '$1');
+        }
+        opts.dmOrChat = type;
+        done(null, opts);
+      },
       // Look for the channel by name and id:
       function(opts, done){
+        // DM's are associated with authorId and receiverId identities, not a channel object. Don't look for one:
+        if(opts.dmOrChat !== "chat"){
+          return done(null, opts);
+        }
         // Try by ID:
         PI.read(opts.channel, function(err, channel){
           if(err && err.error === 'not_found'){
@@ -660,6 +702,10 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
       },
       // Check if the current identity is a member of that channel
       function(opts, done){
+        // DM's don't have a channel object saved. Don't check for membership:
+        if(opts.dmOrChat !== "chat"){
+          return done(null, opts);
+        }
         PI.find('identity', 'channel', opts.channelObj._id, function(err, identities){
           if(err){
             console.log(err);
@@ -667,7 +713,7 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
           }
           var authorInChannel = false;
           identities.forEach(function(identity){
-            if(identity._id === opts.authorid){
+            if(identity._id === opts.authorId){
               authorInChannel = true;
             }
           })
@@ -677,7 +723,28 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
           done(null, opts);
         })
       },
-
+      // For the case of a direct message, check if the receiver exists:
+      function(opts, done){
+        if(opts.dmOrChat !== "dm"){
+          return done(null, opts);
+        };
+        PI.read(opts.receiverId, function(err, identity){
+          if(err){
+            if(err.error === 'not_found'){
+              return done([404, 'not_found', 'This receiverId is not associated with an identity.']);
+            } else {
+              console.log(err);
+              return done([500, 'server_error']);
+            }
+          } else {
+            if(identity.soproModel !== 'identity'){
+              return done([404, 'not_found', 'This receiverId is not associated with an identity.']);
+            } else {
+              return done(null, opts);
+            }
+          }
+        })
+      },
       // Craft and save a message object for that channel:
       function(opts, done){
         // Convert ms timestamp to s timestamp:
@@ -688,10 +755,17 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
         tsS = tsS.replace(/^(\d+\.\d\d\d)\d+$/, "$1");
         var data = {
           soproModel: 'message',
-          channelid: opts.channelObj._id,
-          authorid: opts.authorid,
+          authorId: opts.authorId,
           text: opts.text,
           ts: tsS,
+        }
+
+        if(opts.dmOrChat === 'dm'){
+          data.receiverId = opts.receiverId;
+        } else if(opts.dmOrChat === 'chat'){
+          data.channelid = opts.channelObj._id;
+        } else {
+          throw new Error('Unexpected dmOrChat: ' + opts.dmOrChat);
         }
         PI.create('message', data, function(err, result){
           if(err){

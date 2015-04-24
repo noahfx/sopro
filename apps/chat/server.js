@@ -35,6 +35,8 @@ var featureConfig;
 app.sopro = {};
 app.sopro.servers = serverConfig;
 app.sopro.local = localConfig;
+app.sopro.PI = PI;
+app.sopro.PICouch = PICouch;
 
 // Override env variable with --enterprise flag:
 if(argh.enterprise){

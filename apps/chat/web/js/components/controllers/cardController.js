@@ -6,6 +6,8 @@ angular.module('societyProChatApp.cardController',
   function($scope, $http, $rootScope, $timeout) {
     $scope.messages = [];
     $scope.currentInput = "";
+    $scope.cardTitle = "";
+    $scope.cardType = "";
 
     $scope.sortByTs = function (message){
       var result = +message.ts;
@@ -33,18 +35,31 @@ angular.module('societyProChatApp.cardController',
       }
     }
     $scope.sendCurrentInput = function (){
-      console.log('Sending', $scope.currentInput)
-      $http({
+      // Common options:
+      var opts = {
         method: 'POST',
         url: '/api/postMessage',
         headers: {
           'token-auth': $rootScope.token
         },
-        data: {
+      };
+
+      // Different body:
+      if($scope.cardType === 'dm'){
+        opts.data = {
+          channel: '@'+$scope.card.peer._id,
+          text: $scope.currentInput
+        }
+      } else if($scope.cardType === 'chat'){
+        opts.data = {
           channel: $scope.card.channel._id,
           text: $scope.currentInput
         }
-      })
+      };
+
+      console.log('Sending', opts);
+
+      $http(opts)
       .success(function(data, status, headers, config){
         if (!data.ok){
           return console.log(data)
@@ -57,27 +72,66 @@ angular.module('societyProChatApp.cardController',
       });
     };
 
-    $http({
-      method: 'GET',
-      url: '/api/channel.history',
-      headers: {
-       'token-auth': $rootScope.token
-      },
-      params : {
-      channel : $scope.card.channel._id
-      }
-    })
-    .success(function(data, status, headers, config) {
-      // this callback will be called asynchronously
-      // when the response is available
-      //console.log(data);
-      if (!data.ok){
-        return console.log(data);
-      }
-      $scope.messages = data.messages;
-    })
-    .error(function(data, status, headers, config) {
-      console.log(status, data);
-    });
+    function loadChannelHistory(){
+      $http({
+        method: 'GET',
+        url: '/api/channel.history',
+        headers: {
+         'token-auth': $rootScope.token
+        },
+        params : {
+        channel : $scope.card.channel._id
+        }
+      })
+      .success(function(data, status, headers, config) {
+        // this callback will be called asynchronously
+        // when the response is available
+        //console.log(data);
+        if (!data.ok){
+          return console.log(data);
+        }
+        $scope.messages = data.messages;
+      })
+      .error(function(data, status, headers, config) {
+        console.log(status, data);
+      });
+    }
+
+    function loadImHistory(){
+      $http({
+        method: 'GET',
+        url: '/api/im.history',
+        headers: {
+         'token-auth': $rootScope.token
+        },
+        params : {
+          receiverId : $scope.card.peer._id
+        }
+      })
+      .success(function(data, status, headers, config) {
+        // this callback will be called asynchronously
+        // when the response is available
+        //console.log(data);
+        if (!data.ok){
+          return console.log(data);
+        }
+        $scope.messages = data.messages;
+      })
+      .error(function(data, status, headers, config) {
+        console.log(status, data);
+      });
+    }
+
+    if($scope.card.channel && !$scope.card.peer){
+      $scope.cardType = 'chat';
+      $scope.cardTitle = $scope.card.channel.name;
+      loadChannelHistory();
+    } else if(!$scope.card.channel && $scope.card.peer){
+      $scope.cardType = 'dm';
+      $scope.cardTitle = $scope.card.peer.name;
+      loadImHistory()
+    } else {
+      throw new Error('No channel or peer to display on this card')
+    }
   }
 ]);

@@ -42,11 +42,23 @@ angular.module('societyProChatApp.controller2',
   $scope.$on("createChannelClicked", $scope.handleCreateChannelClicked);
 
   $scope.handleChannelHistoryClicked = function($event, data) {
-    // If there are no cards, add a create channel card:
     var card = {
       type:"channel", 
       template:"web/partials/channel-card.html", 
       channel: data.channel,
+      title: data.channel.name,
+      size: 100,
+      show: true
+    }
+    showChannelCard(card);
+  }
+
+  $scope.handlePeerHistoryClicked = function($event, data) {
+    var card = {
+      type:"channel", 
+      template:"web/partials/channel-card.html", 
+      peer: data.peer,
+      title: data.peer.name,
       size: 100,
       show: true
     }
@@ -60,6 +72,7 @@ angular.module('societyProChatApp.controller2',
   }
 
   $scope.$on("openChannelHistoryClicked", $scope.handleChannelHistoryClicked);
+  $scope.$on("openPeerHistoryClicked", $scope.handlePeerHistoryClicked);
 
   //$scope.$watch('stageCards', function () { $scope.expandedCard = $scope.stageCards[0]; });
 
@@ -91,13 +104,13 @@ angular.module('societyProChatApp.controller2',
     $scope.indexToShow = -1;
     // Look through the existing cards for an already present card:
     var result = $.grep($scope.stageCards, function(card, index){
-      if (card.channel.name == data.channel.name) {
+      if (card.title == data.title) {
         $scope.safeApply( function () {
           $scope.indexToShow = index;
         });
       }
 
-      return card.channel.name == data.channel.name;
+      return card.title == data.title;
     });
 
     if ($scope.indexToShow !== -1) {

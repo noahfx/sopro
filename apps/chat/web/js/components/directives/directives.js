@@ -168,9 +168,9 @@ angular.module('societyProChatApp.directives',[
       $scope.openPeerHistory = function ($event, peer) {
         var data = {
           e:$event,
-          channel: channel
+          peer: peer,
         }
-        $rootScope.$broadcast("openChannelHistoryClicked",data);
+        $rootScope.$broadcast("openPeerHistoryClicked",data);
       };
 
       $scope.openCollectionsOverflow = function ($event) {
