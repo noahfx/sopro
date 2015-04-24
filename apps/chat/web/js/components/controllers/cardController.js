@@ -41,7 +41,7 @@ angular.module('societyProChatApp.cardController',
           'token-auth': $rootScope.token
         },
         data: {
-          channel: $scope.card.channel.name,
+          channel: $scope.card.channel._id,
           text: $scope.currentInput
         }
       })
@@ -64,7 +64,7 @@ angular.module('societyProChatApp.cardController',
        'token-auth': $rootScope.token
       },
       params : {
-      channel : $scope.card.channel.name
+        channel : $scope.card.channel._id
       }
     })
     .success(function(data, status, headers, config) {

@@ -33,7 +33,7 @@ describe("Main Stage",function  () {
       ).toBeGreaterThan(0);
     })
 
-    it("closes when you click the X", function(){
+    xit("closes when you click the X", function(){
       element.all(by.css('#main-stage > ng-include > md-card > header > span.x-button'))
       .get(0)
       .click();
@@ -86,7 +86,6 @@ describe("Main Stage",function  () {
         expect(els.createChannelCardCreate.isDisplayed()).toBeTruthy();
 
       });
-
     });
 
     describe("Channel History Card", function () {
@@ -101,11 +100,8 @@ describe("Main Stage",function  () {
           els.channelHistoryCards.get(0)
           .element(by.css('header .title'))
           .getText()
-        ).toEqual(CAM_MOCKS.newChannelName)
+        ).toEqual(CAM_MOCKS.newChannelName);
       })
-
     });
-
   });
-
 });

@@ -2,7 +2,7 @@ var CAM_MOCKS = require('../../common/mock-data.js');
 var changeIdentity = require('../../common/protractor-helpers.js')(browser,element).changeIdentity;
 
 var societyProChat = function () {
-  this.channelCollections = element.all(by.css('.channel-collection'))
+  this.channelCollections = element.all(by.css('.sopro-collection'))
   this.collectionChannelsItems = element.all(by.css('#collection-channels .channel-item'));
   this.collectionChannelsMore = element(by.css('#collection-channels .sopro-more-channels'));
   this.collectionChannelsContainer = element.all(by.css("collection"));
