@@ -262,7 +262,7 @@ angular.module('societyProChatApp.directives',[
       $scope.$on('POO.click.subscribers', function($event, data){ 
         $scope.dropdownTitle = data.title;
         $scope.fromElement = data.fromElement;
-        if (!$($scope.fromElement).hasClass("channel-item")) {
+        if (!$($scope.fromElement).hasClass("channel-item") && !$($scope.fromElement).hasClass("dropdown-item")) {
           $scope.fromElement = $scope.fromElement.parentElement;
         }
         $($scope.fromElement).addClass('poo-highlight-subscriber');
@@ -282,10 +282,8 @@ angular.module('societyProChatApp.directives',[
           // when the response is available
           if (data.ok) {
             $scope.repeater = data.channel.members;
-            $timeout(function(){
-              var positions = positionDropdown(data.channel.members.length, $scope.fromElement);
-              drawDropdown($animate, $element, positions, 1);
-            });
+            var positions = positionDropdown(data.channel.members.length, $scope.fromElement);
+            drawDropdown($animate, $element, positions, 1);
           }
         })
         .error(function(data, status, headers, config) {
@@ -335,6 +333,16 @@ angular.module('societyProChatApp.directives',[
     link: function (scope, element, attr) {
       if (scope.$last === true) {
         element[0].scrollIntoView();
+      }
+    }
+  }
+})
+.directive('lastToRender', function () {
+  return {
+    restrict: 'A',
+    link: function (scope, element, attr) {
+      if (scope.$last === true) {
+        scope.$emit("POO.click.subscribers.show");
       }
     }
   }

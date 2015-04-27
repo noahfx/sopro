@@ -92,11 +92,12 @@ function clickPOO(arg1, arg2, next){
   var css = findPOOCSS(isSecond, isNested);
 
   if (isNested) {
-    browser
-    .actions()
+    browser.actions()
     .doubleClick(element(by.css(css)))
     .perform()
-    .then(next);
+    .then(function () {
+      return next();
+    });
   } else {
     element(by.css(css))
     .click()
@@ -136,7 +137,9 @@ function openDropdown(isSecond, isNested, next){
         .actions()
         .doubleClick(element(by.css(css)))
         .perform()
-        .then(delay(next));
+        .then(function () {
+          delay(next);
+        });
       }));
     }
   } else {
@@ -158,7 +161,9 @@ function openDropdown(isSecond, isNested, next){
         .actions()
         .doubleClick(element(by.css(css)))
         .perform()
-        .then(delay(next));
+        .then(function () {
+          delay(next);
+        });
       }));
     }
   }

@@ -159,7 +159,7 @@ var societyProChatControllers =
     $scope.showCollectionsOverflow = true;
   });
 
-  $scope.$on("POO.click.subscribers", function ($event, data) {
+  $scope.$on("POO.click.subscribers.show", function ($event, data) {
     $scope.showSubscribersOverflow = true;
   });
 
