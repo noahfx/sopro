@@ -1,71 +1,192 @@
 <html ng-app="societyProChatApp">
   <head>
-      <title>SocietyPro Chat</title>
+    <title>SocietyPro Chat</title>
 
-      <link rel="stylesheet" type="text/css" href="web/bower_components/angular-material/angular-material.css">
-      <link rel='stylesheet' href='web/bower_components/perfect-scrollbar/css/perfect-scrollbar.css'/>
-      <link rel="stylesheet" type="text/css" href="web/styles/society-pro-chat.css">
-      <!--[if IE]>
-      <link rel="stylesheet" type="text/css" href="web/styles/society-pro-chat-ie-support.css">
-      <![endif]-->
-      <script type="text/javascript" src="web/bower_components/jquery/dist/jquery.min.js"></script>
-      <script src='web/bower_components/perfect-scrollbar/js/perfect-scrollbar.jquery.js'></script>
-      <script src="web/bower_components/angular/angular.min.js"></script>
-      <script type="text/javascript" src="web/bower_components/angular-aria/angular-aria.js"></script>
-      <script type="text/javascript" src="web/bower_components/angular-animate/angular-animate.js"></script>
-      <script type="text/javascript" src="web/bower_components/angular-material/angular-material.js"></script>
-      <script src="web/js/components/services/services.js"></script>
-      <script src="web/js/components/global/global.js"></script>
-      <script src="web/js/components/directives/directives.js"></script>
-      <script src="web/js/components/controllers/mainController.js"></script>
-      <script src="web/js/components/controllers/stageController.js"></script>
-      <script src="web/js/app.js"></script>
+<!--   Styles    -->
+    <link href='web/bower_components/angular-emoji-filter/dist/emoji.min.css' rel='stylesheet' type='text/css'>
+    <link href="web/styles/jquery.textcomplete.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="web/bower_components/angular-material/angular-material.css">
+    <link rel='stylesheet' href='web/bower_components/perfect-scrollbar/css/perfect-scrollbar.css'/>
+    <link rel="stylesheet" type="text/css" href="web/styles/society-pro-chat.css">
+    <link href="web/styles/custom.css" rel="stylesheet" type="text/css">
+    <!--[if IE]>
+    <link rel="stylesheet" type="text/css" href="web/styles/society-pro-chat-ie-support.css">
+    <![endif]-->
+<!--             -->
+
+<!--  Scripts    -->
+    <script type="text/javascript" src="web/bower_components/jquery/dist/jquery.min.js"></script>
+    <script src='web/bower_components/perfect-scrollbar/js/perfect-scrollbar.jquery.js'></script>
+    <script src="web/bower_components/angular/angular.min.js"></script>
+    <script type="text/javascript" src="web/bower_components/angular-aria/angular-aria.js"></script>
+    <script type="text/javascript" src="web/bower_components/angular-animate/angular-animate.js"></script>
+    <script type="text/javascript" src="web/bower_components/angular-material/angular-material.js"></script>
+    <script src="web/js/components/services/services.js"></script>
+    <script src="web/js/components/global/global.js"></script>
+    <script src="web/js/components/directives/directives.js"></script>
+    <script src="web/js/components/controllers/mainController.js"></script>
+    <script src="web/js/components/controllers/stageController.js"></script>
+    <script src="web/js/jquery.autosize.js" type="text/javascript"></script>
+    <script src="web/bower_components/angular-emoji-filter/dist/emoji.min.js" type="text/javascript"></script>
+    <script src="web/js/emoticonsService.js" type="text/javascript"></script>
+    <script src="web/js/app.js"></script>
+
+<!--             -->
   </head>
   <body ng-controller="mainController" layout="column" layout-fill data-soproenv="<%= config.env %>" data-currentuser="<%= currentUser %>">
     <md-toolbar layout="row">
-      <span id="logo-loco" layout="row" layout-align="center center">
-        <span id="logo-text">SocietyPro </span>
+      <span id="logo-loco" layout="row" layout-align="start center">
+        <span id="logo-text">Central Services</span>
         <span id="version-text"> v<%= version %></span>
+        <img id="trigger-arrow" src="web/images/trigger-arrow.png"/>
       </span>
-      <span flex></span>
-      <div 
-      id="role-selection"
-      ng-click="showRoles=!showRoles" 
-      layout="row" 
-      layout-align="center center"
-      >
-        <img ng-src="data:image/png;base64,{{currentRole.avatar}}" width="36" height="36" alt="role-icon">
-        <span class="roleLabel">{{currentRole.name}}</span>
-        <img src="web/images/role-arrow.png" width="10" height="5" alt="arrow-role"/>
-      </div>
-      <div class="sopro-role-panel md-whiteframe-z2" layout="column" ng-show="showRoles">
-        <img class="sopro-arrow-role-panel" src="web/images/arrow-role-panel.png" alt="role-pannel-arrow">
-        <% if (!features.ee.fixedUserIdentities) { %>
-        <span class="sopro-role-panel-title">ROLES</span>
-        <div class="sopro-role-item" ng-class="{'sp-w-b':$last}" layout="row" layout-align="start center" ng-repeat="role in roles" ng-click="changeRole(role)">
-          <img class="sopro-img-role-panel" ng-src="data:image/png;base64,{{role.avatar}}" width="35" height="35" alt="role-icon">
-          <span class="sopro-role-name">{{role.name}}</span>
+      <div class="navbar-container" layout="row" layout-align="start center" flex> 
+        <span id="member-name" flex>
+          @<strong>jon</strong> 
+          <img ng-src="web/images/icon-peers-circle.png" alt="channel-icon" src="web/images/icon-peers-circle.png">
+        </span> 
+        <div 
+        id="role-selection"
+        layout="row" 
+        ng-click="showRoles=!showRoles" 
+        layout-align="center center"
+        >
+          <input id="search-input" placeholder="Search apps, websites, files and chats..." type="text">
+          <img ng-src="data:image/png;base64,{{currentRole.avatar}}" width="36" height="36" alt="role-icon">
+          <!--
+          <span class="roleLabel">{{currentRole.name}}</span>
+          <img src="web/images/role-arrow.png" width="10" height="5" alt="arrow-role"/>
+          -->
+          <a id="hamburguer"></a>
         </div>
-        <% } %>
-        <% if (permissions.getAdmin) { %>
-        <a href="/admin" id="adminPanelLink">Admin Panel</a>
-        <% } %>
-        <a href="/logout" class="roleLogout">Logout</a>
+        <div class="sopro-role-panel md-whiteframe-z2" layout="column" ng-show="showRoles">
+          <img class="sopro-arrow-role-panel" src="web/images/arrow-role-panel.png" alt="role-pannel-arrow">
+          <a href="/admin" id="adminPanelLink">Set yourself away</a>
+          <a href="/admin" id="adminPanelLink">Change Photo</a>
+          <% if (!features.ee.fixedUserIdentities) { %>
+          <span class="sopro-role-panel-title">ROLES</span>
+          <div class="sopro-role-item" ng-class="{'sp-w-b':$last}" layout="row" layout-align="start center" ng-repeat="role in roles" ng-click="changeRole(role)">
+            <img class="sopro-img-role-panel" ng-src="data:image/png;base64,{{role.avatar}}" width="35" height="35" alt="role-icon">
+            <span class="sopro-role-name">{{role.name}}</span>
+          </div>
+          <% } %>
+          <% if (permissions.getAdmin) { %>
+          <a href="/admin" id="adminPanelLink">Admin Panel</a>
+          <% } %>
+          <a href="/logout" class="roleLogout">Logout</a>
+        </div>
       </div>
     </md-toolbar>
     <div class="sopro-main-content" flex layout="row">
       <md-content id="sopro-collections-wrap">
-        <collection id="collection-channels" channel-title="CHANNELS" userexpandable="true" icon="web/images/icon-channels-lines.png" repeater="myChannels">
-        </collection>
+
+        <collection id="collection-favorites" channel-title="FAVORITES" userexpandable="true" icon="web/images/icon-star.png" repeater="myChannels"></collection>
+        <collection id="collection-channels" channel-title="CHANNELS" userexpandable="true" icon="web/images/icon-channels-lines.png" repeater="myChannels"></collection>
         <collection id="collection-peers" channel-title="MEMBERS" icon="web/images/icon-peers-circle.png" repeater="peers">
+          <!--
           <span id="collection-peers-create" class="collection-create-link">+ Add Peer</span>
+          -->
         </collection>
+        <collection id="collection-private" channel-title="PRIVATE CHANNELS" icon="web/images/icon-lock.png" repeater="myChannels"></collection>
+        <collection id="collection-decks" channel-title="DECKS" icon="web/images/icon-decks.png" repeater="myChannels"></collection>
+        <a id="more-unread">more unread</a>
       </md-content>
       <sopro-collections-dropdown ng-show="showCollectionsOverflow" class="md-whiteframe-z2"></sopro-collections-dropdown>
       <sopro-subscribers-dropdown ng-show="showSubscribersOverflow" class="md-whiteframe-z2"></sopro-subscribers-dropdown>
-      <md-content flex layout="row" layout-wrap id="main-stage" ng-controller="stageController">
+      <md-content flex layout="column" layout-wrap id="main-stage" ng-controller="stageController">
         <ng-include layout="column" flex="50" flex-md="100" ng-repeat="card in stageCards" src="card.template"></ng-include>
       </md-content>
+        <md-content class="messages-container ng-scope md-default-theme" id="messages-container" layout="column" layout-align="end start" flex>
+          <ng-include src="'web/partials/oneTextMessage.html'" ng-repeat="message in messageHistory.messages" on-finish-render="" class="ng-scope">
+          <!-- 
+          <span onClick='SocietyPro.eventEdit("{{message.id}}")' class="message-name">~s~</span>
+          --> 
+            
+          </ng-include>
+        </md-content>
+        <div class="footer">
+        <div class="mentions"></div>
+        <div class="footer-inner">
+          <div class="options-container">
+            <md-button class="options-trigger"></md-button>
+            <div class="dropdown-options">
+              <input type="file" name="file" id="file" hide>
+              </input>
+              <label for="file" class="upload"><span></span>Upload a File</label>
+            </div>
+          </div>
+          <form id="message-form" onSubmit="">
+            <textarea id="message-input" ng-model="message" ng-trim="true"></textarea>
+          </form>
+          <div class="emoticon-container">
+            <button class="emoticon-trigger"></button>
+            <div class="dropdown-emoticon" ng-controller="emoticonsCtrl">
+              <div class="tabs-container">
+                <ul class="tabs-menu">
+                  <li ng-class="{current:emoticonTab==0}">
+                  <a ng-click="emoticonTab=0">
+                  <img src="web/bower_components/angular-emoji-filter/res/emoji/emoji_grinning.png"/>
+                  </a>
+                  </li>
+                  <li ng-class="{current:emoticonTab==1}">
+                  <a ng-click="emoticonTab=1">
+                  <img src="web/bower_components/angular-emoji-filter/res/emoji/emoji_rat.png"/>
+                  </a>
+                  </li>
+                  <li ng-class="{current:emoticonTab==2}">
+                  <a ng-click="emoticonTab=2">
+                  <img src="web/bower_components/angular-emoji-filter/res/emoji/emoji_hamburger.png"/>
+                  </a>
+                  </li>
+                  <li ng-class="{current:emoticonTab==3}">
+                  <a ng-click="emoticonTab=3">
+                  <img src="web/bower_components/angular-emoji-filter/res/emoji/emoji_sunny.png"/>
+                  </a>
+                  </li>
+                  <li ng-class="{current:emoticonTab==4}">
+                  <a ng-click="emoticonTab=4">
+                  <img src="web/bower_components/angular-emoji-filter/res/emoji/emoji_kiss.png"/>
+                  </a>
+                  </li>
+                  <li ng-class="{current:emoticonTab==5}">
+                  <a ng-click="emoticonTab=5">
+                  <img src="web/bower_components/angular-emoji-filter/res/emoji/emoji_rocket.png"/>
+                  </a>
+                  </li>
+                </ul>
+                <div class="tab">
+                <span ng-show="emoticonTab==0" ng-repeat="emoticon in arrayEmoticons1" ng-click="change(emoticon)" ng-mouseover="hover(emoticon)">
+                <img ng-src="{{'web/bower_components/angular-emoji-filter/res/emoji/emoji_'+emoticon+'.png'}}">
+                </img>
+                </span>
+                <span ng-show="emoticonTab==1" ng-repeat="emoticon in arrayEmoticons2" ng-click="change(emoticon)" ng-mouseover="hover(emoticon)">
+                <img ng-src="{{'web/bower_components/angular-emoji-filter/res/emoji/emoji_'+emoticon+'.png'}}">
+                </img>
+                </span>
+                <span ng-show="emoticonTab==2" ng-repeat="emoticon in arrayEmoticons3" ng-click="change(emoticon)" ng-mouseover="hover(emoticon)">
+                <img ng-src="{{'web/bower_components/angular-emoji-filter/res/emoji/emoji_'+emoticon+'.png'}}">
+                </img>
+                </span>
+                <span ng-show="emoticonTab==3" ng-repeat="emoticon in arrayEmoticons4" ng-click="change(emoticon)" ng-mouseover="hover(emoticon)">
+                <img ng-src="{{'web/bower_components/angular-emoji-filter/res/emoji/emoji_'+emoticon+'.png'}}">
+                </img>
+                </span>
+                <span ng-show="emoticonTab==4" ng-repeat="emoticon in arrayEmoticons5" ng-click="change(emoticon)" ng-mouseover="hover(emoticon)">
+                <img ng-src="{{'web/bower_components/angular-emoji-filter/res/emoji/emoji_'+emoticon+'.png'}}">
+                </img>
+                </span>
+                <span ng-show="emoticonTab==5" ng-repeat="emoticon in arrayEmoticons6" ng-click="change(emoticon)" ng-mouseover="hover(emoticon)">
+                <img ng-src="{{'web/bower_components/angular-emoji-filter/res/emoji/emoji_'+emoticon+'.png'}}">
+                </img>
+                </span>
+                </div>
+              </div>
+              <div class="icon-preview"><img ng-src="{{'web/bower_components/angular-emoji-filter/res/emoji/emoji_'+currentEmoticon+'.png'}}"/>:{{currentEmoticon}}:</div>
+            </div>
+          </div>
+        </div>
     </div>
+    <script src="web/js/jquery.textcomplete.js"></script>
+    <script src="web/js/main.js"></script>
   </body>
 </html>
