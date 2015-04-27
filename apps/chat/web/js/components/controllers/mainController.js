@@ -1,4 +1,5 @@
-//var baseUrl = 'https://demo.captains.io';
+// Todo: Move the baseUrl to globals
+var baseUrl = 'https://demo.captains.io';
 var societyProChatControllers =
 angular.module('societyProChatApp.controllers', [
   'ngMaterial',

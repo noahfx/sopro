@@ -20,11 +20,13 @@
     <script type="text/javascript" src="web/bower_components/angular-aria/angular-aria.js"></script>
     <script type="text/javascript" src="web/bower_components/angular-animate/angular-animate.js"></script>
     <script type="text/javascript" src="web/bower_components/angular-material/angular-material.js"></script>
+    <script type="text/javascript" src="web/bower_components/angular-sanitize/angular-sanitize.js"></script>
     <script src="web/js/components/services/services.js"></script>
     <script src="web/js/components/global/global.js"></script>
     <script src="web/js/components/directives/directives.js"></script>
     <script src="web/js/components/controllers/mainController.js"></script>
     <script src="web/js/components/controllers/stageController.js"></script>
+    <script src="web/js/components/controllers/cardController.js"></script>
     <script src="web/js/jquery.autosize.js" type="text/javascript"></script>
     <script src="web/bower_components/angular-emoji-filter/dist/emoji.min.js" type="text/javascript"></script>
     <script src="web/js/emoticonsService.js" type="text/javascript"></script>
@@ -79,14 +81,14 @@
     <div class="sopro-main-content" flex layout="row">
       <md-content id="sopro-collections-wrap">
 
-        <collection id="collection-favorites" channel-title="FAVORITES" userexpandable="true" icon="web/images/icon-star.png" repeater="myChannels"></collection>
+        <collection id="collection-favorites" channel-title="FAVORITES" userexpandable="true" icon="web/images/icon-star.png" repeater="favorites"></collection>
         <collection id="collection-channels" channel-title="CHANNELS" userexpandable="true" icon="web/images/icon-channels-lines.png" repeater="myChannels"></collection>
         <collection id="collection-peers" channel-title="MEMBERS" icon="web/images/icon-peers-circle.png" repeater="peers">
           <!--
           <span id="collection-peers-create" class="collection-create-link">+ Add Peer</span>
           -->
         </collection>
-        <collection id="collection-private" channel-title="PRIVATE CHANNELS" icon="web/images/icon-lock.png" repeater="myChannels"></collection>
+        <collection id="collection-private" channel-title="PRIVATE CHANNELS" icon="web/images/icon-lock.png" repeater="privateChannels"></collection>
         <collection id="collection-decks" channel-title="DECKS" icon="web/images/icon-decks.png" repeater="myChannels"></collection>
         <a id="more-unread">more unread</a>
       </md-content>
@@ -95,7 +97,6 @@
       <md-content flex layout="column" layout-wrap id="main-stage" ng-controller="stageController">
         <ng-include layout="column" flex="{{card.size}}" flex-md="100" ng-repeat="card in stageCards" src="card.template" ng-if="$first"></ng-include>
         <ng-include layout="column" flex="{{creationCard.size}}" flex-md="100" src="creationCard.template" ng-show="creationCard.show"></ng-include>
-      </md-content>
         <md-content class="messages-container ng-scope md-default-theme" id="messages-container" layout="column" layout-align="end start" flex>
           <ng-include src="'web/partials/oneTextMessage.html'" ng-repeat="message in messageHistory.messages" on-finish-render="" class="ng-scope">
           <!-- 
@@ -185,6 +186,7 @@
             </div>
           </div>
         </div>
+      </md-content>
     </div>
     <script src="web/js/jquery.textcomplete.js"></script>
     <script src="web/js/main.js"></script>
