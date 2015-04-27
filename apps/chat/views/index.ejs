@@ -1,7 +1,6 @@
 <html ng-app="societyProChatApp">
   <head>
     <title>SocietyPro Chat</title>
-
 <!--   Styles    -->
     <link href='web/bower_components/angular-emoji-filter/dist/emoji.min.css' rel='stylesheet' type='text/css'>
     <link href="web/styles/jquery.textcomplete.css" rel="stylesheet" type="text/css">
@@ -94,7 +93,8 @@
       <sopro-collections-dropdown ng-show="showCollectionsOverflow" class="md-whiteframe-z2"></sopro-collections-dropdown>
       <sopro-subscribers-dropdown ng-show="showSubscribersOverflow" class="md-whiteframe-z2"></sopro-subscribers-dropdown>
       <md-content flex layout="column" layout-wrap id="main-stage" ng-controller="stageController">
-        <ng-include layout="column" flex="50" flex-md="100" ng-repeat="card in stageCards" src="card.template"></ng-include>
+        <ng-include layout="column" flex="{{card.size}}" flex-md="100" ng-repeat="card in stageCards" src="card.template" ng-if="$first"></ng-include>
+        <ng-include layout="column" flex="{{creationCard.size}}" flex-md="100" src="creationCard.template" ng-show="creationCard.show"></ng-include>
       </md-content>
         <md-content class="messages-container ng-scope md-default-theme" id="messages-container" layout="column" layout-align="end start" flex>
           <ng-include src="'web/partials/oneTextMessage.html'" ng-repeat="message in messageHistory.messages" on-finish-render="" class="ng-scope">

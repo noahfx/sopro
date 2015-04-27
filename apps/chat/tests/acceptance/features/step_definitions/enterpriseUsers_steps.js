@@ -32,7 +32,6 @@ var enterpriseUsers_steps = module.exports = function() {
         fs.readFileSync("./couchdb/mocks/identity1.json", 'utf8')
       );
       if (currentUser.identities.length === 1) {
-        next();
         if (currentUser.identities[0].identityid === expectedIdentity.identityid) {
           next();
         } else {

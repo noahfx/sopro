@@ -7,9 +7,10 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
   app.sopro.package = JSON.parse(packageJSON);
 
   /*
-   * HTTPS ROUTING
+   * MIDDLEWARE FUNCTIONS
    */
 
+  // Verify the request is https and redirect otherwise:
   function requireSecure(req, res, next){
     if(!req.secure){
       var port = +app.sopro.servers.express.sslPort || 443;
@@ -25,6 +26,20 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
     };
   }
 
+  // Verify that this request is for a logged in user:
+  function requireLogin(req, res, next){
+    if(!req.user){
+      // Save the URL they wanted:
+      req.session.bounceUrl = req.originalUrl;
+      return res.redirect('/login');
+    };
+    next();
+  }
+
+  /*
+   *  REQUEST CONFIG MIDDLEWARES:
+   */
+
   app.all('*', requireSecure);
   app.all('*', function(req, res, next){
     if(req.user && req.session){
@@ -32,6 +47,7 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
     }
     res.locals.features = app.sopro.features;
     res.locals.version = app.sopro.package.version;
+    res.locals.config = app.sopro;
     if(req.user){
       // Load permissions
       res.locals.currentUser = JSON.stringify(req.user);
@@ -51,37 +67,6 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
       next();
     }
   })
-
-  /*
-   * HTTP REQUEST AUTHENTICATION
-   */
-
-  // Verify that this request is for a logged in user:
-  function requireLogin(req, res, next){
-    if(!req.user){
-      // Save the URL they wanted:
-      req.session.bounceUrl = req.originalUrl;
-      return res.redirect('/login');
-    };
-    next();
-  }
-
-
-  function ensureAuthed(req, res, next){
-    var sessionCookie = req.header('Cookie');
-    if(sessionCookie === undefined){
-      res.status(401).send()
-    }
-  }
-
-  /*
-   *  REQUEST CONFIG MIDDLEWARES:
-   */
-
-   app.all('*', function(req, res, next){
-     res.locals.config = app.sopro;
-     next();
-   })
 
   /*
    *  DEVELOPMENT ROUTES
@@ -269,7 +254,7 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
         console.log(err)
         return res.status(500).json({
           ok: false,
-          error: 'server error'
+          error: 'server_error'
         })
       }
       res.status(200).json({
@@ -278,6 +263,7 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
       })
     })
   })
+
 
   app.post('/api/users', sopro.routes.createUser)
 
@@ -555,6 +541,76 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
    *  MESSAGES API ROUTES
    */
 
+  app.get('/api/channel.history', function(req, res, next){
+    async.waterfall([
+      // Construct opts object:
+      function(done){
+        if(req.query['channel'] === undefined
+        || req.query['channel'] === "") {
+          return done([400, 'invalid_request', 'channel field is required in query string'])
+        } else {
+          return done(null, {
+            channel: req.query['channel']
+          });
+        }
+      },
+      // Look for the channel by name and id:
+      function(opts, done){
+        // Try by ID:
+        sopro.helpers.channelByNameOrId(opts.channel, function(err, channel){
+        if (err){
+          return done(err);
+        }
+          opts.channelObj = channel;
+          done(null, opts);
+        });
+      },
+      // Check if the current identity is a member of that channel
+      function(opts, done){
+        // Load the identity:
+        PI.read(req.session.userId, function(err, result){
+          if(err){
+            console.log(err)
+            return done([500, 'server_error']);
+          }
+          var channelFound =
+            result.channels.indexOf(opts.channelObj._id) !== -1;
+          if(!channelFound){
+            return done([404, 'not_found'])
+          } else {
+            return done(null, opts);
+          }
+        })
+      },
+      // Find all messages in the channel
+      function(opts, done){
+        PI.find("message", "channelid", opts.channelObj._id, function(err, results){
+          if(err){
+            console.log(err)
+            return done([500, 'server_error']);
+          }
+          opts.messages = results;
+          done(null, opts);
+        });
+      }
+      // Craft and save a message object for that channel:
+    ], function(err, opts){
+      if(err){
+        return res.status(err[0]).json({
+          ok: false,
+          error: err[1],
+          message: err[2],
+        })
+      } else {
+        return res.status(200).json({
+          ok: true,
+          messages : opts.messages,
+          channel : opts.channelObj
+        })
+      }
+    })
+  })
+
   app.post('/api/postMessage', function(req, res, next){
     async.waterfall([
       // Construct opts object:
@@ -570,6 +626,7 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
             channel: req.body.channel,
             text: req.body.text,
             authorid: req.session.userId,
+            tsMs: new Date().valueOf(),
           });
         }
       },
@@ -620,15 +677,23 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
           done(null, opts);
         })
       },
+
       // Craft and save a message object for that channel:
       function(opts, done){
+        // Convert ms timestamp to s timestamp:
+        var tsS = opts.tsMs / 1000;
+        // Cast to string:
+        tsS = String(tsS);
+        // Strip any decimals after the first 3:
+        tsS = tsS.replace(/^(\d+\.\d\d\d)\d+$/, "$1");
         var data = {
           soproModel: 'message',
           channelid: opts.channelObj._id,
           authorid: opts.authorid,
           text: opts.text,
+          ts: tsS,
         }
-        PI.create('channel', data, function(err, result){
+        PI.create('message', data, function(err, result){
           if(err){
             console.log(err);
             return done([500, 'server_error']);

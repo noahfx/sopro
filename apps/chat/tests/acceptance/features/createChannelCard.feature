@@ -10,7 +10,7 @@ Feature: Create a new channel card
       And the card should be in the number 1 position on the main stage
 
   Scenario: closing open create/add cards when "+ add a channel" is clicked
-      And there is an open "create channel" card on the main stage
+    Given there is an open "create channel" card on the main stage
     When I select "+ Add Channel"
     Then I should see a blank channel creation card
 

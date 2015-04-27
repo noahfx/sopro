@@ -39,6 +39,10 @@
     },
     "channel_by_name" : {
       "map" : "function(doc){ if(doc.soproModel==='channel'){ emit( doc.name, doc) }}"
+    },
+    "message_by_channelid" : {
+      "map" : "function(doc){ if(doc.soproModel==='message'){ emit( doc.channelid, doc) }}"
     }
+
   }
 }

@@ -1,0 +1,8 @@
+{
+  "_id": "random-message-01",
+  "soproModel": "message",
+  "channelid": "channel-random",
+  "authorid": "abc",
+  "text": "A mock message",
+  "ts": "946684800"
+}

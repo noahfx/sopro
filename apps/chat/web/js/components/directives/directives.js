@@ -152,6 +152,14 @@ angular.module('societyProChatApp.directives',[
         $rootScope.$broadcast("createChannelClicked");
       };
 
+      $scope.openChannelHistory = function ($event, channel) {
+        var data = {
+          e:$event,
+          channel: channel
+        }
+        $rootScope.$broadcast("openChannelHistoryClicked",data);
+      };
+
       $scope.openCollectionsOverflow = function ($event) {
         $rootScope.$broadcast("POO.click.collections", {
           fromElement: $event.target,
@@ -174,7 +182,7 @@ angular.module('societyProChatApp.directives',[
     restrict: 'E',
     transclude: true,
     scope: {},
-    controller: function ($rootScope, $scope, $element, $animate, $window) {
+    controller: function ($rootScope, $scope, $element, $animate, $window, $timeout) {
 
       $scope.openSubscribersOverflow = function(e, item, title){
         filterOnlyChannelClicks($rootScope, e, item, title);
@@ -196,9 +204,9 @@ angular.module('societyProChatApp.directives',[
         $scope.fromElement = data.fromElement;
         $($scope.fromElement).addClass('poo-highlight-collection');
         var positions = positionDropdown(data.repeater.length, $scope.fromElement);
-        setTimeout(function () {
+        $timeout(function () {
           drawDropdown($animate, $element, positions, 2);
-        },100);
+        });
       });
 
       $scope.$on('collections.overflow.close', function (){
@@ -213,13 +221,13 @@ angular.module('societyProChatApp.directives',[
     restrict: 'E',
     transclude: true,
     scope: {},
-    controller: function ($rootScope, $scope, $element, $http, $animate, $window) {
+    controller: function ($rootScope, $scope, $element, $http, $animate, $window, $timeout) {
 
       $scope.$on('collections.overflow.close', function(){
         console.log('Subscribers dropdown closing after hearing collections dropdown closing.');
 
         $rootScope.$broadcast('subscribers.overflow.close')
-      })
+      });
 
       var win = angular.element($window);
       win.bind("resize",function(e){
@@ -233,7 +241,10 @@ angular.module('societyProChatApp.directives',[
         console.log(data);  
         $scope.dropdownTitle = data.title;
         $scope.fromElement = data.fromElement;
-        $($scope.fromElement.parentElement).addClass('poo-highlight-subscriber');
+        if (!$($scope.fromElement).hasClass("channel-item")) {
+          $scope.fromElement = $scope.fromElement.parentElement;
+        }
+        $($scope.fromElement).addClass('poo-highlight-subscriber');
         $http({
           method: 'GET',
           url: baseUrl + '/api/channel.info',
@@ -251,8 +262,10 @@ angular.module('societyProChatApp.directives',[
           console.log(data);
           if (data.ok) {
             $scope.repeater = data.channel.members;
-            var positions = positionDropdown(data.channel.members.length, $scope.fromElement);
-            drawDropdown($animate, $element, positions, 1);
+            $timeout(function(){
+              var positions = positionDropdown(data.channel.members.length, $scope.fromElement);
+              drawDropdown($animate, $element, positions, 1);
+            });
           }
         })
         .error(function(data, status, headers, config) {
@@ -270,4 +283,94 @@ angular.module('societyProChatApp.directives',[
     },
     templateUrl: 'web/partials/dropdown.html'
   };
+})
+// Thanks @Rob:
+// http://stackoverflow.com/a/20445344/1380669
+.directive('sglclick', ['$parse', function($parse) {
+  return {
+    restrict: 'A',
+    link: function(scope, element, attr) {
+      var fn = $parse(attr['sglclick']);
+      var delay = 300, clicks = 0, timer = null;
+      element.on('click', function (event) {
+        clicks++;  //count clicks
+        if(clicks === 1) {
+          timer = setTimeout(function() {
+            scope.$apply(function () {
+              fn(scope, { $event: event });
+            }); 
+            clicks = 0;             //after action performed, reset counter
+          }, delay);
+          } else {
+            clearTimeout(timer);    //prevent single-click action
+            clicks = 0;             //after action performed, reset counter
+          }
+      });
+    }
+  };
+}])
+.directive('scrollToLast', function () {
+  return {
+    restrict: 'A',
+    link: function (scope, element, attr) {
+      if (scope.$last === true) {
+        element[0].scrollIntoView();
+      }
+    }
+  }
+});
+  drawDropdown($animate, $element, positions, 1);
+            });
+          }
+        })
+        .error(function(data, status, headers, config) {
+          // called asynchronously if an error occurs
+          // or server returns response with an error status.
+          console.log(data);
+        });
+      });
+
+
+      $scope.$on('subscribers.overflow.close', function (){
+        $('.poo-highlight-subscriber').removeClass('poo-highlight-subscriber');
+      });
+
+    },
+    templateUrl: 'web/partials/dropdown.html'
+  };
+})
+// Thanks @Rob:
+// http://stackoverflow.com/a/20445344/1380669
+.directive('sglclick', ['$parse', function($parse) {
+  return {
+    restrict: 'A',
+    link: function(scope, element, attr) {
+      var fn = $parse(attr['sglclick']);
+      var delay = 300, clicks = 0, timer = null;
+      element.on('click', function (event) {
+        clicks++;  //count clicks
+        if(clicks === 1) {
+          timer = setTimeout(function() {
+            scope.$apply(function () {
+              fn(scope, { $event: event });
+            }); 
+            clicks = 0;             //after action performed, reset counter
+          }, delay);
+          } else {
+            clearTimeout(timer);    //prevent single-click action
+            clicks = 0;             //after action performed, reset counter
+          }
+      });
+    }
+  };
+}])
+.directive('scrollToLast', function () {
+  return {
+    restrict: 'A',
+    link: function (scope, element, attr) {
+      if (scope.$last === true) {
+        element[0].scrollIntoView();
+      }
+    }
+  }
 });

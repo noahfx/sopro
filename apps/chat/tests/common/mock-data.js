@@ -110,6 +110,30 @@ module.exports = CAM_MOCKS = {
     email: "societyprotest@gmail.com",
     username: "societyProTest",
     realname: "SoPro I AM",
-    emailPassword: "soProEncriptedPassword" 
+    emailPassword: "soProEncriptedPassword"
   }
-}
+  ,
+  channelHistoryResponse : {
+    ok : true,
+    messages : [
+      {
+        ts : '1939400',
+        text : "New"
+      },
+      {
+        ts : '1939200',
+        text : "Old"
+      }
+    ],
+    channel : {}
+  },
+  postMessageResponse: {
+    "ok": true,
+    "message": {
+      "_id": "unique-message-id",
+      "channelid": "unique-channel-id",
+      "authorid": "unique-identity-id",
+      "text": "message text"
+    }
+  }
+};

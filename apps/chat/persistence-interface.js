@@ -11,22 +11,27 @@ module.exports = function(){
   function ensureId(action, data){
     if(data._id === undefined){
       switch (action) {
-        case "create": 
+        case "create":
           data._id = uuid.v4();
           break;
         case "update":
           throw new Error("No _id field specified in update");
-          break; 
+          break;
       }
     }
     return data;
   };
 
   function ensureModel(data, model){
-    if(model === 'undefined'){
+    if(model === undefined){
       throw new Error('Trying to ensure an undefined model')
     }
-    if(data.soproModel === undefined){
+    if(data.soproModel !== undefined){
+      if(data.soproModel !== model){
+        throw new Error('Expected and actual model did not match')
+      };
+    } else {
+      // Data did not have a soproModel. Set it:
       data.soproModel = model;
     }
     return data;
@@ -37,10 +42,10 @@ module.exports = function(){
     data = ensureModel(data, model);
     async.mapSeries(PI.adapters, function(adapter, done){
       if (action == "create") {
-        adapter.create(model, data, done);  
+        adapter.create(model, data, done);
       } else if (action == "update") {
         adapter.update(data, done);
-      } 
+      }
     }, function(err, results){
       if(err){
         return callback(err);
