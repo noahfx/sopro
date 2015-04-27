@@ -44,8 +44,8 @@ body > md-toolbar {
 
 #member-name {
   color: #999999;
-  padding-left: 15px;
-  font-size: 18px;
+  padding-left: 30px;
+  font-size: 22px;
 }
 
 #member-name strong {
@@ -60,9 +60,9 @@ body > md-toolbar {
   line-height: 30px;
   padding: 0 15px 0 30px;
   color: #959595;
-  -webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
-  border-radius: 2px;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
   background: url(../images/search-icon.png) no-repeat 10px center;
 }
 
@@ -81,6 +81,8 @@ body > md-toolbar {
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
   border-radius: 50%;
+  width: 35px;
+  height: 35px;
 }
 
 #role-selection .roleLabel{
@@ -103,6 +105,11 @@ body > md-toolbar {
   margin: 15px 10px 0 0;
   float: right;
   padding: 10px 0px 10px 0px;
+  
+  -webkit-box-shadow: 0 0 1px rgba(0,0,0,0.04),0 2px 8px rgba(0,0,0,0.1) !important;
+  -moz-box-shadow:    0 0 1px rgba(0,0,0,0.04),0 2px 8px rgba(0,0,0,0.1) !important;
+  box-shadow:         0 0 1px rgba(0,0,0,0.04),0 2px 8px rgba(0,0,0,0.1) !important;
+  border: 1px solid #dadada;
 }
 
 .sopro-role-panel a {
@@ -116,6 +123,7 @@ body > md-toolbar {
 
 .sopro-role-panel a:hover {
   background: #f2f2f5;
+  color: #333333;
 }
 
 #hamburguer {
@@ -130,7 +138,7 @@ body > md-toolbar {
 }
 
 #hamburguer:hover {
-  background-color: #f7f7f5;
+  background-color: #f2f2f5;
 }
 
 .sopro-arrow-role-panel{
@@ -183,7 +191,7 @@ collection {
 }
 
 .sopro-collection-title{
-  height: 32px;
+  height: 25px;
   padding-left: 15px;
   font-size: 13px;
   color: rgba(175, 175, 175, 1);
@@ -244,7 +252,7 @@ color: rgba(204, 204, 204, 1);
   -moz-border-radius: 20px;
   border-radius: 20px;
   position: absolute;
-  right: 0;
+  right: 2px;
   top: 2px;
 }
 
@@ -260,16 +268,15 @@ color: rgba(204, 204, 204, 1);
  left: 15px;
  bottom: 0;
  width: 200px;
- -webkit-border-top-left-radius: 2px;
-  -webkit-border-top-right-radius: 2px;
-  -moz-border-radius-topleft: 2px;
-  -moz-border-radius-topright: 2px;
-  border-top-left-radius: 2px;
-  border-top-right-radius: 2px;
-  
+ -webkit-border-top-left-radius: 4px;
+  -webkit-border-top-right-radius: 4px;
+  -moz-border-radius-topleft: 4px;
+  -moz-border-radius-topright: 4px;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
   -webkit-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
--moz-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
+  box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
 }
 
 
@@ -313,7 +320,7 @@ box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75);
 }
 
 #main-stage {
-  margin: 20px 16px;
+  margin: 20px 20px 20px 30px;
   background-color: inherit;
 }
 
@@ -392,7 +399,15 @@ sopro-collections-dropdown, sopro-subscribers-dropdown {
 
 sopro-collections-dropdown{
   z-index: 5;
+  -webkit-box-shadow: 0 0 1px rgba(0,0,0,0.04),0 2px 8px rgba(0,0,0,0.1) !important;
+  -moz-box-shadow:    0 0 1px rgba(0,0,0,0.04),0 2px 8px rgba(0,0,0,0.1) !important;
+  box-shadow:         0 0 1px rgba(0,0,0,0.04),0 2px 8px rgba(0,0,0,0.1) !important;
+  border: 1px solid #dadada;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
 }
+  
 
 sopro-subscribers-dropdown{
   z-index: 10;
@@ -439,9 +454,18 @@ sopro-subscribers-dropdown{
    position: relative; 
 }
 
+.sopro-dropdown-collection-wrap li {
+  -webkit-border-top-right-radius: 2px;
+  -webkit-border-bottom-right-radius: 2px;
+  -moz-border-radius-topright: 2px;
+  -moz-border-radius-bottomright: 2px;
+  border-top-right-radius: 2px;
+  border-bottom-right-radius: 2px;
+}
+
 
 .sopro-dropdown-collection-wrap li:hover {
-    background-color: rgba(0, 0, 0, 0.05);
+    background-color: #f2f2f5;
     color: rgba(0, 0, 0, 1);
     cursor: pointer;
 }

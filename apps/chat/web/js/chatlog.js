@@ -127,7 +127,7 @@ var appModule = angular.module("chatlog", ['ngMaterial','ngRoute', 'ngSanitize',
             }));
         },
         template: function (value) {
-            return '<img src="avatars/avatar1.png"></img>' + value + '<span class="offline"></span>';
+            return '<img src="web/avatars/avatar1.png"></img>' + value + '<span class="offline"></span>';
         },
         replace: function (mention) {
             return '@' + mention + ' ';

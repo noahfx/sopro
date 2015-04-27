@@ -56,6 +56,10 @@ angular.module('societyProChatApp.controllers',['ngMaterial', 'ngAnimate', 'soci
     name: "people-interns"
   }
   ]
+  $scope.isAvatarMessage = function (i) {
+        if (i == 0) return true;
+        return $scope.messageHistory.messages[i].user != $scope.messageHistory.messages[i-1].user;
+    };
   
   //JQUERY --------------------------------------------------------------
     /* Emoticon Dropdown */

@@ -78,7 +78,7 @@ span.star:hover {
 }
 .message {
 	min-height: 1rem;
-	padding: 5px 5px 0px 55px;
+	padding: 0 5px 0px 55px;
 	margin-right: 20px;
 	position: relative;
 }
@@ -112,6 +112,7 @@ span.star:hover {
 .message-inner {
 	display: block;
 	word-break: break-word;
+	margin: 3px 0;
 }
 
 /* Edit/Delete Dropdown */
@@ -152,10 +153,9 @@ span.star:hover {
 /* Footer */
 
 .footer {
-	position: fixed;
+	position: relative;
 	background: #fff;
 	min-height: 36px;
-	bottom: 0;
 }
 .footer-inner {
 	position: relative;

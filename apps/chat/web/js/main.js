@@ -172,7 +172,7 @@ var emojies = [
                 }));
             },
             template: function (value) {
-                return '<img src="emoticons/' + value + '.png"></img>' + value;
+                return '<img src="web/bower_components/angular-emoji-filter/res/emoji/emoji_' + value + '.png"></img>' + value;
             },
             replace: function (value) {
                 return ':' + value + ': ';
