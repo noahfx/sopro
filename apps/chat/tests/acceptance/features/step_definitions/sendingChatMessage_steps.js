@@ -14,7 +14,7 @@ module.exports = function () {
     SSTEPS.viewingListOfChannels.fn);
 
   this.When(/^I open the channel history$/, function (next) {
-    element.all(by.css("#collection-channels > div.channel-collection > ul > li"))
+    element.all(by.css("#collection-channels .channel-item"))
     .get(0)
     .click()
     .then(function(){setTimeout(next,1500)});

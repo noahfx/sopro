@@ -1,9 +1,13 @@
 var CAM_MOCKS = require('../../../common/mock-data.js');
 var SSTEPS = require('../../shared_steps.js');
 
+function delay(callback){
+  setTimeout(callback, 2500);
+}
+
 var channelSubscriberDropdown_steps = module.exports = function(){
 
-  this.Given(SSTEPS.appStarted.regex, SSTEPS.appStarted.fn)
+  this.Given(SSTEPS.viewingListOfChannels.regex, SSTEPS.viewingListOfChannels.fn);
   
   this.When(/^I select a channel from the list$/, function (next) {
     browser
@@ -14,15 +18,14 @@ var channelSubscriberDropdown_steps = module.exports = function(){
   });
 
   this.Then(/^I should see a list of channel subscribers$/, function (next) {
-    setTimeout(function () {
-      element(by.css("sopro-subscribers-dropdown")).isDisplayed()
-      .then(function(isDisplayed) {
-        if (isDisplayed) {
-          next();
-        } else {
-          next.fail(new Error("Subscribers Dropdown is not being displayed"));
-        }
-      });
-    }, 1000);
+    element(by.css("sopro-subscribers-dropdown"))
+    .isDisplayed()
+    .then(function(isDisplayed) {
+      if (isDisplayed) {
+        next();
+      } else {
+        next.fail(new Error("Subscribers Dropdown is not being displayed"));
+      }
+    });
   });
 }

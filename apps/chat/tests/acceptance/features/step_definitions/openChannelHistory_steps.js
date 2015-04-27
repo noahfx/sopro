@@ -6,7 +6,7 @@ module.exports = function () {
 	this.Given(SSTEPS.viewingListOfChannels.regex, SSTEPS.viewingListOfChannels.fn);
 
 	this.When(/^I click on a channel item$/, function (next) {
-		element.all(by.css("#collection-channels > div.channel-collection > ul > li"))
+		element.all(by.css("#collection-channels .channel-item"))
 		.get(0)
 		.click()
 		.then(function(){setTimeout(next,1500)});

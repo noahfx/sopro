@@ -14,10 +14,7 @@ var clickAddChannelButton = function(next){
   .perform();
 
   element(by.css('#collection-channels .channel-create-link'))
-  .then(function(el){
-    el.click();
-    next();
-  })
+  .click().then(next);
 }
 
 // /^I should( not)? see a( blank)? channel creation card$/

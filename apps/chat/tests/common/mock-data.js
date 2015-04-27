@@ -12,12 +12,13 @@ module.exports = CAM_MOCKS = {
     "channels": [
       {
         "id": "C024BE91L",
-        "name": "random"
+        "name": "general"
       },
       {
         "id": "C024BE91L",
-        "name": "general"
+        "name": "random"
       }
+      
     ],
     "peers": [
       {"id": "C024BE91L","name": "andrew"},{"id": "C024BE91L","name": "bob"},{"id": "C024BE91L","name": "charlie"},{"id": "C024BE91L","name": "david"},{"id": "C024BE91L","name": "eli"},

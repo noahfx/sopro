@@ -24,8 +24,7 @@ module.exports = {
       var roleIndex = (arg1 == undefined)? 0: 1;
       changeIdentity(roleIndex)
       .then(function(){
-        element.all(by.css('#collection-channels > div.channel-collection > ul > li.sopro-config-collection-link.sopro-more-channels'))
-        .get(0)
+        element(by.css('#collection-channels li.sopro-config-collection-link.sopro-more-channels'))
         .isDisplayed()
         .then(function (isDisplayed) {
           if (arg1) {

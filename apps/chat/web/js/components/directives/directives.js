@@ -217,6 +217,7 @@ angular.module('societyProChatApp.directives',[
           e:$event,
           channel: channel
         }
+        $rootScope.$broadcast('collections.overflow.close');
         $rootScope.$broadcast("openChannelHistoryClicked",data);
       };
 

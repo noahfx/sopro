@@ -91,11 +91,17 @@ function clickPOO(arg1, arg2, next){
   var isNested = arg2 ? true : false;
   var css = findPOOCSS(isSecond, isNested);
 
-  element(by.css(css))
-  .click()
-  .then(function(){
-    return next();
-  });
+  if (isNested) {
+    browser
+    .actions()
+    .doubleClick(element(by.css(css)))
+    .perform()
+    .then(next);
+  } else {
+    element(by.css(css))
+    .click()
+    .then(next);
+  }
 }
 
 //   /^the( second)?( nested)? dropdown is already visible$/,
@@ -126,8 +132,10 @@ function openDropdown(isSecond, isNested, next){
       .then(delay(function(){
         // continue by opening the first nested dropdown:
         var css = findPOOCSS(false, true);
-        element(by.css(css))
-        .click()
+        browser
+        .actions()
+        .doubleClick(element(by.css(css)))
+        .perform()
         .then(delay(next));
       }));
     }
@@ -146,8 +154,10 @@ function openDropdown(isSecond, isNested, next){
       .then(delay(function(){
         // continue by opening the second nested dropdown:
         var css = findPOOCSS(true, true);
-        element(by.css(css))
-        .click()
+        browser
+        .actions()
+        .doubleClick(element(by.css(css)))
+        .perform()
         .then(delay(next));
       }));
     }

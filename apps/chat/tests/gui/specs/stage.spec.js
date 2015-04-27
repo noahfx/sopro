@@ -89,6 +89,7 @@ describe("Main Stage",function  () {
     });
 
     describe("Channel History Card", function () {
+      var addChannelButton = els.addChannelButtons.first();
       it("replaces the Channel Creation Card", function(){
         els.createChannelCardTitle.sendKeys(CAM_MOCKS.newChannelName);
         els.createChannelCardCreate.click();
@@ -101,7 +102,7 @@ describe("Main Stage",function  () {
           .element(by.css('header .title'))
           .getText()
         ).toEqual(CAM_MOCKS.newChannelName);
-      })
+      });
     });
   });
 });
