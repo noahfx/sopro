@@ -9,7 +9,7 @@
         ng-repeat="item in repeater"
         sglclick="openChannelHistory($event, item)"
         ng-dblclick="openSubscribersOverflow($event, item, dropdownTitle)"
-        last-to-render
+        ng-init="lastToRender($last)"
         >
           {{item.name}}
         </li>

@@ -195,7 +195,6 @@ angular.module('societyProChatApp.directives',[
     transclude: true,
     scope: {},
     controller: function ($rootScope, $scope, $element, $animate, $window, $timeout) {
-
       $scope.openSubscribersOverflow = function(e, item, title){
         filterOnlyChannelClicks($rootScope, e, item, title);
       }
@@ -235,6 +234,8 @@ angular.module('societyProChatApp.directives',[
       $scope.$on('collections.overflow.close', function (){
         $('.poo-highlight-collection').removeClass('poo-highlight-collection');
       });
+
+      $scope.lastToRender = function () {};
     },
     templateUrl: 'web/partials/dropdown.html'
   };
@@ -245,6 +246,11 @@ angular.module('societyProChatApp.directives',[
     transclude: true,
     scope: {},
     controller: function ($rootScope, $scope, $element, $http, $animate, $window, $timeout) {
+      $scope.lastToRender = function (isLast) {
+        if (isLast) {
+          $rootScope.$broadcast("POO.click.subscribers.show");
+        }
+      }
 
       $scope.$on('collections.overflow.close', function(){
 
@@ -333,16 +339,6 @@ angular.module('societyProChatApp.directives',[
     link: function (scope, element, attr) {
       if (scope.$last === true) {
         element[0].scrollIntoView();
-      }
-    }
-  }
-})
-.directive('lastToRender', function () {
-  return {
-    restrict: 'A',
-    link: function (scope, element, attr) {
-      if (scope.$last === true) {
-        scope.$emit("POO.click.subscribers.show");
       }
     }
   }
