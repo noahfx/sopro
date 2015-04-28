@@ -41,7 +41,10 @@
       "map" : "function(doc){ if(doc.soproModel==='channel'){ emit( doc.name, doc) }}"
     },
     "message_by_channelid" : {
-      "map" : "function(doc){ if(doc.soproModel==='message'){ emit( doc.channelid, doc) }}"
+      "map" : "function(doc){ if(doc.soproModel==='message' && doc.channelId !== undefined){ emit( doc.channelId, doc) }}"
+    },
+    "direct_messages": {
+      "map" : "function(doc){ if(doc.soproModel==='message' && doc.receiverId !== undefined){ emit( [doc.authorId, doc.receiverId], doc); emit( [doc.receiverId, doc.authorId], doc); }}"
     }
 
   }

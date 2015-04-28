@@ -21,12 +21,12 @@ module.exports = CAM_MOCKS = {
       
     ],
     "peers": [
-      {"id": "C024BE91L","name": "andrew"},{"id": "C024BE91L","name": "bob"},{"id": "C024BE91L","name": "charlie"},{"id": "C024BE91L","name": "david"},{"id": "C024BE91L","name": "eli"},
-      {"id": "C024BE91L","name": "austin"},{"id": "C024BE91L","name": "bojangles"},{"id": "C024BE91L","name": "cathy"},{"id": "C024BE91L","name": "dillon"},{"id": "C024BE91L","name": "elsie"},
-      {"id": "C024BE91L","name": "arthur"},{"id": "C024BE91L","name": "babushka"},{"id": "C024BE91L","name": "communism"},{"id": "C024BE91L","name": "dustin"},{"id": "C024BE91L","name": "enigma"},
-      {"id": "C024BE91L","name": "alexandra"},{"id": "C024BE91L","name": "boston"},{"id": "C024BE91L","name": "clark"},{"id": "C024BE91L","name": "darleen"},{"id": "C024BE91L","name": "ello"},
-      {"id": "C024BE91L","name": "anonymous"},{"id": "C024BE91L","name": "bill"},{"id": "C024BE91L","name": "canadian"},{"id": "C024BE91L","name": "doogie"},{"id": "C024BE91L","name": "ermagerd"},
-      {"id": "C024BE91L","name": "ayrton"},{"id": "C024BE91L","name": "badbear"},{"id": "C024BE91L","name": "chekhov"},{"id": "C024BE91L","name": "deckard"},{"id": "C024BE91L","name": "elaine"},
+      {"_id": "xyz","name": "thomas"},{"_id": "C024BE91L","name": "bob"},{"_id": "C024BE91L","name": "charlie"},{"_id": "C024BE91L","name": "david"},{"_id": "C024BE91L","name": "eli"},
+      {"_id": "C024BE91L","name": "austin"},{"_id": "C024BE91L","name": "bojangles"},{"_id": "C024BE91L","name": "cathy"},{"_id": "C024BE91L","name": "dillon"},{"_id": "C024BE91L","name": "elsie"},
+      {"_id": "C024BE91L","name": "arthur"},{"_id": "C024BE91L","name": "babushka"},{"_id": "C024BE91L","name": "communism"},{"_id": "C024BE91L","name": "dustin"},{"_id": "C024BE91L","name": "enigma"},
+      {"_id": "C024BE91L","name": "alexandra"},{"_id": "C024BE91L","name": "boston"},{"_id": "C024BE91L","name": "clark"},{"_id": "C024BE91L","name": "darleen"},{"_id": "C024BE91L","name": "ello"},
+      {"_id": "C024BE91L","name": "anonymous"},{"_id": "C024BE91L","name": "bill"},{"_id": "C024BE91L","name": "canadian"},{"_id": "C024BE91L","name": "doogie"},{"_id": "C024BE91L","name": "ermagerd"},
+      {"_id": "C024BE91L","name": "ayrton"},{"_id": "C024BE91L","name": "badbear"},{"_id": "C024BE91L","name": "chekhov"},{"_id": "C024BE91L","name": "deckard"},{"_id": "C024BE91L","name": "elaine"},
     ]
   },
   getChannelsResponse2: {
@@ -47,16 +47,16 @@ module.exports = CAM_MOCKS = {
     ],
     "peers": [
       {
-        "id": "C024BE91L",
-        "name": "davis"
+        "_id": "abc",
+        "name": "louise"
       },
       {
-        "id": "C024BE91L",
-        "name": "jhon"
+        "_id": "xyz",
+        "name": "thomas"
       },
       {
-        "id": "C024BE91L",
-        "name": "jhon"
+        "_id": "foobar",
+        "name": "Foo Bar"
       }
     ]
   },

@@ -165,12 +165,11 @@ angular.module('societyProChatApp.directives',[
       };
 
       $scope.openPeerHistory = function ($event, peer) {
-        return;
         var data = {
           e:$event,
-          channel: peer
+          peer: peer
         }
-        $rootScope.$broadcast("openChannelHistoryClicked",data);
+        $rootScope.$broadcast("openPeerHistoryClicked",data);
       };
 
       $scope.openCollectionsOverflow = function ($event) {
@@ -208,6 +207,14 @@ angular.module('societyProChatApp.directives',[
         }
       });
 
+      $scope.openCardHistory = function ($event, channel) {
+        if (channel.soproModel === 'channel') {
+          $scope.openChannelHistory($event,channel);
+        } else {
+          $scope.openPeerHistory($event, channel);
+        }
+      }
+
       $scope.openChannelHistory = function ($event, channel) {
         if (channel.soproModel !== 'channel') {
           return;
@@ -218,6 +225,15 @@ angular.module('societyProChatApp.directives',[
         }
         $rootScope.$broadcast('collections.overflow.close');
         $rootScope.$broadcast("openChannelHistoryClicked",data);
+      };
+
+      $scope.openPeerHistory = function ($event, peer) {
+        var data = {
+          e:$event,
+          peer: peer
+        }
+        $rootScope.$broadcast('collections.overflow.close');
+        $rootScope.$broadcast("openPeerHistoryClicked",data);
       };
 
       $scope.$on("POO.click.collections", function ($event, data) {
