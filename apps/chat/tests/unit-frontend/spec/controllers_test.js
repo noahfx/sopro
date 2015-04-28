@@ -74,6 +74,8 @@ describe("societyProChat Controllers", function() {
         }
       };
       controller = createController('historyCardController');
+      httpBackend.expect('GET', '/api/channel.info?channel=unit_test_channel')
+        .respond(CAM_MOCKS.getChannelInfoResponse);
       httpBackend.expect('GET', '/api/channel.history?channel=unit_test_channel')
         .respond(CAM_MOCKS.channelHistoryResponse);
       httpBackend.flush();

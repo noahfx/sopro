@@ -188,7 +188,7 @@ angular.module('societyProChatApp.directives',[
     },
   };
 })
-.directive('soproCollectionsDropdown', function(){
+      .directive('soproCollectionsDropdown', function(){
   return {
     restrict: 'E',
     transclude: true,
@@ -256,7 +256,7 @@ angular.module('societyProChatApp.directives',[
     templateUrl: 'web/partials/dropdown.html'
   };
 })
-.directive('soproSubscribersDropdown', function(){
+.directive('soproSubscribersDropdown', ['UserNames', function(UserNames){
   return {
     restrict: 'E',
     transclude: true,
@@ -323,7 +323,7 @@ angular.module('societyProChatApp.directives',[
     },
     templateUrl: 'web/partials/dropdown.html'
   };
-})
+      }])
 // Thanks @Rob:
 // http://stackoverflow.com/a/20445344/1380669
 .directive('sglclick', ['$parse', function($parse) {

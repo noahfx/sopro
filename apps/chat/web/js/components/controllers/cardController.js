@@ -2,12 +2,39 @@ angular.module('societyProChatApp.cardController',
   ['ngMaterial']
 )
 .controller('historyCardController',
-['$scope', '$http', '$rootScope', '$timeout',
-  function($scope, $http, $rootScope, $timeout) {
+['$scope', '$http', '$rootScope', '$timeout', 'UserNames',
+  function($scope, $http, $rootScope, $timeout, UserNames) {
     $scope.messages = [];
     $scope.currentInput = "";
     $scope.cardTitle = "";
     $scope.cardType = "";
+
+    $http({
+      method: 'GET',
+      url: '/api/channel.info',
+      headers: {
+       'token-auth': $rootScope.token
+      },
+      params : {
+        channel: $scope.card.channel._id
+      }
+    })
+    .success(function(data, status, headers, config) {
+      // this callback will be called asynchronously
+      // when the response is available
+      if (data.ok) {
+        data.channel.members.forEach(function(member){
+          UserNames.add(member._id, member.name);
+        });
+      } else {
+        throw new Error(data.error);
+      }
+    })
+    .error(function(data, status, headers, config) {
+      // called asynchronously if an error occurs
+      // or server returns response with an error status.
+      console.log(data);
+    });
 
     $scope.sortByTs = function (message){
       var result = +message.ts;
@@ -19,6 +46,7 @@ angular.module('societyProChatApp.cardController',
 
     $scope.updateMessagesHistory = function (messageObj){
       //TODO: Improve search of existing message when we have sort server side
+      messageObj.authorName = UserNames.byId(messageObj.authorId);
       messageLen = $scope.messages.length;
       for (var i = messageLen - 1; i >= 0; i--){
         if (messageObj._id === $scope.messages[i]._id){
@@ -90,7 +118,11 @@ angular.module('societyProChatApp.cardController',
         if (!data.ok){
           return console.log(data);
         }
-        $scope.messages = data.messages;
+
+        $scope.messages = data.messages.map(function(message){
+          message.authorName = UserNames.byId(message.authorId);
+          return message;
+        });
       })
       .error(function(data, status, headers, config) {
         console.log(status, data);
@@ -115,7 +147,10 @@ angular.module('societyProChatApp.cardController',
         if (!data.ok){
           return console.log(data);
         }
-        $scope.messages = data.messages;
+        $scope.messages = data.messages.map(function(message){
+          message.authorName = UserNames.byId(message.authorId);
+          return message;
+        });
       })
       .error(function(data, status, headers, config) {
         console.log(status, data);

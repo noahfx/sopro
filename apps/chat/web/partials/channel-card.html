@@ -9,7 +9,7 @@
       <li
         ng-repeat="message in messages | orderBy:sortByTs"
         scroll-to-last
-      > {{message.text}} </li>
+      > {{message.authorName}} :  {{message.text}} </li>
     </ul>
   </md-content>
   <footer layout="row">
