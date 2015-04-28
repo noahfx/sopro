@@ -7,6 +7,15 @@ angular.module('societyProChatApp.cardController',
     $scope.messages = [];
     $scope.currentInput = "";
 
+    var socket = io();
+
+    socket.on( $scope.card.channel._id, function (data) {
+      console.log(JSON.stringify(data));
+      $scope.updateMessagesHistory(data);
+      $scope.$apply();
+    });
+
+
     $scope.sortByTs = function (message){
       var result = +message.ts;
       if (isNaN(result)){

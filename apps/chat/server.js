@@ -4,6 +4,8 @@ var argh = require('argh').argv;
 var express = require('express');
 var app = express();
 
+
+
 var PI = require('./persistence-interface.js')();
 var PICouch = require('./persistence-couchdb');
 PI.use(PICouch);
@@ -124,7 +126,7 @@ function startExpress(){
   console.log('Binding routes...')
   // The routing logic needs some dependencies:
   var sopro = require('./sopro.js')(app, PI);
-  require('./routes.js')(app, eventbus, passport, acl, PI, sopro);
+ 
 
   // Start http server:
   app.listen(serverConfig.express.port, serverConfig.express.bindAddress, function(){
@@ -138,7 +140,7 @@ function startExpress(){
   var cert = fs.readFileSync(serverConfig.express.sslOptions.certfile);
 
   // Start https server:
-  require('https')
+var https = require('https')
   .createServer({
     key: key,
     cert: cert
@@ -147,8 +149,16 @@ function startExpress(){
     console.log('Listening on https://'+serverConfig.express.bindAddress+':'+serverConfig.express.sslPort);
     flagHTTPSStarted = true;
     dropPrivileges();
-  })
+  });
+
+  var io = require('socket.io')(https);
+  console.log("Socket listening port 443");
+
+  require('./routes.js')(app, eventbus, passport, acl, PI, sopro, io);
 }
+
+
+
 
 function dropPrivileges(){
   if(!flagHTTPStarted || !flagHTTPSStarted){ 

@@ -1,7 +1,7 @@
 var fs = require('fs');
 var async = require('async');
 
-module.exports = function(app, eb, passport, acl, PI, sopro){
+module.exports = function(app, eb, passport, acl, PI, sopro, io){
 
   var packageJSON = fs.readFileSync('./package.json', {encoding: 'utf8'});
   app.sopro.package = JSON.parse(packageJSON);
@@ -620,7 +620,11 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
           || req.body.text === undefined
           || req.body.text === "")
         {
-          return done([400, 'invalid_request', 'channel and text fields are required in json body'])
+          return done([
+            400,
+            'invalid_request',
+            'channel and text fields are required in json body'
+          ]);
         } else {
           return done(null, {
             channel: req.body.channel,
@@ -641,14 +645,20 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
                 return done([500, 'server_error']);
               }
               if(channels.length === 0){
-                return done([404, 'not_found', 'No matching channel was not found on the server'])
+                return done([
+                  404,
+                  'not_found',
+                  'No matching channel was not found on the server'
+                ]);
               }
               if(channels.length > 1){
-                console.log('Unexpectedly found multiple channels for',opts.channel,'naively assuming the first one');
+                console.log('Unexpectedly found multiple channels for',
+                            opts.channel,
+                            'naively assuming the first one');
               }
               opts.channelObj = channels[0];
               return done(null, opts);
-            })
+            });
           } else if(err){
             console.log(err);
             return done([500, 'server_error']);
@@ -656,7 +666,7 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
             opts.channelObj = channel;
             return done(null, opts);
           }
-        })
+        });
       },
       // Check if the current identity is a member of that channel
       function(opts, done){
@@ -710,6 +720,7 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
           message: err[2],
         })
       } else {
+        broadcastChannelMessage(opts.messageResult);
         return res.status(200).json({
           ok: true,
           message: opts.messageResult,
@@ -732,5 +743,15 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
     } else {
       res.status(404).json({ok: false, error: 'Not found'})
     }
-  })
+  });
+
+  io.on('connection', function(socket){
+    console.log('socket connected');
+  });
+
+  var broadcastChannelMessage = function(data){
+    console.log("Broadcasting new message to channel: " + data.channelid);
+    io.emit(data.channelid, data);
+  };
+
 }
