@@ -9,41 +9,44 @@ angular.module('societyProChatApp.cardController',
     $scope.cardTitle = "";
     $scope.cardType = "";
 
-    $http({
-      method: 'GET',
-      url: '/api/channel.info',
-      headers: {
-       'token-auth': $rootScope.token
-      },
-      params : {
-        channel: $scope.card.channel._id
-      }
-    })
-    .success(function(data, status, headers, config) {
-      // this callback will be called asynchronously
-      // when the response is available
-      if (data.ok) {
-        data.channel.members.forEach(function(member){
-          UserNames.add(member._id, member.name);
-        });
-      } else {
-        throw new Error(data.error);
-      }
-    })
-    .error(function(data, status, headers, config) {
-      // called asynchronously if an error occurs
-      // or server returns response with an error status.
-      console.log(data);
-    });
+    $scope.getChannelInfo = function () {
+      $http({
+        method: 'GET',
+        url: '/api/channel.info',
+        headers: {
+         'token-auth': $rootScope.token
+        },
+        params : {
+          channel: $scope.card.channel._id
+        }
+      })
+      .success(function(data, status, headers, config) {
+        // this callback will be called asynchronously
+        // when the response is available
+        if (data.ok) {
+          data.channel.members.forEach(function(member){
+            UserNames.add(member._id, member.name);
+          });
+        } else {
+          throw new Error(data.error);
+        }
+      })
+      .error(function(data, status, headers, config) {
+        // called asynchronously if an error occurs
+        // or server returns response with an error status.
+        console.log(data);
+      });
+    }
 
     var socket = io();
 
-    socket.on( $scope.card.channel._id, function (data) {
-      console.log(JSON.stringify(data));
-      $scope.updateMessagesHistory(data);
-      $scope.$apply();
-    });
-
+    $scope.listenToMessages = function (id) {
+      socket.on(id, function (data) {
+        console.log(JSON.stringify(data));
+        $scope.updateMessagesHistory(data);
+        $scope.$apply();
+      });  
+    }
 
     $scope.sortByTs = function (message){
       var result = +message.ts;
@@ -170,10 +173,13 @@ angular.module('societyProChatApp.cardController',
 
     if($scope.card.channel && !$scope.card.peer){
       $scope.cardType = 'chat';
+      $scope.getChannelInfo();
+      $scope.listenToMessages($scope.card.channel._id);
       $scope.cardTitle = $scope.card.channel.name;
       loadChannelHistory();
     } else if(!$scope.card.channel && $scope.card.peer){
       $scope.cardType = 'dm';
+      $scope.listenToMessages($scope.card.peer._id);
       $scope.cardTitle = $scope.card.peer.name;
       loadImHistory()
     } else {

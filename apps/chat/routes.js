@@ -794,6 +794,9 @@ module.exports = function(app, eb, passport, acl, PI, sopro, io){
           message: err[2],
         })
       } else {
+        if (!opts.messageResult.channelId) {
+          opts.messageResult.channelId = opts.messageResult.receiverId;
+        }
         broadcastChannelMessage(opts.messageResult);
         return res.status(200).json({
           ok: true,
@@ -824,8 +827,8 @@ module.exports = function(app, eb, passport, acl, PI, sopro, io){
   });
 
   var broadcastChannelMessage = function(data){
-    console.log("Broadcasting new message to channel: " + data.channelid);
-    io.emit(data.channelid, data);
+    console.log("Broadcasting new message to channel: " + data.channelId);
+    io.emit(data.channelId, data);
   };
 
 }
