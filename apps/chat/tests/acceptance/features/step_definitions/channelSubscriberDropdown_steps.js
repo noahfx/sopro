@@ -12,7 +12,8 @@ var channelSubscriberDropdown_steps = module.exports = function(){
   this.When(/^I select a channel from the list$/, function (next) {
     browser
     .actions()
-    .doubleClick(element.all(by.css("#collection-channels .channel-item")).get(0))
+    .mouseMove(element.all(by.css("#collection-channels .channel-item")).get(0))
+    .doubleClick()
     .perform()
     .then(next);
   });
