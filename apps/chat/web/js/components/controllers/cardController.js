@@ -108,7 +108,7 @@ angular.module('societyProChatApp.cardController',
          'token-auth': $rootScope.token
         },
         params : {
-        channel : $scope.card.channel._id
+          channel : $scope.card.channel._id
         }
       })
       .success(function(data, status, headers, config) {
@@ -123,6 +123,7 @@ angular.module('societyProChatApp.cardController',
           message.authorName = UserNames.byId(message.authorId);
           return message;
         });
+
       })
       .error(function(data, status, headers, config) {
         console.log(status, data);
@@ -151,6 +152,7 @@ angular.module('societyProChatApp.cardController',
           message.authorName = UserNames.byId(message.authorId);
           return message;
         });
+
       })
       .error(function(data, status, headers, config) {
         console.log(status, data);

@@ -10,6 +10,7 @@ couch.create = function(model, data, callback){
     if(err){
       return callback(err);
     };
+    console.log(body);
     data._id = body.id;
     data._rev = body.rev;
     callback(err, data);

@@ -763,7 +763,7 @@ module.exports = function(app, eb, passport, acl, PI, sopro){
         if(opts.dmOrChat === 'dm'){
           data.receiverId = opts.receiverId;
         } else if(opts.dmOrChat === 'chat'){
-          data.channelid = opts.channelObj._id;
+          data.channelId = opts.channelObj._id;
         } else {
           throw new Error('Unexpected dmOrChat: ' + opts.dmOrChat);
         }
