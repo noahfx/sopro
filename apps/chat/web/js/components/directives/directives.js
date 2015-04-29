@@ -256,7 +256,7 @@ angular.module('societyProChatApp.directives',[
     templateUrl: 'web/partials/dropdown.html'
   };
 })
-.directive('soproSubscribersDropdown', ['UserNames', function(UserNames){
+.directive('soproSubscribersDropdown', ['UserNames', 'BaseUrl', function(UserNames, BaseUrl){
   return {
     restrict: 'E',
     transclude: true,
@@ -290,7 +290,7 @@ angular.module('societyProChatApp.directives',[
         $($scope.fromElement).addClass('poo-highlight-subscriber');
         $http({
           method: 'GET',
-          url: baseUrl + '/api/channel.info',
+          url: BaseUrl + '/api/channel.info',
           headers: {
            'token-auth': $rootScope.token
           },

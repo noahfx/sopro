@@ -5,3 +5,5 @@ Makefile.in
 Makefile.am
 *.o
 .c9
+.floo
+npm-debug*.log

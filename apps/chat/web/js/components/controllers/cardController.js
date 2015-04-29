@@ -2,8 +2,8 @@ angular.module('societyProChatApp.cardController',
   ['ngMaterial']
 )
 .controller('historyCardController',
-['$scope', '$http', '$rootScope', '$timeout', 'UserNames',
-  function($scope, $http, $rootScope, $timeout, UserNames) {
+['$scope', '$http', '$rootScope', '$timeout', 'UserNames', 'BaseUrl',
+  function($scope, $http, $rootScope, $timeout, UserNames, BaseUrl) {
     console.log('Loading cardController.js')
     function safeApply($scope, fn) {
       var phase = $scope.$root.$$phase;
@@ -101,7 +101,7 @@ angular.module('societyProChatApp.cardController',
     $scope.getChannelInfo = function () {
       $http({
         method: 'GET',
-        url: '/api/channel.info',
+        url: BaseUrl + '/api/channel.info',
         headers: {
          'token-auth': $rootScope.token
         },
@@ -199,7 +199,7 @@ angular.module('societyProChatApp.cardController',
       // Common options:
       var opts = {
         method: 'POST',
-        url: '/api/postMessage',
+        url: BaseUrl + '/api/postMessage',
         headers: {
           'token-auth': $rootScope.token
         },
@@ -249,7 +249,7 @@ angular.module('societyProChatApp.cardController',
     function loadChannelHistory(){
       $http({
         method: 'GET',
-        url: '/api/channel.history',
+        url: BaseUrl + '/api/channel.history',
         headers: {
          'token-auth': $rootScope.token
         },
@@ -278,7 +278,7 @@ angular.module('societyProChatApp.cardController',
     function loadImHistory(){
       $http({
         method: 'GET',
-        url: '/api/im.history',
+        url: BaseUrl + '/api/im.history',
         headers: {
          'token-auth': $rootScope.token
         },

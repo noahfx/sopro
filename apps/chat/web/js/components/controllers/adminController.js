@@ -1,4 +1,3 @@
-var baseUrl = 'https://demo.captains.io';
 var soproAdminControllers = 
 angular.module('societyProChatApp2',
   ['ngMaterial', 'societyProChatApp.services']
@@ -36,14 +35,14 @@ angular.module('societyProChatApp2',
 )
 .controller(
   'adminControllerUsers',
-  ['$scope','$http','$rootScope',
-  function($scope,$http,$rootScope) {
+  ['$scope','$http','$rootScope', 'BaseUrl',
+  function($scope,$http,$rootScope, BaseUrl) {
     console.log('adminControllerUsers');
     $scope.usersList = [];
     $scope.getCurrentUsersList = function(callback){
       $http({
         method: 'GET',
-        url: baseUrl + '/api/users',
+        url: BaseUrl + '/api/users',
         headers: {
           'token-auth': '12345'
         },
@@ -68,7 +67,7 @@ angular.module('societyProChatApp2',
           //'Content-Type': 'application/x-www-form-urlencoded',
           'token-auth': '12345',
         },
-        url: baseUrl + '/api/users?'+str,
+        url: BaseUrl + '/api/users?'+str,
         // Todo:
         // It's unconventional to pass data in a POST request URI.
         // Decide whether to POST a query string like above, x-www-form-urlencoded body like below, or JSON body
