@@ -1,8 +1,16 @@
+// Todo: Move the baseUrl to globals
 var baseUrl = 'https://demo.captains.io';
-var societyProChatControllers = 
-angular.module('societyProChatApp.controllers',['ngMaterial', 'ngAnimate', 'societyProChatApp.controller2','emoji'])
-.controller('mainController',['$scope','$http','$rootScope','$window', 'UserService', function($scope,$http,$rootScope,$window,UserService) {
-  
+var societyProChatControllers =
+angular.module('societyProChatApp.controllers', [
+  'ngMaterial',
+  'ngAnimate',
+  'societyProChatApp.controller2',
+  'societyProChatApp.cardController',
+  'emoji',
+])
+.controller('mainController',
+['$scope', '$http', '$rootScope', '$window', 'UserService',
+function($scope, $http, $rootScope, $window, UserService) {
   $scope.privateChannels = [{
     name: "chapines",
     showBallon: true
@@ -56,90 +64,105 @@ angular.module('societyProChatApp.controllers',['ngMaterial', 'ngAnimate', 'soci
     name: "people-interns"
   }
   ]
+
   $scope.isAvatarMessage = function (i) {
-        if (i == 0) return true;
-        return $scope.messageHistory.messages[i].user != $scope.messageHistory.messages[i-1].user;
-    };
+    if (i == 0) return true;
+    return $scope.messageHistory.messages[i].user != $scope.messageHistory.messages[i-1].user;
+  };
   
   //JQUERY --------------------------------------------------------------
-    /* Emoticon Dropdown */
-    $('.emoticon-trigger').click(function() {
-        $('.dropdown-emoticon').toggle('fast');
-    });
-    
-    /* Input Dropdown */
-    $('.options-trigger').click(function() {
-        $('.dropdown-options').toggle('fast');
-    });
-    
-    /* Textarea Autoresize */ 
-    $('#message-input').autosize({append: false, callback: function () {
-        var lastMessage = $('.messages-container ng-include').last()[0];
-        if (lastMessage) 
-            lastMessage.scrollIntoView();
-    }});    
-
-    /* Textarea Send */
-    $('#message-input').keydown(function(e) {
-        if (event.keyCode == 13 && !event.shiftKey && $(".mentions>ul").css("display") == "none") {
-            var message = $(this).val().trim();
-            //SocietyPro.sendMessage(message);
-            if (message) {
-                    $scope.sendMessage(message);    
-                }
-            $(this).val('');    
-            $(this).autosize({append: false}).trigger('autosize.resize');
-            e.preventDefault();
-        }
-    });
-    
-    /* Textarea Autocomplete */
-    $('textarea').textcomplete([
-        { 
-            match: /\B:([\-+\w]*)$/,
-            search: function (term, callback) {
-                callback($.map(emojies, function (emoji) {
-                    return emoji.indexOf(term) === 0 ? emoji : null;
-                }));
-            },
-            template: function (value) {
-                return '<img src="web/bower_components/angular-emoji-filter/res/emoji/emoji_' + value + '.png"></img>' + value;
-            },
-            replace: function (value) {
-                return ':' + value + ': ';
-            },
-            index: 1
-        },
-        {
-        mentions: ['jon','jimmy','hiro','tomas','cesar','jorge','voodoo','salme','plato'],
-        match: /\B@(\w*)$/,
-        search: function (term, callback) {
-            callback($.map(this.mentions, function (mention) {
-                return mention.indexOf(term) === 0 ? mention : null;
-            }));
-        },
-        template: function (value) {
-            return '<img src="avatars/avatar1.png"></img>' + value + '<span class="offline"></span>';
-        },
-        replace: function (mention) {
-            return '@' + mention + ' ';
-        },
-        index: 1
-    }
-    ],{
-        appendTo: $('.mentions')
-    });
-   
-   
-    $('html').click(function() {
-        $('.dropdown-options, .dropdown-emoticon').hide()
-    });
-
-    $('.options-trigger, .emoticon-trigger, .dropdown-emoticon').click(function(event) {
-        event.stopPropagation();
-    });
-    
   
+  /* Emoticon Dropdown */
+  $('.emoticon-trigger').click(function() {
+      $('.dropdown-emoticon').toggle('fast');
+  });
+  
+  /* Input Dropdown */
+  $('.options-trigger').click(function() {
+      $('.dropdown-options').toggle('fast');
+  });
+  
+  /* Company Dropdown */
+  $('#trigger-arrow').click(function() {
+      $('.sopro-company-panel').toggle('fast');
+  });
+  
+  /* User Dropdown */
+  $('.trigger-arrow-gray').click(function() {
+      $('.sopro-user-panel').toggle('fast');
+  });
+  
+  /* Role Dropdown */
+  $('#trigger-avatar').click(function() {
+      $('.sopro-role-panel').toggle('fast');
+  });
+  
+  /* Textarea Autoresize */ 
+  $('#message-input').autosize({append: false, callback: function () {
+      var lastMessage = $('.messages-container ng-include').last()[0];
+      if (lastMessage) 
+          lastMessage.scrollIntoView();
+  }});
+
+  /* Textarea Send */
+  $('#message-input').keydown(function(e) {
+    if (event.keyCode == 13 && !event.shiftKey && $(".mentions>ul").css("display") == "none") {
+      var message = $(this).val().trim();
+      //SocietyPro.sendMessage(message);
+      if (message) {
+        $scope.sendMessage(message);
+      }
+      $(this).val('');    
+      $(this).autosize({append: false}).trigger('autosize.resize');
+      e.preventDefault();
+    }
+  });
+  
+  /* Textarea Autocomplete */
+  $('textarea').textcomplete([
+    { 
+      match: /\B:([\-+\w]*)$/,
+      search: function (term, callback) {
+        callback($.map(emojies, function (emoji) {
+          return emoji.indexOf(term) === 0 ? emoji : null;
+        }));
+      },
+      template: function (value) {
+        return '<img src="web/bower_components/angular-emoji-filter/res/emoji/emoji_' + value + '.png"></img>' + value;
+      },
+      replace: function (value) {
+        return ':' + value + ': ';
+      },
+      index: 1
+    },
+    {
+      mentions: ['jon','jimmy','hiro','tomas','cesar','jorge','voodoo','salme','plato'],
+      match: /\B@(\w*)$/,
+      search: function (term, callback) {
+          callback($.map(this.mentions, function (mention) {
+              return mention.indexOf(term) === 0 ? mention : null;
+          }));
+      },
+      template: function (value) {
+          return '<img src="avatars/avatar1.png"></img>' + value + '<span class="offline"></span>';
+      },
+      replace: function (mention) {
+          return '@' + mention + ' ';
+      },
+      index: 1
+    }
+  ],{
+      appendTo: $('.mentions')
+  });
+ 
+  $('html').click(function() {
+      $('.dropdown-options, .dropdown-emoticon, .sopro-company-panel, .sopro-user-panel, .sopro-role-panel').hide()
+  });
+
+  $('.options-trigger, .emoticon-trigger, .dropdown-emoticon, #trigger-arrow, .trigger-arrow-gray, #trigger-avatar').click(function(event) {
+      event.stopPropagation();
+  });
+
   var positionCommpanelScrollbar = function () {
     var $cp = $('#sopro-collections-wrap');
     if (!$cp[0]) return;
@@ -244,6 +267,11 @@ angular.module('societyProChatApp.controllers',['ngMaterial', 'ngAnimate', 'soci
     ]
   }
 
+ $scope.toDate = function (ts) {
+        return new Date(+ts*1000);
+    };
+
+ 
   $scope.currentUser = $rootScope.currentUser = UserService;   
   $scope.roles = $scope.currentUser.identities;
   $rootScope.token = $scope.currentUser.apiToken;
@@ -369,8 +397,6 @@ angular.module('societyProChatApp.controllers',['ngMaterial', 'ngAnimate', 'soci
     $scope.showSubscribersOverflow = true;
   });
 
-
-
 }])
 .controller("emoticonsCtrl",['$scope', 'emoticons', function ($scope,emoticons) {
     $scope.emoticonTab = 0;
@@ -385,7 +411,7 @@ angular.module('societyProChatApp.controllers',['ngMaterial', 'ngAnimate', 'soci
     $scope.change = function (i) {
         var edit = document.getElementById('message-input');
         edit.focus();
-        edit.value =edit.value + ":" + i + ":";
+        edit.value =edit.value + ":" + i + ": ";
     };
 
     $scope.hover = function (i) {
@@ -393,3 +419,4 @@ angular.module('societyProChatApp.controllers',['ngMaterial', 'ngAnimate', 'soci
     };
     
 }]);
+

@@ -11,7 +11,7 @@
     <span class="message-name">{{message.user}}</span>
     <span class="message-time" title="">
       {{toDate(message.ts) |  date : 'hh:mm'}}
-      <md-tooltip>
+      <md-tooltip md-direction="top">
         {{toDate(message.ts) | date : 'medium'}}
       </md-tooltip> 
     </span>
