@@ -98,7 +98,7 @@ angular.module('societyProChatApp.cardController',
     $scope.cardType = "";
 
 
-    $scope.getChannelInfo = function () {
+    $scope.getChannelMemberNames = function (callback) {
       $http({
         method: 'GET',
         url: BaseUrl + '/api/channel.info',
@@ -110,20 +110,19 @@ angular.module('societyProChatApp.cardController',
         }
       })
       .success(function(data, status, headers, config) {
-        // this callback will be called asynchronously
-        // when the response is available
         if (data.ok) {
           data.channel.members.forEach(function(member){
             UserNames.add(member._id, member.name);
           });
         } else {
           throw new Error(data.error);
+          callback(data);
         }
+        callback(null);
       })
       .error(function(data, status, headers, config) {
-        // called asynchronously if an error occurs
-        // or server returns response with an error status.
         console.log(data);
+        callback(data);
       });
     }
 
@@ -306,10 +305,11 @@ angular.module('societyProChatApp.cardController',
 
     if($scope.card.channel && !$scope.card.peer){
       $scope.cardType = 'chat';
-      $scope.getChannelInfo();
       $scope.listenToMessages($scope.card.channel._id);
       $scope.cardTitle = $scope.card.channel.name;
-      loadChannelHistory();
+      $scope.getChannelMemberNames(function(err){
+        loadChannelHistory();
+      });
     } else if(!$scope.card.channel && $scope.card.peer){
       $scope.cardType = 'dm';
       $scope.listenToMessages($scope.card.peer._id);

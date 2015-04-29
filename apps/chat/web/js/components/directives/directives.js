@@ -183,6 +183,7 @@ angular.module('societyProChatApp.directives',[
       $scope.openSubscribersOverflow = function($event, item, title){
         // This is getting triggered from multiple collections. 
         // Check whether it's a channel overflow or peers:
+        // TODO: Refactor. Now we have multiple collection partials so we can simply invoke different functions on click.
         filterOnlyChannelClicks($rootScope, $event, item, title);
       }
     },
