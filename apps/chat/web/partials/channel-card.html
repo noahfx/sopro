@@ -3,7 +3,7 @@
           src="'web/partials/oneTextMessage.html'" 
           ng-repeat="message in messages | orderBy:sortByTs"
           scroll-to-last 
-          class="ng-scope stretch"
+          class="stretch"
           ></ng-include>
         </md-content>
         <div class="footer">
@@ -21,11 +21,11 @@
               <textarea
                 id="message-input"
                 ng-trim="true"
-                ng-model="currentInput"
+                ng-model="currentInput.text"
+                ng-keypress="handleCardInputKeypress($event)"
               ></textarea>
                 <!-- 
                 We used this in angular to detect enter press
-                ng-keypress="handleCardInputKeypress($event)"
                 Todo: Use angular events everywhere
                 A second attempt:
                 elem-ready="$scope.bindJquery()"

@@ -328,7 +328,7 @@ function($scope, $http, $rootScope, $window, UserService) {
   });
 
 }])
-.controller("emoticonsCtrl",['$scope', 'emoticons', function ($scope,emoticons) {
+.controller("emoticonsCtrl",['$rootScope', '$scope', 'emoticons', function ($rootScope, $scope, emoticons) {
     $scope.emoticonTab = 0;
     $scope.currentEmoticon = "grinning";
     $scope.arrayEmoticons1 = emoticons.arrayEmoticons1;
@@ -339,13 +339,18 @@ function($scope, $http, $rootScope, $window, UserService) {
     $scope.arrayEmoticons6 = emoticons.arrayEmoticons6;
 
     $scope.change = function (i) {
+      /*
         var edit = document.getElementById('message-input');
         edit.focus();
         edit.value =edit.value + ":" + i + ": ";
+      */
+      var smileyString = ":" + i + ": ";
+      $rootScope.$broadcast('append-smiley', smileyString);
+      console.log('Event emitted');
     };
 
     $scope.hover = function (i) {
-        $scope.currentEmoticon = i;
+      $scope.currentEmoticon = i;
     };
     
     $scope.changeTab = function (i) {
