@@ -355,7 +355,7 @@ angular.module('societyProChatApp.directives',[
     restrict: 'A',
     link: function (scope, element, attr) {
       if (scope.$last === true) {
-        element[0].scrollIntoView();
+        element[0].scrollIntoView(false);
       }
     }
   }

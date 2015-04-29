@@ -362,8 +362,8 @@ a {
 }
 
 
-.lastMessage {
-	margin-bottom: 20px;
+#main-stage div.footer {
+	margin-top: 20px;
 }
 .tab {
 	float: left;
