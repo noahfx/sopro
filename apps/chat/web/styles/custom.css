@@ -334,6 +334,7 @@ span.star:hover {
 	border-top-left-radius: 3px;
 	border-top-right-radius: 3px;
 	width: 100%;
+	list-style: none;
 }
 .tabs-menu li {
 	height: 30px;
