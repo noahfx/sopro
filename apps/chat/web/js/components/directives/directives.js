@@ -188,7 +188,7 @@ angular.module('societyProChatApp.directives',[
     },
   };
 })
-      .directive('soproCollectionsDropdown', function(){
+.directive('soproCollectionsDropdown', function(){
   return {
     restrict: 'E',
     transclude: true,
@@ -290,7 +290,7 @@ angular.module('societyProChatApp.directives',[
         $($scope.fromElement).addClass('poo-highlight-subscriber');
         $http({
           method: 'GET',
-          url: '/api/channel.info',
+          url: baseUrl + '/api/channel.info',
           headers: {
            'token-auth': $rootScope.token
           },

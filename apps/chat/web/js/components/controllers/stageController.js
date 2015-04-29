@@ -140,7 +140,7 @@ angular.module('societyProChatApp.controller2',
   $scope.createClicked = function(){
     $http({
       method: 'POST',
-      url: '/api/channel',
+      url: baseUrl + '/api/channel',
       headers: {
        'token-auth': $rootScope.token
       },

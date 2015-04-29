@@ -1,5 +1,5 @@
 var societyProChatControllers =
-angular.module('societyProChatApp.services',[])
+angular.module('societyProChatApp.services',['emoticons'])
 .factory('UserService', function(){
   return $('body').data('currentuser');
 })
@@ -19,4 +19,9 @@ angular.module('societyProChatApp.services',[])
     }
   };
   return userNames;
+})
+.factory('BaseUrl', function(){
+  var baseUrl = $('body').attr('data-soprobaseurl');
+  // Strip trailing slash if any:
+  return baseUrl.replace(/\/$/, '');
 });

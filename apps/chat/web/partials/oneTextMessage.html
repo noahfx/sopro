@@ -1,0 +1,32 @@
+<!-- <span onClick='SocietyPro.eventEdit("{{message.id}}")' class="message-name">~s~</span>  -->
+<div class="message" ng-class="{'avatar-message':isAvatarMessage($index), lastMessage: $last}" id="{{'message-container-'+message.id}}">
+  
+  <div class="message-dropdown">
+    <a href="" class="edit"></a>
+    <a href="" class="delete"></a>
+  </div>
+  
+  <div class="avatar i1" ng-if="isAvatarMessage($index)"></div>
+  <div
+    ng-if="isAvatarMessage($index)"
+    layout="horizontal"
+    layout-align="start center"
+  >
+    <span class="message-name">{{message.authorName}}</span>
+    <span class="message-time" title="">
+      {{toDate(message.ts) |  date : 'hh:mm'}}
+      <md-tooltip md-direction="top">
+        {{toDate(message.ts) | date : 'medium'}}
+      </md-tooltip> 
+    </span>
+    <span class="star"></span>
+  </div>
+  <span
+    ng-if="!isAvatarMessage($index)"
+    class="time-hover"
+    title="{{toDate(message.ts) |  date : 'hh:mm'}}"
+  > {{toDate(message.ts) |  date : 'hh:mm'}}
+  </span>
+  <span class="star childMessage" ng-if="!isAvatarMessage($index)"></span>
+  <p class="message-inner" id="{{'message-'+message.id}}" ng-bind-html="message.text | emoji"></p>
+</div>  

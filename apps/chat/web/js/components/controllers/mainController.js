@@ -1,15 +1,96 @@
 var societyProChatControllers =
-    angular.module('societyProChatApp.controllers',
-  [
-     'ngMaterial',
-     'ngAnimate',
-     'societyProChatApp.controller2',
-     'societyProChatApp.cardController',
-   ]
-  )
+angular.module('societyProChatApp.controllers', [
+  'ngMaterial',
+  'ngAnimate',
+  'societyProChatApp.controller2',
+  'societyProChatApp.cardController',
+  'emoji',
+])
 .controller('mainController',
-['$scope', '$http', '$rootScope', '$window', 'UserService',
-  function($scope, $http, $rootScope, $window, UserService) {
+['$scope', '$http', '$rootScope', '$window', 'UserService', 'BaseUrl',
+function($scope, $http, $rootScope, $window, UserService, BaseUrl) {
+  $scope.privateChannels = [{
+    name: "chapines",
+    showBallon: true
+  },
+  {
+    name: "cs-offtopic"
+  },
+  {
+    name: "huevon"
+  },
+  {
+    name: "people-interns"
+  },
+  {
+    name: "cs-offtopic"
+  },
+  {
+    name: "huevon",
+    showBallon: true
+  },
+  {
+    name: "people-interns"
+  },
+  ]
+  
+  $scope.decks = [{
+    name: "chapines"
+  },
+  {
+    name: "cs-offtopic"
+  },
+  {
+    name: "huevon"
+  },
+  {
+    name: "people-interns"
+  }
+  ]
+  
+    
+  $scope.favorites = [{
+    name: "chapines"
+  },
+  {
+    name: "cs-offtopic"
+  },
+  {
+    name: "huevon"
+  },
+  {
+    name: "people-interns"
+  }
+  ]
+
+  // MAIN CONTROLLER JQUERY --------------------------------------------------------------
+  /* Company Dropdown */
+  $('#trigger-arrow').click(function() {
+      $('.sopro-company-panel').toggle('fast');
+  });
+  
+  /* User Dropdown */
+  $('.trigger-arrow-gray').click(function() {
+      $('.sopro-user-panel').toggle('fast');
+  });
+  
+  /* Role Dropdown */
+  $('#trigger-avatar').click(function() {
+      $('.sopro-role-panel').toggle('fast');
+  });
+  
+  $('html').click(function() {
+    $('.dropdown-options, .dropdown-emoticon, .sopro-company-panel, .sopro-user-panel, .sopro-role-panel').hide()
+    $rootScope.$apply(function () {
+      $rootScope.$broadcast('hide.dropdowns');
+    })
+  });
+
+  $('#trigger-arrow, .trigger-arrow-gray, #trigger-avatar').click(function(event) {
+      event.stopPropagation();
+  });
+
+
   var positionCommpanelScrollbar = function () {
     var $cp = $('#sopro-collections-wrap');
     if (!$cp[0]) return;
@@ -30,24 +111,99 @@ var societyProChatControllers =
   win.bind("resize",function(e){
     positionCommpanelScrollbar();
   });
+  
+  $scope.messageHistory = {
+    "messages": [
+        {
+            "text": "hello :thumbsup:",
+            "ts": "1415283588154",
+            "type": "message",
+            "user": "jon@xmpp.cambrian.org"
+        },
+        {
+            "text": "the random channel :kissing::kissing::kissing::kissing::kissing::kissing::kissing::kissing::kissing::kissing::kissing::kissing::kissing::kissing::kissing::kissing::kissing::kissing::kissing::kissing::kissing::kissing::kissing: :: works",
+            "ts": "1415283616231",
+            "type": "message",
+            "user": "jon@xmpp.cambrian.org"
+        },
+        {
+            "text": "the #general :wink: doesn't for me",
+            "ts": "1415283624407",
+            "type": "message",
+            "user": "jon@xmpp.cambrian.org"
+        },
+        {
+            "text": "why would my text :wink: :two_men_holding_hands: not even appear in the chat log?",
+            "ts": "1415283688951",
+            "type": "message",
+            "user": "jon@xmpp.cambrian.org"
+        },
+        {
+            "text": "after your chat log picture story, do you think it best to get the core functionality working in #channels and private groups?",
+            "ts": "1415283739491",
+            "type": "message",
+            "user": "jon@xmpp.cambrian.org"
+        },
+        {
+            "text": "Rafa cannot use private groups",
+            "ts": "1415283784047",
+            "type": "message",
+            "user": "jon@xmpp.cambrian.org"
+        },
+        {
+            "text": "in general they are too buggy to use",
+            "ts": "1415283806563",
+            "type": "message",
+            "user": "jon@xmpp.cambrian.org"
+        },
+        {
+            "text": "seems we should fix the core functionality of groups and channels asap",
+            "ts": "1415283820828",
+            "type": "message",
+            "user": "jon@xmpp.cambrian.org"
+        },
+        {
+            "text": "so we can all start using this",
+            "ts": "1415283826273",
+            "type": "message",
+            "user": "jon@xmpp.cambrian.org"
+        },
+        {
+            "text": "ok we will reprioritize the sprint when you come in. this will be after the picture chat log story is done.",
+            "ts": "1415283891809",
+            "type": "message",
+            "user": "jon@xmpp.cambrian.org"
+        },
+        {
+            "text": "Hello, this message was sent from http://download.cambrian.org/tests/websocket.htm via web sockets!",
+            "ts": "1417457485152",
+            "type": "message",
+            "user": "me"
+        },
+        {
+            "text": "ola k ase?",
+            "ts": "1417543725519",
+            "type": "message",
+            "user": "jimmy5750910@xmpp.cambrian.org"
+        },
+        {
+            "text": "jaja nombre solo probando con cesar el envio de mensajes en sopro",
+            "ts": "1417543853607",
+            "type": "message",
+            "user": "jimmy5750910@xmpp.cambrian.org"
+        }
+    ]
+  }
 
+ $scope.toDate = function (ts) {
+        return new Date(+ts*1000);
+    };
+
+ 
   $scope.currentUser = $rootScope.currentUser = UserService;   
   $scope.roles = $scope.currentUser.identities;
   $rootScope.token = $scope.currentUser.apiToken;
 
-  /*
-    {
-      "id": "abc",
-      "name": "Calix",
-      "img": "web/images/role-image.png" 
-    },
-    {
-      "id": "xyz",
-      "name": "Tomas",
-      "img": "web/images/role-image.png" 
-    }
-  ]
-  */
 
   $scope.channels = [];
   $scope.myChannels = [];
@@ -114,39 +270,41 @@ var societyProChatControllers =
   }
 
   $scope.changeRole = function (role) {
-      $rootScope.currentRole = role;
+    console.log('changing role to', role);
+    $rootScope.currentRole = role;
 
-      $http({
-        method: 'GET',
-        url: '/api/channels',
-        headers: {
-         'token-auth': $rootScope.token
-        },
-        params : {
-          role: role.identityid
-        }
-      })
-        .success(function(data, status, headers, config) {
-          // this callback will be called asynchronously
-          // when the response is available
-          //console.log(data);
-          $scope.channels = data.channels;
-          $scope.myChannels = $scope.getMyChannels($scope.channels);
-          $scope.peers = data.peers;
-          if ($scope.myChannels.length !== 0){
-            $rootScope.$broadcast('openChannelHistoryClicked',{channel: $scope.myChannels[0]}); 
-          }
-          setTimeout(function () {
-            positionCommpanelScrollbar();
-          }, 50);
-        })
-        .error(function(data, status, headers, config) {
-          // called asynchronously if an error occurs
-          // or server returns response with an error status.
-          console.log(data);
-        });
+    $http({
+      method: 'GET',
+      url: BaseUrl + '/api/channels',
+      headers: {
+       'token-auth': $rootScope.token
+      },
+      params : {
+        role: role.identityid
+      }
+    })
+    .success(function(data, status, headers, config) {
+      // this callback will be called asynchronously
+      // when the response is available
+      //console.log(data);
+      console.log('role change success');
+      $scope.channels = data.channels;
+      $scope.myChannels = $scope.getMyChannels($scope.channels);
+      $scope.peers = data.peers;
+      if ($scope.myChannels.length !== 0){
+        $rootScope.$broadcast('openChannelHistoryClicked',{channel: $scope.myChannels[0]}); 
+      }
+      setTimeout(function () {
+        positionCommpanelScrollbar();
+      }, 50);
+    })
+    .error(function(data, status, headers, config) {
+      // called asynchronously if an error occurs
+      // or server returns response with an error status.
+      console.log(data);
+    });
 
-        $scope.showRoles = false;
+    $scope.showRoles = false;
   };
 
 
@@ -163,6 +321,55 @@ var societyProChatControllers =
     $scope.showSubscribersOverflow = true;
   });
 
+}])
+.controller("emoticonsCtrl",['$rootScope', '$scope', 'emoticons', function ($rootScope, $scope, emoticons) {
+    $scope.emoticonTab = 0;
+    $scope.currentEmoticon = "grinning";
+    $scope.arrayEmoticons1 = emoticons.arrayEmoticons1;
+    $scope.arrayEmoticons2 = emoticons.arrayEmoticons2;
+    $scope.arrayEmoticons3 = emoticons.arrayEmoticons3;
+    $scope.arrayEmoticons4 = emoticons.arrayEmoticons4;
+    $scope.arrayEmoticons5 = emoticons.arrayEmoticons5;
+    $scope.arrayEmoticons6 = emoticons.arrayEmoticons6;
 
+    $scope.change = function (i) {
+      /*
+        var edit = document.getElementById('message-input');
+        edit.focus();
+        edit.value =edit.value + ":" + i + ": ";
+      */
+      var smileyString = ":" + i + ": ";
+      $rootScope.$broadcast('append-smiley', smileyString);
+      console.log('Event emitted');
+    };
 
+    $scope.hover = function (i) {
+      $scope.currentEmoticon = i;
+    };
+    
+    $scope.changeTab = function (i) {
+      $scope.emoticonTab = i; 
+      setTimeout(function () {
+        positionEmoticonScrollbar();
+      }, 400);
+    }
+
+    var positionEmoticonScrollbar = function () {
+      var $cp = $('.dropdown-emoticon .tab');
+      if (!$cp[0]) return;
+      if ($cp[0].scrollHeight > $cp.innerHeight()) {
+        $cp.perfectScrollbar();
+        $cp.perfectScrollbar('update');
+      } else {
+        if ($cp.hasClass("ps-container")) {
+          $cp.perfectScrollbar('destroy');
+          $cp.removeClass("ps-container")
+        }
+      }
+    }
+
+    setTimeout(function () {
+      positionEmoticonScrollbar();
+    }, 1000);
 }]);
+

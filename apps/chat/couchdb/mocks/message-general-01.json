@@ -1,0 +1,8 @@
+{
+  "_id": "general-message-02",
+  "soproModel": "message",
+  "channelId": "channel-general",
+  "authorId": "abc",
+  "text": "Welcome to #general!",
+  "ts": "1429488000.001"
+}
