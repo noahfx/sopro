@@ -348,5 +348,29 @@ function($scope, $http, $rootScope, $window, UserService) {
         $scope.currentEmoticon = i;
     };
     
+    $scope.changeTab = function (i) {
+      $scope.emoticonTab = i; 
+      setTimeout(function () {
+        positionEmoticonScrollbar();
+      }, 400);
+    }
+
+    var positionEmoticonScrollbar = function () {
+      var $cp = $('.dropdown-emoticon .tab');
+      if (!$cp[0]) return;
+      if ($cp[0].scrollHeight > $cp.innerHeight()) {
+        $cp.perfectScrollbar();
+        $cp.perfectScrollbar('update');
+      } else {
+        if ($cp.hasClass("ps-container")) {
+          $cp.perfectScrollbar('destroy');
+          $cp.removeClass("ps-container")
+        }
+      }
+    }
+
+    setTimeout(function () {
+      positionEmoticonScrollbar();
+    }, 1000);
 }]);
 

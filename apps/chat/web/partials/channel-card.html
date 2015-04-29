@@ -36,12 +36,12 @@
               <div class="dropdown-emoticon" ng-controller="emoticonsCtrl">
                 <div class="tabs-container" ng-if="showEmoticons">
                   <ul class="tabs-menu">
-                    <li ng-class="{current:emoticonTab==0}"><a ng-click="emoticonTab=0"><img src="web/bower_components/angular-emoji-filter/res/emoji/emoji_grinning.png"/></a></li>
-                    <li ng-class="{current:emoticonTab==1}"><a ng-click="emoticonTab=1"><img src="web/bower_components/angular-emoji-filter/res/emoji/emoji_rat.png"/></a></li>
-                    <li ng-class="{current:emoticonTab==2}"><a ng-click="emoticonTab=2"><img src="web/bower_components/angular-emoji-filter/res/emoji/emoji_hamburger.png"/></a></li>
-                    <li ng-class="{current:emoticonTab==3}"><a ng-click="emoticonTab=3"><img src="web/bower_components/angular-emoji-filter/res/emoji/emoji_sunny.png"/></a></li>
-                    <li ng-class="{current:emoticonTab==4}"><a ng-click="emoticonTab=4"><img src="web/bower_components/angular-emoji-filter/res/emoji/emoji_kiss.png"/></a></li>
-                    <li ng-class="{current:emoticonTab==5}"><a ng-click="emoticonTab=5"><img src="web/bower_components/angular-emoji-filter/res/emoji/emoji_rocket.png"/></a></li>
+                    <li ng-class="{current:emoticonTab==0}"><a ng-click="changeTab(0)"><img src="web/bower_components/angular-emoji-filter/res/emoji/emoji_grinning.png"/></a></li>
+                    <li ng-class="{current:emoticonTab==1}"><a ng-click="changeTab(1)"><img src="web/bower_components/angular-emoji-filter/res/emoji/emoji_rat.png"/></a></li>
+                    <li ng-class="{current:emoticonTab==2}"><a ng-click="changeTab(2)"><img src="web/bower_components/angular-emoji-filter/res/emoji/emoji_hamburger.png"/></a></li>
+                    <li ng-class="{current:emoticonTab==3}"><a ng-click="changeTab(3)"><img src="web/bower_components/angular-emoji-filter/res/emoji/emoji_sunny.png"/></a></li>
+                    <li ng-class="{current:emoticonTab==4}"><a ng-click="changeTab(4)"><img src="web/bower_components/angular-emoji-filter/res/emoji/emoji_kiss.png"/></a></li>
+                    <li ng-class="{current:emoticonTab==5}"><a ng-click="changeTab(5)"><img src="web/bower_components/angular-emoji-filter/res/emoji/emoji_rocket.png"/></a></li>
                   </ul>
                   <div class="tab"> 
                     <span ng-show="emoticonTab==0" ng-repeat="emoticon in arrayEmoticons1" ng-click="change(emoticon)" ng-mouseover="hover(emoticon)"><img ng-src="{{'web/bower_components/angular-emoji-filter/res/emoji/emoji_'+emoticon+'.png'}}"></img></span> 

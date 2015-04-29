@@ -240,7 +240,7 @@ span.star:hover {
 	top: 4px;
 }
 /* Scrollbar */
-
+/*
 ::-webkit-scrollbar {
     width: 8px;
 }
@@ -255,7 +255,7 @@ span.star:hover {
 
 ::-webkit-scrollbar-thumb:hover {
     background-color: #aaa;
-}
+}*/
 
 .dropdown-options {
 	width: 240px;
@@ -369,8 +369,9 @@ a {
 	float: left;
 	width: auto;
 	height: 285px;
-	overflow: auto;
 	padding: 10px;
+	position: relative;
+	overflow: hidden;
 }
 .tab-content {
 	padding: 10px;
