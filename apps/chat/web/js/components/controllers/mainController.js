@@ -82,7 +82,10 @@ function($scope, $http, $rootScope, $window, UserService) {
   });
   
   $('html').click(function() {
-      $('.dropdown-options, .dropdown-emoticon, .sopro-company-panel, .sopro-user-panel, .sopro-role-panel').hide()
+    $('.dropdown-options, .dropdown-emoticon, .sopro-company-panel, .sopro-user-panel, .sopro-role-panel').hide()
+    $rootScope.$apply(function () {
+      $rootScope.$broadcast('hide.dropdowns');
+    })
   });
 
   $('#trigger-arrow, .trigger-arrow-gray, #trigger-avatar').click(function(event) {

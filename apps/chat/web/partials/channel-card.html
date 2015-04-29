@@ -34,7 +34,7 @@
             <div class="emoticon-container">
               <button class="emoticon-trigger"></button>
               <div class="dropdown-emoticon" ng-controller="emoticonsCtrl">
-                <div class="tabs-container">
+                <div class="tabs-container" ng-if="showEmoticons">
                   <ul class="tabs-menu">
                     <li ng-class="{current:emoticonTab==0}"><a ng-click="emoticonTab=0"><img src="web/bower_components/angular-emoji-filter/res/emoji/emoji_grinning.png"/></a></li>
                     <li ng-class="{current:emoticonTab==1}"><a ng-click="emoticonTab=1"><img src="web/bower_components/angular-emoji-filter/res/emoji/emoji_rat.png"/></a></li>

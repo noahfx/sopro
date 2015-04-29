@@ -13,6 +13,9 @@ angular.module('societyProChatApp.cardController',
         /* Emoticon Dropdown */
         $('.emoticon-trigger').click(function() {
             $('.dropdown-emoticon').toggle('fast');
+            $scope.$apply( function () {
+              $scope.showEmoticons = true;
+            });
         });
         
         /* Input Dropdown */
