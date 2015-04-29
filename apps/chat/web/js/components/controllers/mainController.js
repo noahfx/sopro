@@ -65,22 +65,7 @@ function($scope, $http, $rootScope, $window, UserService) {
   }
   ]
 
-  $scope.isAvatarMessage = function (i) {
-    if (i == 0) return true;
-    return $scope.messageHistory.messages[i].user != $scope.messageHistory.messages[i-1].user;
-  };
-  
-  //JQUERY --------------------------------------------------------------
-  /* Emoticon Dropdown */
-  $('.emoticon-trigger').click(function() {
-      $('.dropdown-emoticon').toggle('fast');
-  });
-  
-  /* Input Dropdown */
-  $('.options-trigger').click(function() {
-      $('.dropdown-options').toggle('fast');
-  });
-
+  // MAIN CONTROLLER JQUERY --------------------------------------------------------------
   /* Company Dropdown */
   $('#trigger-arrow').click(function() {
       $('.sopro-company-panel').toggle('fast');
@@ -96,71 +81,14 @@ function($scope, $http, $rootScope, $window, UserService) {
       $('.sopro-role-panel').toggle('fast');
   });
   
-  /* Textarea Autoresize */ 
-  $('#message-input').autosize({append: false, callback: function () {
-      var lastMessage = $('.messages-container ng-include').last()[0];
-      if (lastMessage) 
-          lastMessage.scrollIntoView();
-  }});
-
-  /* Textarea Send */
-  $('#message-input').keydown(function(e) {
-    if (event.keyCode == 13 && !event.shiftKey && $(".mentions>ul").css("display") == "none") {
-      var message = $(this).val().trim();
-      //SocietyPro.sendMessage(message);
-      if (message) {
-        $scope.sendMessage(message);
-      }
-      $(this).val('');    
-      $(this).autosize({append: false}).trigger('autosize.resize');
-      e.preventDefault();
-    }
-  });
-  
-  /* Textarea Autocomplete */
-  $('textarea').textcomplete([
-    { 
-      match: /\B:([\-+\w]*)$/,
-      search: function (term, callback) {
-        callback($.map(emojies, function (emoji) {
-          return emoji.indexOf(term) === 0 ? emoji : null;
-        }));
-      },
-      template: function (value) {
-        return '<img src="web/bower_components/angular-emoji-filter/res/emoji/emoji_' + value + '.png"></img>' + value;
-      },
-      replace: function (value) {
-        return ':' + value + ': ';
-      },
-      index: 1
-    },
-    {
-      mentions: ['jon','jimmy','hiro','tomas','cesar','jorge','voodoo','salme','plato'],
-      match: /\B@(\w*)$/,
-      search: function (term, callback) {
-          callback($.map(this.mentions, function (mention) {
-              return mention.indexOf(term) === 0 ? mention : null;
-          }));
-      },
-      template: function (value) {
-          return '<img src="avatars/avatar1.png"></img>' + value + '<span class="offline"></span>';
-      },
-      replace: function (mention) {
-          return '@' + mention + ' ';
-      },
-      index: 1
-    }
-  ],{
-      appendTo: $('.mentions')
-  });
- 
   $('html').click(function() {
       $('.dropdown-options, .dropdown-emoticon, .sopro-company-panel, .sopro-user-panel, .sopro-role-panel').hide()
   });
 
-  $('.options-trigger, .emoticon-trigger, .dropdown-emoticon, #trigger-arrow, .trigger-arrow-gray, #trigger-avatar').click(function(event) {
+  $('#trigger-arrow, .trigger-arrow-gray, #trigger-avatar').click(function(event) {
       event.stopPropagation();
   });
+
 
   var positionCommpanelScrollbar = function () {
     var $cp = $('#sopro-collections-wrap');

@@ -1,32 +1,4 @@
-<!--
-<md-card flex layout="column" class="sopro-card channel-card" ng-controller="historyCardController">
-  <header layout="row" layout-align="start center">
-    <span class="title">{{card.channel.name}}</span>
-    <span flex></span>
-    <span class="x-button" ng-click="cancelClicked($index)"><img src="web/images/icon-close.png"/></span>
-  </header>
--->
-  <!--
-  <md-content flex layout="column" class="card-content">
-    <ul >
-      <li
-        ng-repeat="message in messages | orderBy:sortByTs"
-        scroll-to-last
-      > {{message.text}} </li>
-    </ul>
-  </md-content>
-  <footer layout="row">
-    <input
-      flex
-      type="text"
-      class="channel-card-input"
-      placeholder="Message..."
-      ng-model="currentInput"
-      ng-keypress="handleCardInputKeypress($event)"
-    />
-  </footer>
-  -->
-        <md-content class="messages-container ng-scope md-default-theme" id="messages-container" layout="column" layout-align="end start" flex ng-controller="historyCardController">
+        <md-content class="messages-container ng-scope md-default-theme" id="messages-container" layout="column" layout-align="end start" flex >
           <ng-include 
           src="'web/partials/oneTextMessage.html'" 
           ng-repeat="message in messages | orderBy:sortByTs"
@@ -54,6 +26,9 @@
                 <!-- 
                 We used this in angular to detect enter press
                 ng-keypress="handleCardInputKeypress($event)"
+                Todo: Use angular events everywhere
+                A second attempt:
+                elem-ready="$scope.bindJquery()"
                 -->
             </form>
             <div class="emoticon-container">
@@ -83,6 +58,34 @@
           </div>
         </div>
 
+<!--
+<md-card flex layout="column" class="sopro-card channel-card" ng-controller="historyCardController">
+  <header layout="row" layout-align="start center">
+    <span class="title">{{card.channel.name}}</span>
+    <span flex></span>
+    <span class="x-button" ng-click="cancelClicked($index)"><img src="web/images/icon-close.png"/></span>
+  </header>
+-->
+  <!--
+  <md-content flex layout="column" class="card-content">
+    <ul >
+      <li
+        ng-repeat="message in messages | orderBy:sortByTs"
+        scroll-to-last
+      > {{message.text}} </li>
+    </ul>
+  </md-content>
+  <footer layout="row">
+    <input
+      flex
+      type="text"
+      class="channel-card-input"
+      placeholder="Message..."
+      ng-model="currentInput"
+      ng-keypress="handleCardInputKeypress($event)"
+    />
+  </footer>
+  -->
 <!--
  </md-card>
  -->

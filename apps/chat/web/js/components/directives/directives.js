@@ -318,4 +318,20 @@ angular.module('societyProChatApp.directives',[
       }
     }
   }
-});
+})
+// Thanks @jusopi http://stackoverflow.com/a/29571230/1380669
+.directive( 'elemReady', function( $parse ) {
+   return {
+       restrict: 'A',
+       link: function( $scope, elem, attrs ) {    
+        console.log('elemReady link function')
+         var readyFunc = $parse( attrs.onReady );
+         elem.ready( 
+          safeApply($scope, readyFunc($scope))
+         );
+          //$scope.$apply( readyFunc( $scope ))
+       }
+    }
+})
+
+;
