@@ -80,6 +80,21 @@ function($scope, $http, $rootScope, $window, UserService) {
   $('.options-trigger').click(function() {
       $('.dropdown-options').toggle('fast');
   });
+
+  /* Company Dropdown */
+  $('#trigger-arrow').click(function() {
+      $('.sopro-company-panel').toggle('fast');
+  });
+  
+  /* User Dropdown */
+  $('.trigger-arrow-gray').click(function() {
+      $('.sopro-user-panel').toggle('fast');
+  });
+  
+  /* Role Dropdown */
+  $('#trigger-avatar').click(function() {
+      $('.sopro-role-panel').toggle('fast');
+  });
   
   /* Textarea Autoresize */ 
   $('#message-input').autosize({append: false, callback: function () {
@@ -139,12 +154,11 @@ function($scope, $http, $rootScope, $window, UserService) {
       appendTo: $('.mentions')
   });
  
- 
   $('html').click(function() {
-      $('.dropdown-options, .dropdown-emoticon').hide()
+      $('.dropdown-options, .dropdown-emoticon, .sopro-company-panel, .sopro-user-panel, .sopro-role-panel').hide()
   });
 
-  $('.options-trigger, .emoticon-trigger, .dropdown-emoticon').click(function(event) {
+  $('.options-trigger, .emoticon-trigger, .dropdown-emoticon, #trigger-arrow, .trigger-arrow-gray, #trigger-avatar').click(function(event) {
       event.stopPropagation();
   });
 
@@ -252,6 +266,11 @@ function($scope, $http, $rootScope, $window, UserService) {
     ]
   }
 
+ $scope.toDate = function (ts) {
+        return new Date(+ts*1000);
+    };
+
+ 
   $scope.currentUser = $rootScope.currentUser = UserService;   
   $scope.roles = $scope.currentUser.identities;
   $rootScope.token = $scope.currentUser.apiToken;
@@ -391,7 +410,7 @@ function($scope, $http, $rootScope, $window, UserService) {
     $scope.change = function (i) {
         var edit = document.getElementById('message-input');
         edit.focus();
-        edit.value =edit.value + ":" + i + ":";
+        edit.value =edit.value + ":" + i + ": ";
     };
 
     $scope.hover = function (i) {
