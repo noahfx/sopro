@@ -371,5 +371,8 @@ function($scope, $http, $rootScope, $window, UserService, BaseUrl) {
     setTimeout(function () {
       positionEmoticonScrollbar();
     }, 1000);
+
+    $rootScope.openChannel = $scope.openChannel;
+
 }]);
 

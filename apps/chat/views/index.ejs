@@ -59,8 +59,8 @@
       </div>
       <div class="navbar-container" layout="row" layout-align="start center" flex>
         <span id="member-name" flex>
-          @<strong>jon</strong>
-          <img ng-src="web/images/icon-peers-circle.png" alt="channel-icon" src="web/images/icon-peers-circle.png">
+          <span ng-show="openChannel.soproModel !== 'channel'">@</span><strong ng-bind="openChannel.name"></strong>
+          <img ng-show="openChannel.soproModel !== 'channel'" ng-src="web/images/icon-peers-circle.png" alt="channel-icon" src="web/images/icon-peers-circle.png">
           <img class="trigger-arrow-gray" ng-src="web/images/trigger-arrow-gray.png" alt="channel-icon" src="web/images/trigger-arrow-gray.png"/>
         </span>
         <div class="sopro-user-panel">
