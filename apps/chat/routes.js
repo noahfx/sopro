@@ -22,7 +22,9 @@ module.exports = function(app, eb, passport, acl, PI, sopro, io, pubnub){
   // When we hear about new messages from other shards, persist them and publish to sockets:
   pubnub.subscribe({
     channel  : "global-messages",
-    callback : function(message) {
+    callback : function(pMessage) {
+      var message = pMessage.message;
+      console.log('Saving and rebroadcasting a message from', pMessage.shard);
       PI.create('message', message, function(err, result){
         if(err){
           return console.log(err);
@@ -45,7 +47,7 @@ module.exports = function(app, eb, passport, acl, PI, sopro, io, pubnub){
       soproModel: 'message',
       authorId: 'sopro',
       channelId: 'channel-general',
-      text: 'Shard '+app.sopro.servers.express.baseUrl+'is online and relaying its messages',
+      text: 'Shard '+app.sopro.servers.express.baseUrl+' is online and relaying its messages',
       ts: String(pNow/1000),
     }
   };
@@ -55,6 +57,15 @@ module.exports = function(app, eb, passport, acl, PI, sopro, io, pubnub){
     channel : "global-messages",
     message : pMsg,
   });
+
+  // Persist the demo message and send to sockets:
+  PI.create('message', pMsg.message, function(err, result){
+    if(err){
+      return console.log(err);
+    }
+    console.log(result);
+    broadcastChannelMessage(result);
+  })
 
   /*
    * MIDDLEWARE FUNCTIONS

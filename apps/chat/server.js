@@ -158,8 +158,8 @@ var https = require('https')
 
   var pubnub = require("pubnub")({
     ssl           : true,
-    publish_key   : app.sopro.locals.pubnub.publish_key,
-    subscribe_key : app.sopro.locals.pubnub.subscribe_key,
+    publish_key   : app.sopro.local.pubnub.publish_key,
+    subscribe_key : app.sopro.local.pubnub.subscribe_key,
   });
 
   require('./routes.js')(app, eventbus, passport, acl, PI, sopro, io, pubnub);
