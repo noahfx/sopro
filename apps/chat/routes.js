@@ -47,7 +47,7 @@ module.exports = function(app, eb, passport, acl, PI, sopro, io, pubnub){
       soproModel: 'message',
       authorId: 'sopro',
       channelId: 'channel-general',
-      text: 'Shard '+app.sopro.servers.express.baseUrl+' is online and relaying its messages',
+      text: 'Shard '+app.sopro.servers.express.baseUrl+' reporting',
       ts: String(pNow/1000),
     }
   };
