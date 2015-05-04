@@ -2,8 +2,8 @@ angular.module('societyProChatApp.cardController',
   ['ngMaterial']
 )
 .controller('historyCardController',
-['$scope', '$http', '$rootScope', '$timeout', 'UserNames',
-  function($scope, $http, $rootScope, $timeout, UserNames) {
+['$scope', '$http', '$rootScope', '$timeout', 'UserNames', 'Socket',
+  function($scope, $http, $rootScope, $timeout, UserNames, Socket) {
     $scope.messages = [];
     $scope.currentInput = "";
     $scope.cardTitle = "";
@@ -36,16 +36,13 @@ angular.module('societyProChatApp.cardController',
         // or server returns response with an error status.
         console.log(data);
       });
-    }
-
-    var socket = io();
-
+    };
+  
     $scope.listenToMessages = function (id) {
-      socket.on(id, function (data) {
+      Socket.on(id, function (data) {
         console.log(JSON.stringify(data));
         $scope.updateMessagesHistory(data);
-        $scope.$apply();
-      });  
+      });
     }
 
     $scope.sortByTs = function (message){
