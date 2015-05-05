@@ -29,14 +29,16 @@ Feature: Opening and closing dropdowns
     Then the dropdown is not visible
 
   Scenario: Opening a nested dropdown
-    Given the dropdown is already visible
+    Given the test is not pending
+      And the dropdown is already visible
       And I have a nested point of origin visible
     When I click the nested point of origin
     Then the dropdown is visible
       And the nested dropdown is visible
 
   Scenario: Opening a second primary dropdown while a primary and nested dropdown are shown
-    Given the dropdown is already visible
+    Given the test is not pending
+      And the dropdown is already visible
       And the nested dropdown is already visible
       And I have a second point of origin visible
     When I click the second point of origin
