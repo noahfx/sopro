@@ -1,3 +1,6 @@
+# 0.1.15 (2015-05-05)
+* Send a chat message from the channel's history card
+
 # 0.1.14 (2015-04-23)
 * Open the Channel History for a channel
 * Display new messages last
