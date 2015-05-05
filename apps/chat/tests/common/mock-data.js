@@ -126,5 +126,14 @@ module.exports = CAM_MOCKS = {
       }
     ],
     channel : {}
+  },
+  postMessageResponse: {
+    "ok": true,
+    "message": {
+      "_id": "unique-message-id",
+      "channelid": "unique-channel-id",
+      "authorid": "unique-identity-id",
+      "text": "message text"
+    }
   }
 };
