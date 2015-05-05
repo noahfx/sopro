@@ -1,6 +1,6 @@
 <html ng-app="societyProChatApp">
   <head>
-    <title>Ship</title>
+    <title>Ship | <%= version %></title>
 	<link href="web/images/favicon.png" rel="shortcut icon" />
 <!--   Styles    -->
     <link href='web/bower_components/angular-emoji-filter/dist/emoji.min.css' rel='stylesheet' type='text/css'>
@@ -48,15 +48,15 @@
   >
     <md-toolbar layout="row">
       <span id="logo-loco" layout="row" layout-align="start center">
-        <span id="logo-text">Central Services <span id="version-text"> v<%= version %></span></span>
+        <span id="logo-text">Central Services <!--<span id="version-text"> v<%= version %></span>--></span>
        
         <img id="trigger-arrow" src="web/images/trigger-arrow.png"/>
       </span>
       <div class="sopro-company-panel">
-        <a href="/admin" class="edit" >Administration</a>
-        <a href="/admin" class="mail" >Send invitations</a>
-        <a href="/admin" >Sign in to another team</a>
-        <a href="/admin" class="sign-out" >Sign out</a>
+        <a href="/admin" class="edit">Administration</a>
+        <!--<a href="/admin" class="mail">Send invitations</a>
+        <a href="/admin">Sign in to another team</a>-->
+        <a href="/admin" class="sign-out">Sign out</a>
       </div>
       <div class="navbar-container" layout="row" layout-align="start center" flex>
         <span id="member-name" flex>
@@ -65,10 +65,14 @@
           <img class="trigger-arrow-gray" ng-src="web/images/trigger-arrow-gray.png" alt="channel-icon" src="web/images/trigger-arrow-gray.png"/>
         </span>
         <div class="sopro-user-panel">
-          <a href="/admin" class="edit"  >View Profile</a>
-          <a href="/admin" class="mail"  >View Files</a>
-          <a href="/admin" >Invite to a Channel</a>
+          <!--<a href="/admin" class="edit">View Profile</a>
+          <a href="/admin" class="mail">View Files</a>
+          <a href="/admin">Invite to a Channel</a>-->
+		  <a href="/admin">Set topic</a>
         </div>
+		
+		
+		
         <div
         id="role-selection"
         layout="row"
@@ -81,10 +85,10 @@
           <span class="roleLabel">{{currentRole.name}}</span>
           <img src="web/images/role-arrow.png" width="10" height="5" alt="arrow-role"/>
           -->
-          <a id="hamburguer"></a>
+          <!--<a id="hamburguer"></a>-->
         </div>
         <div class="sopro-role-panel">
-          <a href="/admin" class="edit"  >Preferences</a>
+          <!--<a href="/admin" class="edit"  >Preferences</a>
           <a href="/admin" class="gear" >Your account</a>
           <a href="/admin" >Your profile</a>
           <a href="/admin" >Change your photo</a>
@@ -99,21 +103,21 @@
           <% } %>
           <% if (permissions.getAdmin) { %>
           <a href="/admin" id="adminPanelLink">Admin Panel</a>
-          <% } %>
+          <% } %>-->
           <a href="/logout" class="sign-out roleLogout" >Sign out</a>
         </div>
       </div>
     </md-toolbar>
     <div class="sopro-main-content" flex layout="row">
       <md-content id="sopro-collections-wrap">
-        <collection
+        <!--<collection
           id="collection-favorites"
           channel-title="FAVORITES"
           userexpandable="true"
           icon="web/images/icon-star.png"
           repeater="favorites"
           sopro-template-url="web/partials/collection-peer.html"
-        ></collection>
+        ></collection>-->
         <collection
           id="collection-channels"
           channel-title="CHANNELS"
@@ -130,7 +134,7 @@
           repeater="peers"
           sopro-template-url="web/partials/collection-peer.html"
         ></collection>
-        <collection
+        <!--<collection
           id="collection-private"
           channel-title="PRIVATE
           CHANNELS"
@@ -145,7 +149,7 @@
           repeater="myChannels"
           sopro-template-url="web/partials/collection-peer.html"
         ></collection>
-        <a id="more-unread">more unread</a>
+        <a id="more-unread">more unread</a>-->
       </md-content>
       <sopro-collections-dropdown
         ng-show="showCollectionsOverflow"

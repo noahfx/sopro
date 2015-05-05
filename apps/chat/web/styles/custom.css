@@ -125,9 +125,9 @@ span.star:hover {
 	display: none;
 }
 
-.message:hover .message-dropdown {
+/*.message:hover .message-dropdown {
 	display: block;
-}
+}*/
 
 .message-dropdown a {
     display: inline-block;
@@ -231,9 +231,9 @@ span.star:hover {
 .message:hover .time-hover {
 	visibility: visible;
 }
-.message:hover .star {
+/*.message:hover .star {
 	visibility: visible;
-}
+}*/
 .star.childMessage {
 	position: absolute;
 	left: 37px;

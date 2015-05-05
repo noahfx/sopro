@@ -97,7 +97,7 @@ body > md-toolbar {
   display: none;
   top: 48px;
   position: absolute;
-  right: 48px;
+  right: 15px;
   background: #ffffff;
   width: 220px;
   height: auto;
@@ -435,7 +435,7 @@ color: rgba(204, 204, 204, 1);
 .sopro-card {
   /*max-height: 270px;*/
   min-height: 270px;
-  margin: 0px 8px 8px 8px;
+  margin: 0 0 20px 20px;
   background-color: white;
   box-shadow: none;
 }
