@@ -3,7 +3,7 @@ it('found the mocks', function(){
 })
 
 describe("societyProChat Controllers", function() {
-  var scope, rootscope, createController, httpBackend, UserServiceMock;
+  var scope, rootscope, createController, httpBackend, UserServiceMock, SocketMock;
 
   beforeEach(module("societyProChatApp"));
 
@@ -19,12 +19,17 @@ describe("societyProChat Controllers", function() {
               "identityid":"abc",
             }
           ]
+        };
+        SocketMock = {
+          on: jasmine.createSpy('on'),
+          emit: jasmine.createSpy('emit')
         }
         createController = function(name) {
           name = name || 'mainController';
           var controller = $controller(name, {
             '$scope': scope,
             'UserService': UserServiceMock,
+            'Socket': SocketMock
           });
           if(name === 'mainController'){
             httpBackend.flush();
@@ -67,6 +72,7 @@ describe("societyProChat Controllers", function() {
 
   describe('card controller', function(){
     var controller;
+
     beforeEach(function(){
       scope.card = {
         channel : {
@@ -97,6 +103,20 @@ describe("societyProChat Controllers", function() {
       expect(scope.messages[1].text).toBe("Old");
     });
 
+    it("listens to messages", function () {
+      expect(SocketMock.on).toHaveBeenCalled();
+    });
+
+    describe("sortByTs function", function () {
+      it("exists", function() {
+        expect(Object.prototype.toString.call(scope.sortByTs)).toEqual('[object Function]');
+      });
+
+      it("returns the number of seconds since UTC epoch", function () {
+        expect(scope.sortByTs({ts: "1.002"})).toBe(1.002);
+      });
+    });
+
     describe("updateMessagesHistory function", function(){
       it("exists", function() {
         expect(Object.prototype.toString.call(scope.updateMessagesHistory)).toEqual('[object Function]');
@@ -118,6 +138,24 @@ describe("societyProChat Controllers", function() {
         expect(scope.messages[scope.messages.length-1]._id).toEqual(CAM_MOCKS.channelHistoryResponse.messages[1]._id);
       });
     });
+
+    describe("handleCardInputKeypress function", function (){
+      it("exists", function() {
+        expect(Object.prototype.toString.call(scope.handleCardInputKeypress)).toEqual('[object Function]');
+      });
+
+      it("calls sendCurrentInput when receives a keyCode:13", function(){
+        spyOn(scope, "sendCurrentInput");
+        scope.handleCardInputKeypress({keyCode: 13});
+        expect(scope.sendCurrentInput).toHaveBeenCalled();
+      });
+
+      it("doesn't call sendCurrentInput when receiving an incorrect keyCode", function () {
+        spyOn(scope, "sendCurrentInput");
+        scope.handleCardInputKeypress({keyCode: 12});
+        expect(scope.sendCurrentInput).not.toHaveBeenCalled();
+      })
+    });    
 
     describe("sendCurrentInput function", function (){
       it("exists", function() {

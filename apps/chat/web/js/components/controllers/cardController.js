@@ -2,9 +2,8 @@ angular.module('societyProChatApp.cardController',
   ['ngMaterial']
 )
 .controller('historyCardController',
-['$scope', '$http', '$rootScope', '$timeout', 'UserNames', 'BaseUrl',
-  function($scope, $http, $rootScope, $timeout, UserNames, BaseUrl) {
-    console.log('Loading cardController.js')
+['$scope', '$http', '$rootScope', '$timeout', 'UserNames', 'BaseUrl', 'Socket',
+  function($scope, $http, $rootScope, $timeout, UserNames, BaseUrl, Socket) {
     function safeApply($scope, fn) {
       var phase = $scope.$root.$$phase;
       if (phase == '$apply' || phase == '$digest') {
@@ -17,7 +16,6 @@ angular.module('societyProChatApp.cardController',
     };
 
     $timeout(bindJquery, 1000);
-    console.log('jquery bindings scheduled')
 
     function bindJquery(){
       console.log('binding jquery')
@@ -124,15 +122,12 @@ angular.module('societyProChatApp.cardController',
         console.log(data);
         callback(data);
       });
-    }
-
-    var socket = io();
-
+    };
+  
     $scope.listenToMessages = function (id) {
-      socket.on(id, function (data) {
+      Socket.on(id, function (data) {
         console.log(JSON.stringify(data));
         $scope.updateMessagesHistory(data);
-        $scope.$apply();
       });
     }
 
@@ -146,7 +141,6 @@ angular.module('societyProChatApp.cardController',
 
     $scope.isAvatarMessage = function (i) {
       if (i == 0) return true;
-      //TODO: verify authorid/authorId
       return $scope.messages[i].authorId != $scope.messages[i-1].authorId;
     };
 
@@ -164,30 +158,14 @@ angular.module('societyProChatApp.cardController',
     };
 
     $scope.handleCardInputKeypress = function($event){
-      /*
-      if($event.keyCode === 13){
-        $scope.sendCurrentInput();
-      }
-      */
       if ($event.keyCode == 13 && !$event.shiftKey) {
         if($(".mentions>ul").css("display") !== "none"){
           return false;
         }
 
-        // var $input = $($event.target);
-        //var message = $input.val().trim();
-
         var message = $scope.currentInput.text.trim();
         console.log(message)
-        //SocietyPro.sendMessage(message);
         if (message) {
-          //$scope.sendMessage(message);
-          /*
-          safeApply($scope, function(){
-            $scope.sendCurrentInput();
-          })
-          */
-
           safeApply($scope, $scope.sendCurrentInput)
         }
         $event.preventDefault();
