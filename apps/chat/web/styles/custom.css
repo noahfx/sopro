@@ -460,15 +460,18 @@ a {
 	text-transform: uppercase;
 	float: right;
 	color: #ffffff;
-	background: transparent;
+	background: #029688;
 	border: 0;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius: 2px;
 }
 
 .login-screen form .login-recover {
 	display: block; 
 	text-transform: uppercase;
 	color: #616161;
-	text-align: right;
+	float: right;
 	margin-top: 20px
 }
 
