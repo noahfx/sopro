@@ -418,3 +418,65 @@ a {
 	background-color: #eeeeee;
 	text-decoration: none;
 }
+
+/* ADMIN */
+
+.login-screen {
+	background: #3a3a3a	
+}
+
+.login-screen form {
+	margin: auto;
+	width: 350px
+}
+
+.login-screen form img{
+	display: inherit;
+	margin: 0 auto 50px auto;
+}
+
+.login-screen form .login-input label {
+	color: #636363 !important;
+}
+
+.login-screen form .login-input input {
+	color: #636363 !important;
+	border-color: #616161 !important;
+}
+
+.login-screen form .login-checkbox {
+	float: left;
+	color: #ffffff;
+	display: block;
+}
+
+.login-screen form .login-checkbox > input {
+	margin-right: 20px;
+	margin-top: 5px;
+	float: left
+}
+
+.login-screen form .login-button {
+	text-transform: uppercase;
+	float: right;
+	color: #ffffff;
+	background: #029688;
+	border: 0;
+	-webkit-border-radius: 2px;
+	-moz-border-radius: 2px;
+	border-radius: 2px;
+}
+
+.login-screen form .login-recover {
+	display: block; 
+	text-transform: uppercase;
+	color: #616161;
+	float: right;
+	margin-top: 20px
+}
+
+.login-screen form .login-recover:hover {
+	color: #ffffff;
+}
+
+.clear {clear: both}

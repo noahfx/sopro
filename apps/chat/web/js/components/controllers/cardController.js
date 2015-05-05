@@ -296,5 +296,9 @@ angular.module('societyProChatApp.cardController',
     } else {
       throw new Error('No channel or peer to display on this card')
     }
+
+
+    console.log($scope.card.channel);
+    $rootScope.openChannel = $scope.card.channel;
   }
 ]);

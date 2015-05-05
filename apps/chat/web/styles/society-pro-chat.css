@@ -34,6 +34,7 @@ body > md-toolbar {
 
 #version-text {
   font-size: 10px;
+  color: #afafaf
 }
 
 
@@ -426,7 +427,7 @@ color: rgba(204, 204, 204, 1);
 #main-stage {
   overflow: hidden;
 
-  margin: 20px 20px 20px 25px;
+  margin: 20px;
   background-color: inherit;
 }
 
@@ -627,4 +628,5 @@ a {
 
 .creation-card {
   max-height: 270px; 
+  border: 1px solid #eaedf1
 }
