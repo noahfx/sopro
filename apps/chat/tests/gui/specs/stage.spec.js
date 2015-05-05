@@ -6,6 +6,7 @@ describe("Main Stage",function  () {
   changeIdentity(0);
   describe("Open an existing channel", function(){
     it("finds the 'random' channel", function(){
+      changeIdentity(0);
       expect(
         element.all(by.css('#collection-channels .channel-item'))
         .get(1)
