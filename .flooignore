@@ -6,3 +6,4 @@ extern/
 node_modules/
 tmp
 vendor/
+apps/chat/cfg/locals.js
