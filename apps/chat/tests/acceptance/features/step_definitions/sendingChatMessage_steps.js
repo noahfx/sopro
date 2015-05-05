@@ -54,10 +54,11 @@ module.exports = function () {
   this.Then(/^the message should be sent via the API$/, function (next) {
     var self = this;
     setTimeout(function(){
-      element.all(by.css("#main-stage > ng-include > md-card > md-content > ul > li"))
+      element.all(by.css("#main-stage md-card li"))
       .last()
       .getText()
       .then( function (lastMessageText) {
+        lastMessageText = lastMessageText.substring(lastMessageText.indexOf(":")+2,lastMessageText.length);
         assert(lastMessageText === self.messageSent,
           'Did not find the expected message at the end of the message history');
         next();
