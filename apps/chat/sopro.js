@@ -157,6 +157,157 @@ module.exports = function(app, PI){
     })
   }
 
+
+
+  // This function handles a portion of the logic to post a direct message.
+  // The rest of the logic is in routes.js, /api/postMessage
+  sopro.helpers.handlePostedMessageDM = function(opts, callback){
+    async.waterfall([
+      // For the case of a direct message, check if the receiver exists:
+      function(done){
+        PI.read(opts.receiverId, function(err, identity){
+          if(err){
+            if(err.error === 'not_found'){
+              return done([404, 'not_found', 'This receiverId is not associated with an identity.']);
+            } else {
+              console.log(err);
+              return done([500, 'server_error']);
+            }
+          } else {
+            if(identity.soproModel !== 'identity'){
+              return done([404, 'not_found', 'This receiverId is not associated with an identity.']);
+            } else {
+              return done(null, opts);
+            }
+          }
+        })
+      },
+      // Craft and save a message object for that channel:
+      function(opts, done){
+        // Convert ms timestamp to s timestamp:
+        var tsS = opts.tsMs / 1000;
+        // Cast to string:
+        tsS = String(tsS);
+        // Strip any decimals after the first 3:
+        tsS = tsS.replace(/^(\d+\.\d\d\d)\d+$/, "$1");
+        var data = {
+          soproModel: 'message',
+          authorId: opts.authorId,
+          text: opts.text,
+          ts: tsS,
+        }
+        // DM. Set receiverId but not channelId:
+        data.receiverId = opts.receiverId;
+
+        PI.create('message', data, function(err, result){
+          if(err){
+            console.log(err);
+            return done([500, 'server_error']);
+          }
+          opts.messageResult = result;
+          return done(null, opts);
+        })
+      },
+    ], function(err, opts){
+      return callback(err, opts)
+    })
+  }
+
+  // This function handles a portion of the logic to post a chat message to a channel.
+  // The rest of the logic is in routes.js, /api/postMessage
+  sopro.helpers.handlePostedMessageChannel = function(opts, callback){
+    async.waterfall([
+      // Look for the channel by name and id:
+      function(done){
+        // Try by ID:
+        PI.read(opts.channel, function(err, channel){
+          if(err && err.error === 'not_found'){
+            // Try by name:
+            PI.find('channel', 'name', opts.channel, function(err, channels){
+              if(err){
+                return done([500, 'server_error']);
+              }
+              if(channels.length === 0){
+                return done([
+                  404,
+                  'not_found',
+                  'No matching channel was not found on the server'
+                ]);
+              }
+              if(channels.length > 1){
+                console.log('Unexpectedly found multiple channels for',
+                opts.channel,
+                'naively assuming the first one');
+              }
+              opts.channelObj = channels[0];
+              return done(null, opts);
+            });
+          } else if(err){
+            console.log(err);
+            return done([500, 'server_error']);
+          } else {
+            if(channel.soproModel !== 'channel'){
+              return done([
+                404,
+                'not_found',
+                'No matching channel was not found on the server'
+              ]);
+            }
+            opts.channelObj = channel;
+            return done(null, opts);
+          }
+        });
+      },
+      // Check if the current identity is a member of that channel
+      function(opts, done){
+        PI.find('identity', 'channel', opts.channelObj._id, function(err, identities){
+          if(err){
+            console.log(err);
+            return done([500, 'server_error']);
+          }
+          var authorInChannel = false;
+          identities.forEach(function(identity){
+            if(identity._id === opts.authorId){
+              authorInChannel = true;
+            }
+          })
+          if(!authorInChannel){
+            return done([403, 'not_in_channel', 'You must be a member of a channel to post a message'])
+          }
+          done(null, opts);
+        })
+      },
+      // Craft and save a message object for that channel:
+      function(opts, done){
+        // Convert ms timestamp to s timestamp:
+        var tsS = opts.tsMs / 1000;
+        // Cast to string:
+        tsS = String(tsS);
+        // Strip any decimals after the first 3:
+        tsS = tsS.replace(/^(\d+\.\d\d\d)\d+$/, "$1");
+        var data = {
+          soproModel: 'message',
+          authorId: opts.authorId,
+          text: opts.text,
+          ts: tsS,
+        }
+
+        // Chat: Set channelId and not receiverId
+        data.channelId = opts.channelObj._id;
+        PI.create('message', data, function(err, result){
+          if(err){
+            console.log(err);
+            return done([500, 'server_error']);
+          }
+          opts.messageResult = result;
+          return done(null, opts);
+        })
+      },
+    ], function(err, opts){
+      return callback(err, opts)
+    });
+  }
+
   /*
    *  ROUTING FUNCTIONS
    */

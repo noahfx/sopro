@@ -672,120 +672,16 @@ module.exports = function(app, eb, passport, acl, PI, sopro, io){
         opts.dmOrChat = type;
         done(null, opts);
       },
-      // Look for the channel by name and id:
       function(opts, done){
-        // DM's are associated with authorId and receiverId identities, not a channel object. Don't look for one:
-        if(opts.dmOrChat !== "chat"){
-          return done(null, opts);
-        }
-        // Try by ID:
-        PI.read(opts.channel, function(err, channel){
-          if(err && err.error === 'not_found'){
-            // Try by name:
-            PI.find('channel', 'name', opts.channel, function(err, channels){
-              if(err){
-                return done([500, 'server_error']);
-              }
-              if(channels.length === 0){
-                return done([
-                  404,
-                  'not_found',
-                  'No matching channel was not found on the server'
-                ]);
-              }
-              if(channels.length > 1){
-                console.log('Unexpectedly found multiple channels for',
-                            opts.channel,
-                            'naively assuming the first one');
-              }
-              opts.channelObj = channels[0];
-              return done(null, opts);
-            });
-          } else if(err){
-            console.log(err);
-            return done([500, 'server_error']);
-          } else {
-            opts.channelObj = channel;
-            return done(null, opts);
-          }
-        });
-      },
-      // Check if the current identity is a member of that channel
-      function(opts, done){
-        // DM's don't have a channel object saved. Don't check for membership:
-        if(opts.dmOrChat !== "chat"){
-          return done(null, opts);
-        }
-        PI.find('identity', 'channel', opts.channelObj._id, function(err, identities){
-          if(err){
-            console.log(err);
-            return done([500, 'server_error']);
-          }
-          var authorInChannel = false;
-          identities.forEach(function(identity){
-            if(identity._id === opts.authorId){
-              authorInChannel = true;
-            }
-          })
-          if(!authorInChannel){
-            return done([403, 'not_in_channel', 'You must be a member of a channel to post a message'])
-          }
-          done(null, opts);
-        })
-      },
-      // For the case of a direct message, check if the receiver exists:
-      function(opts, done){
-        if(opts.dmOrChat !== "dm"){
-          return done(null, opts);
-        };
-        PI.read(opts.receiverId, function(err, identity){
-          if(err){
-            if(err.error === 'not_found'){
-              return done([404, 'not_found', 'This receiverId is not associated with an identity.']);
-            } else {
-              console.log(err);
-              return done([500, 'server_error']);
-            }
-          } else {
-            if(identity.soproModel !== 'identity'){
-              return done([404, 'not_found', 'This receiverId is not associated with an identity.']);
-            } else {
-              return done(null, opts);
-            }
-          }
-        })
-      },
-      // Craft and save a message object for that channel:
-      function(opts, done){
-        // Convert ms timestamp to s timestamp:
-        var tsS = opts.tsMs / 1000;
-        // Cast to string:
-        tsS = String(tsS);
-        // Strip any decimals after the first 3:
-        tsS = tsS.replace(/^(\d+\.\d\d\d)\d+$/, "$1");
-        var data = {
-          soproModel: 'message',
-          authorId: opts.authorId,
-          text: opts.text,
-          ts: tsS,
-        }
-
         if(opts.dmOrChat === 'dm'){
-          data.receiverId = opts.receiverId;
+          sopro.helpers.handlePostedMessageDM(opts, done);
         } else if(opts.dmOrChat === 'chat'){
-          data.channelId = opts.channelObj._id;
+          sopro.helpers.handlePostedMessageChannel(opts, done);
         } else {
-          throw new Error('Unexpected dmOrChat: ' + opts.dmOrChat);
+          console.log('Unknown opts.dmOrChat')
+          return done([500, 'server_error'])
         }
-        PI.create('message', data, function(err, result){
-          if(err){
-            console.log(err);
-            return done([500, 'server_error']);
-          }
-          opts.messageResult = result;
-          return done(null, opts);
-        })
-      },
+      }
     ], function(err, opts){
       if(err){
         return res.status(err[0]).json({
@@ -804,7 +700,7 @@ module.exports = function(app, eb, passport, acl, PI, sopro, io){
         })
       }
     })
-  })
+  });
 
   /*
    *  UNHANDLED ERROR ROUTING
