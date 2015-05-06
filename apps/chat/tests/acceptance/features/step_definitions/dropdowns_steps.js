@@ -357,4 +357,8 @@ function isDropdownVisible(arg1, arg2, arg3, next){
   this.Then(/^the( second)?( nested)? dropdown is( not)? visible$/,
     isDropdownVisible);
 
+  this.Given(/^the test is not pending$/, function (next) {
+    next.pending();
+  })
+
 }; // end module.exports
