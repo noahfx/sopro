@@ -13,13 +13,12 @@ var channelsList_steps = module.exports = function(){
   this.When(SSTEPS.roleChosen.regex, SSTEPS.roleChosen.fn);
 
   this.Then(/^I should see a list of channels to which that role is subscribed$/, function (next) {
-    var channelsRepeater =
-    element.all(by.css('#collection-channels .channel-item'));
-
-    channelsRepeater.isDisplayed()
+    element.all(by.css('#collection-channels .channel-item'))
+    .isDisplayed()
     .then(function(isDisplayed) {
       if (isDisplayed) {
-        channelsRepeater.count()
+        element.all(by.css('#collection-channels .channel-item'))
+        .count()
         .then(function (size) {
           if (size == CAM_MOCKS.getChannelsResponse1.channels.length) {
             next();
