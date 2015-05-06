@@ -188,7 +188,7 @@ angular.module('societyProChatApp.directives',[
     },
   };
 })
-      .directive('soproCollectionsDropdown', function(){
+.directive('soproCollectionsDropdown', function(){
   return {
     restrict: 'E',
     transclude: true,
@@ -284,7 +284,9 @@ angular.module('societyProChatApp.directives',[
       $scope.$on('POO.click.subscribers', function($event, data){ 
         $scope.dropdownTitle = data.title;
         $scope.fromElement = data.fromElement;
-        if (!$($scope.fromElement).hasClass("channel-item") && !$($scope.fromElement).hasClass("dropdown-item")) {
+        var isChannelItem = $($scope.fromElement).hasClass("channel-item");
+        var isDropdownItem = $($scope.fromElement).hasClass("dropdown-item");
+        if (!isChannelItem && !isDropdownItem) {
           $scope.fromElement = $scope.fromElement.parentElement;
         }
         $($scope.fromElement).addClass('poo-highlight-subscriber');
@@ -323,7 +325,7 @@ angular.module('societyProChatApp.directives',[
     },
     templateUrl: 'web/partials/dropdown.html'
   };
-      }])
+}])
 // Thanks @Rob:
 // http://stackoverflow.com/a/20445344/1380669
 .directive('sglclick', ['$parse', function($parse) {

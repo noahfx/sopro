@@ -125,34 +125,6 @@ module.exports = function(app, PI){
     })
   };
 
-  sopro.chatOrDM = function(message){
-    var isChat = false;
-    var isDM = false;
-
-    if(message.channelId !== undefined){
-      isChat === true;
-    }
-
-    if(message.receiverId !== undefined){
-      isDM === true;
-    }
-
-    if(!isDM && !isChat){
-      throw new Error('This message has neither channelId or receiverId.')
-    }
-
-    if(isDM && isChat){
-      throw new Error('This message has both channelId and receiverId.')
-    }
-
-    if(isDM){
-      return 'dm'
-    } else {
-      return 'chat'
-    };
-  }
-
-
   /*
    *  HELPER FUNCTIONS
    */

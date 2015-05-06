@@ -92,6 +92,8 @@ angular.module('societyProChatApp.controller2',
 
     $scope.stageCards[0] = data;
 
+    // Channel Card Logic Below, commented for now
+
     /*if ($scope.stageCards.length == 0) {
       return $scope.stageCards.push(data);
     }
