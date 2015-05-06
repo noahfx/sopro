@@ -154,7 +154,7 @@ var https = require('https')
   });
 
   var io = require('socket.io')(https);
-  console.log("Socket listening port 443");
+  console.log("Socket listening on port", serverConfig.express.sslPort);
 
   require('./routes.js')(app, eventbus, passport, acl, PI, sopro, io);
 }
