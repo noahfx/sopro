@@ -9,8 +9,7 @@
       ng-class="{'channel-separator':$last && repeater.length <= maxChannels}" 
       ng-repeat="item in repeater" 
       ng-if="showItem(item, $index)"
-      sglclick="openChannelHistory($event, item)"
-      ng-dblclick="openSubscribersOverflow($event, item, title)"
+      ng-click="openChannelHistory($event, item)"
       layout="row" 
       layout-align="start center">
        <img ng-src="{{icon}}" alt="channel-icon">
