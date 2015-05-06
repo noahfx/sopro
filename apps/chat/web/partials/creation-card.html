@@ -1,17 +1,14 @@
 <md-card flex layout="column" class="sopro-card creation-card" id="card-create-channel">
-  <header layout="row" layout-align="start center">
-    <span class="title" >Create a channel</span>
-    <span flex></span>
-    <span class="x-button" ng-click="hideCreationCard()"><img src="web/images/icon-close.png"/></span>
-  </header>
+  <header layout="row" layout-align="start center"> <span class="title" >Create a channel</span> <span flex></span> <span class="x-button" ng-click="hideCreationCard()"><img src="web/images/icon-close.png"/></span> </header>
   <md-content flex layout="column" class="card-content">
-    <input type="text" class="title" placeholder="Channel Title"
+    <p class="text1">This will create a new public channel that anyone on your team can join.</p>
+    <p class="text2">If you need this conversation to be private, you should create a new <a href="">Private Group instead.</a></p>
+    <input type="text" class="title" placeholder="Name"
            ng-model="creationCard.creationTitle">
-    <textarea placeholder="Channel Description" ng-model="creationCard.creationDesc" class="channel-description"></textarea>
+    <textarea placeholder="Purpose" ng-model="creationCard.creationDesc" class="channel-description"></textarea>
   </md-content>
-  <footer layout="row" layout-align="start center">
-    <span flex></span>
+  <footer layout="row" layout-align="start center"> <span flex></span>
     <md-button class="cancel-button" ng-click="hideCreationCard()">CANCEL</md-button>
     <md-button class="create-button" ng-click="createClicked()">CREATE</md-button>
   </footer>
- </md-card>
+</md-card>

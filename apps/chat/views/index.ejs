@@ -71,8 +71,20 @@
 		  <a href="/admin">Set topic</a>
         </div>
 		
-		
-		
+		<a id="user-count">{{members.length}}</a>
+
+		<div class="sopro-count-panel">
+		  <a href="" class="dropdown-item" ng-repeat="item in members">
+			<!--
+			<img src="web/avatars/avatar1.png">
+			-->
+			{{item.name}}
+			<!--
+			<span class="offline"></span>
+			-->
+		  </a>
+        </div>
+
         <div
         id="role-selection"
         layout="row"

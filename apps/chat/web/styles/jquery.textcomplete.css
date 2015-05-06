@@ -36,6 +36,9 @@
     height: 21px;
     margin-right: 5px;
     float: left;
+	-webkit-border-radius: 50%;
+	-moz-border-radius: 50%;
+	border-radius: 50%;
 }
 
 .dropdown-menu li a span.offline {

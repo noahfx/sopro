@@ -26,7 +26,7 @@ angular.module('societyProChatApp.cardController',
 
         /* Emoticon Dropdown */
         $('.emoticon-trigger').click(function() {
-            $('.dropdown-emoticon').toggle('fast');
+            $('.dropdown-emoticon').fadeToggle('fast');
             $scope.$apply( function () {
               $scope.showEmoticons = true;
             });
@@ -34,7 +34,7 @@ angular.module('societyProChatApp.cardController',
 
         /* Input Dropdown */
         $('.options-trigger').click(function() {
-            $('.dropdown-options').toggle('fast');
+            $('.dropdown-options').fadeToggle('fast');
         });
 
       /* Textarea Autoresize */
@@ -114,6 +114,7 @@ angular.module('societyProChatApp.cardController',
           data.channel.members.forEach(function(member){
             UserNames.add(member._id, member.name);
           });
+		  $rootScope.members = data.channel.members;
         } else {
           throw new Error(data.error);
           callback(data);

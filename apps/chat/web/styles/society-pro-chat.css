@@ -18,6 +18,7 @@ body > md-toolbar {
   color: white;
   padding-left: 15px;
   position: relative;
+	cursor: pointer;
 }
 
 #logo-text {
@@ -29,7 +30,6 @@ body > md-toolbar {
   position: absolute;
   right: 15px; 
   top: 30px;
-  cursor: pointer;
 }
 
 #version-text {
@@ -203,6 +203,66 @@ body > md-toolbar {
   color: #333333;
 }
 
+.sopro-count-panel {
+  display: none;
+  top: 48px;
+  position: absolute;
+  right: 350px;
+  background: #ffffff;
+  width: 220px;
+  height: auto;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  border: 1px solid #dadada;
+  margin: 15px 10px 0 0;
+  float: right;
+  padding: 10px 0px 10px 0px;
+  -webkit-box-shadow: 0 0 1px rgba(0,0,0,0.04),0 2px 8px rgba(0,0,0,0.1) !important;
+  -moz-box-shadow:    0 0 1px rgba(0,0,0,0.04),0 2px 8px rgba(0,0,0,0.1) !important;
+  box-shadow:         0 0 1px rgba(0,0,0,0.04),0 2px 8px rgba(0,0,0,0.1) !important;
+}
+
+.sopro-count-panel a {
+  display: block;
+  font-size: 12px; 
+  color: #555459;
+  height: 30px;
+  line-height: 30px;
+  text-align: left;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.sopro-count-panel a:hover {
+  background-color: #f2f2f5;
+  color: #333333;
+}
+
+.sopro-count-panel a img {
+    width: 21px;
+    height: 21px;
+    margin-right: 5px;
+	margin-top: 5px;
+    float: left;
+	-webkit-border-radius: 50%;
+	-moz-border-radius: 50%;
+	border-radius: 50%;
+}
+
+.sopro-count-panel a span.offline {
+    width: 8px;
+    height: 8px;
+	float: right;
+	margin-top: 12px;
+    background: #93cc93;
+    display: inline-block;
+    margin-left: 5px;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+}
+
 .sopro-role-panel a.gear,
 .sopro-company-panel a.gear{
   background-image:url(../images/gear.png);
@@ -229,6 +289,18 @@ body > md-toolbar {
   background-image:url(../images/pencil.png);
   background-repeat: no-repeat;
   background-position: 15px center;
+}
+
+#user-count {
+  background-image: url(../images/icon-peers.png);
+  background-repeat: no-repeat;
+  background-position: left center;
+  color: #555459;
+  font-weight: bold;
+  font-size: 14px;
+  padding-left: 20px;
+  margin-right: 5px;
+  cursor: pointer
 }
 
 #hamburguer {
@@ -460,21 +532,29 @@ color: rgba(204, 204, 204, 1);
 }
 .sopro-card .card-content .title{
   height: 40px;
-   font-size: 12px; 
    border: 1px solid #eaedf1; 
    border-radius: 2px; 
    padding: 14px 10px; 
    margin-top: 3px;
 }
 .sopro-card .card-content .channel-description {
-  height: 80px;
-   font-size: 12px; 
+  height: 100px;
    border: 1px solid #eaedf1; 
    border-radius: 2px; 
    padding: 14px 10px;
    margin: 10px 0px;
    resize: none;
 }
+
+.sopro-card p.text1{
+  font-weight: bold;
+  margin: 0 0 10px 0
+}
+
+.sopro-card p.text2{
+  margin: 0 0 20px 0
+}
+
 .sopro-card footer{
   height: 50px;
   padding: 0px 16px;
@@ -483,8 +563,14 @@ color: rgba(204, 204, 204, 1);
 .sopro-card footer md-button{
   font-size: 14px; 
   color: #555459;
+  font-weight: bold
 }
 
+.sopro-card footer .create-button{
+  font-size: 14px; 
+  color: #555459;
+  color: #009786
+}
 
 /* DROPDOWNS */
 
@@ -627,6 +713,6 @@ a {
 }
 
 .creation-card {
-  max-height: 270px; 
+  /*max-height: 270px; */
   border: 1px solid #eaedf1
 }

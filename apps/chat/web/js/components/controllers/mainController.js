@@ -65,31 +65,35 @@ function($scope, $http, $rootScope, $window, UserService, BaseUrl) {
 
   // MAIN CONTROLLER JQUERY --------------------------------------------------------------
   /* Company Dropdown */
-  $('#trigger-arrow').click(function() {
-      $('.sopro-company-panel').toggle('fast');
+  $('#logo-loco').click(function() {
+      $('.sopro-company-panel').fadeToggle('fast');
   });
   
   /* User Dropdown */
   $('.trigger-arrow-gray').click(function() {
-      $('.sopro-user-panel').toggle('fast');
+      $('.sopro-user-panel').fadeToggle('fast');
   });
   
   /* Role Dropdown */
   $('#trigger-avatar').click(function() {
-      $('.sopro-role-panel').toggle('fast');
+      $('.sopro-role-panel').fadeToggle('fast');
+  });
+  
+	/* User Count Dropdown */
+  $('#user-count').click(function() {
+      $('.sopro-count-panel').fadeToggle('fast');
   });
   
   $('html').click(function() {
-    $('.dropdown-options, .dropdown-emoticon, .sopro-company-panel, .sopro-user-panel, .sopro-role-panel').hide()
+    $('.dropdown-options, .dropdown-emoticon, .sopro-company-panel, .sopro-user-panel, .sopro-role-panel, .sopro-count-panel').hide()
     $rootScope.$apply(function () {
       $rootScope.$broadcast('hide.dropdowns');
     })
   });
 
-  $('#trigger-arrow, .trigger-arrow-gray, #trigger-avatar').click(function(event) {
+  $('#logo-loco, .trigger-arrow-gray, #trigger-avatar, #user-count').click(function(event) {
       event.stopPropagation();
   });
-
 
   var positionCommpanelScrollbar = function () {
     var $cp = $('#sopro-collections-wrap');
