@@ -94,6 +94,7 @@ angular.module('societyProChatApp.controller2',
 
     /*
     Leftovers from when we displayed multiple cards:
+
     if ($scope.stageCards.length == 0) {
       return $scope.stageCards.push(data);
     }

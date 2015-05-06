@@ -1,6 +1,6 @@
 <html ng-app="societyProChatApp">
 <head>
-    <title>Ship</title>
+    <title>Ship | <%= version %></title>
 	
 	<link href="web/images/favicon.png" rel="shortcut icon" />
 
@@ -25,14 +25,17 @@
     <script src="/web/js/app.js"></script>
 </head>
 <body layout="column" layout-fill data-soproenv="<%= config.env %>" class="login-screen">
-  <!--<md-toolbar layout="row">
-
-  </md-toolbar>-->
-  <!--<div>
+  <!--
+  <md-toolbar layout="row">
+  </md-toolbar>
+  -->
+  <!--
+  <div>
     You are welcome to explore with our test users: <code>louise</code>, <code>thomas</code>, and <code>jhon</code>.
     <br>
     Each has the password <code>password</code>.
-  </div>-->
+  </div>
+  -->
   <div class="sopro-main-content" flex layout="row">
     <md-content md-theme="grey" flex layout="row" layout-wrap id="main-stage">
       <form action="/login/password" method="POST">
@@ -45,16 +48,20 @@
       		<label>Password</label>
       		<input name="password" ng-model="user.password">
     	</md-input-container>
-        <!--<label> 
+        <!--
+        <label> 
           <input type="text" name="username" class="login-input" value="" placeholder="Email address"></input>
         </label>
         <label>
           <input type="text" name="password" class="login-input" value="" placeholder="Password"></input>
-        </label>-->
-		<!--<span class="login-checkbox">
+        </label>
+        -->
+		<!--
+        <span class="login-checkbox">
 		<input type="checkbox" name="option" value=""> 
 		Remember me
-		</span>-->
+		</span>
+        -->
         <md-button type="submit" class="login-button">Continue</md-button>
 		<div class="clear"></div>
 		<a href="#" class="login-recover">Forgot your password?</a>

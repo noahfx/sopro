@@ -224,52 +224,36 @@ angular.module('societyProChatApp.cardController',
 
 
     function loadChannelHistory(){
-      $http({
-        method: 'GET',
+      var httpOpts = {
         url: BaseUrl + '/api/channel.history',
-        headers: {
-         'token-auth': $rootScope.token
-        },
         params : {
           channel : $scope.card.channel._id
         }
-      })
-      .success(function(data, status, headers, config) {
-        // this callback will be called asynchronously
-        // when the response is available
-        //console.log(data);
-        if (!data.ok){
-          return console.log(data);
-        }
-        $scope.messages = data.messages.map(function(message){
-          message.authorName = UserNames.byId(message.authorId);
-          return message;
-        });
-
-      })
-      .error(function(data, status, headers, config) {
-        console.log(status, data);
-      });
+      };
+      getHistory(httpOpts);
     }
-
+    
     function loadImHistory(){
-      $http({
-        method: 'GET',
+      var httpOpts = {
         url: BaseUrl + '/api/im.history',
-        headers: {
-         'token-auth': $rootScope.token
-        },
         params : {
           receiverId : $scope.card.peer._id
         }
-      })
+      };
+      getHistory(httpOpts);
+    }
+
+    function getHistory(httpOpts){
+      httpOpts.method = 'GET';
+      httpOpts.headers = {
+        'token-auth': $rootScope.token
+      };
+      $http(httpOpts)
       .success(function(data, status, headers, config) {
-        // this callback will be called asynchronously
-        // when the response is available
-        //console.log(data);
         if (!data.ok){
           return console.log(data);
         }
+
         $scope.messages = data.messages.map(function(message){
           message.authorName = UserNames.byId(message.authorId);
           return message;
@@ -296,9 +280,6 @@ angular.module('societyProChatApp.cardController',
     } else {
       throw new Error('No channel or peer to display on this card')
     }
-
-
-    console.log($scope.card.channel);
     $rootScope.openChannel = $scope.card.channel;
   }
 ]);
