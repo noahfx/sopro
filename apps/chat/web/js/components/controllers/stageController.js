@@ -94,6 +94,7 @@ angular.module('societyProChatApp.controller2',
 
     /*
     Leftovers from when we displayed multiple cards:
+
     if ($scope.stageCards.length == 0) {
       return $scope.stageCards.push(data);
     }
@@ -160,6 +161,7 @@ angular.module('societyProChatApp.controller2',
           $scope.hideCreationCard();
           showChannelCard({
             type:"channel",
+            title: data.channel.name,
             template:"web/partials/channel-card.html",
             channel: data.channel,
             size: 100

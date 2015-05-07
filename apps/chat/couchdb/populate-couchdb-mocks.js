@@ -3,6 +3,7 @@ var argh = require('argh').argv;
 
 // This script wipes out, recreates, and populates the 'mocks' database.
 var config = require('../cfg/servers.js').couchdb;
+var dbName = config.db;
 
 // We need relative paths, so make sure we're in the right directory:
 var assert = require('assert');
@@ -35,7 +36,7 @@ async.series([
 
 function destroyOldTestDbIfWipe(done){
   if(argh.wipe){
-    nano.db.destroy('mocks', function(err, body, headers){
+    nano.db.destroy(dbName, function(err, body, headers){
       if(err){
         if(err.error !== "not_found"){
           throw(err);
@@ -49,7 +50,7 @@ function destroyOldTestDbIfWipe(done){
 }
 
 function ensureTestDb(done){
-  nano.db.create('mocks', function(err, body, headers){
+  nano.db.create(dbName, function(err, body, headers){
     if(err){
       if(err.error === "file_exists"){
         return done()
@@ -63,11 +64,11 @@ function ensureTestDb(done){
 }
 
 function populateDesignDocs(done){
-  var mocks = nano.use('mocks');
+  var db = nano.use(dbName);
   var soprochatJSON = fs.readFileSync('./soprochat-views.json');
   var soprochat = JSON.parse(soprochatJSON);
   // Not using PI.create because design docs don't have a .soproModel property
-  mocks.get(soprochat._id, { revs_info: true }, function(err, doc){
+  db.get(soprochat._id, { revs_info: true }, function(err, doc){
     if(err){
       if(err.error === 'not_found'){
       } else {
@@ -76,7 +77,7 @@ function populateDesignDocs(done){
     } else {
       soprochat._rev = doc._rev
     }
-    mocks.insert(soprochat, soprochat._id, function(err){
+    db.insert(soprochat, soprochat._id, function(err){
       if(err){
         return done(err)
       } else {

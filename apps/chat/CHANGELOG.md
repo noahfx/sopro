@@ -1,3 +1,12 @@
+# 0.1.16 (2015-05-05)
+* Realtime channel history (New messages show up immediately)
+* Display usernames on messages
+* Add Direct Messages between any two identities
+* Add `/api/im.history` endpoint
+
+# 0.1.15 (2015-05-05)
+* Send a chat message from the channel's history card
+
 # 0.1.14 (2015-04-23)
 * Open the Channel History for a channel
 * Display new messages last

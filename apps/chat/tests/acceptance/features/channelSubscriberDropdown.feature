@@ -4,6 +4,7 @@ Feature: Channel subscriber dropdown
   So that I can verify the audience of my messages
 
   Scenario: subscriber dropdown button
-    Given I am viewing a list of channels
+    Given the test is not pending
+    And I am viewing a list of channels
     When I select a channel from the list
     Then I should see a list of channel subscribers
