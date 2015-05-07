@@ -3,4 +3,5 @@ var societyProChatApp = angular.module('societyProChatApp', [
   'societyProChatApp.directives',
   'societyProChatApp.global',
   'societyProChatApp.services',
+  'ngSanitize',
 ]);

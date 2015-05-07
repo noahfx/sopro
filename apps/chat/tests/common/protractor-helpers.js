@@ -45,13 +45,13 @@ module.exports = function (browser, element) {
               }
               var d = "\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b";
               var u = JSON.parse(user);
-              element(by.css('#main-stage > form > label:nth-child(1) > input[type="text"]'))
+              element(by.css('input[name="username"]'))
               .sendKeys(d+u.username)
               .then(function () {
-                element(by.css('#main-stage > form > label:nth-child(2) > input[type="text"]'))
+                element(by.css('input[name="password"]'))
                 .sendKeys(d+"password")
                 .then(function () {
-                  element(by.css('#main-stage > form > input[type="submit"]'))
+                  element(by.css('.login-button'))
                   .click()
                   .then(function () {
                     defer.resolve();

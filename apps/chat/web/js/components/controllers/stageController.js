@@ -3,8 +3,8 @@ angular.module('societyProChatApp.controller2',
   ['ngMaterial']
 )
 .controller('stageController', 
-['$scope', '$http', '$rootScope', '$timeout',
-  function($scope,$http,$rootScope, $timeout) {
+['$scope', '$http', '$rootScope', '$timeout', 'BaseUrl',
+  function($scope,$http,$rootScope, $timeout, BaseUrl) {
   $scope.stageCards = [];
   $scope.tmpStageCards = [];
   $scope.lastExpanded = -1;
@@ -92,9 +92,10 @@ angular.module('societyProChatApp.controller2',
 
     $scope.stageCards[0] = data;
 
-    // Channel Card Logic Below, commented for now
+    /*
+    Leftovers from when we displayed multiple cards:
 
-    /*if ($scope.stageCards.length == 0) {
+    if ($scope.stageCards.length == 0) {
       return $scope.stageCards.push(data);
     }
 
@@ -116,7 +117,8 @@ angular.module('societyProChatApp.controller2',
       return;
     }
 
-    $scope.stageCards.unshift(data);*/
+    $scope.stageCards.unshift(data);
+    */
   }
 
   $scope.expandCard = function (index) {
@@ -142,7 +144,7 @@ angular.module('societyProChatApp.controller2',
   $scope.createClicked = function(){
     $http({
       method: 'POST',
-      url: '/api/channel',
+      url: BaseUrl + '/api/channel',
       headers: {
        'token-auth': $rootScope.token
       },

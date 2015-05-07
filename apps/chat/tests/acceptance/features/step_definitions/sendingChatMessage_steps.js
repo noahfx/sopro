@@ -21,7 +21,7 @@ module.exports = function () {
   });
 
   this.Then(/^I should see a new message input at the bottom$/, function (next) {
-    element(by.css(".channel-card .channel-card-input"))
+    element(by.css("#message-input"))
     .isDisplayed()
     .then(function (isDisplayed) {
       if (!isDisplayed) {
@@ -40,13 +40,13 @@ module.exports = function () {
 
   this.Given(/^I have entered a message in the new message input$/, function (next) {
     this.messageSent = "Hello World!";
-    element(by.css(".channel-card .channel-card-input"))
+    element(by.css("#message-input"))
     .sendKeys(this.messageSent)
     .then(next);
   });
 
   this.When(/^I press enter$/, function(next) {
-    element(by.css(".channel-card .channel-card-input"))
+    element(by.css("#message-input"))
     .sendKeys(protractor.Key.ENTER)
     .then(next);
   });
@@ -54,11 +54,10 @@ module.exports = function () {
   this.Then(/^the message should be sent via the API$/, function (next) {
     var self = this;
     setTimeout(function(){
-      element.all(by.css("#main-stage md-card li"))
+      element.all(by.css("#message-"))
       .last()
       .getText()
       .then( function (lastMessageText) {
-        lastMessageText = lastMessageText.substring(lastMessageText.indexOf(":")+2,lastMessageText.length);
         assert(lastMessageText === self.messageSent,
           'Did not find the expected message at the end of the message history');
         next();

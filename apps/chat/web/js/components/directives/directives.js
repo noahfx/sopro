@@ -183,6 +183,7 @@ angular.module('societyProChatApp.directives',[
       $scope.openSubscribersOverflow = function($event, item, title){
         // This is getting triggered from multiple collections. 
         // Check whether it's a channel overflow or peers:
+        // TODO: Refactor. Now we have multiple collection partials so we can simply invoke different functions on click.
         filterOnlyChannelClicks($rootScope, $event, item, title);
       }
     },
@@ -256,7 +257,7 @@ angular.module('societyProChatApp.directives',[
     templateUrl: 'web/partials/dropdown.html'
   };
 })
-.directive('soproSubscribersDropdown', ['UserNames', function(UserNames){
+.directive('soproSubscribersDropdown', ['UserNames', 'BaseUrl', function(UserNames, BaseUrl){
   return {
     restrict: 'E',
     transclude: true,
@@ -292,7 +293,7 @@ angular.module('societyProChatApp.directives',[
         $($scope.fromElement).addClass('poo-highlight-subscriber');
         $http({
           method: 'GET',
-          url: '/api/channel.info',
+          url: BaseUrl + '/api/channel.info',
           headers: {
            'token-auth': $rootScope.token
           },
@@ -356,7 +357,7 @@ angular.module('societyProChatApp.directives',[
     restrict: 'A',
     link: function (scope, element, attr) {
       if (scope.$last === true) {
-        element[0].scrollIntoView();
+        element[0].scrollIntoView(false);
       }
     }
   }

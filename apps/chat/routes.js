@@ -1,10 +1,71 @@
 var fs = require('fs');
 var async = require('async');
 
-module.exports = function(app, eb, passport, acl, PI, sopro, io){
+module.exports = function(app, eb, passport, acl, PI, sopro, io, pubnub){
 
   var packageJSON = fs.readFileSync('./package.json', {encoding: 'utf8'});
   app.sopro.package = JSON.parse(packageJSON);
+
+  /*
+   * DEMO STUFF
+   */
+
+  io.on('connection', function(socket){
+    console.log('socket connected');
+  });
+
+  var broadcastChannelMessage = function(data){
+    console.log("Broadcasting new message to channel: " + data.channelId);
+    io.emit(data.channelId, data);
+  };
+
+  // When we hear about new messages from other shards, persist them and publish to sockets:
+  pubnub.subscribe({
+    channel  : "global-messages",
+    callback : function(pMessage) {
+      var message = pMessage.message;
+      console.log('Saving and rebroadcasting a message from', pMessage.shard);
+      PI.create('message', message, function(err, result){
+        if(err){
+          return console.log(err);
+        }
+        broadcastChannelMessage(result);
+      })
+    }
+  });
+
+  // Craft a demo pubnub message:
+  var pNow = new Date().valueOf();
+  var shardUrl = app.sopro.servers.express.baseUrl;
+  var shardId = shardUrl.replace(/[^a-z0-9]/g,'')
+
+  var pMsg = {
+    shard: shardUrl,
+    broadcastTsMs: pNow,
+    message: {
+      _id: 'message-' + pNow + '-' + shardId,
+      soproModel: 'message',
+      authorId: 'sopro',
+      channelId: 'channel-general',
+      text: 'Shard '+app.sopro.servers.express.baseUrl+' reporting',
+      ts: String(pNow/1000),
+    }
+  };
+
+  // Publish the demo pubnub message:
+  pubnub.publish({
+    channel : "global-messages",
+    message : pMsg,
+  });
+
+  // Persist the demo message and send to sockets:
+  PI.create('message', pMsg.message, function(err, result){
+    if(err){
+      return console.log(err);
+    }
+    console.log(result);
+    broadcastChannelMessage(result);
+  })
 
   /*
    * MIDDLEWARE FUNCTIONS
@@ -694,6 +755,15 @@ module.exports = function(app, eb, passport, acl, PI, sopro, io){
           opts.messageResult.channelId = opts.messageResult.receiverId;
         }
         broadcastChannelMessage(opts.messageResult);
+         pubnub.publish({
+          channel : "global-messages",
+          message : {
+            shard: app.sopro.servers.express.baseUrl,
+            broadcastTsMs: new Date().valueOf(),
+            message: opts.messageResult
+          }
+        });
+
         return res.status(200).json({
           ok: true,
           message: opts.messageResult,
@@ -717,14 +787,5 @@ module.exports = function(app, eb, passport, acl, PI, sopro, io){
       res.status(404).json({ok: false, error: 'Not found'})
     }
   });
-
-  io.on('connection', function(socket){
-    console.log('socket connected');
-  });
-
-  var broadcastChannelMessage = function(data){
-    console.log("Broadcasting new message to channel: " + data.channelId);
-    io.emit(data.channelId, data);
-  };
 
 }

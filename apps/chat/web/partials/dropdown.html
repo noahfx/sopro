@@ -7,8 +7,7 @@
         <li
         class="dropdown-item"
         ng-repeat="item in repeater"
-        sglclick="openCardHistory($event, item)"
-        ng-dblclick="openSubscribersOverflow($event, item, dropdownTitle)"
+        ng-click="openCardHistory($event, item)"
         ng-init="lastToRender($last)"
         >
           {{item.name}}

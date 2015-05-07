@@ -1,4 +1,6 @@
 /* Admin tabs layout */
+
+
 .adminTabs .md-header-items{
   width: 800px;
   margin: auto;
@@ -84,3 +86,21 @@ md-tabs {
   text-align: left;
 }
 
+/*lcalix-change*/
+
+/*body {
+  background: #fff;
+}
+
+
+.md-header-items-container {
+  background: #fff;
+}
+
+md-tabs.md-default-theme md-tab {
+  color: #9a9a9a;
+}
+
+md-tabs.md-default-theme md-tab.active {
+  color:  #9a9a9a;
+}*/
