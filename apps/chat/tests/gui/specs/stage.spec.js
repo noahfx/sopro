@@ -29,7 +29,7 @@ describe("Main Stage",function  () {
 
     it("contains a list of messages", function(){
       expect(
-        element.all(by.css('#main-stage .channel-card md-content li'))
+        element.all(by.css('#message-'))
         .count(0)
       ).toBeGreaterThan(0);
     })
@@ -59,6 +59,7 @@ describe("Main Stage",function  () {
       createChannelCardCancel: element(by.css("#card-create-channel footer .cancel-button")),
       createChannelCardCreate: element(by.css("#card-create-channel footer .create-button")),
       channelHistoryCards: element.all(by.css("#main-stage .sopro-card.channel-card")),
+      titleCard: element(by.css("#member-name > strong"))
     };
 
     describe("Channel Creation Card", function () {
@@ -94,15 +95,11 @@ describe("Main Stage",function  () {
       it("replaces the Channel Creation Card", function(){
         els.createChannelCardTitle.sendKeys(CAM_MOCKS.newChannelName);
         els.createChannelCardCreate.click();
-        expect(els.channelHistoryCards.count()).toBe(1);
+        expect(els.channelHistoryCards.count()).toBe(0);
         expect(els.createChannelCard.isDisplayed()).toBeFalsy();
       });
       it("has the correct title", function(){
-        expect(
-          els.channelHistoryCards.get(0)
-          .element(by.css('header .title'))
-          .getText()
-        ).toEqual(CAM_MOCKS.newChannelName);
+        expect(els.titleCard.getText()).toEqual(CAM_MOCKS.newChannelName);
       });
     });
   });
