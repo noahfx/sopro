@@ -22,6 +22,9 @@ angular.module('societyProChatApp.services',['emoticons'])
 })
 .factory('BaseUrl', function(){
   var baseUrl = $('body').attr('data-soprobaseurl');
+  if(!baseUrl) {
+    return "";
+  }
   // Strip trailing slash if any:
   return baseUrl.replace(/\/$/, '');
 })

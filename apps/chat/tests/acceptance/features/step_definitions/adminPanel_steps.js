@@ -15,10 +15,10 @@ module.exports = function(){
     .then(next)
   })
   this.Then(/^I should see a link to an administration panel in the toolbar dropdown$/, function(next){
-    element(by.css('#role-selection'))
+    element(by.css('#trigger-arrow'))
     .click()
     .then(function(){
-      element(by.css('#adminPanelLink'))
+      element(by.css('body > md-toolbar > div.sopro-company-panel'))
       .isDisplayed()
       .then(function(isDisplayed){
         assert(isDisplayed);
@@ -33,10 +33,10 @@ module.exports = function(){
   //Given I am a Society Pro Enterprise Edition administrator
   //When I authenticate to Society Pro
   this.When(/^I click the link to the administration panel$/, function(next){
-    element(by.css('#role-selection'))
+    element(by.css('#trigger-arrow'))
     .click()
     .then(function(){
-      element(by.css('#adminPanelLink'))
+      element(by.css('body > md-toolbar > div.sopro-company-panel'))
       .click()
       .then(next)
     })

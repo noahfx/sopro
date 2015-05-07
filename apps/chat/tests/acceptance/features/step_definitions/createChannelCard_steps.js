@@ -85,15 +85,13 @@ function checkChannelCardPresence (arg1, next){
   ? true
   : false;
 
-  var channelCards = element.all(by.css('#main-stage .sopro-card.channel-card'))
-  .count()
-  .then(function(count){
-    if(count === 0){
+  var channelCards = element(by.css('#messages-container'))
+  .isDisplayed()
+  .then(function(isDisplayed){
+    if(!isDisplayed){
       return next(new Error('Zero channel cards found after creation'))
     } else {
-      element.all(by.css('#main-stage .sopro-card.channel-card'))
-      .get(0)
-      .element(by.css('header .title'))
+      element(by.css('#member-name > strong'))
       .getText()
       .then(function(text){
         if(text !== CAM_MOCKS.newChannelName){

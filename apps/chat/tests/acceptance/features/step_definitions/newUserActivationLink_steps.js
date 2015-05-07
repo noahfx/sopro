@@ -127,7 +127,7 @@ module.exports = function(){
             .sendKeys('\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\blouise');
             element(by.css('input[name="password"]'))
             .sendKeys('\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b'+self.password);
-            element(by.css('input[type="submit"]'))
+            element(by.css('button[type="submit"]'))
             .click()
             .then(function(){
               element(by.css('body'))
