@@ -218,5 +218,32 @@ describe('Dropdowns', function(){
 
     })
   })
-
+  describe("Dropdown User Count", function () {
+  	beforeAll(function() {
+  		changeIdentity(0);
+  	});
+	  
+  	it("is hidden", function () {
+  		expect(element(by.css(".sopro-count-panel")).isDisplayed()).toBeFalsy();
+  	});
+  	
+  	it("shows when clicking the dropdown trigger", function() {
+  		element(by.css("#user-count")).click();
+  		expect(element(by.css(".sopro-count-panel")).isDisplayed()).toBeTruthy();
+  	})
+  	
+  	it("hides when clicking outside the dropdown", function() {
+  		expect(element(by.css(".sopro-count-panel")).isDisplayed()).toBeTruthy();
+  		element(by.css("#search-input")).click();
+  		expect(element(by.css(".sopro-count-panel")).isDisplayed()).toBeFalsy();
+  	});
+  	
+  	it("displays number of members in trigger", function () {
+  		element.all(by.css(".sopro-count-panel .dropdown-item")).count()
+      .then(function (membersLength) {
+        var triggerCount = element(by.css("#user-count")).getText(); 
+        expect(triggerCount).toEqual(membersLength.toString());
+      });
+  	})
+  });
 })
