@@ -162,21 +162,3 @@ var emojies = [
   'womans_hat', 'womens', 'worried', 'wrench', 'x', 'yellow_heart', 'yen',
   'yum', 'zap', 'zero', 'zzz'
 ];
- /* Textarea Autocomplete */
-   $('textarea').textcomplete([
-        { // emoji strategy
-            match: /\B:([\-+\w]*)$/,
-            search: function (term, callback) {
-                callback($.map(emojies, function (emoji) {
-                    return emoji.indexOf(term) === 0 ? emoji : null;
-                }));
-            },
-            template: function (value) {
-                return '<img src="web/bower_components/angular-emoji-filter/res/emoji/emoji_' + value + '.png"></img>' + value;
-            },
-            replace: function (value) {
-                return ':' + value + ': ';
-            },
-            index: 1
-        }
-    ]);
