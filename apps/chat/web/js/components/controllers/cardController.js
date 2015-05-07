@@ -158,9 +158,13 @@ angular.module('societyProChatApp.cardController',
       return console.log("HistoryController:updateMessageHistory: Message Updated");
     };
 
+    $scope.isMentionsPopupVisible = function(){
+      return ( $(".mentions>ul").css("display") !== "none");
+    }
     $scope.handleCardInputKeypress = function($event){
       if ($event.keyCode == 13 && !$event.shiftKey) {
-        if($(".mentions>ul").css("display") !== "none"){
+
+        if($scope.isMentionsPopupVisible()){
           return false;
         }
 
@@ -171,6 +175,14 @@ angular.module('societyProChatApp.cardController',
         }
         $event.preventDefault();
       }
+    }
+
+    $scope.clearCurrentInput = function(){
+      $scope.currentInput.text = "";
+      $('#message-input')
+        .val('')
+        .autosize({append: false})
+          .trigger('autosize.resize');
     }
 
     $scope.sendCurrentInput = function (){
@@ -203,11 +215,7 @@ angular.module('societyProChatApp.cardController',
         if (!data.ok){
           return console.log(data)
         }
-        $scope.currentInput.text = "";
-        $('#message-input')
-          .val('')
-          .autosize({append: false})
-            .trigger('autosize.resize');
+        $scope.clearCurrentInput();
 
         $scope.updateMessagesHistory(data.message);
       })

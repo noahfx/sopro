@@ -9,16 +9,18 @@ describe("Admin Controllers", function () {
     //scope.currentUser = require('./couchdb/mocks/user1')
     rootscope = $rootScope;
     UserServiceMock = {
-        identities: [
-          {
-            "_id":"xyz",
-          }
-        ]
-      }
+      identities: [
+        {
+          "_id":"xyz",
+        }
+      ]
+    };
+    BaseUrlMock = "https://localhost";
     createController = function(name, flush) {
         var controller = $controller(name, {
           '$scope': scope,
           'UserService': UserServiceMock,
+          'BaseUrl': BaseUrlMock,
         });
         if(flush){
           httpBackend.flush();
@@ -53,7 +55,7 @@ describe("Admin Controllers", function () {
 
   describe("Admin Controller Users", function () {
     beforeEach(function(){
-      httpBackend.expect('GET', '/api/users?role=xyz')
+      httpBackend.expect('GET', /\/api\/users\?role=xyz/)
       .respond(CAM_MOCKS.getUsersResponse);
     })
     afterEach(function() {

@@ -23,13 +23,15 @@ describe("societyProChat Controllers", function() {
         SocketMock = {
           on: jasmine.createSpy('on'),
           emit: jasmine.createSpy('emit')
-        }
+        };
+        BaseUrlMock = "https://localhost";
         createController = function(name) {
           name = name || 'mainController';
           var controller = $controller(name, {
             '$scope': scope,
             'UserService': UserServiceMock,
-            'Socket': SocketMock
+            'Socket': SocketMock,
+            'BaseUrl': BaseUrlMock,
           });
           if(name === 'mainController'){
             httpBackend.flush();
@@ -42,7 +44,7 @@ describe("societyProChat Controllers", function() {
 
   describe('main controller', function(){
     beforeEach(function(){
-      httpBackend.expect('GET', '/api/channels?role=abc')
+      httpBackend.expect('GET', /\/api\/channels\?role=abc/)
       .respond(CAM_MOCKS.getChannelsResponse1);
     })
     afterEach(function() {
@@ -80,9 +82,9 @@ describe("societyProChat Controllers", function() {
         }
       };
       controller = createController('historyCardController');
-      httpBackend.expect('GET', '/api/channel.info?channel=unit_test_channel')
+      httpBackend.expect('GET', /\/api\/channel\.info\?channel=unit_test_channel/)
         .respond(CAM_MOCKS.getChannelInfoResponse);
-      httpBackend.expect('GET', '/api/channel.history?channel=unit_test_channel')
+      httpBackend.expect('GET', /\/api\/channel\.history\?channel=unit_test_channel/)
         .respond(CAM_MOCKS.channelHistoryResponse);
       httpBackend.flush();
     })
@@ -144,18 +146,28 @@ describe("societyProChat Controllers", function() {
         expect(Object.prototype.toString.call(scope.handleCardInputKeypress)).toEqual('[object Function]');
       });
 
-      it("calls sendCurrentInput when receives a keyCode:13", function(){
+      beforeEach(function(){
         spyOn(scope, "sendCurrentInput");
-        scope.handleCardInputKeypress({keyCode: 13});
+        spyOn(scope, "isMentionsPopupVisible").and.returnValue(false);
+        scope.currentInput = { text: 'frontend unit test' }
+      })
+
+      it("calls sendCurrentInput when receives a keyCode:13", function(){
+        scope.handleCardInputKeypress({
+          keyCode: 13,
+          preventDefault: function(){},
+        });
         expect(scope.sendCurrentInput).toHaveBeenCalled();
       });
 
       it("doesn't call sendCurrentInput when receiving an incorrect keyCode", function () {
-        spyOn(scope, "sendCurrentInput");
-        scope.handleCardInputKeypress({keyCode: 12});
+        scope.handleCardInputKeypress({
+          keyCode: 12,
+          preventDefault: function(){},
+        });
         expect(scope.sendCurrentInput).not.toHaveBeenCalled();
       })
-    });    
+    });
 
     describe("sendCurrentInput function", function (){
       it("exists", function() {
@@ -165,7 +177,10 @@ describe("societyProChat Controllers", function() {
       it("calls updateMessagesHistory when the post request succeed", function(){
         scope.currentInput = "Hello";
         spyOn(scope, "updateMessagesHistory");
-        httpBackend.expect('POST', '/api/postMessage')
+        spyOn(scope, "clearCurrentInput").and.callFake(function(){
+          scope.currentInput = { text: "" };
+        });
+        httpBackend.expect('POST', /\/api\/postMessage/)
         .respond(CAM_MOCKS.postMessageResponse);
         scope.sendCurrentInput();
         httpBackend.flush();
