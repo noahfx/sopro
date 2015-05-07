@@ -13,11 +13,10 @@ module.exports = function () {
 	});
 
 	this.Then(/^I should see the channel history displayed on the main stage$/, function (next) {
-		element.all(by.css("#main-stage .channel-card"))
-		.count()
-		.then(function (count) {
-			console.log(count);
-			assert(count === 1);
+		element.all(by.css("#messages-container"))
+		.isDisplayed()
+		.then(function (isDisplayed) {
+			assert(isDisplayed);
 			next();
 		});
 	});
