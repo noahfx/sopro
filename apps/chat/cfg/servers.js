@@ -2,7 +2,7 @@ module.exports = CAM_CONFIG_SERVERS = {
   express: {
     bindAddress: '0.0.0.0',
     hostname: 'localhost',
-    port: 8080,
+    port: 8086,
     baseUrl: 'https://localhost/',
     sslEnabled: true,
     sslPort: 443,
@@ -18,7 +18,7 @@ module.exports = CAM_CONFIG_SERVERS = {
     port: 5984,
     db: 'mocks',
     host: 'localhost',
-    url: 'http://localhost:5984',
+    url: 'http://sopro2.iriscouch.com:5984',
     //url: "https://admin:sopassword@sopro.iriscouch.com",
     //host: "sopro.iriscouch.com",
   },

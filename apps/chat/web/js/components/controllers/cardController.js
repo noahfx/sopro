@@ -2,9 +2,8 @@ angular.module('societyProChatApp.cardController',
   ['ngMaterial']
 )
 .controller('historyCardController',
-['$scope', '$http', '$rootScope', '$timeout', 'UserNames', 'BaseUrl',
-  function($scope, $http, $rootScope, $timeout, UserNames, BaseUrl) {
-    console.log('Loading cardController.js')
+['$scope', '$http', '$rootScope', '$timeout', 'UserNames', 'BaseUrl', 'Socket',
+  function($scope, $http, $rootScope, $timeout, UserNames, BaseUrl, Socket) {
     function safeApply($scope, fn) {
       var phase = $scope.$root.$$phase;
       if (phase == '$apply' || phase == '$digest') {
@@ -17,7 +16,6 @@ angular.module('societyProChatApp.cardController',
     };
 
     $timeout(bindJquery, 1000);
-    console.log('jquery bindings scheduled')
 
     function bindJquery(){
       console.log('binding jquery')
@@ -47,20 +45,20 @@ angular.module('societyProChatApp.cardController',
 
       /* Textarea Autocomplete */
       $('textarea').textcomplete([
-        {
-          match: /\B:([\-+\w]*)$/,
-          search: function (term, callback) {
-            callback($.map(emojies, function (emoji) {
-              return emoji.indexOf(term) === 0 ? emoji : null;
-            }));
-          },
-          template: function (value) {
-            return '<img src="web/bower_components/angular-emoji-filter/res/emoji/emoji_' + value + '.png"></img>' + value;
-          },
-          replace: function (value) {
-            return ':' + value + ': ';
-          },
-          index: 1
+        { // emoji strategy
+            match: /\B:([\-+\w]*)$/,
+            search: function (term, callback) {
+                callback($.map(emojies, function (emoji) {
+                    return emoji.indexOf(term) === 0 ? emoji : null;
+                }));
+            },
+            template: function (value) {
+                return '<img src="web/bower_components/angular-emoji-filter/res/emoji/emoji_' + value + '.png"></img>' + value;
+            },
+            replace: function (value) {
+                return ':' + value + ': ';
+            },
+            index: 1
         },
         {
           mentions: ['jon','jimmy','hiro','tomas','cesar','jorge','voodoo','salme','plato'],
@@ -125,15 +123,12 @@ angular.module('societyProChatApp.cardController',
         console.log(data);
         callback(data);
       });
-    }
-
-    var socket = io();
-
+    };
+  
     $scope.listenToMessages = function (id) {
-      socket.on(id, function (data) {
+      Socket.on(id, function (data) {
         console.log(JSON.stringify(data));
         $scope.updateMessagesHistory(data);
-        $scope.$apply();
       });
     }
 
@@ -147,7 +142,6 @@ angular.module('societyProChatApp.cardController',
 
     $scope.isAvatarMessage = function (i) {
       if (i == 0) return true;
-      //TODO: verify authorid/authorId
       return $scope.messages[i].authorId != $scope.messages[i-1].authorId;
     };
 
@@ -164,35 +158,31 @@ angular.module('societyProChatApp.cardController',
       return console.log("HistoryController:updateMessageHistory: Message Updated");
     };
 
+    $scope.isMentionsPopupVisible = function(){
+      return ( $(".mentions>ul").css("display") !== "none");
+    }
     $scope.handleCardInputKeypress = function($event){
-      /*
-      if($event.keyCode === 13){
-        $scope.sendCurrentInput();
-      }
-      */
       if ($event.keyCode == 13 && !$event.shiftKey) {
-        if($(".mentions>ul").css("display") !== "none"){
+
+        if($scope.isMentionsPopupVisible()){
           return false;
         }
 
-        // var $input = $($event.target);
-        //var message = $input.val().trim();
-
         var message = $scope.currentInput.text.trim();
         console.log(message)
-        //SocietyPro.sendMessage(message);
         if (message) {
-          //$scope.sendMessage(message);
-          /*
-          safeApply($scope, function(){
-            $scope.sendCurrentInput();
-          })
-          */
-
           safeApply($scope, $scope.sendCurrentInput)
         }
         $event.preventDefault();
       }
+    }
+
+    $scope.clearCurrentInput = function(){
+      $scope.currentInput.text = "";
+      $('#message-input')
+        .val('')
+        .autosize({append: false})
+          .trigger('autosize.resize');
     }
 
     $scope.sendCurrentInput = function (){
@@ -225,11 +215,7 @@ angular.module('societyProChatApp.cardController',
         if (!data.ok){
           return console.log(data)
         }
-        $scope.currentInput.text = "";
-        $('#message-input')
-          .val('')
-          .autosize({append: false})
-            .trigger('autosize.resize');
+        $scope.clearCurrentInput();
 
         $scope.updateMessagesHistory(data.message);
       })
@@ -247,52 +233,36 @@ angular.module('societyProChatApp.cardController',
 
 
     function loadChannelHistory(){
-      $http({
-        method: 'GET',
+      var httpOpts = {
         url: BaseUrl + '/api/channel.history',
-        headers: {
-         'token-auth': $rootScope.token
-        },
         params : {
           channel : $scope.card.channel._id
         }
-      })
-      .success(function(data, status, headers, config) {
-        // this callback will be called asynchronously
-        // when the response is available
-        //console.log(data);
-        if (!data.ok){
-          return console.log(data);
-        }
-        $scope.messages = data.messages.map(function(message){
-          message.authorName = UserNames.byId(message.authorId);
-          return message;
-        });
-
-      })
-      .error(function(data, status, headers, config) {
-        console.log(status, data);
-      });
+      };
+      getHistory(httpOpts);
     }
-
+    
     function loadImHistory(){
-      $http({
-        method: 'GET',
+      var httpOpts = {
         url: BaseUrl + '/api/im.history',
-        headers: {
-         'token-auth': $rootScope.token
-        },
         params : {
           receiverId : $scope.card.peer._id
         }
-      })
+      };
+      getHistory(httpOpts);
+    }
+
+    function getHistory(httpOpts){
+      httpOpts.method = 'GET';
+      httpOpts.headers = {
+        'token-auth': $rootScope.token
+      };
+      $http(httpOpts)
       .success(function(data, status, headers, config) {
-        // this callback will be called asynchronously
-        // when the response is available
-        //console.log(data);
         if (!data.ok){
           return console.log(data);
         }
+
         $scope.messages = data.messages.map(function(message){
           message.authorName = UserNames.byId(message.authorId);
           return message;
@@ -319,9 +289,6 @@ angular.module('societyProChatApp.cardController',
     } else {
       throw new Error('No channel or peer to display on this card')
     }
-
-
-    console.log($scope.card.channel);
     $rootScope.openChannel = $scope.card.channel;
   }
 ]);

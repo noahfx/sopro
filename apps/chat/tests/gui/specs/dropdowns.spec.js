@@ -2,9 +2,12 @@ var CAM_MOCKS = require('../../common/mock-data.js');
 var changeIdentity = require('../../common/protractor-helpers.js')(browser,element).changeIdentity;
 
 var Elements = function () {
+  this.toolbar = element(by.css("#logo-loco"));
   this.currentRole = element(by.css(".role-selection"));
   this.roles = element.all(by.repeater('role in roles'));
   this.collectionChannelsItems = element.all(by.css('#collection-channels .channel-item'));
+  this.subscribersDropdown = element(by.css('sopro-subscribers-dropdown'));
+  this.subscribersDropdownTitle = element(by.css("sopro-subscribers-dropdown .sopro-dropdown-title p"))
   this.collectionsOverflow = element(by.css('sopro-collections-dropdown'));
   this.collectionsOverflowWrap = element(by.css('sopro-collections-dropdown .sopro-dropdown-collection-wrap'));
   this.collectionsOverflowTitle = element(by.css('sopro-collections-dropdown .sopro-dropdown-title'))
@@ -138,7 +141,7 @@ describe('Dropdowns', function(){
 
       describe('in screen middle', function(){
         it('Top of dropdown is aligned with top of POO element', function(){
-          expect(pooTop - dropdownTop).toBe(0);
+          expect(dropdownTop - pooTop).toBe(1);
         });
         it('Extends mostly down from POO', function(){
           expect(dropdownBottom - pooBottom).toBeGreaterThan(0);
@@ -215,7 +218,6 @@ describe('Dropdowns', function(){
 
     })
   })
-  
   describe("Dropdown User Count", function () {
 	beforeAll(function() {
 		changeIdentity(0);
