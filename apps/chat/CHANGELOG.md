@@ -1,3 +1,10 @@
+# 0.1.17 (2015-05-07)
+* CSS styling for header, comm panel, message history
+* Smileys/emoji added and displayed
+* Autocompletion of @members in chat
+* Autocompletion of :emoji: in chat
+* Channel membership dropdown moved to header
+
 # 0.1.16 (2015-05-05)
 * Realtime channel history (New messages show up immediately)
 * Display usernames on messages

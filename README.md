@@ -18,8 +18,8 @@ Society Pro's **vision** is...
 
 ---
 
-Society Pro's **reality** (as of [0.1.16](https://github.com/SocietyPro/sopro/tree/0.1.16)) is...  
-... a single-shard, multi-user, non-federated, material design chat program (WIP)
+Society Pro's **reality** (as of [0.1.17](https://github.com/SocietyPro/sopro/tree/0.1.17)) is...  
+... a single-shard, multi-user, federated, material design chat program (WIP)
 
 Developers
 ==========
