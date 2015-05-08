@@ -69,9 +69,15 @@ function checkAuthCouchdb(username, password, callback){
     setToken,
   ], function (err, opts){
     if(err){
-      return callback(err, false);
+      if(typeof err === 'string'){
+        if(/user_not_found/.test(err)){
+          return callback(null, false);
+        }
+      }
+      console.log(JSON.stringify(err));
+      return callback(null, false);
     }
-    callback(null, opts.user);
+    callback(null, false);
   })
 }
   function findUser(opts, next){
@@ -80,7 +86,7 @@ function checkAuthCouchdb(username, password, callback){
         return next(err);
       }
       if(body.rows.length !== 1){
-        return next('Found non-1 number of users matching '+opts.username)
+        return next('passport.auth:checkAuthCouchdb: user_not_found');
       }
       opts.user = body.rows[0].value;
       next(null, opts);
@@ -94,10 +100,10 @@ function checkAuthCouchdb(username, password, callback){
         return next(err, false);
       }
       if(body.rows.length === 0){
-        return next('No credentials for userid '+opts.user._id);
+        return next('passport.auth:checkHash: credentials_not_found');
       }
       if(body.rows.length > 1){
-        return next('multiple credentials found');
+        return next('passport.auth:checkHash: multiple_credentials_found');
       }
       var doc = body.rows[0].value;
       var salt = doc.salt;
@@ -111,7 +117,7 @@ function checkAuthCouchdb(username, password, callback){
       if(saltedHash == hash) { // password matched
         return next(null, opts)
       } else {
-        return next('Password mismatch');
+        return next('passport.auth:checkHash: password_mismatch');
       };
 
     })
@@ -120,14 +126,14 @@ function checkAuthCouchdb(username, password, callback){
 
   function setIdentities(opts, next){
     if(opts.user === false){
-      return next('Can\'t set identities without a user');
+      return next('passport.auth:setIdentities: identy_without_user');
     }
     db.view('soprochat', 'identity_by_for_userid', {key: opts.user._id}, function(err, body){
       if(err){
         return next(err)
       };
       if(body.rows.length == 0){
-        return next('no_identities_for_user');
+        return next('passport.auth:setIdentities: no_identities_for_user');
       }
       var identities = [];
       body.rows.forEach(function(row){
@@ -141,17 +147,16 @@ function checkAuthCouchdb(username, password, callback){
 //TODO feature Standard edition should have apiToken for all identities
   function setToken(opts, next){
     if(opts.user === false){
-      return next('Can\'t set token without a user');
+      return next('passport.auth:setToken: token_without_user');
     }
     db.view('soprochat', 'apiToken_by_for_identityid', {key: opts.user.currentIdentity._id}, function(err, body){
       if(err){
         return next(err)
       };
       if(body.rows.length == 0){
-        return next('no_token_for_user');
+        return next('passport.auth:setToken: no_token_for_user');
       }
       opts.user.apiToken = body.rows[0].value.token;
       next(null, opts)
     });
   };
-
