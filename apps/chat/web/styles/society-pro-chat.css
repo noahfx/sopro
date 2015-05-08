@@ -303,10 +303,10 @@ body > md-toolbar {
   cursor: pointer
 }
 
-#hamburguer {
+#hamburger {
   width: 30px;
   height: 30px;
-  background-image: url(../images/hamburguer.png);
+  background-image: url(../images/hamburger.png);
   background-repeat: no-repeat;
   background-position: center center;
   -webkit-border-radius: 2px;
@@ -314,7 +314,7 @@ body > md-toolbar {
   border-radius: 2px;
 }
 
-#hamburguer:hover {
+#hamburger:hover {
   background-color: #f2f2f5;
 }
 
