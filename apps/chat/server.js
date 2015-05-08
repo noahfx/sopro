@@ -156,11 +156,14 @@ var https = require('https')
   var io = require('socket.io')(https);
   console.log("Socket listening on port", serverConfig.express.sslPort);
 
-  var pubnub = require("pubnub")({
-    ssl           : true,
-    publish_key   : app.sopro.local.pubnub.publish_key,
-    subscribe_key : app.sopro.local.pubnub.subscribe_key,
-  });
+  var pubnub = null;
+  if(app.sopro.features.federationPubnub){
+    pubnub = require("pubnub")({
+      ssl           : true,
+      publish_key   : app.sopro.local.pubnub.publish_key,
+      subscribe_key : app.sopro.local.pubnub.subscribe_key,
+    });
+  }
 
   require('./routes.js')(app, eventbus, passport, acl, PI, sopro, io, pubnub);
 }

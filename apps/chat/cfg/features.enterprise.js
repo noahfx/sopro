@@ -4,6 +4,7 @@ module.exports = {
     useLDAP: false,
     useActiveDirectory: false
   },
+  federationPubnub: false,
   pwdTokenExpiryMs: 1000 * 60 * 60 * 6, // 6 hours
 
 }

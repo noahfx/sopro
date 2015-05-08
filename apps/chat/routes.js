@@ -19,53 +19,59 @@ module.exports = function(app, eb, passport, acl, PI, sopro, io, pubnub){
     io.emit(data.channelId, data);
   };
 
-  // When we hear about new messages from other shards, persist them and publish to sockets:
-  pubnub.subscribe({
-    channel  : "global-messages",
-    callback : function(pMessage) {
-      var message = pMessage.message;
-      console.log('Saving and rebroadcasting a message from', pMessage.shard);
-      PI.create('message', message, function(err, result){
-        if(err){
-          return console.log(err);
-        }
-        broadcastChannelMessage(result);
-      })
-    }
-  });
+  if(app.sopro.features.federationPubnub){
+    initPubnub();
+  }
 
-  // Craft a demo pubnub message:
-  var pNow = new Date().valueOf();
-  var shardUrl = app.sopro.servers.express.baseUrl;
-  var shardId = shardUrl.replace(/[^a-z0-9]/g,'')
+  function initPubnub(){
+    // When we hear about new messages from other shards, persist them and publish to sockets:
+    pubnub.subscribe({
+      channel  : "global-messages",
+      callback : function(pMessage) {
+        var message = pMessage.message;
+        console.log('Saving and rebroadcasting a message from', pMessage.shard);
+        PI.create('message', message, function(err, result){
+          if(err){
+            return console.log(err);
+          }
+          broadcastChannelMessage(result);
+        })
+      }
+    });
 
-  var pMsg = {
-    shard: shardUrl,
-    broadcastTsMs: pNow,
-    message: {
-      _id: 'message-' + pNow + '-' + shardId,
-      soproModel: 'message',
-      authorId: 'sopro',
-      channelId: 'channel-general',
-      text: 'Shard '+app.sopro.servers.express.baseUrl+' reporting',
-      ts: String(pNow/1000),
-    }
-  };
+    // Craft a demo pubnub message:
+    var pNow = new Date().valueOf();
+    var shardUrl = app.sopro.servers.express.baseUrl;
+    var shardId = shardUrl.replace(/[^a-z0-9]/g,'')
 
-  // Publish the demo pubnub message:
-  pubnub.publish({
-    channel : "global-messages",
-    message : pMsg,
-  });
+    var pMsg = {
+      shard: shardUrl,
+      broadcastTsMs: pNow,
+      message: {
+        _id: 'message-' + pNow + '-' + shardId,
+        soproModel: 'message',
+        authorId: 'sopro',
+        channelId: 'channel-general',
+        text: 'Shard '+app.sopro.servers.express.baseUrl+' reporting',
+        ts: String(pNow/1000),
+      }
+    };
 
-  // Persist the demo message and send to sockets:
-  PI.create('message', pMsg.message, function(err, result){
-    if(err){
-      return console.log(err);
-    }
-    console.log(result);
-    broadcastChannelMessage(result);
-  })
+    // Publish the demo pubnub message:
+    pubnub.publish({
+      channel : "global-messages",
+      message : pMsg,
+    });
+
+    // Persist the demo message and send to sockets:
+    PI.create('message', pMsg.message, function(err, result){
+      if(err){
+        return console.log(err);
+      }
+      console.log(result);
+      broadcastChannelMessage(result);
+    })
+  }
 
   /*
    * MIDDLEWARE FUNCTIONS
@@ -754,15 +760,20 @@ module.exports = function(app, eb, passport, acl, PI, sopro, io, pubnub){
         if (!opts.messageResult.channelId) {
           opts.messageResult.channelId = opts.messageResult.receiverId;
         }
+        // Tell connected sockets about the new message:
         broadcastChannelMessage(opts.messageResult);
-         pubnub.publish({
-          channel : "global-messages",
-          message : {
-            shard: app.sopro.servers.express.baseUrl,
-            broadcastTsMs: new Date().valueOf(),
-            message: opts.messageResult
-          }
-        });
+
+        // If appropriate, tell other federated servers about the new message:
+        if(app.sopro.features.federationPubnub){
+          pubnub.publish({
+            channel : "global-messages",
+            message : {
+              shard: app.sopro.servers.express.baseUrl,
+              broadcastTsMs: new Date().valueOf(),
+              message: opts.messageResult
+            }
+          });
+        }
 
         return res.status(200).json({
           ok: true,
