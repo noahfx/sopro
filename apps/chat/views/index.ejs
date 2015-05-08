@@ -4,7 +4,7 @@
 	<link href="web/images/favicon.png" rel="shortcut icon" />
 <!--   Styles    -->
     <link href='web/bower_components/angular-emoji-filter/dist/emoji.min.css' rel='stylesheet' type='text/css'>
-    <link href="web/styles/jquery.textcomplete.css" rel="stylesheet" type="text/css">
+    <link href="web/bower_components/jquery-textcomplete/dist/jquery.textcomplete.css" rel="stylesheet" type="text/css">
     <link rel="stylesheet" type="text/css" href="web/bower_components/angular-material/angular-material.css">
     <link rel='stylesheet' href='web/bower_components/perfect-scrollbar/css/perfect-scrollbar.css'/>
     <link rel="stylesheet" type="text/css" href="web/styles/society-pro-chat.css">
@@ -92,7 +92,7 @@
         ng-click="showRoles=!showRoles"
         layout-align="center center"
         >
-          <input id="search-input" placeholder="Search apps, websites, files and chats..." type="text">
+          <input id="toolbar-search" placeholder="Search apps, websites, files and chats..." type="text">
           <img id="trigger-avatar" ng-src="data:image/png;base64,{{currentRole.avatar}}" alt="role-icon">
           <!--
           <span class="roleLabel">{{currentRole.name}}</span>
