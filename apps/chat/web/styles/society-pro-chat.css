@@ -55,7 +55,7 @@ body > md-toolbar {
   font-weight: bold;
 }
 
-#search-input {
+#toolbar-search {
   width: 300px;
   border: 1px solid #e7e7e7;
   height: 30px;
