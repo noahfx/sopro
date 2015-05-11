@@ -36,25 +36,29 @@ module.exports = function(){
     element(by.css('#trigger-arrow'))
     .click()
     .then(function(){
-      element(by.css('body > md-toolbar > div.sopro-company-panel'))
+      element(by.css('.sopro-company-panel a.edit'))
       .click()
       .then(next)
     })
-
   })
+
   this.Then(/^I should see a panel with a default "users" tab$/, function(next){
     element.all(by.css('.adminTabs'))
     .count()
     .then(function(count){
       assert(count === 1);
-      element(by.css('md-tab[label="Users"]'))
-      .isDisplayed()
+
+      var el = element(by.css('.tab1'))
+      browser.driver.wait(protractor.until.elementIsVisible(el));
+
+      el.isDisplayed()
       .then(function(isDisplayed){
         assert(isDisplayed);
         next();
       })
     })
   })
+
   this.Then(/^I should see a list of Society Pro users$/, function(next){
     element.all(by.repeater('user in usersList'))
     .count()

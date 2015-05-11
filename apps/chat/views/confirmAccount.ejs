@@ -11,9 +11,9 @@
     <script type="text/javascript" src="/web/bower_components/angular-aria/angular-aria.js"></script>
     <script type="text/javascript" src="/web/bower_components/angular-animate/angular-animate.js"></script>
     <script type="text/javascript" src="/web/bower_components/angular-material/angular-material.js"></script>
-    <script type="text/javascript" src="/web/bower_components/angular-ui-utils/ui-utils.js"></script>
+    <script type="text/javascript" src="/web/bower_components/angular-ui-utils/modules/validate/validate.js"></script>
     <script type="text/javascript">
-      angular.module('confirmAccount', ['ngMaterial', 'ui.utils'])
+      var confirmAccount = angular.module('confirmAccount', ['ngMaterial', 'ui.validate'])
     </script>
 </head>
 <body layout="column" layout-fill data-soproenv="<%= config.env %>">

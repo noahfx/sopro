@@ -205,11 +205,26 @@ module.exports = function(app, eb, passport, acl, PI, sopro, io, pubnub){
     res.render('admin');
   });
 
-  app.post('/login/password', passport.authenticate('local', {
-    successRedirect : '/login/success',
-    failureRedirect : '/login',
-    failureFlash : 'Invalid username or password'
-  }));
+  app.post('/login/password', function(req, res, next){
+    passport.authenticate(
+      'local',
+      function(err, user, info) {
+        if (err) {
+          req.flash('error', 'A server error occurred')
+          return res.redirect('/login');
+        }
+        if (!user) {
+          req.flash('username', req.body.username);
+          req.flash('error', 'Invalid username or password');
+          return res.redirect('/login');
+        }
+        req.logIn(user, function(err) {
+          if (err) { return next(err); }
+          return res.redirect('/login/success');
+        });
+      }
+    )(req, res, next);
+  });
 
   app.get('/login', function(req, res, next) {
     if(req.user){

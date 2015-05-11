@@ -37,20 +37,39 @@
 >
   <div class="sopro-main-content" flex layout="column">
     <md-content flex layout="row" layout-wrap id="main-stage">
-      <form action="/login/password" method="POST">
+      <form action="/login/password" method="POST" id="sopro-login-form">
         <img src="/web/images/ship-logo.png"/>
         <% if(config.env !== 'enterprise') { %>
           <div>
             You are welcome to explore with our test users: <code>louise</code>, <code>thomas</code>, and <code>jhon</code>. Each has the password <code>password</code>.
           </div>
         <% } %>
-        <md-input-container class="login-input">
-          <label>Username or email</label>
-          <input name="username" ng-model="user.title">
-        </md-input-container>
+        <% if(flash.username !== '') { %>
+          <md-input-container class="login-input md-input-has-value">
+            <label>Username or email</label>
+            <input
+              name="username"
+              class="sopro-username"
+              value="<%= flash.username %>"
+            >
+          </md-input-container>
+        <% } else { %>
+          <md-input-container class="login-input">
+            <label>Username or email</label>
+            <input
+              class="sopro-username"
+              name="username"
+            >
+          </md-input-container>
+        <% } %>
         <md-input-container class="login-input">
           <label>Password</label>
-          <input type="password" name="password" ng-model="user.password">
+          <input
+            class="sopro-password"
+            type="password"
+            name="password"
+            ng-model="user.password"
+          >
         </md-input-container>
         <md-checkbox
           ng-disabled="true"

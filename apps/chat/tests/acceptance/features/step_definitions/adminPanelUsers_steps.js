@@ -20,7 +20,7 @@ module.exports = function(){
   this.When(/^I click the "users" tab$/, function(next){
     browser.get('/admin')
     .then(function(){
-      element(by.css('md-tab[label="Users"]'))
+      element(by.css('md-tab-item:nth-child(2)'))
       .click()
       .then(next)
     });
