@@ -18,7 +18,7 @@ body > md-toolbar {
   color: white;
   padding-left: 15px;
   position: relative;
-	cursor: pointer;
+  cursor: pointer;
 }
 
 #logo-text {
@@ -243,18 +243,18 @@ body > md-toolbar {
     width: 21px;
     height: 21px;
     margin-right: 5px;
-	margin-top: 5px;
+  margin-top: 5px;
     float: left;
-	-webkit-border-radius: 50%;
-	-moz-border-radius: 50%;
-	border-radius: 50%;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
 }
 
 .sopro-count-panel a span.offline {
     width: 8px;
     height: 8px;
-	float: right;
-	margin-top: 12px;
+  float: right;
+  margin-top: 12px;
     background: #93cc93;
     display: inline-block;
     margin-left: 5px;

@@ -5,6 +5,10 @@ module.exports = CAM_MOCKS = {
   nonsubscribedRoleId: "foobar",
   nonsubscribedPeerId: "qwerty",
   subscribedPeerId: "uiop",
+  credentialsValidUsername: "louise",
+  credentialsValidPassword: "password",
+  credentialsInvalidUsername: "aaaaaaaa",
+  credentialsInvalidPassword: "bbbbbbbb",
   displayedChannelCount: 2,
   newChannelName: "a name for the channel",
   getChannelsResponse1: {

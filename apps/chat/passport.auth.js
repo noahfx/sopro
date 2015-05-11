@@ -77,7 +77,7 @@ function checkAuthCouchdb(username, password, callback){
       console.log(JSON.stringify(err));
       return callback(null, false);
     }
-    callback(null, false);
+    callback(null, opts.user);
   })
 }
   function findUser(opts, next){
