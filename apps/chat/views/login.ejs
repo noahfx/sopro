@@ -36,8 +36,9 @@
     Each has the password <code>password</code>.
   </div>
   -->
-  <div class="sopro-main-content" flex layout="row">
+  <div class="sopro-main-content" flex layout="column">
     <md-content md-theme="grey" flex layout="row" layout-wrap id="main-stage">
+
       <form action="/login/password" method="POST">
 	  <img src="/web/images/ship-logo.png"/>
 	  	<md-input-container class="login-input">
@@ -48,6 +49,10 @@
       		<label>Password</label>
       		<input name="password" ng-model="user.password">
     	</md-input-container>
+		<% if (flash.error){  %>
+		<span class="md-warn" md-theme="default"> <%= flash.error %> </span>
+		<% } %>
+
         <!--
         <label> 
           <input type="text" name="username" class="login-input" value="" placeholder="Email address"></input>
