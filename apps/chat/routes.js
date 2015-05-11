@@ -115,6 +115,7 @@ module.exports = function(app, eb, passport, acl, PI, sopro, io, pubnub){
     res.locals.features = app.sopro.features;
     res.locals.version = app.sopro.package.version;
     res.locals.config = app.sopro;
+    res.locals.flash = req.flash();
     if(req.user){
       // Load permissions
       res.locals.currentUser = JSON.stringify(req.user);
@@ -205,9 +206,10 @@ module.exports = function(app, eb, passport, acl, PI, sopro, io, pubnub){
   });
 
   app.post('/login/password', passport.authenticate('local', {
-    successRedirect: '/login/success',
-    failureRedirect: '/login',
-  }))
+    successRedirect : '/login/success',
+    failureRedirect : '/login',
+    failureFlash : 'Invalid username or password'
+  }));
 
   app.get('/login', function(req, res, next) {
     if(req.user){

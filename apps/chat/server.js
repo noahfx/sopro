@@ -2,6 +2,7 @@ var fs = require('fs');
 var os = require('os');
 var argh = require('argh').argv;
 var express = require('express');
+var flash = require('connect-flash-light');
 var app = express();
 
 
@@ -39,6 +40,7 @@ app.sopro.servers = serverConfig;
 app.sopro.local = localConfig;
 app.sopro.PI = PI;
 app.sopro.PICouch = PICouch;
+
 
 // Override env variable with --enterprise flag:
 if(argh.enterprise){
@@ -125,10 +127,13 @@ function startExpress(){
   app.use(passport.initialize());
   app.use(passport.session());
 
+  //Adds flash to express
+  app.use(flash());
+
+
   console.log('Binding routes...')
   // The routing logic needs some dependencies:
   var sopro = require('./sopro.js')(app, PI);
- 
 
   // Start http server:
   app.listen(serverConfig.express.port, serverConfig.express.bindAddress, function(){
