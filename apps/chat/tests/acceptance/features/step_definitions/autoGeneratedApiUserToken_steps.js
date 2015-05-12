@@ -116,7 +116,7 @@ module.exports = function(){
           assert(response.ok == true);
           self.tokenObj = response.apiToken;
           self.token = response.apiToken.token;
-          browser.ignoreSynchronization = true;
+          browser.ignoreSynchronization = false;
           next();
         });
       });

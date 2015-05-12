@@ -9,24 +9,18 @@ module.exports = function(){
   });
 
   this.When(/^I visit `\/login`$/, function (next) {
+    //browser.ignoreSynchronization = false;
     browser.get('/login');
     next();
   });
 
   this.Then(/^I should see a login form$/, function (next) {
-    // todo: figure out why the hell implicit waits aren't working
-    //var el = element(by.css('#sopro-login-form .sopro-username'));
-    //browser.driver.wait(protractor.until.elementIsVisible(el));
-
-    setTimeout(function(){
-      element(by.css('#sopro-login-form .sopro-username'))
-      .isDisplayed()
-      .then(function(isDisplayed){
-        assert(isDisplayed, 'Failed to find username input')
-        next();
-      });
-    }, 2000)
-
+    element(by.css('#sopro-login-form'))
+    .isDisplayed()
+    .then(function(isDisplayed){
+      assert(isDisplayed, 'Failed to find form')
+      next();
+    });
   });
 
   this.Given(/^I have (in)?valid credentials$/, function (arg1, next) {
@@ -43,35 +37,25 @@ module.exports = function(){
 
   this.When(/^I submit the credentials$/, function (next) {
     var self = this;
-    setTimeout(submitCreds, 2000);
-
-    function submitCreds(){
-      async.series([
-        function(done){
-          var el = element(by.css('#sopro-login-form .sopro-username'));
-          browser.driver.wait(protractor.until.elementIsVisible(el));
-
-
-          el.sendKeys('\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b' + self.username)
-          .then(done)
-        },
-        function(done){
-          var el = element(by.css('#sopro-login-form .sopro-password'))
-          browser.driver.wait(protractor.until.elementIsVisible(el));
-
-          el
-          .sendKeys('\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b' + self.password)
-          .then(done)
-        },
-        function(done){
-          element(by.css('.login-button'))
-          .click()
-          .then(done)
-        }
-      ], function(err){
-        next(err)
-      })
-    }
+    async.series([
+      function(done){
+        element(by.css('#sopro-login-form .sopro-username'))
+        .sendKeys('\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b' + self.username)
+        .then(done)
+      },
+      function(done){
+        element(by.css('#sopro-login-form .sopro-password'))
+        .sendKeys('\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b\b' + self.password)
+        .then(done)
+      },
+      function(done){
+        element(by.css('.login-button'))
+        .click()
+        .then(done)
+      }
+    ], function(err){
+      next(err)
+    })
   });
 
   this.Then(/^I should( not)? be logged in to the chat app$/, function (arg1, next) {
@@ -79,7 +63,7 @@ module.exports = function(){
     browser.getCurrentUrl()
     .then(function(currentUrl){
       var isChatApp = /\/$/.test(currentUrl);
-      var isLogin = /\/login$/.test(currentUrl);
+      var isLogin = /\/login\/?$/.test(currentUrl);
       if(shouldLogin){
         assert(isChatApp === true, 'Expected url to match /')
       } else {

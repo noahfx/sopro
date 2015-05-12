@@ -39,7 +39,7 @@ function positionDropdown(dataCount, fromElement){
 
   var $cp = $('#sopro-collections-wrap');
 
-  var a0 = $cp.offset().top + 20;
+  var a0 = $cp.offset().top + 19;
   var a1 = $from.offset().top;
   var a2 = a0 + $cp.height() - 40;
 

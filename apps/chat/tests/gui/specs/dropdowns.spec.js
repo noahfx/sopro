@@ -150,10 +150,11 @@ describe('Dropdowns', function(){
           expect(scrollbar.isDisplayed()).toBeFalsy()
         })
         it('Extends no further up than 20px below the comm panel top', function(){
-          expect(dropdownTop - cpTop).not.toBeLessThan(20);
+          // The cpTop position doesn't count the 1px border:
+          expect(dropdownTop - cpTop).not.toBeLessThan(19);
         });
         it('Extends no further down than 20px above the comm panel bottom', function(){
-          expect(cpBottom - dropdownBottom).not.toBeLessThan(20);
+          expect(cpBottom - dropdownBottom).not.toBeLessThan(19);
         });
       })
 
@@ -196,12 +197,13 @@ describe('Dropdowns', function(){
       })
 
       it('Extends no further up than 20px below the comm panel top', function(){
-        expect(dropdownTop - cpTop).not.toBeLessThan(20);
+        // The cpTop position doesn't count the 1px border:
+        expect(dropdownTop - cpTop).not.toBeLessThan(19);
       });
 
       it('Extends no further down than 20px above the comm panel bottom', function(){
         console.log(require('util').format('cpBottom: %s dropdownBottom: %s', cpBottom, dropdownBottom))
-        expect(cpBottom - dropdownBottom).not.toBeLessThan(20);
+        expect(cpBottom - dropdownBottom).not.toBeLessThan(19);
       });
 
       xit('has a scrollbar', function(){
@@ -234,7 +236,7 @@ describe('Dropdowns', function(){
   	
   	it("hides when clicking outside the dropdown", function() {
   		expect(element(by.css(".sopro-count-panel")).isDisplayed()).toBeTruthy();
-  		element(by.css("#search-input")).click();
+  		element(by.css("#toolbar-search")).click();
   		expect(element(by.css(".sopro-count-panel")).isDisplayed()).toBeFalsy();
   	});
   	
