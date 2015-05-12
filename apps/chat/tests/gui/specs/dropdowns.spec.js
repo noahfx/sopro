@@ -236,7 +236,7 @@ describe('Dropdowns', function(){
   	
   	it("hides when clicking outside the dropdown", function() {
   		expect(element(by.css(".sopro-count-panel")).isDisplayed()).toBeTruthy();
-  		element(by.css("#toolbar-search")).click();
+  		element(by.css('#message-input')).click();
   		expect(element(by.css(".sopro-count-panel")).isDisplayed()).toBeFalsy();
   	});
   	

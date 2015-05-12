@@ -44,7 +44,7 @@
             You are welcome to explore with our test users: <code>louise</code>, <code>thomas</code>, and <code>jhon</code>. Each has the password <code>password</code>.
           </div>
         <% } %>
-        <% if(flash.username !== '') { %>
+        <% if(flash.username) { %>
           <md-input-container class="login-input md-input-has-value">
             <label>Username or email</label>
             <input
